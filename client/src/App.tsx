@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import OptimizedLanding from "@/pages/OptimizedLanding";
 import Services from "@/pages/Services";
 import HowItWorks from "@/pages/HowItWorks";
 import About from "@/pages/About";
@@ -13,6 +14,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
+import AuthPage from "@/pages/auth-page";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/lib/protected-route";
 
