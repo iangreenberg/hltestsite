@@ -21,16 +21,23 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+  // Define the expected response type
+  type AuthResponse = {
+    success: boolean;
+    isAuthenticated: boolean;
+    user?: User;
+  };
+
   const {
     data: authData,
     error,
     isLoading,
-  } = useQuery({
+  } = useQuery<AuthResponse>({
     queryKey: ["/api/auth/status"],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
-  const user = authData?.isAuthenticated ? authData.user : null;
+  const user = authData?.isAuthenticated && authData?.user ? authData.user : null;
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: z.infer<typeof loginSchema>) => {

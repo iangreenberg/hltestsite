@@ -111,8 +111,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // API route to get all waitlist entries
-  app.get("/api/waitlist", async (req, res) => {
+  // API route to get all waitlist entries (protected)
+  app.get("/api/waitlist", isAuthenticated, async (req, res) => {
     try {
       const entries = await storage.getWaitlistEntries();
       res.status(200).json(entries);
@@ -152,8 +152,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // API route to get all email subscriptions
-  app.get("/api/subscribe", async (req, res) => {
+  // API route to get all email subscriptions (protected)
+  app.get("/api/subscribe", isAuthenticated, async (req, res) => {
     try {
       const subscriptions = await storage.getEmailSubscriptions();
       res.status(200).json(subscriptions);
