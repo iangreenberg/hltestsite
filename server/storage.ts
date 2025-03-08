@@ -4,6 +4,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  validateCredentials(username: string, password: string): Promise<User | null>;
   
   // Waitlist operations
   addToWaitlist(entry: InsertWaitlist): Promise<Waitlist>;
@@ -30,6 +31,13 @@ export class MemStorage implements IStorage {
     this.currentUserId = 1;
     this.currentWaitlistId = 1;
     this.currentEmailSubscriptionId = 1;
+    
+    // Create a default admin user
+    this.createUser({
+      username: "admin",
+      password: "admin123", // In a real app, this should be hashed
+      isAdmin: true
+    });
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -44,15 +52,33 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
+    // Ensure isAdmin is always boolean
+    const user: User = { 
+      ...insertUser,
+      id,
+      isAdmin: insertUser.isAdmin === undefined ? false : insertUser.isAdmin
+    };
     this.users.set(id, user);
     return user;
+  }
+  
+  async validateCredentials(username: string, password: string): Promise<User | null> {
+    const user = await this.getUserByUsername(username);
+    if (user && user.password === password) {
+      return user;
+    }
+    return null;
   }
   
   // Waitlist methods
   async addToWaitlist(entry: InsertWaitlist): Promise<Waitlist> {
     const id = this.currentWaitlistId++;
-    const waitlistEntry: Waitlist = { ...entry, id };
+    // Ensure message is always string | null
+    const waitlistEntry: Waitlist = { 
+      ...entry, 
+      id,
+      message: entry.message === undefined ? null : entry.message
+    };
     this.waitlist.set(id, waitlistEntry);
     return waitlistEntry;
   }
