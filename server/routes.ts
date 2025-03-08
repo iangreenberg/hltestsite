@@ -1,8 +1,15 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema } from "@shared/schema";
+import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, User } from "@shared/schema";
 import session from "express-session";
+
+// Extend express-session with user property
+declare module 'express-session' {
+  interface SessionData {
+    user: Omit<User, 'password'>;
+  }
+}
 
 // Middleware to check if user is authenticated and is admin
 const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {

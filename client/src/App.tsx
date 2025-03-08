@@ -11,30 +11,90 @@ import Blog from "@/pages/Blog";
 import Contact from "@/pages/Contact";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import AdminLogin from "@/pages/admin/Login";
+import AdminDashboard from "@/pages/admin/Dashboard";
+import { AuthProvider } from "@/hooks/use-auth";
+import { ProtectedRoute } from "@/lib/protected-route";
 
-function Router() {
+function AdminLayout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}
+
+function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/services" component={Services} />
-        <Route path="/how-it-works" component={HowItWorks} />
-        <Route path="/about" component={About} />
-        <Route path="/blog" component={Blog} />
-        <Route path="/contact" component={Contact} />
-        <Route component={NotFound} />
-      </Switch>
+      {children}
       <Footer />
     </>
+  );
+}
+
+function Router() {
+  return (
+    <Switch>
+      {/* Admin routes */}
+      <Route path="/admin/login">
+        <AdminLayout>
+          <AdminLogin />
+        </AdminLayout>
+      </Route>
+      
+      <ProtectedRoute path="/admin" component={AdminDashboard} />
+      
+      {/* Main site routes */}
+      <Route path="/">
+        <MainLayout>
+          <Home />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/services">
+        <MainLayout>
+          <Services />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/how-it-works">
+        <MainLayout>
+          <HowItWorks />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/about">
+        <MainLayout>
+          <About />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/blog">
+        <MainLayout>
+          <Blog />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/contact">
+        <MainLayout>
+          <Contact />
+        </MainLayout>
+      </Route>
+      
+      <Route>
+        <MainLayout>
+          <NotFound />
+        </MainLayout>
+      </Route>
+    </Switch>
   );
 }
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
+      <AuthProvider>
+        <Router />
+        <Toaster />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
