@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import CalendlyButton from "@/components/common/CalendlyButton";
 
 export default function CTABanner() {
   return (
@@ -10,9 +11,15 @@ export default function CTABanner() {
         <p className="text-white text-lg mb-8 max-w-3xl mx-auto">
           Join the waitlist today for our all-in-one business launch service. Limited spots available for our next cohort of entrepreneurs.
         </p>
-        <Link href="/contact" className="bg-gradient-to-r from-[#C8A951] to-[#D9BC6A] text-[#2F5D50] font-bold py-3 px-8 rounded-md shadow-md hover:shadow-lg transition-all inline-block">
-          Join the Waitlist Now
-        </Link>
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Link href="/contact" className="bg-gradient-to-r from-[#C8A951] to-[#D9BC6A] text-[#2F5D50] font-bold py-3 px-8 rounded-md shadow-md hover:shadow-lg transition-all inline-block">
+            Join the Waitlist Now
+          </Link>
+          <CalendlyButton 
+            text="Schedule a Call" 
+            className="bg-white text-[#2F5D50] font-bold"
+          />
+        </div>
         <p className="text-white text-sm mt-4 opacity-80">
           No obligation. Free consultation call to discuss your business goals.
         </p>
