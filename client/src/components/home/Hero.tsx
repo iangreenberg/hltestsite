@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import CalendlyButton from "@/components/common/CalendlyButton";
 
 export default function Hero() {
   return (
@@ -22,9 +23,10 @@ export default function Hero() {
             From entity formation to product launch—start your brand with zero hassle. We handle everything so you can focus on growth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/contact" className="bg-gradient-to-r from-[#C8A951] to-[#D9BC6A] text-[#2F5D50] font-bold py-3 px-8 rounded-md shadow-md hover:shadow-lg transition-all text-center">
-              Schedule Your Free Consultation
-            </Link>
+            <CalendlyButton 
+              text="Schedule Your Free Consultation" 
+              className="bg-gradient-to-r from-[#C8A951] to-[#D9BC6A] text-[#2F5D50] font-bold"
+            />
             <Link href="/services" className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-8 rounded-md transition-all text-center">
               Explore Our Services
             </Link>

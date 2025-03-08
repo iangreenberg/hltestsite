@@ -1,5 +1,6 @@
 import ContactForm from "@/components/contact/ContactForm";
 import { Helmet } from "react-helmet";
+import CalendlyButton from "@/components/common/CalendlyButton";
 
 export default function Contact() {
   return (
@@ -38,9 +39,11 @@ export default function Contact() {
                     <div className="border-2 border-dashed border-gray-300 p-6 rounded-md text-center">
                       <h4 className="font-bold text-[#2F5D50] mb-2">Calendly Scheduler</h4>
                       <p className="text-gray-600 mb-4">Select a convenient time for your free consultation call</p>
-                      <button className="bg-[#2F5D50] hover:bg-[#264A40] text-white font-semibold py-2 px-6 rounded-md">
-                        Check Available Times
-                      </button>
+                      <CalendlyButton
+                        text="Check Available Times"
+                        variant="default"
+                        className="bg-[#2F5D50] hover:bg-[#264A40] text-white font-semibold"
+                      />
                     </div>
                   </div>
                 </div>
