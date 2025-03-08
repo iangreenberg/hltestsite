@@ -41,9 +41,11 @@ export default function AboutSection() {
               ))}
             </div>
             
-            <Link href="/contact" className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-3 px-8 rounded-md shadow inline-block hover:shadow-lg transition-all">
-              Work With Our Team
-            </Link>
+            <div className="text-center">
+              <Link href="/contact" className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-3 px-8 rounded-md shadow inline-block hover:shadow-lg transition-all">
+                Work With Our Team
+              </Link>
+            </div>
           </div>
         </div>
       </div>

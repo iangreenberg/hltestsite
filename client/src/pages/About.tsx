@@ -76,9 +76,11 @@ export default function About() {
                   </div>
                 </div>
                 
-                <a href="/contact" className="bg-[#2F5D50] hover:bg-[#264A40] text-white font-semibold py-3 px-8 rounded-md shadow inline-block hover:shadow-lg transition-all">
-                  Work With Our Team
-                </a>
+                <div className="text-center">
+                  <a href="/contact" className="bg-[#2F5D50] hover:bg-[#264A40] text-white font-semibold py-3 px-8 rounded-md shadow inline-block hover:shadow-lg transition-all">
+                    Work With Our Team
+                  </a>
+                </div>
               </div>
             </div>
             
