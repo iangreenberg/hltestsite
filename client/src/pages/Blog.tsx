@@ -3,46 +3,46 @@ import { Helmet } from "react-helmet";
 export default function Blog() {
   const blogPosts = [
     {
-      title: "2023 Regulatory Updates for Hemp-Derived THC Products",
-      excerpt: "Stay compliant with the latest federal and state regulations affecting the hemp-derived THC industry.",
+      title: "2023 Farm Bill Updates: What Hemp-Derived THC Businesses Need to Know",
+      excerpt: "The latest regulatory changes in the 2023 Farm Bill and how they impact the legal landscape for hemp-derived THC products across state lines.",
       category: "Compliance",
-      date: "June 15, 2023",
-      image: "https://images.unsplash.com/photo-1536782376847-5c9d14d97cc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      date: "March 2, 2024",
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "5 Effective Meta Ads Strategies for Hemp-Derived Products",
-      excerpt: "Learn how to navigate ad policies and create compliant, high-converting campaigns for your products.",
+      title: "5 Effective Meta Ads Strategies That Work for Hemp-Derived Products",
+      excerpt: "Detailed case studies and proven approaches to navigating Meta's advertising policies while creating compliant, high-converting campaigns for your hemp business.",
       category: "Marketing",
-      date: "May 28, 2023",
-      image: "https://images.unsplash.com/photo-1606636660801-c061598d4386?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      date: "February 15, 2024",
+      image: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Choosing the Right Legal Structure for Your Hemp THC Business",
-      excerpt: "Explore the pros and cons of different business entities when setting up your hemp-derived THC company.",
+      title: "LLC vs. Corporation: Choosing the Right Legal Structure for Hemp Businesses",
+      excerpt: "A comprehensive analysis of liability protection, tax implications, and operational flexibility for different business entities in the hemp-derived THC industry.",
       category: "Business Setup",
-      date: "May 10, 2023",
-      image: "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+      date: "January 28, 2024",
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     },
     {
-      title: "How to Source Quality Hemp-Derived THC Products for Your Brand",
-      excerpt: "A comprehensive guide to finding reliable manufacturers and ensuring product quality.",
+      title: "Quality Control: Vetting Hemp-Derived THC Product Manufacturers",
+      excerpt: "Step-by-step guidance on evaluating manufacturing partners, understanding COAs, and implementing quality control processes to ensure consistent product standards.",
       category: "Manufacturing",
-      date: "April 22, 2023",
-      image: "https://images.unsplash.com/photo-1523246224990-496e9a87113e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      date: "January 10, 2024",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Building a Memorable Brand in the Crowded Hemp Market",
-      excerpt: "Differentiation strategies to help your hemp-derived THC brand stand out from competitors.",
+      title: "Brand Differentiation Strategies in the Competitive Hemp Market",
+      excerpt: "How successful hemp brands are creating unique positioning, storytelling, and visual identities to stand out in an increasingly saturated marketplace.",
       category: "Branding",
-      date: "April 5, 2023",
-      image: "https://images.unsplash.com/photo-1606636660195-3ce53ba54019?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      date: "December 15, 2023",
+      image: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Understanding Ecommerce Options for Hemp-Derived THC Products",
-      excerpt: "Navigate payment processing, shipping logistics, and platform selection for your online store.",
+      title: "Navigating Payment Processing for Hemp-Derived THC Ecommerce",
+      excerpt: "The latest solutions for reliable payment processing, shipping strategies, and platform recommendations specifically designed for hemp product businesses.",
       category: "Ecommerce",
-      date: "March 18, 2023",
-      image: "https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      date: "November 28, 2023",
+      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     }
   ];
   
