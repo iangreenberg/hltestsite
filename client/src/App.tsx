@@ -42,10 +42,22 @@ function Router() {
         </AdminLayout>
       </Route>
       
+      <Route path="/auth">
+        <AdminLayout>
+          <AuthPage />
+        </AdminLayout>
+      </Route>
+      
       <ProtectedRoute path="/admin" component={AdminDashboard} />
       
       {/* Main site routes */}
       <Route path="/">
+        <MainLayout>
+          <OptimizedLanding />
+        </MainLayout>
+      </Route>
+      
+      <Route path="/home">
         <MainLayout>
           <Home />
         </MainLayout>
