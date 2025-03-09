@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,7 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
   const [email, setEmail] = useState('');
   const [investmentReady, setInvestmentReady] = useState<string>('');
   const [investmentAmount, setInvestmentAmount] = useState<string>('');
+  const [priorBusiness, setPriorBusiness] = useState<string>('');
   const [termsAgreed, setTermsAgreed] = useState(false);
   const { toast } = useToast();
 
@@ -25,7 +26,7 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
     e.preventDefault();
     
     // Simple validation
-    if (!name || !email || !investmentReady || !investmentAmount || !termsAgreed) {
+    if (!name || !email || !investmentReady || !investmentAmount || !priorBusiness || !termsAgreed) {
       toast({
         title: "Please complete all fields",
         description: "All fields are required to proceed.",
@@ -34,9 +35,11 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
       return;
     }
 
-    // Check if they qualify (investment amount > 5k)
+    // Check if they qualify (investment amount > 5k and either have business experience or are ready to invest over 10k)
     if (investmentReady === 'yes' && 
-        (investmentAmount === '5kTo10k' || investmentAmount === '10kTo25k' || investmentAmount === 'over25k')) {
+        ((investmentAmount === '5kTo10k' && priorBusiness === 'yes') || 
+         investmentAmount === '10kTo25k' || 
+         investmentAmount === 'over25k')) {
       // Qualified - direct to Calendly
       const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
       calendlyUrl.searchParams.append('name', name);
@@ -51,6 +54,7 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
       setEmail('');
       setInvestmentReady('');
       setInvestmentAmount('');
+      setPriorBusiness('');
       setTermsAgreed(false);
       
       // Show success message
@@ -83,6 +87,9 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
             <DialogTitle className="text-xl font-bold text-[#2F5D50]">
               Qualification Questionnaire
             </DialogTitle>
+            <DialogDescription className="text-sm text-gray-500 mt-2">
+              Please complete this short questionnaire to determine if you qualify for our consultation.
+            </DialogDescription>
           </DialogHeader>
           
           <form onSubmit={handleSubmit} className="space-y-4 mt-4">
@@ -148,6 +155,20 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
                 </div>
               </RadioGroup>
             </div>
+
+            <div className="space-y-3">
+              <Label>Do you have prior business experience?</Label>
+              <RadioGroup value={priorBusiness} onValueChange={setPriorBusiness}>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="yes" id="business-yes" />
+                  <Label htmlFor="business-yes">Yes</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="no" id="business-no" />
+                  <Label htmlFor="business-no">No</Label>
+                </div>
+              </RadioGroup>
+            </div>
             
             <div className="flex items-center space-x-2">
               <Checkbox 
@@ -163,7 +184,7 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
             <DialogFooter className="pt-4">
               <Button 
                 type="submit" 
-                className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold"
+                className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold w-full sm:w-auto"
               >
                 Check Qualification
               </Button>
