@@ -30,37 +30,24 @@ export default function CalendlyQualifier({
   const handleQualificationComplete = (data: QualificationData) => {
     setFormData(data);
     
-    // Add any validation logic here if needed
-    const isQualified = 
-      (data.investmentReady === 'yes' || data.investmentReady === 'unsure') && 
-      (data.investmentAmount === '5kTo10k' || data.investmentAmount === '10kTo25k' || data.investmentAmount === 'over25k');
+    // Always open Calendly regardless of qualification
+    // Open Calendly with custom prefill based on their form answers
+    const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
     
-    // Save qualification data if you want to persist it
-    // This could be done via an API call to your backend
+    // Add prefill parameters for Calendly
+    calendlyUrl.searchParams.append('name', data.name);
+    calendlyUrl.searchParams.append('email', data.email);
     
-    // Only open Calendly if qualified
-    if (isQualified) {
-      // Open Calendly with custom prefill based on their form answers
-      const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
-      
-      // Add prefill parameters for Calendly
-      calendlyUrl.searchParams.append('name', data.name);
-      calendlyUrl.searchParams.append('email', data.email);
-      
-      // Open Calendly in a new window
-      window.open(calendlyUrl.toString(), '_blank');
-      
-      toast({
-        title: "Thanks for your interest!",
-        description: "Your Calendly scheduling page has been opened. Please select a time that works for you.",
-      });
-    } else {
-      toast({
-        title: "Thanks for your submission",
-        description: "Our team will review your information and reach out to you shortly.",
-        variant: "default"
-      });
-    }
+    // Open Calendly in a new window
+    window.open(calendlyUrl.toString(), '_blank');
+    
+    toast({
+      title: "Thanks for your interest!",
+      description: "Your Calendly scheduling page has been opened. Please select a time that works for you.",
+    });
+    
+    // For debugging purposes - add this to check if the window.open is being called
+    console.log("Opening Calendly URL:", calendlyUrl.toString());
   };
 
   return (
