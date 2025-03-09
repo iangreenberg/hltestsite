@@ -117,18 +117,38 @@ export default function OptimizedLanding() {
         </section>
 
         {/* Social Proof */}
-        <section className="bg-gray-50 py-10">
+        <section className="bg-gray-50 py-16">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-6">
-              <p className="text-gray-500 font-medium">TRUSTED BY BRANDS ACROSS THE INDUSTRY</p>
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-[#2F5D50] mb-2">TRUSTED BY BRANDS ACROSS THE INDUSTRY</h3>
+              <div className="w-20 h-1 bg-[#C8A951] mx-auto"></div>
             </div>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-              {/* Replace with actual logos */}
-              <div className="h-8 w-32 bg-gray-200 rounded opacity-60"></div>
-              <div className="h-8 w-36 bg-gray-300 rounded opacity-60"></div>
-              <div className="h-8 w-28 bg-gray-200 rounded opacity-60"></div>
-              <div className="h-8 w-40 bg-gray-300 rounded opacity-60"></div>
-              <div className="h-8 w-32 bg-gray-200 rounded opacity-60"></div>
+            <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
+              {/* Brand Placeholders - styled more prominently */}
+              <div className="flex flex-col items-center">
+                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
+                  <span className="font-bold text-gray-500">BRAND 1</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">Premium Partner</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
+                  <span className="font-bold text-gray-500">BRAND 2</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">Featured Client</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
+                  <span className="font-bold text-gray-500">BRAND 3</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">Industry Leader</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
+                  <span className="font-bold text-gray-500">BRAND 4</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">Major Distributor</p>
+              </div>
             </div>
           </div>
         </section>
