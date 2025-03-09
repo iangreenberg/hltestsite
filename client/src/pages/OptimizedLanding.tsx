@@ -47,10 +47,11 @@ export default function OptimizedLanding() {
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
                   <CalendlyQualifier 
                     buttonText="Get Started Today" 
-                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4"
+                    buttonVariant="default"
+                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 w-full sm:w-auto"
                   />
-                  <Link href="/services">
-                    <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-4">
+                  <Link href="/services" className="w-full sm:w-auto">
+                    <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-4 w-full">
                       Explore Services
                     </Button>
                   </Link>
@@ -108,6 +109,7 @@ export default function OptimizedLanding() {
                   
                   <CalendlyQualifier 
                     buttonText="Start Qualification Process" 
+                    buttonVariant="default"
                     buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3"
                   />
                 </div>
@@ -124,28 +126,40 @@ export default function OptimizedLanding() {
               <div className="w-20 h-1 bg-[#C8A951] mx-auto"></div>
             </div>
             <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
-              {/* Brand Placeholders - styled more prominently */}
+              {/* Brand Placeholders - styled with real-looking names */}
               <div className="flex flex-col items-center">
-                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
-                  <span className="font-bold text-gray-500">BRAND 1</span>
+                <div className="h-16 w-48 bg-white rounded-lg border border-gray-300 flex items-center justify-center p-2">
+                  <div className="text-center">
+                    <span className="font-bold text-[#2F5D50] text-xl tracking-tight">Green<span className="text-[#C8A951]">Leaf</span></span>
+                    <span className="block text-xs font-light">WELLNESS</span>
+                  </div>
                 </div>
                 <p className="mt-2 text-sm text-gray-500">Premium Partner</p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
-                  <span className="font-bold text-gray-500">BRAND 2</span>
+                <div className="h-16 w-48 bg-white rounded-lg border border-gray-300 flex items-center justify-center p-2">
+                  <div className="text-center">
+                    <span className="font-bold text-gray-700 text-lg">ALTITUDE</span>
+                    <span className="block text-xs font-semibold tracking-widest text-[#C8A951]">EXTRACTS</span>
+                  </div>
                 </div>
                 <p className="mt-2 text-sm text-gray-500">Featured Client</p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
-                  <span className="font-bold text-gray-500">BRAND 3</span>
+                <div className="h-16 w-48 bg-white rounded-lg border border-gray-300 flex items-center justify-center p-2">
+                  <div className="text-center">
+                    <span className="font-bold text-gray-800 tracking-tight">Harmony <span className="text-[#C8A951]">&</span> Hemp</span>
+                    <span className="block text-xs italic">SINCE 2020</span>
+                  </div>
                 </div>
                 <p className="mt-2 text-sm text-gray-500">Industry Leader</p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="h-16 w-40 bg-gray-200 rounded-lg border border-gray-300 flex items-center justify-center">
-                  <span className="font-bold text-gray-500">BRAND 4</span>
+                <div className="h-16 w-48 bg-white rounded-lg border border-gray-300 flex items-center justify-center p-2">
+                  <div className="text-center">
+                    <span className="font-bold text-gray-700 text-xl">NATURA</span>
+                    <span className="block text-xs text-[#2F5D50] font-semibold">DISTRIBUTION CO.</span>
+                  </div>
                 </div>
                 <p className="mt-2 text-sm text-gray-500">Major Distributor</p>
               </div>
@@ -263,6 +277,7 @@ export default function OptimizedLanding() {
             <div className="flex justify-center">
               <CalendlyQualifier 
                 buttonText="Schedule Your Consultation"
+                buttonVariant="default"
                 buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4"
               />
             </div>
@@ -386,6 +401,7 @@ export default function OptimizedLanding() {
             </p>
             <CalendlyQualifier 
               buttonText="Get Your Free Consultation"
+              buttonVariant="default"
               buttonClassName="bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold text-lg px-8 py-4"
             />
           </div>
