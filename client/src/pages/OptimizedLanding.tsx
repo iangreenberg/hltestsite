@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet';
 import CalendlyQualifier from '@/components/common/CalendlyQualifier';
 import { Button } from '@/components/ui/button';
-import { motion, useAnimation } from 'framer-motion';
 import { 
   CheckCircle, 
   ArrowRight, 
@@ -11,23 +9,10 @@ import {
   Award, 
   TrendingUp, 
   UserCheck, 
-  ShieldCheck,
-  Mail
+  ShieldCheck
 } from 'lucide-react';
 
 export default function OptimizedLanding() {
-  const [isVisible, setIsVisible] = useState(false);
-  const controls = useAnimation();
-
-  useEffect(() => {
-    setIsVisible(true);
-    controls.start({
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: 'easeOut' }
-    });
-  }, [controls]);
-
   return (
     <>
       <Helmet>
@@ -48,11 +33,7 @@ export default function OptimizedLanding() {
           ></div>
           <div className="container mx-auto px-4 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <motion.div 
-                initial={{ y: 50, opacity: 0 }}
-                animate={controls}
-                className="max-w-2xl"
-              >
+              <div className="max-w-2xl">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C8A951] text-[#2F5D50] font-semibold text-sm mb-6">
                   <Leaf size={16} />
                   <span>LIMITED SPOTS AVAILABLE</span>
@@ -88,14 +69,9 @@ export default function OptimizedLanding() {
                     <span>End-to-End Support</span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
               
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-                className="bg-white rounded-xl p-6 shadow-2xl hidden lg:block"
-              >
+              <div className="bg-white rounded-xl p-6 shadow-2xl hidden lg:block">
                 <div className="bg-[#2F5D50] text-white text-center p-4 rounded-lg mb-6">
                   <h3 className="text-xl font-semibold">Qualify for Your Free Consultation</h3>
                   <p className="text-sm opacity-80">Answer a few quick questions to see if you qualify</p>
@@ -135,7 +111,7 @@ export default function OptimizedLanding() {
                     buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3"
                   />
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -171,13 +147,7 @@ export default function OptimizedLanding() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Feature 1 */}
-              <motion.div 
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
-              >
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-[#f0f9f6] rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -188,16 +158,10 @@ export default function OptimizedLanding() {
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </motion.div>
+              </div>
               
               {/* Feature 2 */}
-              <motion.div 
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
-              >
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-[#f0f9f6] rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -208,16 +172,10 @@ export default function OptimizedLanding() {
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </motion.div>
+              </div>
               
               {/* Feature 3 */}
-              <motion.div 
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
-              >
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-[#f0f9f6] rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
@@ -228,16 +186,10 @@ export default function OptimizedLanding() {
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </motion.div>
+              </div>
               
               {/* Feature 4 */}
-              <motion.div 
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
-              >
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-[#f0f9f6] rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -248,16 +200,10 @@ export default function OptimizedLanding() {
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </motion.div>
+              </div>
               
               {/* Feature 5 */}
-              <motion.div 
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
-              >
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-[#f0f9f6] rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
@@ -268,68 +214,160 @@ export default function OptimizedLanding() {
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </motion.div>
+              </div>
               
               {/* Feature 6 */}
-              <motion.div 
-                initial={{ y: 30, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
-              >
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                 <div className="w-12 h-12 bg-[#f0f9f6] rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Ongoing Support</h3>
-                <p className="text-gray-600 mb-4">Receive continuous business guidance, compliance updates, and growth strategies from our experienced team of industry experts.</p>
+                <p className="text-gray-600 mb-4">Receive continuous business support including inventory management, regulatory compliance updates, and operational guidance.</p>
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="bg-[#2F5D50] text-white py-16">
+        <section className="py-20 bg-[#2F5D50] text-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Launch Your Hemp-Derived THC Business?</h2>
+            <p className="text-xl mb-10 max-w-3xl mx-auto">
+              Join the growing industry of hemp-derived THC products with expert guidance every step of the way.
+            </p>
+            <div className="flex justify-center">
+              <CalendlyQualifier 
+                buttonText="Schedule Your Consultation"
+                buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="md:w-2/3">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Hemp Business Journey?</h2>
-                <p className="text-lg mb-0 md:mb-0 opacity-90">Take the first step by completing our quick qualification process to see if you're ready to launch.</p>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#2F5D50]">What Our Clients Say</h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Hear from entrepreneurs who've successfully launched their hemp-derived THC businesses with our help.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Testimonial 1 */}
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 bg-[#2F5D50] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    S
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-bold text-[#2F5D50]">Sarah T.</h4>
+                    <p className="text-gray-600 text-sm">CBD Wellness Co.</p>
+                  </div>
+                </div>
+                <p className="text-gray-700">
+                  "Working with HempLaunch made getting into the THC business easy. Their expertise in compliance and regulatory matters saved us countless hours and potential legal issues."
+                </p>
               </div>
-              <div>
-                <CalendlyQualifier 
-                  buttonText="Get Qualified Now" 
-                  buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4"
-                />
+              
+              {/* Testimonial 2 */}
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 bg-[#2F5D50] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    M
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-bold text-[#2F5D50]">Michael R.</h4>
+                    <p className="text-gray-600 text-sm">Green Peak Products</p>
+                  </div>
+                </div>
+                <p className="text-gray-700">
+                  "From concept to launch in just 3 months. The HempLaunch team provided end-to-end support, helping us develop products that now sell in over 50 stores nationwide."
+                </p>
+              </div>
+              
+              {/* Testimonial 3 */}
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="h-12 w-12 bg-[#2F5D50] rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    J
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-bold text-[#2F5D50]">Jessica B.</h4>
+                    <p className="text-gray-600 text-sm">Elevate Extracts</p>
+                  </div>
+                </div>
+                <p className="text-gray-700">
+                  "As someone new to the cannabis industry, I needed guidance at every step. HempLaunch delivered exceptional service, helping us build a successful D8 product line with ongoing support."
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Footer Opt-in */}
-        <section className="bg-gray-100 py-12">
+        {/* FAQ Section */}
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center">
-              <Mail className="h-10 w-10 text-[#2F5D50] mx-auto mb-4" />
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#2F5D50]">Stay Updated on Industry Trends</h2>
-              <p className="text-gray-600 mb-6">Subscribe to our newsletter for the latest hemp-derived THC business insights and opportunities.</p>
-              <div className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                <input 
-                  type="email" 
-                  placeholder="Your email address" 
-                  className="flex-grow px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#2F5D50]"
-                />
-                <Button className="bg-[#2F5D50] hover:bg-[#264a40]">
-                  Subscribe
-                </Button>
-              </div>
-              <p className="text-xs text-gray-500 mt-4">By subscribing, you agree to receive marketing communications from us.</p>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#2F5D50]">Frequently Asked Questions</h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Everything you need to know about starting your hemp-derived THC business.
+              </p>
             </div>
+            
+            <div className="max-w-3xl mx-auto space-y-6">
+              {/* FAQ Item 1 */}
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Is hemp-derived THC legal?</h3>
+                <p className="text-gray-700">
+                  Hemp-derived THC products containing less than 0.3% Delta-9 THC are federally legal under the 2018 Farm Bill. However, state regulations vary. Our team ensures your business complies with all applicable laws.
+                </p>
+              </div>
+              
+              {/* FAQ Item 2 */}
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">How much investment is required to start a hemp THC business?</h3>
+                <p className="text-gray-700">
+                  Initial investments typically range from $10,000 to $50,000 depending on your business scale and goals. During our consultation, we'll provide detailed estimates based on your specific business plan.
+                </p>
+              </div>
+              
+              {/* FAQ Item 3 */}
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">How long does it take to launch a hemp THC business?</h3>
+                <p className="text-gray-700">
+                  With our streamlined process, most clients can launch within 2-4 months. This includes entity formation, product development, compliance, and initial marketing setup.
+                </p>
+              </div>
+              
+              {/* FAQ Item 4 */}
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Do I need prior experience in the cannabis industry?</h3>
+                <p className="text-gray-700">
+                  No prior experience is required. Our experts will guide you through every aspect of the business, from understanding the market to operational best practices.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-16 bg-[#C8A951]">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6 text-[#2F5D50]">Start Your Hemp Business Journey Today</h2>
+            <p className="text-xl mb-8 text-[#2F5D50] max-w-2xl mx-auto">
+              Don't miss the opportunity to enter this rapidly growing market with expert guidance every step of the way.
+            </p>
+            <CalendlyQualifier 
+              buttonText="Get Your Free Consultation"
+              buttonClassName="bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold text-lg px-8 py-4"
+            />
           </div>
         </section>
       </div>
