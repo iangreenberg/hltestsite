@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Helmet } from 'react-helmet';
-import CalendlyQualifier from '@/components/common/CalendlyQualifier';
+import SimpleQualifier from '@/components/common/SimpleQualifier';
 import { Button } from '@/components/ui/button';
 import { 
   CheckCircle, 
@@ -45,16 +45,10 @@ export default function OptimizedLanding() {
                   We handle everything from entity formation to product launch so you can focus on building your brand and growing your business.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                  <Button 
-                    onClick={() => {
-                      // Open modal directly instead of using CalendlyQualifier
-                      const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
-                      window.open(calendlyUrl.toString(), '_blank');
-                    }}
-                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-6 w-full sm:w-auto border-2 border-[#C8A951]"
-                  >
-                    Get Started Today
-                  </Button>
+                  <SimpleQualifier 
+                    buttonText="Get Started Today"
+                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-6 w-full sm:w-auto border-2 border-[#C8A951]"
+                  />
                   
                   <Button 
                     variant="outline" 
@@ -117,16 +111,10 @@ export default function OptimizedLanding() {
                     </div>
                   </div>
                   
-                  <Button 
-                    onClick={() => {
-                      // Open calendly directly
-                      const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
-                      window.open(calendlyUrl.toString(), '_blank');
-                    }}
-                    className="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 border-2 border-[#C8A951]"
-                  >
-                    Start Qualification Process
-                  </Button>
+                  <SimpleQualifier
+                    buttonText="Start Qualification Process"
+                    buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 border-2 border-[#C8A951]"
+                  />
                 </div>
               </div>
             </div>
@@ -290,16 +278,10 @@ export default function OptimizedLanding() {
               Join the growing industry of hemp-derived THC products with expert guidance every step of the way.
             </p>
             <div className="flex justify-center">
-              <Button 
-                onClick={() => {
-                  // Open calendly directly
-                  const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
-                  window.open(calendlyUrl.toString(), '_blank');
-                }}
-                className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 border-2 border-[#C8A951]"
-              >
-                Schedule Your Consultation
-              </Button>
+              <SimpleQualifier
+                buttonText="Schedule Your Consultation"
+                buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 border-2 border-[#C8A951]"
+              />
             </div>
           </div>
         </section>
@@ -419,16 +401,10 @@ export default function OptimizedLanding() {
             <p className="text-xl mb-8 text-[#2F5D50] max-w-2xl mx-auto">
               Don't miss the opportunity to enter this rapidly growing market with expert guidance every step of the way.
             </p>
-            <Button 
-              onClick={() => {
-                // Open calendly directly
-                const calendlyUrl = new URL('https://calendly.com/testhemp/hemplaunch');
-                window.open(calendlyUrl.toString(), '_blank');
-              }}
-              className="bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold text-lg px-8 py-4 border-2 border-[#2F5D50]"
-            >
-              Get Your Free Consultation
-            </Button>
+            <SimpleQualifier
+              buttonText="Get Your Free Consultation"
+              buttonClassName="bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold text-lg px-8 py-4 border-2 border-[#2F5D50]"
+            />
           </div>
         </section>
       </div>
