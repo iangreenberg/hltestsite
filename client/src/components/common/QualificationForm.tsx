@@ -80,9 +80,8 @@ export default function QualificationForm({
       <Button 
         onClick={() => setIsOpen(true)} 
         variant={buttonVariant}
-        className={`gap-2 ${buttonClassName}`}
+        className={`${buttonClassName}`}
       >
-        <Calendar className="h-4 w-4" />
         {buttonText}
       </Button>
 

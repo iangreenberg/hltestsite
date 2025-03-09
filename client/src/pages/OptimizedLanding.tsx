@@ -48,7 +48,7 @@ export default function OptimizedLanding() {
                   <CalendlyQualifier 
                     buttonText="Get Started Today" 
                     buttonVariant="default"
-                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 w-full sm:w-auto"
+                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 w-full sm:w-auto border-2 border-[#C8A951] inline-block"
                   />
                   <Link href="/services" className="w-full sm:w-auto">
                     <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-4 w-full">
@@ -110,7 +110,7 @@ export default function OptimizedLanding() {
                   <CalendlyQualifier 
                     buttonText="Start Qualification Process" 
                     buttonVariant="default"
-                    buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3"
+                    buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 border-2 border-[#C8A951] inline-block"
                   />
                 </div>
               </div>
@@ -278,7 +278,7 @@ export default function OptimizedLanding() {
               <CalendlyQualifier 
                 buttonText="Schedule Your Consultation"
                 buttonVariant="default"
-                buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4"
+                buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 border-2 border-[#C8A951] inline-block"
               />
             </div>
           </div>
@@ -402,7 +402,7 @@ export default function OptimizedLanding() {
             <CalendlyQualifier 
               buttonText="Get Your Free Consultation"
               buttonVariant="default"
-              buttonClassName="bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold text-lg px-8 py-4"
+              buttonClassName="bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold text-lg px-8 py-4 border-2 border-[#2F5D50] inline-block"
             />
           </div>
         </section>
