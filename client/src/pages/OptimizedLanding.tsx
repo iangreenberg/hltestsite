@@ -50,11 +50,11 @@ export default function OptimizedLanding() {
                     buttonVariant="default"
                     buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-4 w-full sm:w-auto border-2 border-[#C8A951] inline-block"
                   />
-                  <Link href="/services" className="w-full sm:w-auto">
-                    <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-4 w-full">
+                  <Button variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-4 w-full sm:w-auto inline-block" asChild>
+                    <Link href="/services">
                       Explore Services
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-6 text-sm">
                   <div className="flex items-center gap-2">
