@@ -52,7 +52,7 @@ export default function OptimizedLanding() {
                   
                   <Button 
                     variant="outline" 
-                    className="border-2 border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-6 w-full sm:w-auto"
+                    className="border-2 border-[#2F5D50] bg-[#2F5D50] text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-6 w-full sm:w-auto"
                     asChild
                   >
                     <Link href="/services">

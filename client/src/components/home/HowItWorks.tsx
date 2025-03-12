@@ -1,4 +1,10 @@
 import { Link } from "wouter";
+import SimpleQualifier from "../common/SimpleQualifier";
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function HowItWorks() {
   const steps = [
@@ -28,6 +34,21 @@ export default function HowItWorks() {
       description: "We manage fulfillment logistics, implement targeted Meta Ads campaigns, and provide ongoing business support to ensure success."
     }
   ];
+
+  // Timeline qualifier question state
+  const [timeframe, setTimeframe] = useState<string>("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [showQualifier, setShowQualifier] = useState(false);
+  const { toast } = useToast();
+
+  const handleTimeframeSelection = (value: string) => {
+    setTimeframe(value);
+    if (value) {
+      // If user selects any timeframe, show them the full qualifier
+      setShowQualifier(true);
+    }
+  };
 
   return (
     <section id="how-it-works" className="py-20 bg-white">
@@ -65,9 +86,54 @@ export default function HowItWorks() {
             ))}
           </div>
           
+          {/* Timeline Qualifier Question */}
+          <div className="mt-16 max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border border-gray-200">
+            <h3 className="text-xl font-bold text-[#2F5D50] mb-4">When are you looking to launch your business?</h3>
+            <p className="text-gray-600 mb-6">Your timeline helps us customize our services to meet your goals.</p>
+            
+            <div className="space-y-4 mb-6">
+              <RadioGroup value={timeframe} onValueChange={handleTimeframeSelection}>
+                <div className="flex items-center space-x-2 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                  <RadioGroupItem value="immediately" id="timeline-immediately" />
+                  <Label htmlFor="timeline-immediately" className="flex-1 cursor-pointer">Immediately (Within 30 days)</Label>
+                </div>
+                <div className="flex items-center space-x-2 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                  <RadioGroupItem value="1to3months" id="timeline-1to3months" />
+                  <Label htmlFor="timeline-1to3months" className="flex-1 cursor-pointer">1-3 months</Label>
+                </div>
+                <div className="flex items-center space-x-2 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                  <RadioGroupItem value="3to6months" id="timeline-3to6months" />
+                  <Label htmlFor="timeline-3to6months" className="flex-1 cursor-pointer">3-6 months</Label>
+                </div>
+                <div className="flex items-center space-x-2 p-3 border border-gray-200 rounded-md hover:bg-gray-50">
+                  <RadioGroupItem value="6monthsPlus" id="timeline-6monthsPlus" />
+                  <Label htmlFor="timeline-6monthsPlus" className="flex-1 cursor-pointer">6+ months</Label>
+                </div>
+              </RadioGroup>
+            </div>
+            
+            {showQualifier ? (
+              <SimpleQualifier
+                buttonText="Continue Qualification Process"
+                buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 border-2 border-[#C8A951]"
+              />
+            ) : (
+              <Button 
+                onClick={() => toast({ 
+                  title: "Please select a timeframe", 
+                  description: "Select when you'd like to launch your business to continue.",
+                  variant: "destructive"
+                })}
+                className="w-full bg-[#2F5D50] hover:bg-[#264A40] text-white font-bold py-3"
+              >
+                Continue
+              </Button>
+            )}
+          </div>
+          
           <div className="mt-16 text-center">
             <Link href="/contact" className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-3 px-8 rounded-md shadow inline-block hover:shadow-lg transition-all">
-              Start Your Journey Today
+              Contact Us Directly
             </Link>
           </div>
         </div>
