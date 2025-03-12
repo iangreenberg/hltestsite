@@ -7,6 +7,7 @@ import Testimonials from "@/components/home/Testimonials";
 import AboutSection from "@/components/home/AboutSection";
 import CTABanner from "@/components/home/CTABanner";
 import BlogPreview from "@/components/home/BlogPreview";
+import QualifierSection from "@/components/home/QualifierSection";
 import { Helmet } from "react-helmet";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
         <EmailCapture />
         <ServiceOverview />
         <FeaturedSection />
+        <QualifierSection />
         <HowItWorks />
         <Testimonials />
         <AboutSection />
