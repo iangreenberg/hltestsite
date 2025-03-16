@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "vercel-build": "vite build"
+    "build": "cd .. && npm install && cd client && vite build",
+    "vercel-build": "cd .. && npm install && cd client && vite build"
   },
   "engines": {
     "node": ">=18.0.0"

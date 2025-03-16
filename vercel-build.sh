@@ -6,26 +6,29 @@ echo "Starting Vercel build process..."
 # Set environment variable to indicate production build
 export NODE_ENV=production
 
-# Install dependencies if needed
-echo "Installing dependencies..."
+# Install dependencies in the root directory
+echo "Installing root dependencies..."
 npm install
 
 # Install necessary packages for the API
 npm install express cors
 
+# Change to client directory and install any client-specific dependencies
+echo "Building client..."
+cd client
+
 # Fix path in index.html if needed
 echo "Fixing paths in index.html..."
-if grep -q "src=\"/src/main.tsx\"" client/index.html; then
-  sed -i 's#src="/src/main.tsx"#src="./src/main.tsx"#g' client/index.html
+if grep -q "src=\"/src/main.tsx\"" index.html; then
+  sed -i 's#src="/src/main.tsx"#src="./src/main.tsx"#g' index.html
 fi
 
 # Build frontend with Vite
-echo "Building frontend..."
+echo "Building frontend with Vite..."
 npx vite build
 
-# Build server with esbuild
-echo "Building server..."
-npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+# Return to root directory
+cd ..
 
 # Create a minimal package.json for the API
 echo "Creating API configuration..."
@@ -44,5 +47,4 @@ EOL
 
 echo "Build completed successfully!"
 echo "Output directories:"
-ls -la dist/ || echo "dist directory not found"
-ls -la dist/public/ || echo "dist/public directory not found"
+ls -la client/dist/ || echo "client/dist directory not found"

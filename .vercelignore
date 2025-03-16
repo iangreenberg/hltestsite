@@ -8,22 +8,19 @@ README.md
 .breakpoints
 .replit
 
-# Don't need to upload client source as we're building it during deployment
-client/src
-client/public
+# Don't ignore critical files needed for build
+!client/index.html
+!client/package.json
+!client/src
+!client/public
+!client/vite.config.ts
+!tailwind.config.ts
+!postcss.config.js
+!theme.json
+!tsconfig.json
 
 # Don't need to upload server source as we're building it during deployment
 server
 
-# Vite config
-vite.config.ts
-
-# Other configuration files we don't need in deployment
-tsconfig.json
-postcss.config.js
-tailwind.config.ts
-theme.json
-
-# Don't ignore the built files
-!dist
+# Don't ignore the API folder
 !api
