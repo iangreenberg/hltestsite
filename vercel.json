@@ -1,16 +1,23 @@
 {
-  "version": 2,
-  "buildCommand": "bash ./vercel-build.sh",
-  "installCommand": "npm install",
-  "outputDirectory": "dist/public",
-  "rewrites": [
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/dist/index.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/dist/public/$1"
     }
   ]
 }

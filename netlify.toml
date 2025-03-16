@@ -1,13 +1,10 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "client/dist"
-
-[build.environment]
-  NODE_VERSION = "18"
+  command = "npm run build"
+  publish = "dist/public"
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  to = "/.netlify/functions/api"
   status = 200
 
 [[redirects]]
