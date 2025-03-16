@@ -40,12 +40,25 @@ const memStorage = {
 
 // Create Express app
 const app = express();
+
+// Handle CORS for both development and production
 app.use(cors({
-  origin: true,
+  origin: process.env.NODE_ENV === 'production' 
+    ? [/\.vercel\.app$/, /hemplaunch\.co$/, /hemplaunch\.com$/]
+    : true,
   credentials: true
 }));
+
 app.use(cookieParser());
 app.use(express.json());
+
+// Add middleware to log requests in development
+if (process.env.NODE_ENV !== 'production') {
+  app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  });
+}
 
 // API routes
 app.get('/api', (req, res) => {
@@ -97,8 +110,9 @@ app.post('/api/login', (req, res) => {
     // Set cookie for maintaining session in Vercel environment
     res.cookie('auth_token', 'admin-token', { 
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict'
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
@@ -124,15 +138,20 @@ app.post('/api/register', (req, res) => {
   // Set cookie for maintaining session in Vercel environment
   res.cookie('auth_token', `user-token-${username}`, { 
     httpOnly: true,
-    secure: true,
-    sameSite: 'strict'
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
   });
 });
 
 // Logout endpoint
 app.post('/api/logout', (req, res) => {
-  // Clear auth cookie
-  res.clearCookie('auth_token');
+  // Clear auth cookie - use same options as when setting to ensure proper clearing
+  res.clearCookie('auth_token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+  });
   res.status(200).json({ message: "Logged out successfully" });
 });
 
