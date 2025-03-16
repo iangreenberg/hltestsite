@@ -3,12 +3,14 @@ import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function AuthTest() {
   const { user, loginMutation, logoutMutation, isLoading } = useAuth();
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin123");
   const [loginStatus, setLoginStatus] = useState<string | null>(null);
+  const [adminTestResult, setAdminTestResult] = useState<string | null>(null);
 
   const handleLogin = async () => {
     try {
@@ -29,12 +31,23 @@ export default function AuthTest() {
       setLoginStatus(`Logout failed: ${(error as Error).message}`);
     }
   };
+  
+  const testAdminAccess = async () => {
+    try {
+      setAdminTestResult("Testing admin access...");
+      const response = await apiRequest("GET", "/api/admin-test");
+      const data = await response.json();
+      setAdminTestResult(`Success: ${JSON.stringify(data)}`);
+    } catch (error) {
+      setAdminTestResult(`Failed: ${(error as Error).message}`);
+    }
+  };
 
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-8">Authentication Test Page</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <Card>
           <CardHeader>
             <CardTitle>Authentication Status</CardTitle>
@@ -108,6 +121,32 @@ export default function AuthTest() {
               disabled={isLoading || !user}
             >
               Logout
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Admin Role Test</CardTitle>
+            <CardDescription>Test admin-only API endpoint</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">Use this to test if your current login has admin privileges</p>
+            {adminTestResult && (
+              <div className="mt-4 p-2 bg-gray-100 rounded">
+                <strong>Result:</strong> {adminTestResult}
+              </div>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button 
+              onClick={testAdminAccess}
+              disabled={!user}
+              className="w-full"
+            >
+              Test Admin Access
             </Button>
           </CardFooter>
         </Card>
