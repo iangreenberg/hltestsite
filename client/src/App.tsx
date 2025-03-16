@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import OptimizedLanding from "@/pages/OptimizedLanding";
+import LandingPage from "@/pages/LandingPage";
 import Services from "@/pages/Services";
 import HowItWorks from "@/pages/HowItWorks";
 import About from "@/pages/About";
@@ -91,6 +92,10 @@ function Router() {
         <MainLayout>
           <Contact />
         </MainLayout>
+      </Route>
+
+      <Route path="/fb-landing">
+        <LandingPage />
       </Route>
       
       <Route>
