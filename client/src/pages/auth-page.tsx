@@ -58,7 +58,8 @@ export default function AuthPage() {
 
   function onRegisterSubmit(values: z.infer<typeof extendedRegisterSchema>) {
     const { confirmPassword, ...registerData } = values;
-    registerMutation.mutate(registerData);
+    // Set isAdmin to false by default for regular user registration
+    registerMutation.mutate({ ...registerData, isAdmin: false });
   }
 
   return (

@@ -27,11 +27,25 @@ export function ProtectedRoute({
     );
   }
 
-  // Check if user is authenticated and is an admin
+  // Check if user is authenticated
   if (!user) {
     return (
       <Route path={path}>
         {() => <Redirect to="/admin/login" />}
+      </Route>
+    );
+  }
+  
+  // For admin paths, check if user has admin role
+  if (path.startsWith("/admin") && !user.isAdmin) {
+    return (
+      <Route path={path}>
+        {() => (
+          <div className="flex flex-col items-center justify-center min-h-screen">
+            <h1 className="text-2xl font-bold mb-2">Access Denied</h1>
+            <p className="text-gray-600">You don't have permission to access this page.</p>
+          </div>
+        )}
       </Route>
     );
   }

@@ -28,6 +28,26 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
+// Function to create an admin user if one doesn't exist
+export async function createAdminUserIfNotExists() {
+  try {
+    // Check if admin user already exists
+    const adminUser = await storage.getUserByUsername("admin");
+    if (!adminUser) {
+      console.log("Creating admin user...");
+      const hashedPassword = await hashPassword("admin123");
+      await storage.createUser({
+        username: "admin",
+        password: hashedPassword,
+        isAdmin: true
+      });
+      console.log("Admin user created successfully");
+    }
+  } catch (error) {
+    console.error("Error creating admin user:", error);
+  }
+}
+
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "hempLaunchSecretKey",
