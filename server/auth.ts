@@ -115,7 +115,21 @@ export function setupAuth(app: Express) {
         
         // Remove password from response
         const { password, ...userWithoutPassword } = user;
-        return res.status(200).json(userWithoutPassword);
+        
+        // Generate JWT token for environments where cookies don't work
+        // This is a simple implementation - in production, you'd want to use a proper JWT library
+        const token = Buffer.from(JSON.stringify({
+          id: user.id,
+          username: user.username,
+          isAdmin: user.isAdmin,
+          exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+        })).toString('base64');
+        
+        // Return both user data and token
+        return res.status(200).json({
+          ...userWithoutPassword,
+          token
+        });
       });
     })(req, res, next);
   });
@@ -142,7 +156,20 @@ export function setupAuth(app: Express) {
         
         // Remove password from response
         const { password, ...userWithoutPassword } = user;
-        res.status(201).json(userWithoutPassword);
+        
+        // Generate JWT token for environments where cookies don't work
+        const token = Buffer.from(JSON.stringify({
+          id: user.id,
+          username: user.username,
+          isAdmin: user.isAdmin,
+          exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+        })).toString('base64');
+        
+        // Return both user data and token
+        res.status(201).json({
+          ...userWithoutPassword,
+          token
+        });
       });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
@@ -158,8 +185,52 @@ export function setupAuth(app: Express) {
     });
   });
 
+  // Custom middleware to check for token-based authentication
+  const tokenAuthMiddleware = async (req: any, res: any, next: any) => {
+    // Skip if user is already authenticated via session
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    
+    // Check for Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return next(); // No token, proceed to next middleware
+    }
+    
+    try {
+      // Extract and verify token
+      const token = authHeader.split(' ')[1];
+      const decodedData = JSON.parse(Buffer.from(token, 'base64').toString());
+      
+      // Check token expiration
+      if (decodedData.exp < Date.now()) {
+        return next(); // Token expired, proceed to next middleware
+      }
+      
+      // Get user from database
+      const user = await storage.getUser(decodedData.id);
+      if (!user) {
+        return next(); // User not found, proceed to next middleware
+      }
+      
+      // Set user in request object
+      req.user = user;
+      req.isTokenAuth = true; // Flag to indicate this is token auth, not session auth
+      
+      next();
+    } catch (error) {
+      // Invalid token format, proceed to next middleware
+      next();
+    }
+  };
+  
+  // Apply token auth middleware to all routes
+  app.use(tokenAuthMiddleware);
+  
   app.get("/api/user", (req, res) => {
-    if (!req.isAuthenticated()) {
+    // Check both session and token authentication
+    if (!req.isAuthenticated() && !req.isTokenAuth) {
       return res.status(401).json({ message: "Not authenticated" });
     }
     
