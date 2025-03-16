@@ -4,13 +4,20 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 const isProduction = import.meta.env.PROD;
 
 // Helper to get the base URL for API requests
-// This ensures API calls work both in development and production environments
+// This ensures API calls work in all environments
 const getBaseUrl = () => {
-  // In production, use the current origin
+  // For Vercel deployments or any production environment
   if (isProduction) {
+    // If we're on a specific environment or subdomain, handle it here
+    // This handles different domains for API and frontend in production
+    if (window.location.hostname.includes('vercel.app') || 
+        window.location.hostname.includes('hemplaunch.co') ||
+        window.location.hostname.includes('hemplaunch.com')) {
+      return window.location.origin;
+    }
     return window.location.origin;
   }
-  // In development, use the local server
+  // In development, use the local server (empty string means same origin)
   return "";
 };
 
@@ -21,6 +28,22 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
+// Function to get an auth token from storage for token-based auth
+const getAuthToken = () => {
+  // Try to get token from localStorage (for environments where cookies don't work)
+  return localStorage.getItem('auth_token'); 
+};
+
+// Function to store auth token in case cookies fail
+export const setAuthToken = (token: string) => {
+  localStorage.setItem('auth_token', token);
+};
+
+// Function to remove auth token
+export const removeAuthToken = () => {
+  localStorage.removeItem('auth_token');
+};
+
 export async function apiRequest(
   method: string,
   url: string,
@@ -29,12 +52,46 @@ export async function apiRequest(
   // Prepend the base URL if needed
   const fullUrl = url.startsWith('/') ? `${getBaseUrl()}${url}` : url;
   
+  // Set up headers with content type if needed
+  const headers: Record<string, string> = data 
+    ? { "Content-Type": "application/json" } 
+    : {};
+  
+  // Add authorization header if we have a token (for environments where cookies don't work)
+  const token = getAuthToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  
   const res = await fetch(fullUrl, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
+    credentials: "include", // Always include credentials for cookie-based auth
   });
+
+  // For login/register endpoints, check if we can extract a token from the response
+  if (res.ok && (url === '/api/login' || url === '/api/register')) {
+    try {
+      // Clone the response so we can read it twice
+      const resClone = res.clone();
+      const data = await resClone.json();
+      
+      // If the response has a token field, store it as a fallback
+      if (data && (data.token || data.authToken)) {
+        const token = data.token || data.authToken;
+        setAuthToken(token);
+      }
+    } catch (error) {
+      // Ignore errors here, the original response will still be returned
+      console.warn('Could not extract token from login response:', error);
+    }
+  }
+  
+  // For logout endpoint, clear the auth token
+  if (res.ok && url === '/api/logout') {
+    removeAuthToken();
+  }
 
   await throwIfResNotOk(res);
   return res;
@@ -50,8 +107,18 @@ export const getQueryFn: <T>(options: {
     // Prepend the base URL if needed
     const fullUrl = key.startsWith('/') ? `${getBaseUrl()}${key}` : key;
     
+    // Set up headers for authorization
+    const headers: Record<string, string> = {};
+    
+    // Add authorization header if we have a token (for environments where cookies don't work)
+    const token = getAuthToken();
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    
     const res = await fetch(fullUrl, {
-      credentials: "include",
+      headers,
+      credentials: "include", // Always include credentials for cookie-based auth
     });
 
     if (unauthorizedBehavior === "returnNull" && res.status === 401) {

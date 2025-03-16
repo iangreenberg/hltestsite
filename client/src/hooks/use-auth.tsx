@@ -42,6 +42,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!res.ok) {
         throw new Error(data.message || "Login failed");
       }
+      
+      // Store token in localStorage if available (for environments where cookies don't work)
+      if (data && data.token) {
+        localStorage.setItem('auth_token', data.token);
+      }
+      
       return data;
     },
     onSuccess: (user: SelectUser) => {
@@ -70,6 +76,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!res.ok) {
         throw new Error(data.message || "Registration failed");
       }
+      
+      // Store token in localStorage if available (for environments where cookies don't work)
+      if (data && data.token) {
+        localStorage.setItem('auth_token', data.token);
+      }
+      
       return data;
     },
     onSuccess: (user: SelectUser) => {
@@ -98,10 +110,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const data = await res.json();
         throw new Error(data.message || "Logout failed");
       }
+      
+      // Clear token from localStorage regardless of response
+      localStorage.removeItem('auth_token');
     },
     onSuccess: () => {
+      // Clear all auth-related data
       queryClient.setQueryData(["/api/user"], null);
       queryClient.invalidateQueries({queryKey: ["/api/user"]});
+      
+      // Clear token from localStorage again to ensure it's removed
+      localStorage.removeItem('auth_token');
+      
       toast({
         title: "Logged out",
         description: "You have been successfully logged out",
@@ -110,11 +130,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLocation("/auth");
     },
     onError: (error: Error) => {
+      // If server-side logout fails, still clear client-side auth
+      localStorage.removeItem('auth_token');
+      queryClient.setQueryData(["/api/user"], null);
+      
       toast({
-        title: "Logout failed",
-        description: error.message,
+        title: "Logout had issues",
+        description: "You've been logged out locally, but there was a server issue: " + error.message,
         variant: "destructive",
       });
+      
+      // Still redirect to auth page
+      setLocation("/auth");
     },
   });
 
