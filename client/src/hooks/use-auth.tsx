@@ -4,10 +4,40 @@ import {
   useMutation,
   UseMutationResult,
 } from "@tanstack/react-query";
-import { User as SelectUser, InsertUser } from "@shared/schema";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "./use-toast";
 import { useLocation } from "wouter";
+import { z } from "zod";
+
+// Try to import from both locations for better compatibility
+let SelectUser: any, InsertUser: any;
+try {
+  const schema = require("@shared/schema");
+  SelectUser = schema.User;
+  InsertUser = schema.InsertUser;
+} catch (e) {
+  try {
+    // Fallback to local import
+    const schema = require("../shared/schema");
+    SelectUser = schema.User;
+    InsertUser = schema.InsertUser;
+  } catch (e2) {
+    // Create basic types as last resort
+    console.error("Failed to load schema:", e2);
+    // Define minimal interfaces for auth
+    type InsertUser = {
+      username: string;
+      password: string;
+      isAdmin?: boolean;
+    };
+    
+    type SelectUser = {
+      id: number;
+      username: string;
+      isAdmin: boolean;
+    };
+  }
+}
 
 type AuthContextType = {
   user: SelectUser | null;

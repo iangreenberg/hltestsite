@@ -3,8 +3,34 @@ import { Redirect } from 'wouter';
 import { useAuth } from '../hooks/use-auth';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
+
+// Try to import from both locations for better compatibility
+let loginSchema: any, insertUserSchema: any;
+try {
+  const schema = require("@shared/schema");
+  loginSchema = schema.loginSchema;
+  insertUserSchema = schema.insertUserSchema;
+} catch (e) {
+  try {
+    // Fallback to local import
+    const schema = require("../shared/schema");
+    loginSchema = schema.loginSchema;
+    insertUserSchema = schema.insertUserSchema;
+  } catch (e2) {
+    // Create basic schemas as last resort
+    loginSchema = z.object({
+      username: z.string().min(3),
+      password: z.string().min(6)
+    });
+    insertUserSchema = z.object({
+      username: z.string().min(3),
+      password: z.string().min(6),
+      isAdmin: z.boolean().optional()
+    });
+    console.error("Failed to load schema:", e2);
+  }
+}
 import { Button } from "../components/ui/button";
 import {
   Form,

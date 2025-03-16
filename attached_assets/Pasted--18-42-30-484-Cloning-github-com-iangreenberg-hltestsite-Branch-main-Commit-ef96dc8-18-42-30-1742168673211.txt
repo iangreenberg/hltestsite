@@ -1,0 +1,85 @@
+[18:42:30.484] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: ef96dc8)
+[18:42:30.840] Cloning completed: 356.000ms
+[18:42:30.896] Found .vercelignore
+[18:42:30.904] Removed 33 ignored files defined in .vercelignore
+[18:42:31.777] Restored build cache from previous deployment (8CuHK9ANVmsKME8qyBXf1Tm5pXR3)
+[18:42:31.873] Running build in Washington, D.C., USA (East) – iad1
+[18:42:32.358] Running "vercel build"
+[18:42:32.763] Vercel CLI 41.3.2
+[18:42:33.562] Running "install" command: `npm install`...
+[18:42:35.767] 
+[18:42:35.768] up to date, audited 481 packages in 2s
+[18:42:35.768] 
+[18:42:35.768] 60 packages are looking for funding
+[18:42:35.769]   run `npm fund` for details
+[18:42:35.801] 
+[18:42:35.801] 9 moderate severity vulnerabilities
+[18:42:35.802] 
+[18:42:35.802] To address issues that do not require attention, run:
+[18:42:35.802]   npm audit fix
+[18:42:35.802] 
+[18:42:35.803] To address all issues (including breaking changes), run:
+[18:42:35.803]   npm audit fix --force
+[18:42:35.803] 
+[18:42:35.803] Run `npm audit` for details.
+[18:42:36.165] Starting Vercel build process...
+[18:42:36.165] Checking root dependencies...
+[18:42:36.165] Installing root dependencies...
+[18:42:37.175] 
+[18:42:37.175] up to date, audited 387 packages in 950ms
+[18:42:37.175] 
+[18:42:37.175] 51 packages are looking for funding
+[18:42:37.175]   run `npm fund` for details
+[18:42:37.178] 
+[18:42:37.178] 1 moderate severity vulnerability
+[18:42:37.178] 
+[18:42:37.178] To address all issues, run:
+[18:42:37.178]   npm audit fix
+[18:42:37.178] 
+[18:42:37.178] Run `npm audit` for details.
+[18:42:37.186] Installing API dependencies...
+[18:42:40.786] 
+[18:42:40.787] added 73 packages, and audited 74 packages in 4s
+[18:42:40.788] 
+[18:42:40.788] 14 packages are looking for funding
+[18:42:40.788]   run `npm fund` for details
+[18:42:40.788] 
+[18:42:40.788] found 0 vulnerabilities
+[18:42:40.795] Building client...
+[18:42:41.136] 
+[18:42:41.138] up to date, audited 1 package in 283ms
+[18:42:41.138] 
+[18:42:41.138] found 0 vulnerabilities
+[18:42:49.745] 
+[18:42:49.746] added 57 packages, and audited 58 packages in 9s
+[18:42:49.747] 
+[18:42:49.747] 7 packages are looking for funding
+[18:42:49.747]   run `npm fund` for details
+[18:42:49.747] 
+[18:42:49.748] found 0 vulnerabilities
+[18:42:49.760] Setting up proper path aliases for build...
+[18:42:49.877] 
+[18:42:49.878] > client@0.1.0 build
+[18:42:49.878] > vite build
+[18:42:49.878] 
+[18:42:50.133] [36mvite v6.2.2 [32mbuilding for production...[36m[39m
+[18:42:50.195] transforming...
+[18:42:50.371] [32m✓[39m 25 modules transformed.
+[18:42:50.376] [31m✗[39m Build failed in 217ms
+[18:42:50.377] [31merror during build:
+[18:42:50.377] [31m[vite]: Rollup failed to resolve import "zod" from "/vercel/path0/client/src/pages/auth-page.tsx".
+[18:42:50.377] This is most likely unintended because it can break your application at runtime.
+[18:42:50.378] If you do want to externalize this module explicitly add it to
+[18:42:50.378] `build.rollupOptions.external`[31m
+[18:42:50.378]     at viteLog (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51602:15)
+[18:42:50.378]     at file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51660:18
+[18:42:50.378]     at onwarn (file:///vercel/path0/client/node_modules/@vitejs/plugin-react/dist/index.mjs:282:9)
+[18:42:50.379]     at file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51658:7
+[18:42:50.379]     at onRollupLog (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51650:5)
+[18:42:50.379]     at onLog (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51300:7)
+[18:42:50.379]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:20543:32
+[18:42:50.379]     at Object.logger [as onLog] (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:22286:9)
+[18:42:50.379]     at ModuleLoader.handleInvalidResolvedId (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21169:26)
+[18:42:50.380]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21127:26[39m
+[18:42:50.398] Error: Command "bash ./vercel-build.sh" exited with 1
+[18:42:50.655] 

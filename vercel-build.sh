@@ -24,8 +24,8 @@ echo "Building client..."
 cd client
 # Install all dependencies including dev dependencies needed for build
 npm install
-# Also install specific Vite dependencies in the client directory
-npm install vite @vitejs/plugin-react
+# Also install specific dependencies in the client directory explicitly
+npm install vite @vitejs/plugin-react zod @hookform/resolvers react-hook-form @tanstack/react-query wouter
 # Create a proper tsconfig paths configuration
 echo "Setting up proper path aliases for build..."
 if [ -f "tsconfig.json" ]; then
@@ -69,9 +69,26 @@ cd ..
 echo "Preparing dist directory..."
 mkdir -p dist
 
+# Create shared directory in client for build
+echo "Copying shared directory to client for build..."
+mkdir -p client/shared
+cp -r shared/* client/shared/
+
+# Create explicit schema file in client src directory as fallback
+echo "Creating explicit schema copy in client src directory..."
+mkdir -p client/src/shared
+cp -r shared/* client/src/shared/
+
 # Copy built client files to dist
 echo "Copying client build to dist directory..."
 cp -r client/dist/* dist/
+
+# Create shared directory in final output
+mkdir -p dist/shared
+
+# Copy shared schema files
+echo "Copying shared schema files to dist/shared..."
+cp -r shared/* dist/shared/
 
 # Create api directory in final output
 mkdir -p dist/api

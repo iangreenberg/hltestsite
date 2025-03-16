@@ -8,7 +8,9 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, 'src') },
-      { find: '@shared', replacement: path.resolve(__dirname, '..', 'shared') }
+      { find: '@shared', replacement: path.resolve(__dirname, '..', 'shared') },
+      // Fallback alias for local build
+      { find: /^@shared\/(.*)$/, replacement: path.resolve(__dirname, 'shared', '$1') }
     ]
   },
   build: {
@@ -16,5 +18,12 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false,
     minify: true,
+    rollupOptions: {
+      // Make sure to bundle all dependencies
+      external: []
+    }
+  },
+  optimizeDeps: {
+    include: ['zod', 'react-hook-form', '@hookform/resolvers/zod', '@tanstack/react-query', 'wouter']
   }
 });
