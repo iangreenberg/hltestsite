@@ -16,6 +16,7 @@ import Footer from "@/components/layout/Footer";
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AuthPage from "@/pages/auth-page";
+import AuthTest from "@/pages/auth-test";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/lib/protected-route";
 
@@ -96,6 +97,12 @@ function Router() {
 
       <Route path="/fb-landing">
         <LandingPage />
+      </Route>
+      
+      <Route path="/auth-test">
+        <AdminLayout>
+          <AuthTest />
+        </AdminLayout>
       </Route>
       
       <Route>
