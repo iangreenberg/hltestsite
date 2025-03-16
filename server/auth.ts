@@ -216,7 +216,8 @@ export function setupAuth(app: Express) {
       
       // Set user in request object
       req.user = user;
-      req.isTokenAuth = true; // Flag to indicate this is token auth, not session auth
+      // Use a different approach that doesn't require type definition
+      (req as any)._isTokenAuthenticated = true;
       
       next();
     } catch (error) {
@@ -228,9 +229,9 @@ export function setupAuth(app: Express) {
   // Apply token auth middleware to all routes
   app.use(tokenAuthMiddleware);
   
-  app.get("/api/user", (req, res) => {
+  app.get("/api/user", (req: any, res) => {
     // Check both session and token authentication
-    if (!req.isAuthenticated() && !req.isTokenAuth) {
+    if (!req.isAuthenticated() && !(req as any)._isTokenAuthenticated) {
       return res.status(401).json({ message: "Not authenticated" });
     }
     

@@ -1,0 +1,59 @@
+[18:26:57.061] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: 3ff3d5f)
+[18:26:57.832] Cloning completed: 769.000ms
+[18:26:58.005] Found .vercelignore
+[18:26:58.036] Removed 33 ignored files defined in .vercelignore
+[18:26:59.163] Restored build cache from previous deployment (8CuHK9ANVmsKME8qyBXf1Tm5pXR3)
+[18:26:59.255] Running build in Washington, D.C., USA (East) – iad1
+[18:26:59.719] Running "vercel build"
+[18:27:00.081] Vercel CLI 41.3.2
+[18:27:00.853] Running "install" command: `npm install`...
+[18:27:03.389] 
+[18:27:03.390] up to date, audited 481 packages in 2s
+[18:27:03.390] 
+[18:27:03.391] 60 packages are looking for funding
+[18:27:03.391]   run `npm fund` for details
+[18:27:03.420] 
+[18:27:03.421] 9 moderate severity vulnerabilities
+[18:27:03.421] 
+[18:27:03.421] To address issues that do not require attention, run:
+[18:27:03.422]   npm audit fix
+[18:27:03.422] 
+[18:27:03.422] To address all issues (including breaking changes), run:
+[18:27:03.422]   npm audit fix --force
+[18:27:03.422] 
+[18:27:03.423] Run `npm audit` for details.
+[18:27:03.562] Starting Vercel build process...
+[18:27:03.563] Checking root dependencies...
+[18:27:03.563] Installing root dependencies...
+[18:27:04.575] 
+[18:27:04.575] up to date, audited 387 packages in 955ms
+[18:27:04.575] 
+[18:27:04.575] 51 packages are looking for funding
+[18:27:04.575]   run `npm fund` for details
+[18:27:04.578] 
+[18:27:04.578] 1 moderate severity vulnerability
+[18:27:04.578] 
+[18:27:04.578] To address all issues, run:
+[18:27:04.578]   npm audit fix
+[18:27:04.579] 
+[18:27:04.579] Run `npm audit` for details.
+[18:27:04.587] Installing API dependencies...
+[18:27:07.780] 
+[18:27:07.781] added 73 packages, and audited 74 packages in 3s
+[18:27:07.781] 
+[18:27:07.781] 14 packages are looking for funding
+[18:27:07.782]   run `npm fund` for details
+[18:27:07.782] 
+[18:27:07.782] found 0 vulnerabilities
+[18:27:07.793] Building client...
+[18:27:08.085] 
+[18:27:08.086] up to date, audited 1 package in 235ms
+[18:27:08.087] 
+[18:27:08.087] found 0 vulnerabilities
+[18:27:08.218] 
+[18:27:08.219] > client@0.1.0 build
+[18:27:08.219] > vite build
+[18:27:08.219] 
+[18:27:08.224] sh: line 1: vite: command not found
+[18:27:08.233] Error: Command "bash ./vercel-build.sh" exited with 127
+[18:27:08.536] 

@@ -22,7 +22,11 @@ cd ..
 # Build client
 echo "Building client..."
 cd client
-npm install
+# Install all dependencies including dev dependencies needed for build
+npm install --include=dev
+# Make sure vite is installed globally for the build process
+npm install -g vite
+# Run the build
 npm run build
 cd ..
 
