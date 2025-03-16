@@ -2,7 +2,7 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User } from "@shared/schema";
+import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +20,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth status check - handled by our Passport setup in auth.ts
   app.get("/api/auth/status", (req, res) => {
     if (req.isAuthenticated()) {
-      const { password, ...userWithoutPassword } = req.user as User;
+      const { password, ...userWithoutPassword } = req.user as SelectUser;
       return res.status(200).json({
         success: true,
         isAuthenticated: true,

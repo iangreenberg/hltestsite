@@ -11,8 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
 export default function AdminLogin() {
-  const { user, login } = useAuth();
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const { user, loginMutation } = useAuth();
   const [error, setError] = useState<string | null>(null);
   
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -24,14 +23,11 @@ export default function AdminLogin() {
   });
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    setIsLoggingIn(true);
     setError(null);
     try {
-      await login(values);
+      await loginMutation.mutateAsync(values);
     } catch (err) {
       setError((err as Error).message || "Login failed");
-    } finally {
-      setIsLoggingIn(false);
     }
   };
 
@@ -85,9 +81,9 @@ export default function AdminLogin() {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={isLoggingIn}
+              disabled={loginMutation.isPending}
             >
-              {isLoggingIn ? (
+              {loginMutation.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Logging in...

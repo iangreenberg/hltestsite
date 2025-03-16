@@ -7,6 +7,7 @@ import {
 import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 
 type AuthContextType = {
   user: SelectUser | null;
@@ -22,10 +23,13 @@ type LoginData = Pick<InsertUser, "username" | "password">;
 export const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  
   const {
     data: user,
     error,
     isLoading,
+    refetch,
   } = useQuery<SelectUser | null, Error>({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
@@ -34,14 +38,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
       const res = await apiRequest("POST", "/api/login", credentials);
-      return await res.json();
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+      return data;
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
+      refetch();
       toast({
         title: "Login successful",
         description: `Welcome back, ${user.username}!`,
       });
+      // Redirect to home page on successful login
+      setLocation("/");
     },
     onError: (error: Error) => {
       toast({
@@ -55,14 +66,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const registerMutation = useMutation({
     mutationFn: async (credentials: InsertUser) => {
       const res = await apiRequest("POST", "/api/register", credentials);
-      return await res.json();
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+      return data;
     },
     onSuccess: (user: SelectUser) => {
       queryClient.setQueryData(["/api/user"], user);
+      refetch();
       toast({
         title: "Registration successful",
         description: `Welcome, ${user.username}!`,
       });
+      // Redirect to home page on successful registration
+      setLocation("/");
     },
     onError: (error: Error) => {
       toast({
@@ -75,14 +93,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/logout");
+      const res = await apiRequest("POST", "/api/logout");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Logout failed");
+      }
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);
+      queryClient.invalidateQueries({queryKey: ["/api/user"]});
       toast({
         title: "Logged out",
         description: "You have been successfully logged out",
       });
+      // Redirect to login page after logout
+      setLocation("/auth");
     },
     onError: (error: Error) => {
       toast({

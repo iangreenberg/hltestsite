@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function AuthTest() {
-  const { user, login, logout, token, isLoading } = useAuth();
+  const { user, loginMutation, logoutMutation, isLoading } = useAuth();
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin123");
   const [loginStatus, setLoginStatus] = useState<string | null>(null);
@@ -13,7 +13,7 @@ export default function AuthTest() {
   const handleLogin = async () => {
     try {
       setLoginStatus("Logging in...");
-      await login({ username, password });
+      await loginMutation.mutateAsync({ username, password });
       setLoginStatus("Login successful");
     } catch (error) {
       setLoginStatus(`Login failed: ${(error as Error).message}`);
@@ -23,7 +23,7 @@ export default function AuthTest() {
   const handleLogout = async () => {
     try {
       setLoginStatus("Logging out...");
-      await logout();
+      await logoutMutation.mutateAsync();
       setLoginStatus("Logout successful");
     } catch (error) {
       setLoginStatus(`Logout failed: ${(error as Error).message}`);
@@ -57,8 +57,9 @@ export default function AuthTest() {
                 </div>
               </>
             )}
+            {/* We don't use tokens anymore with Passport.js */}
             <div>
-              <strong>Token:</strong> {token ? `${token.substring(0, 20)}...` : "None"}
+              <strong>Session Auth:</strong> {user ? "Active" : "None"}
             </div>
             {loginStatus && (
               <div className="mt-4 p-2 bg-gray-100 rounded">
