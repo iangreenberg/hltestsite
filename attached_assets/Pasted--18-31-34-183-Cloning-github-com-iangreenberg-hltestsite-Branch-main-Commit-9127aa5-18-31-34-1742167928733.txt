@@ -1,0 +1,79 @@
+[18:31:34.183] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: 9127aa5)
+[18:31:34.775] Cloning completed: 592.000ms
+[18:31:34.842] Found .vercelignore
+[18:31:34.849] Removed 33 ignored files defined in .vercelignore
+[18:31:36.062] Restored build cache from previous deployment (8CuHK9ANVmsKME8qyBXf1Tm5pXR3)
+[18:31:36.321] Running build in Washington, D.C., USA (East) – iad1
+[18:31:36.737] Running "vercel build"
+[18:31:37.117] Vercel CLI 41.3.2
+[18:31:37.812] Running "install" command: `npm install`...
+[18:31:40.209] 
+[18:31:40.209] up to date, audited 481 packages in 2s
+[18:31:40.210] 
+[18:31:40.210] 60 packages are looking for funding
+[18:31:40.210]   run `npm fund` for details
+[18:31:40.239] 
+[18:31:40.240] 9 moderate severity vulnerabilities
+[18:31:40.240] 
+[18:31:40.240] To address issues that do not require attention, run:
+[18:31:40.240]   npm audit fix
+[18:31:40.240] 
+[18:31:40.241] To address all issues (including breaking changes), run:
+[18:31:40.241]   npm audit fix --force
+[18:31:40.241] 
+[18:31:40.241] Run `npm audit` for details.
+[18:31:40.843] Starting Vercel build process...
+[18:31:40.843] Checking root dependencies...
+[18:31:40.843] Installing root dependencies...
+[18:31:41.883] 
+[18:31:41.884] up to date, audited 387 packages in 982ms
+[18:31:41.885] 
+[18:31:41.885] 51 packages are looking for funding
+[18:31:41.885]   run `npm fund` for details
+[18:31:41.886] 
+[18:31:41.887] 1 moderate severity vulnerability
+[18:31:41.887] 
+[18:31:41.887] To address all issues, run:
+[18:31:41.887]   npm audit fix
+[18:31:41.887] 
+[18:31:41.888] Run `npm audit` for details.
+[18:31:41.898] Installing API dependencies...
+[18:31:45.669] 
+[18:31:45.670] added 73 packages, and audited 74 packages in 4s
+[18:31:45.670] 
+[18:31:45.670] 14 packages are looking for funding
+[18:31:45.670]   run `npm fund` for details
+[18:31:45.671] 
+[18:31:45.671] found 0 vulnerabilities
+[18:31:45.684] Building client...
+[18:31:45.984] 
+[18:31:45.984] up to date, audited 1 package in 242ms
+[18:31:45.985] 
+[18:31:45.985] found 0 vulnerabilities
+[18:31:52.087] 
+[18:31:52.088] added 10 packages in 6s
+[18:31:52.088] 
+[18:31:52.089] 3 packages are looking for funding
+[18:31:52.089]   run `npm fund` for details
+[18:31:52.233] 
+[18:31:52.234] > client@0.1.0 build
+[18:31:52.234] > vite build
+[18:31:52.234] 
+[18:31:52.463] [36mvite v6.2.2 [32mbuilding for production...[36m[39m
+[18:31:52.532] transforming...
+[18:31:52.572] [32m✓[39m 5 modules transformed.
+[18:31:52.579] [31m✗[39m Build failed in 89ms
+[18:31:52.579] [31merror during build:
+[18:31:52.579] [31m[vite]: Rollup failed to resolve import "@/components/ui/toaster" from "/vercel/path0/client/src/App.tsx".
+[18:31:52.580] This is most likely unintended because it can break your application at runtime.
+[18:31:52.580] If you do want to externalize this module explicitly add it to
+[18:31:52.580] `build.rollupOptions.external`[31m
+[18:31:52.580]     at viteLog (file:///node22/lib/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51602:15)
+[18:31:52.581]     at onRollupLog (file:///node22/lib/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51652:5)
+[18:31:52.584]     at onLog (file:///node22/lib/node_modules/vite/dist/node/chunks/dep-B0fRCRkQ.js:51300:7)
+[18:31:52.584]     at file:///node22/lib/node_modules/vite/node_modules/rollup/dist/es/shared/node-entry.js:20543:32
+[18:31:52.585]     at Object.logger [as onLog] (file:///node22/lib/node_modules/vite/node_modules/rollup/dist/es/shared/node-entry.js:22286:9)
+[18:31:52.585]     at ModuleLoader.handleInvalidResolvedId (file:///node22/lib/node_modules/vite/node_modules/rollup/dist/es/shared/node-entry.js:21169:26)
+[18:31:52.585]     at file:///node22/lib/node_modules/vite/node_modules/rollup/dist/es/shared/node-entry.js:21127:26[39m
+[18:31:52.603] Error: Command "bash ./vercel-build.sh" exited with 1
+[18:31:52.867] 

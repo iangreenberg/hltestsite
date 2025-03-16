@@ -26,8 +26,43 @@ cd client
 npm install --include=dev
 # Make sure vite is installed globally for the build process
 npm install -g vite
+# Create a proper tsconfig paths configuration
+echo "Setting up proper path aliases for build..."
+if [ -f "tsconfig.json" ]; then
+  cp tsconfig.json tsconfig.json.bak
+else 
+  echo '{"compilerOptions":{}}' > tsconfig.json.bak
+fi
+echo '{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["../shared/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}' > tsconfig.json
 # Run the build
 npm run build
+# Restore original tsconfig if it existed
+mv tsconfig.json.bak tsconfig.json
 cd ..
 
 # Make sure output directory exists
