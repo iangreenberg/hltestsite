@@ -17,6 +17,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
   setupAuth(app);
   
+  // Test admin-only route
+  app.get("/api/admin-test", isAdmin, (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "You have admin access",
+      user: req.user
+    });
+  });
+  
   // Auth status check - handled by our Passport setup in auth.ts
   app.get("/api/auth/status", (req, res) => {
     if (req.isAuthenticated()) {
@@ -52,15 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // API route to get all waitlist entries (protected - admin only)
-  app.get("/api/waitlist", (req, res, next) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ success: false, message: "Not authenticated" });
-    }
-    if (!(req.user as SelectUser).isAdmin) {
-      return res.status(403).json({ success: false, message: "Forbidden" });
-    }
-    next();
-  }, async (req, res) => {
+  app.get("/api/waitlist", isAdmin, async (req, res) => {
     try {
       const entries = await storage.getWaitlistEntries();
       res.status(200).json({
@@ -104,15 +105,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // API route to get all email subscriptions (protected - admin only)
-  app.get("/api/subscribe", (req, res, next) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ success: false, message: "Not authenticated" });
-    }
-    if (!(req.user as SelectUser).isAdmin) {
-      return res.status(403).json({ success: false, message: "Forbidden" });
-    }
-    next();
-  }, async (req, res) => {
+  app.get("/api/subscribe", isAdmin, async (req, res) => {
     try {
       const subscriptions = await storage.getEmailSubscriptions();
       res.status(200).json({

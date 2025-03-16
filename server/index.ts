@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { createAdminUserIfNotExists } from "./auth";
 
 // Create the Express app
 const app = express();
@@ -43,6 +44,9 @@ let server: any = null;
 
 // Self-executing async function to set up the server
 const setupServer = async () => {
+  // Create admin user if it doesn't exist yet
+  await createAdminUserIfNotExists();
+  
   server = await registerRoutes(app);
 
   // Error handling middleware

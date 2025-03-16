@@ -42,13 +42,6 @@ export class MemStorage implements IStorage {
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000, // prune expired entries every 24h
     });
-    
-    // Create a default admin user
-    this.createUser({
-      username: "admin",
-      password: "admin123", // In a real app, this should be hashed
-      isAdmin: true
-    });
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -74,10 +67,8 @@ export class MemStorage implements IStorage {
   }
   
   async validateCredentials(username: string, password: string): Promise<User | null> {
-    const user = await this.getUserByUsername(username);
-    if (user && user.password === password) {
-      return user;
-    }
+    // This method is deprecated - authentication is now handled by Passport.js
+    // See auth.ts for the implementation
     return null;
   }
   
