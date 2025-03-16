@@ -1,4 +1,8 @@
 import { users, type User, type InsertUser, type Waitlist, type InsertWaitlist, type EmailSubscription, type InsertEmailSubscription } from "@shared/schema";
+import session from "express-session";
+import createMemoryStore from "memorystore";
+
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -14,6 +18,9 @@ export interface IStorage {
   addEmailSubscription(subscription: InsertEmailSubscription): Promise<EmailSubscription>;
   getEmailSubscriptions(): Promise<EmailSubscription[]>;
   getEmailSubscriptionByEmail(email: string): Promise<EmailSubscription | undefined>;
+  
+  // Session store for authentication
+  sessionStore: any;
 }
 
 export class MemStorage implements IStorage {
@@ -23,6 +30,7 @@ export class MemStorage implements IStorage {
   private currentUserId: number;
   private currentWaitlistId: number;
   private currentEmailSubscriptionId: number;
+  sessionStore: any;
 
   constructor() {
     this.users = new Map();
@@ -31,6 +39,9 @@ export class MemStorage implements IStorage {
     this.currentUserId = 1;
     this.currentWaitlistId = 1;
     this.currentEmailSubscriptionId = 1;
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    });
     
     // Create a default admin user
     this.createUser({
