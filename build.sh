@@ -1,11 +1,10 @@
 #!/bin/bash
 set -e
 
-echo "Starting build process..."
+echo "Starting Vercel build process..."
 
-# Install dependencies
-echo "Installing dependencies..."
-npm install
+# Set environment variable
+export NODE_ENV=production
 
 # Build client
 echo "Building client..."
@@ -14,4 +13,11 @@ npm install
 npm run build
 cd ..
 
-echo "Build completed successfully!"
+# Verify build output
+if [ -d "client/dist" ]; then
+  echo "Build completed successfully! Output directory:"
+  ls -la client/dist
+else
+  echo "Error: Build directory not found"
+  exit 1
+fi
