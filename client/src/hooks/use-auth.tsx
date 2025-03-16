@@ -7,50 +7,19 @@ import {
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "./use-toast";
 import { useLocation } from "wouter";
-import { z } from "zod";
-
-// Try to import from both locations for better compatibility
-let SelectUser: any, InsertUser: any;
-try {
-  const schema = require("@shared/schema");
-  SelectUser = schema.User;
-  InsertUser = schema.InsertUser;
-} catch (e) {
-  try {
-    // Fallback to local import
-    const schema = require("../shared/schema");
-    SelectUser = schema.User;
-    InsertUser = schema.InsertUser;
-  } catch (e2) {
-    // Create basic types as last resort
-    console.error("Failed to load schema:", e2);
-    // Define minimal interfaces for auth
-    type InsertUser = {
-      username: string;
-      password: string;
-      isAdmin?: boolean;
-    };
-    
-    type SelectUser = {
-      id: number;
-      username: string;
-      isAdmin: boolean;
-    };
-  }
-}
+import type { User, InsertUser, LoginData } from "../lib/schema";
 
 type AuthContextType = {
-  user: SelectUser | null;
+  user: User | null;
   isLoading: boolean;
   error: Error | null;
-  loginMutation: UseMutationResult<SelectUser, Error, LoginData>;
+  loginMutation: UseMutationResult<User, Error, LoginData>;
   logoutMutation: UseMutationResult<void, Error, void>;
-  registerMutation: UseMutationResult<SelectUser, Error, InsertUser>;
+  registerMutation: UseMutationResult<User, Error, InsertUser>;
 };
 
-type LoginData = Pick<InsertUser, "username" | "password">;
-
 export const AuthContext = createContext<AuthContextType | null>(null);
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
@@ -60,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     error,
     isLoading,
     refetch,
-  } = useQuery<SelectUser | null, Error>({
+  } = useQuery<User | null, Error>({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
@@ -78,9 +47,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('auth_token', data.token);
       }
       
-      return data;
+      return data as User;
     },
-    onSuccess: (user: SelectUser) => {
+    onSuccess: (user) => {
       queryClient.setQueryData(["/api/user"], user);
       refetch();
       toast({
@@ -112,9 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('auth_token', data.token);
       }
       
-      return data;
+      return data as User;
     },
-    onSuccess: (user: SelectUser) => {
+    onSuccess: (user) => {
       queryClient.setQueryData(["/api/user"], user);
       refetch();
       toast({
