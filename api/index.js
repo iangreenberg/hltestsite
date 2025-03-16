@@ -158,6 +158,37 @@ app.get('/api/admin/subscriptions', checkAdminAuth, async (req, res) => {
   }
 });
 
+// Additional Auth endpoints
+app.post('/api/auth/register', (req, res) => {
+  const { username, password, firstName, lastName } = req.body;
+  
+  // Simple registration - in a real app, you'd check for existing users
+  // and properly hash the password
+  if (username && password) {
+    res.json({
+      success: true,
+      user: {
+        id: 2,
+        username,
+        firstName: firstName || '',
+        lastName: lastName || '',
+        role: 'user'
+      },
+      token: `user-token-${username}`
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'Username and password are required'
+    });
+  }
+});
+
+// Health check endpoint
+app.get('/api/healthcheck', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Vercel serverless function handler
 export default function handler(req, res) {
   // Log the incoming request for debugging

@@ -1,5 +1,19 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
+// Helper to determine if we're in production mode
+const isProduction = import.meta.env.PROD;
+
+// Helper to get the base URL for API requests
+// This ensures API calls work both in development and production environments
+const getBaseUrl = () => {
+  // In production, use the current origin
+  if (isProduction) {
+    return window.location.origin;
+  }
+  // In development, use the local server
+  return "";
+};
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
@@ -12,7 +26,10 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const res = await fetch(url, {
+  // Prepend the base URL if needed
+  const fullUrl = url.startsWith('/') ? `${getBaseUrl()}${url}` : url;
+  
+  const res = await fetch(fullUrl, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
@@ -29,7 +46,11 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
+    const key = queryKey[0] as string;
+    // Prepend the base URL if needed
+    const fullUrl = key.startsWith('/') ? `${getBaseUrl()}${key}` : key;
+    
+    const res = await fetch(fullUrl, {
       credentials: "include",
     });
 
