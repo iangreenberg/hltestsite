@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { useState } from "react";
 import { Helmet } from "react-helmet";
-import TimelineQualifier from "@/components/common/TimelineQualifier";
+import TimelineQualifier from "../components/common/TimelineQualifier";
 import { Link } from "wouter";
-import { ArrowRight, Check, X, AlertTriangle, Shield, Clock, TrendingUp, Building, DollarSign, PieChart, FileCheck, Map } from "lucide-react";
+import { ArrowRight, Check, X, Shield, Clock, TrendingUp, DollarSign, PieChart, FileCheck, Map } from "lucide-react";
 
 export default function LandingPage() {
   const [showQualifier, setShowQualifier] = useState(false);

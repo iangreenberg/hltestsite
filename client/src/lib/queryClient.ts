@@ -1,7 +1,9 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
 // Helper to determine if we're in production mode
-const isProduction = import.meta.env.PROD;
+const isProduction = typeof window !== 'undefined' && 
+  window.location.hostname !== 'localhost' && 
+  !window.location.hostname.includes('replit');
 
 // Helper to get the base URL for API requests
 // This ensures API calls work in all environments
