@@ -15,7 +15,7 @@ npm install express cors
 
 # Build frontend with Vite
 echo "Building frontend..."
-npx vite build
+cd client && npx vite build && cd ..
 
 # Build server with esbuild
 echo "Building server..."
@@ -44,22 +44,26 @@ cat > api/package.json << EOL
 }
 EOL
 
-# Create a simple HTML fallback for the root
-echo "Creating fallback index..."
-cat > dist/public/index.html << EOL
+# Make sure we don't overwrite the built index.html
+echo "Checking for built index.html..."
+if [ ! -f "dist/public/index.html" ]; then
+  echo "Creating fallback index.html..."
+  cat > dist/public/index.html << EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HempLaunch - Your Hemp Business Startup Partner</title>
-  <meta http-equiv="refresh" content="0;url=/index.html">
 </head>
 <body>
-  <p>Redirecting to homepage...</p>
+  <div id="root"></div>
 </body>
 </html>
 EOL
+else
+  echo "Using existing built index.html"
+fi
 
 echo "Build completed successfully!"
 echo "Output directories:"
