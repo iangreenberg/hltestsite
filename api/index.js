@@ -2,6 +2,7 @@
 
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 // Create a memory-based storage for this serverless function
 const memStorage = {
@@ -39,7 +40,11 @@ const memStorage = {
 
 // Create Express app
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 
 // API routes
@@ -50,13 +55,26 @@ app.get('/api', (req, res) => {
 // Auth routes - updated to match our application's API structure
 // User info endpoint
 app.get('/api/user', (req, res) => {
+  // Check both cookie and authorization header
+  const authCookie = req.cookies && req.cookies.auth_token;
   const authHeader = req.headers.authorization;
-  if (authHeader === 'Bearer admin-token') {
-    // Return user info matching our schema
+  const token = authCookie || (authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null);
+  
+  if (token === 'admin-token') {
+    // Return admin user info matching our schema
     res.json({
       id: 1,
       username: 'admin',
       isAdmin: true
+    });
+  } else if (token && token.startsWith('user-token-')) {
+    // Extract username from token format 'user-token-username'
+    const username = token.substring(11);
+    // Return regular user info matching our schema
+    res.json({
+      id: 2,
+      username,
+      isAdmin: false
     });
   } else {
     res.status(401).json({ message: "Not authenticated" });
@@ -104,7 +122,7 @@ app.post('/api/register', (req, res) => {
   });
   
   // Set cookie for maintaining session in Vercel environment
-  res.cookie('auth_token', 'user-token', { 
+  res.cookie('auth_token', `user-token-${username}`, { 
     httpOnly: true,
     secure: true,
     sameSite: 'strict'
@@ -148,13 +166,15 @@ app.post('/api/subscribe', async (req, res) => {
 
 // Admin dashboard data endpoints (protected)
 const checkAdminAuth = (req, res, next) => {
-  // Simple auth check for admin API endpoints
-  // In a real app, you'd use JWT or session-based auth
+  // Check for auth token in cookies or Authorization header
+  const authCookie = req.cookies && req.cookies.auth_token;
   const authHeader = req.headers.authorization;
-  if (authHeader === 'Bearer admin-token') {
+  const token = authCookie || (authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null);
+  
+  if (token === 'admin-token') {
     next();
   } else {
-    res.status(401).json({ error: 'Unauthorized' });
+    res.status(401).json({ message: 'Forbidden: Admin privileges required' });
   }
 };
 
@@ -176,6 +196,14 @@ app.get('/api/admin/subscriptions', checkAdminAuth, async (req, res) => {
     console.error('Error getting email subscriptions:', error);
     res.status(500).json({ error: 'Failed to retrieve email subscriptions' });
   }
+});
+
+// Admin test endpoint for authentication testing
+app.get('/api/admin-test', checkAdminAuth, (req, res) => {
+  res.json({
+    message: 'You have admin access',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Additional Auth endpoints
