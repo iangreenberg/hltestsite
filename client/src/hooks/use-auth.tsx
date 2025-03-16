@@ -1,13 +1,7 @@
-import { createContext, ReactNode, useContext } from "react";
-import {
-  useQuery,
-  useMutation,
-  UseMutationResult,
-} from "@tanstack/react-query";
-import { loginSchema, insertUserSchema, User, InsertUser } from "@shared/schema";
-import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { User, InsertUser } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
-import { z } from "zod";
 
 type AuthResponse = {
   success: boolean;
@@ -22,120 +16,174 @@ type AuthContextType = {
   isLoading: boolean;
   error: Error | null;
   token: string | null;
-  loginMutation: UseMutationResult<AuthResponse, Error, z.infer<typeof loginSchema>>;
-  logoutMutation: UseMutationResult<any, Error, void>;
-  registerMutation: UseMutationResult<User, Error, InsertUser>;
+  login: (credentials: { username: string; password: string }) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (userData: InsertUser) => Promise<void>;
 };
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+// Create context with a default value
+const AuthContext = createContext<AuthContextType | null>(null);
 
+// Create the provider component
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
-  // Define the expected response type
-  type AuthResponse = {
-    success: boolean;
-    isAuthenticated: boolean;
-    user?: User;
-  };
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem('auth-token')
+  );
 
+  // Persist token to localStorage
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('auth-token', token);
+    } else {
+      localStorage.removeItem('auth-token');
+    }
+  }, [token]);
+
+  // Auth status query
   const {
     data: authData,
     error,
     isLoading,
+    refetch: refetchAuth,
   } = useQuery<AuthResponse>({
     queryKey: ["/api/auth/status"],
-    queryFn: getQueryFn({ on401: "returnNull" }),
+    queryFn: async () => {
+      const headers: HeadersInit = {};
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+      const res = await fetch("/api/auth/status", { headers });
+      if (!res.ok && res.status !== 401) {
+        throw new Error('Auth check failed');
+      }
+      return res.json();
+    },
   });
 
-  const user = authData?.isAuthenticated && authData?.user ? authData.user : null;
+  const user = authData?.user || null;
 
-  const loginMutation = useMutation({
-    mutationFn: async (credentials: z.infer<typeof loginSchema>) => {
-      const res = await apiRequest("POST", "/api/login", credentials);
-      return await res.json();
-    },
-    onSuccess: (data) => {
-      if (data.success) {
+  // Login function
+  const login = async (credentials: { username: string; password: string }) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      
+      if (!res.ok) {
+        throw new Error("Login failed");
+      }
+      
+      const data = await res.json();
+      
+      if (data.success && data.token) {
+        setToken(data.token);
         toast({
           title: "Success",
           description: "Login successful",
         });
-        queryClient.invalidateQueries({ queryKey: ["/api/auth/status"] });
+        refetchAuth();
       } else {
-        toast({
-          title: "Error",
-          description: data.message || "Login failed",
-          variant: "destructive",
-        });
+        throw new Error(data.message || "Login failed");
       }
-    },
-    onError: (error: Error) => {
+    } catch (error) {
       toast({
         title: "Login failed",
-        description: error.message,
+        description: (error as Error).message,
         variant: "destructive",
       });
-    },
-  });
+      throw error;
+    }
+  };
 
-  const logoutMutation = useMutation({
-    mutationFn: async () => {
-      const res = await apiRequest("POST", "/api/logout");
-      return await res.json();
-    },
-    onSuccess: () => {
+  // Logout function
+  const logout = async () => {
+    try {
+      const headers: HeadersInit = { 
+        "Content-Type": "application/json" 
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+      
+      const res = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers
+      });
+      
+      if (!res.ok) {
+        throw new Error("Logout failed");
+      }
+      
+      setToken(null);
       toast({
         title: "Success",
         description: "Logged out successfully",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/status"] });
-    },
-    onError: (error: Error) => {
+      refetchAuth();
+    } catch (error) {
       toast({
         title: "Logout failed",
-        description: error.message,
+        description: (error as Error).message,
         variant: "destructive",
       });
-    },
-  });
+      throw error;
+    }
+  };
   
-  const registerMutation = useMutation<User, Error, InsertUser>({
-    mutationFn: async (userData: InsertUser) => {
-      const res = await apiRequest("POST", "/api/register", userData);
-      return await res.json();
-    },
-    onSuccess: (data) => {
+  // Register function
+  const register = async (userData: InsertUser) => {
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      
+      if (!res.ok) {
+        throw new Error("Registration failed");
+      }
+      
       toast({
         title: "Account created",
         description: "Your account has been created successfully"
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/status"] });
-    },
-    onError: (error: Error) => {
+      refetchAuth();
+    } catch (error) {
       toast({
         title: "Registration failed",
-        description: error.message,
+        description: (error as Error).message,
         variant: "destructive",
       });
-    },
-  });
+      throw error;
+    }
+  };
+
+  // Create the context value object with all required properties
+  const value = {
+    user,
+    isLoading,
+    error,
+    token,
+    login,
+    logout,
+    register
+  };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isLoading,
-        error,
-        loginMutation,
-        logoutMutation,
-        registerMutation
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 }
 
+// Custom hook to use the auth context
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

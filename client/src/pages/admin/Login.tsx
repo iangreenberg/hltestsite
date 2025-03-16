@@ -11,7 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
 export default function AdminLogin() {
-  const { user, loginMutation } = useAuth();
+  const { user, login } = useAuth();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -21,12 +23,20 @@ export default function AdminLogin() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    loginMutation.mutate(values);
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    setIsLoggingIn(true);
+    setError(null);
+    try {
+      await login(values);
+    } catch (err) {
+      setError((err as Error).message || "Login failed");
+    } finally {
+      setIsLoggingIn(false);
+    }
   };
 
-  // If user is already logged in and is admin, redirect to admin dashboard
-  if (user && user.isAdmin) {
+  // If user is already logged in, redirect to admin dashboard
+  if (user) {
     return <Redirect to="/admin" />;
   }
 
