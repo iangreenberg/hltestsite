@@ -1,0 +1,116 @@
+[18:52:36.121] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: 66bf322)
+[18:52:36.452] Cloning completed: 329.000ms
+[18:52:36.507] Found .vercelignore
+[18:52:36.514] Removed 33 ignored files defined in .vercelignore
+[18:52:37.460] Restored build cache from previous deployment (8CuHK9ANVmsKME8qyBXf1Tm5pXR3)
+[18:52:37.556] Running build in Washington, D.C., USA (East) – iad1
+[18:52:38.015] Running "vercel build"
+[18:52:38.634] Vercel CLI 41.3.2
+[18:52:39.671] Running "install" command: `npm install`...
+[18:52:42.033] 
+[18:52:42.034] up to date, audited 481 packages in 2s
+[18:52:42.034] 
+[18:52:42.035] 60 packages are looking for funding
+[18:52:42.035]   run `npm fund` for details
+[18:52:42.085] 
+[18:52:42.086] 9 moderate severity vulnerabilities
+[18:52:42.086] 
+[18:52:42.087] To address issues that do not require attention, run:
+[18:52:42.088]   npm audit fix
+[18:52:42.088] 
+[18:52:42.088] To address all issues (including breaking changes), run:
+[18:52:42.089]   npm audit fix --force
+[18:52:42.089] 
+[18:52:42.089] Run `npm audit` for details.
+[18:52:42.382] Starting Vercel build process...
+[18:52:42.383] Checking root dependencies...
+[18:52:42.383] Installing root dependencies...
+[18:52:43.413] 
+[18:52:43.413] up to date, audited 387 packages in 971ms
+[18:52:43.413] 
+[18:52:43.413] 51 packages are looking for funding
+[18:52:43.414]   run `npm fund` for details
+[18:52:43.416] 
+[18:52:43.416] 1 moderate severity vulnerability
+[18:52:43.416] 
+[18:52:43.416] To address all issues, run:
+[18:52:43.417]   npm audit fix
+[18:52:43.417] 
+[18:52:43.417] Run `npm audit` for details.
+[18:52:43.425] Installing API dependencies...
+[18:52:46.665] 
+[18:52:46.666] added 73 packages, and audited 74 packages in 3s
+[18:52:46.666] 
+[18:52:46.667] 14 packages are looking for funding
+[18:52:46.667]   run `npm fund` for details
+[18:52:46.667] 
+[18:52:46.668] found 0 vulnerabilities
+[18:52:46.675] Building client...
+[18:52:57.782] 
+[18:52:57.782] added 14 packages, and audited 15 packages in 11s
+[18:52:57.783] 
+[18:52:57.784] 4 packages are looking for funding
+[18:52:57.784]   run `npm fund` for details
+[18:52:57.784] 
+[18:52:57.784] found 0 vulnerabilities
+[18:52:59.062] 
+[18:52:59.063] up to date, audited 15 packages in 1s
+[18:52:59.063] 
+[18:52:59.064] 4 packages are looking for funding
+[18:52:59.064]   run `npm fund` for details
+[18:52:59.064] 
+[18:52:59.064] found 0 vulnerabilities
+[18:53:00.328] 
+[18:53:00.329] changed 6 packages, and audited 15 packages in 1s
+[18:53:00.329] 
+[18:53:00.329] 4 packages are looking for funding
+[18:53:00.330]   run `npm fund` for details
+[18:53:00.330] 
+[18:53:00.330] found 0 vulnerabilities
+[18:53:00.338] Vite not found, installing directly...
+[18:53:01.403] 
+[18:53:01.403] up to date, audited 15 packages in 1s
+[18:53:01.405] 
+[18:53:01.405] 4 packages are looking for funding
+[18:53:01.406]   run `npm fund` for details
+[18:53:01.406] 
+[18:53:01.406] found 0 vulnerabilities
+[18:53:01.423] Copying shared directory to client for build...
+[18:53:01.427] Creating explicit schema copy in client src directory...
+[18:53:01.430] Ensuring local schema.ts file is present...
+[18:53:01.431] Setting up proper path aliases for build...
+[18:53:01.432] Node modules bin directory contents:
+[18:53:01.434] total 4
+[18:53:01.434] drwxr-xr-x  2 root root   26 Mar 16 23:52 .
+[18:53:01.435] drwxr-xr-x 23 root root 4096 Mar 16 23:53 ..
+[18:53:01.435] lrwxrwxrwx  1 root root   22 Mar 16 23:52 loose-envify -> ../loose-envify/cli.js
+[18:53:01.435] Attempting build with local npx vite...
+[18:53:01.435] Falling back to package.json build script...
+[18:53:01.552] 
+[18:53:01.552] > client@0.1.0 build
+[18:53:01.552] > vite build
+[18:53:01.552] 
+[18:53:01.557] sh: line 1: vite: command not found
+[18:53:01.564] npm run build failed, falling back to direct install and build
+[18:53:02.574] 
+[18:53:02.574] up to date, audited 15 packages in 952ms
+[18:53:02.576] 
+[18:53:02.576] 4 packages are looking for funding
+[18:53:02.576]   run `npm fund` for details
+[18:53:02.577] 
+[18:53:02.577] found 0 vulnerabilities
+[18:53:03.157] npm warn exec The following package was not found and will be installed: vite@6.2.2
+[18:53:05.095] [31mfailed to load config from /vercel/path0/client/vite.config.ts[39m
+[18:53:05.096] [31merror during build:
+[18:53:05.097] Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /vercel/path0/client/node_modules/.vite-temp/vite.config.ts.timestamp-1742169185092-cd8f8087f12d3.mjs
+[18:53:05.099]     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+[18:53:05.099]     at packageResolve (node:internal/modules/esm/resolve:768:81)
+[18:53:05.099]     at moduleResolve (node:internal/modules/esm/resolve:854:18)
+[18:53:05.099]     at defaultResolve (node:internal/modules/esm/resolve:984:11)
+[18:53:05.099]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+[18:53:05.099]     at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+[18:53:05.100]     at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+[18:53:05.100]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+[18:53:05.100]     at ModuleJob._link (node:internal/modules/esm/module_job:135:49)[39m
+[18:53:05.121] Error: Command "bash ./vercel-build.sh" exited with 1
+[18:53:05.381] 

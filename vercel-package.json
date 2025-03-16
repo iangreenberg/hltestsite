@@ -4,7 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bash ./build.sh",
-    "vercel-build": "bash ./build.sh"
+    "build": "bash ./vercel-build.sh",
+    "vercel-build": "bash ./vercel-build.sh"
+  },
+  "devDependencies": {
+    "vite": "5.1.6",
+    "@vitejs/plugin-react": "4.2.1",
+    "typescript": "5.4.2"
   }
 }
