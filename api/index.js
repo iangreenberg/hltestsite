@@ -47,55 +47,75 @@ app.get('/api', (req, res) => {
   res.json({ message: 'API is running' });
 });
 
-// Auth routes
-app.get('/api/auth/status', (req, res) => {
+// Auth routes - updated to match our application's API structure
+// User info endpoint
+app.get('/api/user', (req, res) => {
   const authHeader = req.headers.authorization;
   if (authHeader === 'Bearer admin-token') {
+    // Return user info matching our schema
     res.json({
-      success: true,
-      isAuthenticated: true,
-      user: {
-        id: 1,
-        username: 'admin',
-        role: 'admin',
-        firstName: 'Admin',
-        lastName: 'User'
-      }
+      id: 1,
+      username: 'admin',
+      isAdmin: true
     });
   } else {
-    res.json({ success: true, isAuthenticated: false });
+    res.status(401).json({ message: "Not authenticated" });
   }
 });
 
-app.post('/api/auth/login', (req, res) => {
+// Login endpoint
+app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
   
   // Simple admin authentication
   if (username === 'admin' && password === 'admin123') {
+    // Return user info matching our schema
     res.json({
-      success: true,
-      user: {
-        id: 1,
-        username: 'admin',
-        role: 'admin',
-        firstName: 'Admin',
-        lastName: 'User'
-      },
-      token: 'admin-token' // This token should be used for API authorization
+      id: 1,
+      username: 'admin',
+      isAdmin: true
+    });
+    
+    // Set cookie for maintaining session in Vercel environment
+    res.cookie('auth_token', 'admin-token', { 
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict'
     });
   } else {
-    res.status(401).json({
-      success: false,
-      message: 'Invalid credentials'
-    });
+    res.status(401).json({ message: "Invalid credentials" });
   }
 });
 
-app.post('/api/auth/logout', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Logged out successfully'
+// Register endpoint
+app.post('/api/register', (req, res) => {
+  const { username, password } = req.body;
+  
+  // Only allow registration if username isn't admin
+  if (username === 'admin') {
+    return res.status(400).json({ message: "Username already exists" });
+  }
+  
+  // In a real app, you'd store the user in a database
+  res.status(201).json({
+    id: 2,
+    username,
+    isAdmin: false
   });
+  
+  // Set cookie for maintaining session in Vercel environment
+  res.cookie('auth_token', 'user-token', { 
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict'
+  });
+});
+
+// Logout endpoint
+app.post('/api/logout', (req, res) => {
+  // Clear auth cookie
+  res.clearCookie('auth_token');
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 // Waitlist submission
