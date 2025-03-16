@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { User, InsertUser } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
@@ -49,14 +49,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   } = useQuery<AuthResponse>({
     queryKey: ["/api/auth/status"],
     queryFn: async () => {
-      const headers: HeadersInit = {};
+      const headers: HeadersInit = {
+        "Content-Type": "application/json"
+      };
+      
       if (token) {
         headers.Authorization = `Bearer ${token}`;
       }
+      
       const res = await fetch("/api/auth/status", { headers });
+      
       if (!res.ok && res.status !== 401) {
-        throw new Error('Auth check failed');
+        throw new Error('Authentication check failed');
       }
+      
       return res.json();
     },
   });
@@ -75,7 +81,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       
       if (!res.ok) {
-        throw new Error("Login failed");
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Login failed");
       }
       
       const data = await res.json();
@@ -83,10 +90,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (data.success && data.token) {
         setToken(data.token);
         toast({
-          title: "Success",
-          description: "Login successful",
+          title: "Login successful",
+          description: "Welcome back!",
         });
-        refetchAuth();
+        await refetchAuth();
       } else {
         throw new Error(data.message || "Login failed");
       }
@@ -106,6 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const headers: HeadersInit = { 
         "Content-Type": "application/json" 
       };
+      
       if (token) {
         headers.Authorization = `Bearer ${token}`;
       }
@@ -116,15 +124,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       
       if (!res.ok) {
-        throw new Error("Logout failed");
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Logout failed");
       }
       
       setToken(null);
       toast({
-        title: "Success",
-        description: "Logged out successfully",
+        title: "Logged out",
+        description: "You have been successfully logged out",
       });
-      refetchAuth();
+      await refetchAuth();
     } catch (error) {
       toast({
         title: "Logout failed",
@@ -138,7 +147,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Register function
   const register = async (userData: InsertUser) => {
     try {
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -147,14 +156,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       
       if (!res.ok) {
-        throw new Error("Registration failed");
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Registration failed");
       }
       
-      toast({
-        title: "Account created",
-        description: "Your account has been created successfully"
-      });
-      refetchAuth();
+      const data = await res.json();
+      
+      if (data.success && data.token) {
+        setToken(data.token);
+        toast({
+          title: "Account created",
+          description: "Your account has been created successfully"
+        });
+        await refetchAuth();
+      } else {
+        throw new Error(data.message || "Registration failed");
+      }
     } catch (error) {
       toast({
         title: "Registration failed",

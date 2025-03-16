@@ -1,8 +1,9 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, User } from "@shared/schema";
+import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User } from "@shared/schema";
 import session from "express-session";
+import crypto from 'crypto';
 
 // Extend express-session with user property
 declare module 'express-session' {
@@ -10,6 +11,46 @@ declare module 'express-session' {
     user: Omit<User, 'password'>;
   }
 }
+
+// In-memory token storage
+const userTokens = new Map<string, { userId: number, expires: Date }>();
+
+// Generate a token
+function generateToken(): string {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+// Token authentication middleware
+const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (token && userTokens.has(token)) {
+    const tokenData = userTokens.get(token)!;
+    
+    // Check if token is expired
+    if (tokenData.expires < new Date()) {
+      userTokens.delete(token);
+      return res.status(401).json({ success: false, message: "Token expired" });
+    }
+    
+    // Token is valid, get the user
+    const user = await storage.getUser(tokenData.userId);
+    if (user) {
+      const { password, ...userWithoutPassword } = user;
+      req.session.user = userWithoutPassword;
+      return next();
+    }
+  }
+  
+  // Continue with session check if no token was provided
+  if (req.session && req.session.user) {
+    return next();
+  }
+  
+  // If we reach here, the user is not authenticated
+  return res.status(401).json({ success: false, message: "Unauthorized" });
+};
 
 // Middleware to check if user is authenticated and is admin
 const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +74,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   }));
   
   // Authentication routes
-  app.post("/api/login", async (req, res) => {
+  app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = loginSchema.parse(req.body);
       const user = await storage.validateCredentials(username, password);
@@ -43,10 +84,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const { password, ...userWithoutPassword } = user;
         req.session.user = userWithoutPassword;
         
+        // Generate token
+        const token = generateToken();
+        
+        // Store token with 1 hour expiration
+        const expires = new Date();
+        expires.setHours(expires.getHours() + 1);
+        userTokens.set(token, { userId: user.id, expires });
+        
         return res.status(200).json({
           success: true,
           message: "Login successful",
-          user: userWithoutPassword
+          user: userWithoutPassword,
+          token
         });
       }
       
@@ -62,7 +112,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  app.post("/api/logout", (req, res) => {
+  app.post("/api/auth/logout", (req, res) => {
+    // Check for token in authorization header
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    if (token) {
+      userTokens.delete(token);
+    }
+    
+    // Also destroy the session
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).json({
@@ -78,8 +137,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
+  // Registration endpoint
+  app.post("/api/auth/register", async (req, res) => {
+    try {
+      const validatedData = insertUserSchema.parse(req.body);
+      
+      // Check if username already exists
+      const existingUser = await storage.getUserByUsername(validatedData.username);
+      if (existingUser) {
+        return res.status(409).json({
+          success: false,
+          message: "Username already exists"
+        });
+      }
+      
+      // Create the user
+      const newUser = await storage.createUser(validatedData);
+      
+      // Don't return the password
+      const { password, ...userWithoutPassword } = newUser;
+      
+      // Set session
+      req.session.user = userWithoutPassword;
+      
+      // Generate token
+      const token = generateToken();
+      
+      // Store token with 1 hour expiration
+      const expires = new Date();
+      expires.setHours(expires.getHours() + 1);
+      userTokens.set(token, { userId: newUser.id, expires });
+      
+      return res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        user: userWithoutPassword,
+        token
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        message: error.message || "Invalid registration data"
+      });
+    }
+  });
+  
   // Auth status check
-  app.get("/api/auth/status", (req, res) => {
+  app.get("/api/auth/status", authenticateToken, (req, res) => {
     if (req.session && req.session.user) {
       return res.status(200).json({
         success: true,
@@ -112,10 +216,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // API route to get all waitlist entries (protected)
-  app.get("/api/waitlist", isAuthenticated, async (req, res) => {
+  app.get("/api/waitlist", authenticateToken, isAuthenticated, async (req, res) => {
     try {
       const entries = await storage.getWaitlistEntries();
-      res.status(200).json(entries);
+      res.status(200).json({
+        success: true,
+        data: entries
+      });
     } catch (error: any) {
       res.status(500).json({ 
         success: false, 
@@ -153,10 +260,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // API route to get all email subscriptions (protected)
-  app.get("/api/subscribe", isAuthenticated, async (req, res) => {
+  app.get("/api/subscribe", authenticateToken, isAuthenticated, async (req, res) => {
     try {
       const subscriptions = await storage.getEmailSubscriptions();
-      res.status(200).json(subscriptions);
+      res.status(200).json({
+        success: true,
+        data: subscriptions
+      });
     } catch (error: any) {
       res.status(500).json({ 
         success: false, 

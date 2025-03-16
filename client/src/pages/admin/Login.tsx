@@ -85,9 +85,9 @@ export default function AdminLogin() {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={loginMutation.isPending}
+              disabled={isLoggingIn}
             >
-              {loginMutation.isPending ? (
+              {isLoggingIn ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Logging in...
@@ -97,9 +97,9 @@ export default function AdminLogin() {
               )}
             </Button>
             
-            {loginMutation.isError && (
+            {error && (
               <p className="text-sm text-center text-red-600">
-                {loginMutation.error.message || "Invalid credentials"}
+                {error}
               </p>
             )}
           </form>
