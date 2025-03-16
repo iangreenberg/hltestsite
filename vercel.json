@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "build.sh",
+      "src": "vercel-build.sh",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "client/dist"
