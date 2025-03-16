@@ -1,9 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "npm install && npm run build && mkdir -p client/dist && cp -r dist/public/* client/dist/",
+  "buildCommand": "bash ./vercel-build.sh",
   "installCommand": "npm install",
-  "outputDirectory": "client/dist",
-  "framework": "vite",
+  "outputDirectory": "dist/public",
   "rewrites": [
     {
       "source": "/api/(.*)",
