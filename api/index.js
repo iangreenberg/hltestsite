@@ -26,6 +26,14 @@ const memStorage = {
     const sub = { ...subscription, id, createdAt: new Date().toISOString() };
     this.emailSubscriptions.push(sub);
     return sub;
+  },
+  
+  async getWaitlistEntries() {
+    return this.waitlist;
+  },
+  
+  async getEmailSubscriptions() {
+    return this.emailSubscriptions;
   }
 };
 
@@ -39,8 +47,55 @@ app.get('/api', (req, res) => {
   res.json({ message: 'API is running' });
 });
 
+// Auth routes
 app.get('/api/auth/status', (req, res) => {
-  res.json({ success: true, isAuthenticated: false });
+  const authHeader = req.headers.authorization;
+  if (authHeader === 'Bearer admin-token') {
+    res.json({
+      success: true,
+      isAuthenticated: true,
+      user: {
+        id: 1,
+        username: 'admin',
+        role: 'admin',
+        firstName: 'Admin',
+        lastName: 'User'
+      }
+    });
+  } else {
+    res.json({ success: true, isAuthenticated: false });
+  }
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  // Simple admin authentication
+  if (username === 'admin' && password === 'admin123') {
+    res.json({
+      success: true,
+      user: {
+        id: 1,
+        username: 'admin',
+        role: 'admin',
+        firstName: 'Admin',
+        lastName: 'User'
+      },
+      token: 'admin-token' // This token should be used for API authorization
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Invalid credentials'
+    });
+  }
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Logged out successfully'
+  });
 });
 
 // Waitlist submission
@@ -68,6 +123,38 @@ app.post('/api/subscribe', async (req, res) => {
   } catch (error) {
     console.error('Error adding subscription:', error);
     res.status(400).json({ error: error.message || 'Invalid request' });
+  }
+});
+
+// Admin dashboard data endpoints (protected)
+const checkAdminAuth = (req, res, next) => {
+  // Simple auth check for admin API endpoints
+  // In a real app, you'd use JWT or session-based auth
+  const authHeader = req.headers.authorization;
+  if (authHeader === 'Bearer admin-token') {
+    next();
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
+app.get('/api/admin/waitlist', checkAdminAuth, async (req, res) => {
+  try {
+    const entries = await memStorage.getWaitlistEntries();
+    res.json(entries);
+  } catch (error) {
+    console.error('Error getting waitlist entries:', error);
+    res.status(500).json({ error: 'Failed to retrieve waitlist entries' });
+  }
+});
+
+app.get('/api/admin/subscriptions', checkAdminAuth, async (req, res) => {
+  try {
+    const subscriptions = await memStorage.getEmailSubscriptions();
+    res.json(subscriptions);
+  } catch (error) {
+    console.error('Error getting email subscriptions:', error);
+    res.status(500).json({ error: 'Failed to retrieve email subscriptions' });
   }
 });
 

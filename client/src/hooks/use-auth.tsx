@@ -9,11 +9,20 @@ import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
+type AuthResponse = {
+  success: boolean;
+  user?: User;
+  token?: string;
+  message?: string;
+  isAuthenticated?: boolean;
+};
+
 type AuthContextType = {
   user: User | null;
   isLoading: boolean;
   error: Error | null;
-  loginMutation: UseMutationResult<any, Error, z.infer<typeof loginSchema>>;
+  token: string | null;
+  loginMutation: UseMutationResult<AuthResponse, Error, z.infer<typeof loginSchema>>;
   logoutMutation: UseMutationResult<any, Error, void>;
   registerMutation: UseMutationResult<User, Error, InsertUser>;
 };
