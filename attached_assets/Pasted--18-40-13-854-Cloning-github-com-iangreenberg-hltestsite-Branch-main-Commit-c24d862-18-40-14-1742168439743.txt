@@ -1,0 +1,76 @@
+[18:40:13.854] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: c24d862)
+[18:40:14.311] Cloning completed: 457.000ms
+[18:40:14.350] Found .vercelignore
+[18:40:14.356] Removed 33 ignored files defined in .vercelignore
+[18:40:15.401] Restored build cache from previous deployment (8CuHK9ANVmsKME8qyBXf1Tm5pXR3)
+[18:40:15.495] Running build in Washington, D.C., USA (East) – iad1
+[18:40:15.927] Running "vercel build"
+[18:40:16.386] Vercel CLI 41.3.2
+[18:40:17.120] Running "install" command: `npm install`...
+[18:40:19.556] 
+[18:40:19.557] up to date, audited 481 packages in 2s
+[18:40:19.558] 
+[18:40:19.558] 60 packages are looking for funding
+[18:40:19.558]   run `npm fund` for details
+[18:40:19.607] 
+[18:40:19.607] 9 moderate severity vulnerabilities
+[18:40:19.608] 
+[18:40:19.608] To address issues that do not require attention, run:
+[18:40:19.608]   npm audit fix
+[18:40:19.608] 
+[18:40:19.608] To address all issues (including breaking changes), run:
+[18:40:19.608]   npm audit fix --force
+[18:40:19.609] 
+[18:40:19.609] Run `npm audit` for details.
+[18:40:20.154] Starting Vercel build process...
+[18:40:20.155] Checking root dependencies...
+[18:40:20.155] Installing root dependencies...
+[18:40:21.171] 
+[18:40:21.171] up to date, audited 387 packages in 959ms
+[18:40:21.171] 
+[18:40:21.172] 51 packages are looking for funding
+[18:40:21.172]   run `npm fund` for details
+[18:40:21.174] 
+[18:40:21.174] 1 moderate severity vulnerability
+[18:40:21.174] 
+[18:40:21.175] To address all issues, run:
+[18:40:21.175]   npm audit fix
+[18:40:21.175] 
+[18:40:21.175] Run `npm audit` for details.
+[18:40:21.184] Installing API dependencies...
+[18:40:24.693] 
+[18:40:24.695] added 73 packages, and audited 74 packages in 3s
+[18:40:24.695] 
+[18:40:24.695] 14 packages are looking for funding
+[18:40:24.695]   run `npm fund` for details
+[18:40:24.696] 
+[18:40:24.696] found 0 vulnerabilities
+[18:40:24.724] Building client...
+[18:40:25.032] 
+[18:40:25.033] up to date, audited 1 package in 238ms
+[18:40:25.034] 
+[18:40:25.034] found 0 vulnerabilities
+[18:40:29.407] 
+[18:40:29.408] added 10 packages in 4s
+[18:40:29.409] 
+[18:40:29.409] 3 packages are looking for funding
+[18:40:29.409]   run `npm fund` for details
+[18:40:29.420] Setting up proper path aliases for build...
+[18:40:29.535] 
+[18:40:29.536] > client@0.1.0 build
+[18:40:29.536] > vite build
+[18:40:29.536] 
+[18:40:29.806] [31mfailed to load config from /vercel/path0/client/vite.config.ts[39m
+[18:40:29.807] [31merror during build:
+[18:40:29.807] Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /vercel/path0/node_modules/.vite-temp/vite.config.ts.timestamp-1742168429803-e535755208848.mjs
+[18:40:29.807]     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+[18:40:29.807]     at packageResolve (node:internal/modules/esm/resolve:768:81)
+[18:40:29.808]     at moduleResolve (node:internal/modules/esm/resolve:854:18)
+[18:40:29.808]     at defaultResolve (node:internal/modules/esm/resolve:984:11)
+[18:40:29.808]     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:685:12)
+[18:40:29.808]     at #cachedDefaultResolve (node:internal/modules/esm/loader:634:25)
+[18:40:29.809]     at ModuleLoader.resolve (node:internal/modules/esm/loader:617:38)
+[18:40:29.809]     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:273:38)
+[18:40:29.809]     at ModuleJob._link (node:internal/modules/esm/module_job:135:49)[39m
+[18:40:29.830] Error: Command "bash ./vercel-build.sh" exited with 1
+[18:40:30.089] 

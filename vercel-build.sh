@@ -23,9 +23,9 @@ cd ..
 echo "Building client..."
 cd client
 # Install all dependencies including dev dependencies needed for build
-npm install --include=dev
-# Make sure vite is installed globally for the build process
-npm install -g vite
+npm install
+# Also install specific Vite dependencies in the client directory
+npm install vite @vitejs/plugin-react
 # Create a proper tsconfig paths configuration
 echo "Setting up proper path aliases for build..."
 if [ -f "tsconfig.json" ]; then

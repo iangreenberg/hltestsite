@@ -6,9 +6,15 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@shared": path.resolve(__dirname, "..", "shared"),
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, 'src') },
+      { find: '@shared', replacement: path.resolve(__dirname, '..', 'shared') }
+    ]
   },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: false,
+    minify: true,
+  }
 });
