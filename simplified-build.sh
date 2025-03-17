@@ -11,10 +11,15 @@ cp -r shared/* client/shared/
 mkdir -p client/src/shared
 cp -r shared/* client/src/shared/
 
-# Create a CommonJS-compatible tailwind config file for Vercel
+# Tailwind config is now created with proper ES module syntax below
+
+# Create a complete tailwind config file with plugins for ES modules
 cat > client/tailwind.config.js << 'EOF'
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import tailwindcssAnimate from 'tailwindcss-animate';
+import typography from '@tailwindcss/typography';
+
+export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -34,13 +39,13 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [tailwindcssAnimate, typography],
 };
 EOF
 
 # Create a postcss config file for Vercel
 cat > client/postcss.config.js << 'EOF'
-module.exports = {
+export default {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
