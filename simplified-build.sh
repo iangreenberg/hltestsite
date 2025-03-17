@@ -316,11 +316,11 @@ npm install tailwindcss@3.3.3 postcss@8.4.31 autoprefixer@10.4.15 @tailwindcss/t
 # Install build dependencies that might be missing
 npm install terser esbuild @esbuild/linux-x64 --no-save
 # Install UI and icon dependencies that might be missing in Vercel
-npm install lucide-react @radix-ui/react-slot class-variance-authority clsx tailwind-merge --no-save
+npm install lucide-react @radix-ui/react-slot class-variance-authority clsx tailwind-merge --save
 # Install shadcn UI component dependencies
-npm install @radix-ui/react-accordion @radix-ui/react-alert-dialog @radix-ui/react-aspect-ratio @radix-ui/react-avatar @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-context-menu @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-hover-card @radix-ui/react-label @radix-ui/react-menubar @radix-ui/react-navigation-menu @radix-ui/react-popover @radix-ui/react-progress @radix-ui/react-radio-group @radix-ui/react-scroll-area @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slider @radix-ui/react-switch @radix-ui/react-tabs @radix-ui/react-toast @radix-ui/react-toggle @radix-ui/react-toggle-group @radix-ui/react-tooltip tailwindcss-animate --no-save
+npm install @radix-ui/react-accordion @radix-ui/react-alert-dialog @radix-ui/react-aspect-ratio @radix-ui/react-avatar @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-context-menu @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-hover-card @radix-ui/react-label @radix-ui/react-menubar @radix-ui/react-navigation-menu @radix-ui/react-popover @radix-ui/react-progress @radix-ui/react-radio-group @radix-ui/react-scroll-area @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slider @radix-ui/react-switch @radix-ui/react-tabs @radix-ui/react-toast @radix-ui/react-toggle @radix-ui/react-toggle-group @radix-ui/react-tooltip tailwindcss-animate --save
 # Install additional dependencies
-npm install react-hook-form @hookform/resolvers zod --no-save
+npm install react-hook-form @hookform/resolvers zod --save
 # Set NODE_ENV to production for optimized build
 export NODE_ENV=production
 npm run build
