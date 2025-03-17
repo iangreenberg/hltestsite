@@ -14,6 +14,8 @@ cp -r shared/* client/src/shared/
 # Build client
 cd client
 npm install --production=false
+# Install terser explicitly as it's needed for Vite build
+npm install terser --no-save
 npm run build
 cd ..
 
