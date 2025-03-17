@@ -1,4 +1,5 @@
 {
+  "__comment": "Updated configuration for improved build process",
   "version": 2,
   "builds": [
     {
