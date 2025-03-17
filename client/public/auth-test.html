@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth API Testing</title>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #f9fafb;
+      color: #111827;
+    }
+    h1 {
+      color: #2F5D50;
+      border-bottom: 2px solid #C8A951;
+      padding-bottom: 0.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      background-color: #2F5D50;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #234840;
+    }
+    pre {
+      background-color: #f3f4f6;
+      border-radius: 0.25rem;
+      padding: 1rem;
+      overflow: auto;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    .test-result {
+      margin-top: 1rem;
+    }
+    .success {
+      color: #047857;
+    }
+    .error {
+      color: #b91c1c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Authentication API Testing</h1>
+  
+  <div class="card">
+    <h2>Test Authentication Flow</h2>
+    <p>Click the button below to run a complete authentication test flow that includes:</p>
+    <ul>
+      <li>Checking unauthenticated state</li>
+      <li>Testing invalid login</li>
+      <li>Testing valid login with admin credentials</li>
+      <li>Verifying authenticated state</li>
+      <li>Testing logout</li>
+      <li>Verifying logged out state</li>
+    </ul>
+    <button id="run-tests">Run Authentication Tests</button>
+    <div id="test-output" class="test-result">
+      <pre>Results will appear here...</pre>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Manual Authentication Testing</h2>
+    
+    <h3>Login</h3>
+    <form id="login-form">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" value="admin" style="padding: 0.5rem; margin: 0.5rem 0; width: 100%; max-width: 300px;">
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" value="admin123" style="padding: 0.5rem; margin: 0.5rem 0; width: 100%; max-width: 300px;">
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div id="login-result" class="test-result"></div>
+    
+    <h3>Check Authentication Status</h3>
+    <button id="check-auth">Check Auth Status</button>
+    <div id="auth-status" class="test-result"></div>
+    
+    <h3>Logout</h3>
+    <button id="logout">Logout</button>
+    <div id="logout-result" class="test-result"></div>
+  </div>
+
+  <script>
+    // Function to capture console.log output
+    (function() {
+      const output = document.querySelector('#test-output pre');
+      let originalLog = console.log;
+      let originalError = console.error;
+      
+      console.log = function(...args) {
+        originalLog.apply(console, args);
+        output.textContent += args.map(arg => 
+          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
+        ).join(' ') + '\n';
+        
+        // Highlight success/failure
+        if (args[0] && args[0].includes('✅')) {
+          const lines = output.textContent.split('\n');
+          lines[lines.length - 2] = `<span class="success">${lines[lines.length - 2]}</span>`;
+          output.innerHTML = lines.join('\n');
+        } else if (args[0] && args[0].includes('❌')) {
+          const lines = output.textContent.split('\n');
+          lines[lines.length - 2] = `<span class="error">${lines[lines.length - 2]}</span>`;
+          output.innerHTML = lines.join('\n');
+        }
+      };
+      
+      console.error = function(...args) {
+        originalError.apply(console, args);
+        output.textContent += 'ERROR: ' + args.map(arg => 
+          typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
+        ).join(' ') + '\n';
+      };
+    })();
+
+    // Manual test handlers
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const resultDiv = document.getElementById('login-result');
+      
+      try {
+        resultDiv.innerHTML = 'Logging in...';
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          resultDiv.innerHTML = `<span class="success">Login successful! User: ${data.username}</span>`;
+        } else {
+          resultDiv.innerHTML = `<span class="error">Login failed: ${response.status} ${response.statusText}</span>`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+      }
+    });
+
+    document.getElementById('check-auth').addEventListener('click', async () => {
+      const statusDiv = document.getElementById('auth-status');
+      
+      try {
+        statusDiv.innerHTML = 'Checking...';
+        const response = await fetch('/api/user');
+        
+        if (response.ok) {
+          const data = await response.json();
+          statusDiv.innerHTML = `<span class="success">Authenticated as: ${data.username}</span><pre>${JSON.stringify(data, null, 2)}</pre>`;
+        } else {
+          statusDiv.innerHTML = `<span class="error">Not authenticated: ${response.status} ${response.statusText}</span>`;
+        }
+      } catch (error) {
+        statusDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+      }
+    });
+
+    document.getElementById('logout').addEventListener('click', async () => {
+      const resultDiv = document.getElementById('logout-result');
+      
+      try {
+        resultDiv.innerHTML = 'Logging out...';
+        const response = await fetch('/api/logout', { method: 'POST' });
+        
+        if (response.ok) {
+          resultDiv.innerHTML = `<span class="success">Logout successful!</span>`;
+        } else {
+          resultDiv.innerHTML = `<span class="error">Logout failed: ${response.status} ${response.statusText}</span>`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+      }
+    });
+
+    // Run automated tests
+    document.getElementById('run-tests').addEventListener('click', async () => {
+      const output = document.querySelector('#test-output pre');
+      output.textContent = 'Starting tests...\n\n';
+      
+      // Test authentication flow
+      const testAuth = async () => {
+        try {
+          console.log('Starting API authentication tests...');
+          
+          // 1. Check current user status (should be not authenticated)
+          console.log('\n1. Testing GET /api/user - Should return 401 if not logged in');
+          try {
+            const userResponse = await fetch('/api/user');
+            console.log(`Status: ${userResponse.status}`);
+            if (userResponse.status === 401) {
+              console.log('✅ Test passed: Not authenticated');
+            } else {
+              console.log('❌ Test failed: Expected 401 status code');
+              const userData = await userResponse.json();
+              console.log('User data:', userData);
+            }
+          } catch (error) {
+            console.error('Error checking user:', error);
+          }
+
+          // 2. Try to log in with invalid credentials
+          console.log('\n2. Testing POST /api/login with invalid credentials - Should fail');
+          try {
+            const invalidLoginResponse = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: 'wronguser', password: 'wrongpass' })
+            });
+            console.log(`Status: ${invalidLoginResponse.status}`);
+            if (invalidLoginResponse.status === 401) {
+              console.log('✅ Test passed: Invalid login rejected');
+            } else {
+              console.log('❌ Test failed: Expected 401 status code');
+              try {
+                const responseData = await invalidLoginResponse.json();
+                console.log('Response:', responseData);
+              } catch (e) {
+                console.log('No JSON response');
+              }
+            }
+          } catch (error) {
+            console.error('Error during invalid login:', error);
+          }
+
+          // 3. Try to log in with admin credentials
+          console.log('\n3. Testing POST /api/login with admin credentials - Should succeed');
+          try {
+            const loginResponse = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: 'admin', password: 'admin123' })
+            });
+            console.log(`Status: ${loginResponse.status}`);
+            
+            if (loginResponse.status === 200) {
+              console.log('✅ Test passed: Login successful');
+              const userData = await loginResponse.json();
+              console.log('User data:', userData);
+            } else {
+              console.log('❌ Test failed: Login unsuccessful');
+              try {
+                const error = await loginResponse.text();
+                console.log('Error:', error);
+              } catch (e) {
+                console.log('No response text');
+              }
+            }
+          } catch (error) {
+            console.error('Error during login:', error);
+          }
+
+          // 4. Check current user status again (should be authenticated now)
+          console.log('\n4. Testing GET /api/user after login - Should return user data');
+          try {
+            const userResponse = await fetch('/api/user');
+            console.log(`Status: ${userResponse.status}`);
+            
+            if (userResponse.status === 200) {
+              console.log('✅ Test passed: User authenticated');
+              const userData = await userResponse.json();
+              console.log('User data:', userData);
+            } else {
+              console.log('❌ Test failed: Expected 200 status code');
+              try {
+                const error = await userResponse.text();
+                console.log('Error:', error);
+              } catch (e) {
+                console.log('No response text');
+              }
+            }
+          } catch (error) {
+            console.error('Error checking user after login:', error);
+          }
+
+          // 5. Test logout
+          console.log('\n5. Testing POST /api/logout - Should succeed');
+          try {
+            const logoutResponse = await fetch('/api/logout', { method: 'POST' });
+            console.log(`Status: ${logoutResponse.status}`);
+            
+            if (logoutResponse.status === 200) {
+              console.log('✅ Test passed: Logout successful');
+            } else {
+              console.log('❌ Test failed: Logout unsuccessful');
+              try {
+                const error = await logoutResponse.text();
+                console.log('Error:', error);
+              } catch (e) {
+                console.log('No response text');
+              }
+            }
+          } catch (error) {
+            console.error('Error during logout:', error);
+          }
+
+          // 6. Check user status one more time (should be logged out)
+          console.log('\n6. Testing GET /api/user after logout - Should return 401');
+          try {
+            const finalUserResponse = await fetch('/api/user');
+            console.log(`Status: ${finalUserResponse.status}`);
+            
+            if (finalUserResponse.status === 401) {
+              console.log('✅ Test passed: User logged out');
+            } else {
+              console.log('❌ Test failed: Expected 401 status code');
+              try {
+                const userData = await finalUserResponse.json();
+                console.log('User data (should be empty):', userData);
+              } catch (e) {
+                console.log('No JSON response');
+              }
+            }
+          } catch (error) {
+            console.error('Error checking user after logout:', error);
+          }
+
+          console.log('\nAuth API Testing completed!');
+        } catch (error) {
+          console.error('Unhandled error during API test:', error);
+        }
+      };
+
+      await testAuth();
+    });
+  </script>
+</body>
+</html>
