@@ -1,0 +1,118 @@
+[18:15:39.330] Running build in Washington, D.C., USA (East) – iad1
+[18:15:39.441] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: 43562c8)
+[18:15:39.621] Previous build caches not available
+[18:15:40.836] Cloning completed: 1.395s
+[18:15:40.876] Found .vercelignore
+[18:15:40.884] Removed 33 ignored files defined in .vercelignore
+[18:15:41.206] Running "vercel build"
+[18:15:41.615] Vercel CLI 41.3.2
+[18:15:41.733] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[18:15:42.505] Starting simplified Vercel build process...
+[18:15:42.957] npm warn config production Use `--omit=dev` instead.
+[18:15:55.678] 
+[18:15:55.679] added 75 packages, and audited 76 packages in 13s
+[18:15:55.679] 
+[18:15:55.680] 11 packages are looking for funding
+[18:15:55.680]   run `npm fund` for details
+[18:15:55.685] 
+[18:15:55.685] 2 moderate severity vulnerabilities
+[18:15:55.685] 
+[18:15:55.686] To address all issues (including breaking changes), run:
+[18:15:55.686]   npm audit fix --force
+[18:15:55.686] 
+[18:15:55.686] Run `npm audit` for details.
+[18:15:58.953] 
+[18:15:58.953] added 14 packages, and audited 90 packages in 3s
+[18:15:58.954] 
+[18:15:58.954] 14 packages are looking for funding
+[18:15:58.954]   run `npm fund` for details
+[18:15:58.971] 
+[18:15:58.971] 2 moderate severity vulnerabilities
+[18:15:58.972] 
+[18:15:58.972] To address all issues (including breaking changes), run:
+[18:15:58.972]   npm audit fix --force
+[18:15:58.972] 
+[18:15:58.972] Run `npm audit` for details.
+[18:16:06.333] 
+[18:16:06.334] added 118 packages, changed 2 packages, and audited 208 packages in 7s
+[18:16:06.334] 
+[18:16:06.334] 44 packages are looking for funding
+[18:16:06.334]   run `npm fund` for details
+[18:16:06.342] 
+[18:16:06.342] 2 moderate severity vulnerabilities
+[18:16:06.342] 
+[18:16:06.343] To address all issues (including breaking changes), run:
+[18:16:06.343]   npm audit fix --force
+[18:16:06.343] 
+[18:16:06.343] Run `npm audit` for details.
+[18:16:08.104] 
+[18:16:08.105] added 9 packages, changed 2 packages, and audited 217 packages in 2s
+[18:16:08.106] 
+[18:16:08.106] 44 packages are looking for funding
+[18:16:08.106]   run `npm fund` for details
+[18:16:08.119] 
+[18:16:08.120] 2 moderate severity vulnerabilities
+[18:16:08.120] 
+[18:16:08.120] To address all issues (including breaking changes), run:
+[18:16:08.120]   npm audit fix --force
+[18:16:08.120] 
+[18:16:08.120] Run `npm audit` for details.
+[18:16:10.220] 
+[18:16:10.221] added 6 packages, removed 9 packages, changed 2 packages, and audited 214 packages in 2s
+[18:16:10.221] 
+[18:16:10.221] 46 packages are looking for funding
+[18:16:10.222]   run `npm fund` for details
+[18:16:10.238] 
+[18:16:10.239] 2 moderate severity vulnerabilities
+[18:16:10.239] 
+[18:16:10.239] To address all issues (including breaking changes), run:
+[18:16:10.239]   npm audit fix --force
+[18:16:10.239] 
+[18:16:10.239] Run `npm audit` for details.
+[18:16:16.039] 
+[18:16:16.040] added 64 packages, removed 4 packages, and audited 274 packages in 6s
+[18:16:16.041] 
+[18:16:16.041] 44 packages are looking for funding
+[18:16:16.041]   run `npm fund` for details
+[18:16:16.051] 
+[18:16:16.052] 2 moderate severity vulnerabilities
+[18:16:16.052] 
+[18:16:16.052] To address all issues (including breaking changes), run:
+[18:16:16.052]   npm audit fix --force
+[18:16:16.053] 
+[18:16:16.053] Run `npm audit` for details.
+[18:16:17.033] 
+[18:16:17.034] removed 66 packages, and audited 208 packages in 901ms
+[18:16:17.034] 
+[18:16:17.035] 44 packages are looking for funding
+[18:16:17.035]   run `npm fund` for details
+[18:16:17.052] 
+[18:16:17.052] 2 moderate severity vulnerabilities
+[18:16:17.052] 
+[18:16:17.053] To address all issues (including breaking changes), run:
+[18:16:17.053]   npm audit fix --force
+[18:16:17.053] 
+[18:16:17.053] Run `npm audit` for details.
+[18:16:17.177] 
+[18:16:17.178] > client@0.1.0 build
+[18:16:17.178] > vite build
+[18:16:17.178] 
+[18:16:17.783] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[18:16:17.834] transforming...
+[18:16:18.330] [32m✓[39m 4 modules transformed.
+[18:16:18.335] [31mx[39m Build failed in 527ms
+[18:16:18.336] [31merror during build:
+[18:16:18.336] [31m[vite:css] [postcss] Cannot apply unknown utility class: font-sans[31m
+[18:16:18.336] file: [36m/vercel/path0/client/src/index.css:undefined:NaN[31m
+[18:16:18.337]     at onInvalidCandidate (/vercel/path0/client/node_modules/@tailwindcss/node/node_modules/tailwindcss/dist/lib.js:17:347)
+[18:16:18.337]     at ne (/vercel/path0/client/node_modules/@tailwindcss/node/node_modules/tailwindcss/dist/lib.js:12:115998)
+[18:16:18.337]     at $e (/vercel/path0/client/node_modules/@tailwindcss/node/node_modules/tailwindcss/dist/lib.js:17:310)
+[18:16:18.337]     at Br (/vercel/path0/client/node_modules/@tailwindcss/node/node_modules/tailwindcss/dist/lib.js:33:780)
+[18:16:18.337]     at async qr (/vercel/path0/client/node_modules/@tailwindcss/node/node_modules/tailwindcss/dist/lib.js:33:1071)
+[18:16:18.337]     at async ot (/vercel/path0/client/node_modules/@tailwindcss/node/dist/index.js:10:3272)
+[18:16:18.337]     at async p (/vercel/path0/client/node_modules/@tailwindcss/postcss/dist/index.js:8:3242)
+[18:16:18.337]     at async Object.Once (/vercel/path0/client/node_modules/@tailwindcss/postcss/dist/index.js:8:3443)
+[18:16:18.337]     at async LazyResult.runAsync (/vercel/path0/client/node_modules/vite/node_modules/postcss/lib/lazy-result.js:293:11)
+[18:16:18.337]     at async compileCSS (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:36898:21)[39m
+[18:16:18.357] Error: Command "./simplified-build.sh" exited with 1
+[18:16:18.520] 
