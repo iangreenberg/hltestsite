@@ -16,6 +16,8 @@ cd client
 npm install --production=false
 # Install build dependencies that might be missing
 npm install terser esbuild @esbuild/linux-x64 --no-save
+# Install specific dependencies that might be missing in Vercel environment
+npm install tailwindcss postcss autoprefixer @tailwindcss/typography --no-save
 # Set NODE_ENV to production for optimized build
 export NODE_ENV=production
 npm run build

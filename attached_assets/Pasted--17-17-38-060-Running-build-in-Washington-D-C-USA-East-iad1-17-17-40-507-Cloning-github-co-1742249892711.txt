@@ -1,0 +1,60 @@
+[17:17:38.060] Running build in Washington, D.C., USA (East) – iad1
+[17:17:40.507] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: ba28045)
+[17:17:41.309] Previous build caches not available
+[17:17:41.588] Cloning completed: 1.080s
+[17:17:41.710] Found .vercelignore
+[17:17:41.717] Removed 33 ignored files defined in .vercelignore
+[17:17:41.936] Running "vercel build"
+[17:17:42.321] Vercel CLI 41.3.2
+[17:17:42.442] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[17:17:43.574] Starting simplified Vercel build process...
+[17:17:44.020] npm warn config production Use `--omit=dev` instead.
+[17:17:54.770] 
+[17:17:54.770] added 75 packages, and audited 76 packages in 11s
+[17:17:54.771] 
+[17:17:54.771] 11 packages are looking for funding
+[17:17:54.771]   run `npm fund` for details
+[17:17:54.779] 
+[17:17:54.779] 2 moderate severity vulnerabilities
+[17:17:54.780] 
+[17:17:54.780] To address all issues (including breaking changes), run:
+[17:17:54.780]   npm audit fix --force
+[17:17:54.780] 
+[17:17:54.780] Run `npm audit` for details.
+[17:17:56.447] 
+[17:17:56.447] added 10 packages, changed 2 packages, and audited 86 packages in 2s
+[17:17:56.448] 
+[17:17:56.448] 11 packages are looking for funding
+[17:17:56.448]   run `npm fund` for details
+[17:17:56.465] 
+[17:17:56.465] 2 moderate severity vulnerabilities
+[17:17:56.465] 
+[17:17:56.466] To address all issues (including breaking changes), run:
+[17:17:56.466]   npm audit fix --force
+[17:17:56.466] 
+[17:17:56.466] Run `npm audit` for details.
+[17:17:56.652] 
+[17:17:56.652] > client@0.1.0 build
+[17:17:56.652] > vite build
+[17:17:56.652] 
+[17:17:56.988] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[17:17:57.038] transforming...
+[17:17:57.052] node:internal/process/promises:394
+[17:17:57.053]     triggerUncaughtException(err, true /* fromPromise */);
+[17:17:57.054]     ^
+[17:17:57.054] 
+[17:17:57.054] [Failed to load PostCSS config: Failed to load PostCSS config (searchPath: /vercel/path0/client): [Error] Loading PostCSS Plugin failed: Cannot find module 'tailwindcss'
+[17:17:57.054] Require stack:
+[17:17:57.055] - /vercel/path0/client/postcss.config.js
+[17:17:57.055] 
+[17:17:57.055] (@/vercel/path0/client/postcss.config.js)
+[17:17:57.055] Error: Loading PostCSS Plugin failed: Cannot find module 'tailwindcss'
+[17:17:57.055] Require stack:
+[17:17:57.055] - /vercel/path0/client/postcss.config.js
+[17:17:57.055] 
+[17:17:57.055] (@/vercel/path0/client/postcss.config.js)
+[17:17:57.055]     at load (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33632:11)
+[17:17:57.056]     at file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33657:16
+[17:17:57.056]     at Array.map (<anonymous>)
+[17:17:57.056]     at plugins (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33656:8)
+[17:17:57.056]     at processResult (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33726:14)
