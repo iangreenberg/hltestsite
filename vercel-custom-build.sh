@@ -1,78 +1,138 @@
 #!/bin/bash
 set -e
 
-echo "Starting simplified Vercel build process..."
+echo "Starting custom Vercel build process..."
 
-# Make sure shared directory exists in both locations for maximum compatibility
+# Copy shared schema to client for local builds
+echo "Copying shared schema to client..."
 mkdir -p client/shared
 cp -r shared/* client/shared/
 
-# Also copy to src/shared for imports that use that path
-mkdir -p client/src/shared
-cp -r shared/* client/src/shared/
-
-# Create base CSS file with Tailwind directives
-cat > client/src/index.css << 'EOF'
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 150 27% 27%;  /* Forest Green */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 44 46% 55%; /* Gold */
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 150 27% 27%;
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 150 27% 27%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 44 46% 55%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 150 27% 27%;
+# Create a temporary package.json without problematic dependencies
+echo "Creating clean package.json for client..."
+cat > client/package.json << 'EOF'
+{
+  "name": "client",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "vercel-build": "vite build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-alert-dialog": "^1.0.5",
+    "@radix-ui/react-aspect-ratio": "^1.0.3",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-checkbox": "^1.0.4",
+    "@radix-ui/react-collapsible": "^1.0.3",
+    "@radix-ui/react-context-menu": "^2.1.5",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-hover-card": "^1.0.7",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-menubar": "^1.0.4",
+    "@radix-ui/react-navigation-menu": "^1.1.4",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-progress": "^1.0.3",
+    "@radix-ui/react-radio-group": "^1.1.3",
+    "@radix-ui/react-scroll-area": "^1.0.5",
+    "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slider": "^1.1.2",
+    "@radix-ui/react-switch": "^1.0.3",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-toggle": "^1.0.3",
+    "@radix-ui/react-toggle-group": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.7",
+    "@tanstack/react-query": "^5.28.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "esbuild": "^0.18.20",
+    "lucide-react": "^0.363.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.51.0",
+    "react-icons": "^5.0.1",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "terser": "^5.29.2",
+    "wouter": "^3.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.22",
+    "@types/react-helmet": "^6.1.11",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.6"
   }
 }
-
-/* We'll handle the base styles in the plugin instead of using @apply */
 EOF
 
-# Using dual .cjs and .js approach to ensure compatibility regardless of package.json type
+# Create tailwind config with minimal plugins
+echo "Creating optimized tailwind config..."
+mkdir -p client/src/lib
+cat > client/src/lib/tailwind-plugin.cjs << 'EOF'
+// tailwind-plugin.cjs
+const plugin = require('tailwindcss/plugin');
 
-# Create both CommonJS and ES Module versions of the configs
-# Use .cjs for CommonJS which will be used regardless of package.json type setting
+module.exports = plugin(function({ addUtilities, addBase, theme }) {
+  const newUtilities = {
+    '.font-sans': {
+      fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    },
+    '.border-border': {
+      borderColor: 'hsl(var(--border))',
+    },
+    '.bg-background': {
+      backgroundColor: 'hsl(var(--background))',
+    },
+    '.text-foreground': {
+      color: 'hsl(var(--foreground))',
+    },
+    '.text-primary': {
+      color: 'hsl(var(--primary))',
+    },
+    '.text-secondary': {
+      color: 'hsl(var(--secondary))',
+    },
+    '.bg-primary': {
+      backgroundColor: 'hsl(var(--primary))',
+    },
+    '.bg-secondary': {
+      backgroundColor: 'hsl(var(--secondary))',
+    }
+  }
+  addUtilities(newUtilities);
+  
+  // Add base styles
+  addBase({
+    '*': {
+      borderColor: 'hsl(var(--border))',
+    },
+    'body': {
+      backgroundColor: 'hsl(var(--background))',
+      color: 'hsl(var(--foreground))',
+      fontFeatureSettings: '"rlig" 1, "calt" 1'
+    }
+  });
+});
+EOF
 
-# CommonJS version of tailwind config (will take precedence)
+# Create tailwind config - CommonJS version for compatibility
 cat > client/tailwind.config.cjs << 'EOF'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -147,73 +207,13 @@ module.exports = {
     },
   },
   plugins: [
-    require("tailwindcss-animate"),
-    require("./src/lib/tailwind-plugin.cjs")
+    require('tailwindcss-animate'),
+    require('./src/lib/tailwind-plugin.cjs')
   ],
 };
 EOF
 
-# Create a helper plugin for font utilities
-mkdir -p client/src/lib
-cat > client/src/lib/tailwind-plugin.cjs << 'EOF'
-// tailwind-plugin.cjs
-const plugin = require('tailwindcss/plugin');
-
-module.exports = plugin(function({ addUtilities, addBase, theme }) {
-  const newUtilities = {
-    '.font-sans': {
-      fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-    },
-    '.border-border': {
-      borderColor: 'hsl(var(--border))',
-    },
-    '.bg-background': {
-      backgroundColor: 'hsl(var(--background))',
-    },
-    '.text-foreground': {
-      color: 'hsl(var(--foreground))',
-    },
-    // Add more ShadCN utility classes
-    '.text-primary': {
-      color: 'hsl(var(--primary))',
-    },
-    '.text-secondary': {
-      color: 'hsl(var(--secondary))',
-    },
-    '.bg-primary': {
-      backgroundColor: 'hsl(var(--primary))',
-    },
-    '.bg-secondary': {
-      backgroundColor: 'hsl(var(--secondary))',
-    }
-  }
-  addUtilities(newUtilities);
-  
-  // Add base styles
-  addBase({
-    '*': {
-      borderColor: 'hsl(var(--border))',
-    },
-    'body': {
-      backgroundColor: 'hsl(var(--background))',
-      color: 'hsl(var(--foreground))',
-      fontFeatureSettings: '"rlig" 1, "calt" 1'
-    }
-  });
-});
-EOF
-
-# CommonJS version of postcss config (will take precedence)
-cat > client/postcss.config.cjs << 'EOF'
-module.exports = {
-  plugins: {
-    'tailwindcss': {},
-    'autoprefixer': {},
-  }
-}
-EOF
-
-# Also create the ES module versions as fallbacks
+# ESM version
 cat > client/tailwind.config.js << 'EOF'
 // ES Module version
 /** @type {import('tailwindcss').Config} */
@@ -295,6 +295,17 @@ export default {
 };
 EOF
 
+# PostCSS config - CommonJS version for compatibility
+cat > client/postcss.config.cjs << 'EOF'
+module.exports = {
+  plugins: {
+    'tailwindcss': {},
+    'autoprefixer': {},
+  }
+}
+EOF
+
+# ESM version
 cat > client/postcss.config.js << 'EOF'
 export default {
   plugins: {
@@ -315,37 +326,12 @@ echo "Entering client directory: $(pwd)"
 # Create dist directory if it doesn't exist
 mkdir -p dist
 
-# Before installing dependencies, create a temporary package.json without problematic dependencies
-echo "Creating clean package.json for client to avoid problematic dependencies..."
-cp package.json package.json.bak
-
-# Update package.json to remove problematic dependencies
-node -e "
-  const fs = require('fs');
-  const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-  
-  // Remove problematic dependencies
-  if (pkg.dependencies && pkg.dependencies['@tailwindcss/typography']) {
-    delete pkg.dependencies['@tailwindcss/typography'];
-  }
-  
-  if (pkg.devDependencies && pkg.devDependencies['@tailwindcss/typography']) {
-    delete pkg.devDependencies['@tailwindcss/typography'];
-  }
-  
-  fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-"
-
-# Install dependencies with cleaned package.json
+# Install dependencies
 npm install --production=false
 
 # Set NODE_ENV to production for optimized build
 export NODE_ENV=production
 npm run build
-
-# Restore original package.json
-mv package.json.bak package.json
-
 cd ..
 
 echo "Build completed successfully!"

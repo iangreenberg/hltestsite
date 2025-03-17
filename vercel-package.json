@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bash ./vercel-build.sh",
-    "vercel-build": "bash ./vercel-build.sh"
+    "build": "bash ./vercel-custom-build.sh",
+    "vercel-build": "bash ./vercel-custom-build.sh"
   },
   "devDependencies": {
     "vite": "5.1.6",
