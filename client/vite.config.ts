@@ -17,7 +17,13 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     sourcemap: false,
-    minify: true,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: false,
+        pure_funcs: ['console.debug']
+      }
+    },
     rollupOptions: {
       // Make sure to bundle all dependencies
       external: []

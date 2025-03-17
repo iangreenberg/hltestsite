@@ -14,8 +14,10 @@ cp -r shared/* client/src/shared/
 # Build client
 cd client
 npm install --production=false
-# Install terser explicitly as it's needed for Vite build
-npm install terser --no-save
+# Install build dependencies that might be missing
+npm install terser esbuild @esbuild/linux-x64 --no-save
+# Set NODE_ENV to production for optimized build
+export NODE_ENV=production
 npm run build
 cd ..
 
