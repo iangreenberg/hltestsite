@@ -1,0 +1,113 @@
+[17:40:30.564] Running build in Washington, D.C., USA (East) – iad1
+[17:40:30.728] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: cb73773)
+[17:40:30.912] Previous build caches not available
+[17:40:31.149] Cloning completed: 429.000ms
+[17:40:31.192] Found .vercelignore
+[17:40:31.201] Removed 33 ignored files defined in .vercelignore
+[17:40:31.509] Running "vercel build"
+[17:40:31.994] Vercel CLI 41.3.2
+[17:40:32.142] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[17:40:32.854] Starting simplified Vercel build process...
+[17:40:33.165] npm warn config production Use `--omit=dev` instead.
+[17:40:45.605] 
+[17:40:45.606] added 75 packages, and audited 76 packages in 12s
+[17:40:45.606] 
+[17:40:45.607] 11 packages are looking for funding
+[17:40:45.607]   run `npm fund` for details
+[17:40:45.617] 
+[17:40:45.618] 2 moderate severity vulnerabilities
+[17:40:45.618] 
+[17:40:45.618] To address all issues (including breaking changes), run:
+[17:40:45.619]   npm audit fix --force
+[17:40:45.619] 
+[17:40:45.619] Run `npm audit` for details.
+[17:40:47.719] 
+[17:40:47.719] added 10 packages, changed 2 packages, and audited 86 packages in 2s
+[17:40:47.720] 
+[17:40:47.720] 11 packages are looking for funding
+[17:40:47.720]   run `npm fund` for details
+[17:40:47.741] 
+[17:40:47.741] 2 moderate severity vulnerabilities
+[17:40:47.741] 
+[17:40:47.742] To address all issues (including breaking changes), run:
+[17:40:47.742]   npm audit fix --force
+[17:40:47.742] 
+[17:40:47.742] Run `npm audit` for details.
+[17:40:54.033] 
+[17:40:54.034] added 110 packages, removed 8 packages, changed 3 packages, and audited 188 packages in 6s
+[17:40:54.035] 
+[17:40:54.035] 39 packages are looking for funding
+[17:40:54.035]   run `npm fund` for details
+[17:40:54.042] 
+[17:40:54.042] 2 moderate severity vulnerabilities
+[17:40:54.042] 
+[17:40:54.043] To address all issues (including breaking changes), run:
+[17:40:54.043]   npm audit fix --force
+[17:40:54.043] 
+[17:40:54.043] Run `npm audit` for details.
+[17:40:56.994] 
+[17:40:56.994] added 6 packages, removed 111 packages, and audited 83 packages in 3s
+[17:40:56.994] 
+[17:40:56.994] 13 packages are looking for funding
+[17:40:56.994]   run `npm fund` for details
+[17:40:57.011] 
+[17:40:57.011] 2 moderate severity vulnerabilities
+[17:40:57.015] 
+[17:40:57.016] To address all issues (including breaking changes), run:
+[17:40:57.016]   npm audit fix --force
+[17:40:57.016] 
+[17:40:57.016] Run `npm audit` for details.
+[17:41:04.414] 
+[17:41:04.415] added 66 packages, removed 4 packages, and audited 145 packages in 7s
+[17:41:04.416] 
+[17:41:04.416] 11 packages are looking for funding
+[17:41:04.416]   run `npm fund` for details
+[17:41:04.428] 
+[17:41:04.428] 2 moderate severity vulnerabilities
+[17:41:04.428] 
+[17:41:04.428] To address all issues (including breaking changes), run:
+[17:41:04.429]   npm audit fix --force
+[17:41:04.429] 
+[17:41:04.429] Run `npm audit` for details.
+[17:41:05.484] 
+[17:41:05.484] removed 68 packages, and audited 77 packages in 968ms
+[17:41:05.485] 
+[17:41:05.486] 11 packages are looking for funding
+[17:41:05.486]   run `npm fund` for details
+[17:41:05.505] 
+[17:41:05.505] 2 moderate severity vulnerabilities
+[17:41:05.505] 
+[17:41:05.505] To address all issues (including breaking changes), run:
+[17:41:05.505]   npm audit fix --force
+[17:41:05.506] 
+[17:41:05.506] Run `npm audit` for details.
+[17:41:08.147] 
+[17:41:08.148] > client@0.1.0 build
+[17:41:08.148] > vite build
+[17:41:08.148] 
+[17:41:08.705] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[17:41:08.768] transforming...
+[17:41:08.793] node:internal/process/promises:394
+[17:41:08.793]     triggerUncaughtException(err, true /* fromPromise */);
+[17:41:08.794]     ^
+[17:41:08.794] 
+[17:41:08.794] [Failed to load PostCSS config: Failed to load PostCSS config (searchPath: /vercel/path0/client): [Error] Loading PostCSS Plugin failed: Cannot find module 'tailwindcss'
+[17:41:08.794] Require stack:
+[17:41:08.795] - /vercel/path0/client/postcss.config.js
+[17:41:08.795] 
+[17:41:08.795] (@/vercel/path0/client/postcss.config.js)
+[17:41:08.795] Error: Loading PostCSS Plugin failed: Cannot find module 'tailwindcss'
+[17:41:08.795] Require stack:
+[17:41:08.795] - /vercel/path0/client/postcss.config.js
+[17:41:08.795] 
+[17:41:08.795] (@/vercel/path0/client/postcss.config.js)
+[17:41:08.796]     at load (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33632:11)
+[17:41:08.796]     at file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33657:16
+[17:41:08.796]     at Array.map (<anonymous>)
+[17:41:08.796]     at plugins (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33656:8)
+[17:41:08.796]     at processResult (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33726:14)
+[17:41:08.796]     at file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33856:14]
+[17:41:08.796] 
+[17:41:08.796] Node.js v22.14.0
+[17:41:08.821] Error: Command "./simplified-build.sh" exited with 1
+[17:41:09.020] 

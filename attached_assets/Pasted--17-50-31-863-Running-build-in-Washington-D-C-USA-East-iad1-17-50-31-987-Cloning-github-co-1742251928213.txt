@@ -1,0 +1,101 @@
+[17:50:31.863] Running build in Washington, D.C., USA (East) – iad1
+[17:50:31.987] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: cc7399a)
+[17:50:32.139] Previous build caches not available
+[17:50:32.359] Cloning completed: 372.000ms
+[17:50:32.397] Found .vercelignore
+[17:50:32.404] Removed 33 ignored files defined in .vercelignore
+[17:50:32.672] Running "vercel build"
+[17:50:33.052] Vercel CLI 41.3.2
+[17:50:33.168] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[17:50:34.539] Starting simplified Vercel build process...
+[17:50:35.034] npm warn config production Use `--omit=dev` instead.
+[17:50:48.602] 
+[17:50:48.603] added 75 packages, and audited 76 packages in 14s
+[17:50:48.603] 
+[17:50:48.603] 11 packages are looking for funding
+[17:50:48.604]   run `npm fund` for details
+[17:50:48.608] 
+[17:50:48.609] 2 moderate severity vulnerabilities
+[17:50:48.609] 
+[17:50:48.609] To address all issues (including breaking changes), run:
+[17:50:48.610]   npm audit fix --force
+[17:50:48.610] 
+[17:50:48.610] Run `npm audit` for details.
+[17:50:50.284] 
+[17:50:50.284] added 14 packages, and audited 90 packages in 2s
+[17:50:50.285] 
+[17:50:50.285] 13 packages are looking for funding
+[17:50:50.285]   run `npm fund` for details
+[17:50:50.298] 
+[17:50:50.298] 2 moderate severity vulnerabilities
+[17:50:50.299] 
+[17:50:50.299] To address all issues (including breaking changes), run:
+[17:50:50.299]   npm audit fix --force
+[17:50:50.299] 
+[17:50:50.299] Run `npm audit` for details.
+[17:50:51.924] 
+[17:50:51.925] added 9 packages, changed 2 packages, and audited 99 packages in 2s
+[17:50:51.925] 
+[17:50:51.926] 13 packages are looking for funding
+[17:50:51.926]   run `npm fund` for details
+[17:50:51.939] 
+[17:50:51.939] 2 moderate severity vulnerabilities
+[17:50:51.939] 
+[17:50:51.939] To address all issues (including breaking changes), run:
+[17:50:51.939]   npm audit fix --force
+[17:50:51.939] 
+[17:50:51.939] Run `npm audit` for details.
+[17:50:54.109] 
+[17:50:54.110] added 6 packages, removed 9 packages, changed 2 packages, and audited 96 packages in 2s
+[17:50:54.110] 
+[17:50:54.110] 15 packages are looking for funding
+[17:50:54.110]   run `npm fund` for details
+[17:50:54.121] 
+[17:50:54.121] 2 moderate severity vulnerabilities
+[17:50:54.121] 
+[17:50:54.122] To address all issues (including breaking changes), run:
+[17:50:54.122]   npm audit fix --force
+[17:50:54.122] 
+[17:50:54.122] Run `npm audit` for details.
+[17:51:01.233] 
+[17:51:01.233] added 64 packages, removed 4 packages, and audited 156 packages in 7s
+[17:51:01.234] 
+[17:51:01.234] 13 packages are looking for funding
+[17:51:01.234]   run `npm fund` for details
+[17:51:01.241] 
+[17:51:01.241] 2 moderate severity vulnerabilities
+[17:51:01.241] 
+[17:51:01.242] To address all issues (including breaking changes), run:
+[17:51:01.242]   npm audit fix --force
+[17:51:01.242] 
+[17:51:01.242] Run `npm audit` for details.
+[17:51:02.105] 
+[17:51:02.106] removed 66 packages, and audited 90 packages in 791ms
+[17:51:02.106] 
+[17:51:02.107] 13 packages are looking for funding
+[17:51:02.107]   run `npm fund` for details
+[17:51:02.125] 
+[17:51:02.125] 2 moderate severity vulnerabilities
+[17:51:02.126] 
+[17:51:02.126] To address all issues (including breaking changes), run:
+[17:51:02.126]   npm audit fix --force
+[17:51:02.126] 
+[17:51:02.126] Run `npm audit` for details.
+[17:51:02.263] 
+[17:51:02.263] > client@0.1.0 build
+[17:51:02.263] > vite build
+[17:51:02.263] 
+[17:51:02.626] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[17:51:02.746] transforming...
+[17:51:03.070] [32m✓[39m 3 modules transformed.
+[17:51:03.072] [31mx[39m Build failed in 378ms
+[17:51:03.073] [31merror during build:
+[17:51:03.073] [31m[vite:css] [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.[31m
+[17:51:03.073] file: [36m/vercel/path0/client/src/index.css:undefined:NaN[31m
+[17:51:03.073]     at Re (/vercel/path0/client/node_modules/tailwindcss/dist/lib.js:33:1889)
+[17:51:03.073]     at LazyResult.runOnRoot (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:361:16)
+[17:51:03.073]     at LazyResult.runAsync (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:290:26)
+[17:51:03.073]     at LazyResult.async (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:192:30)
+[17:51:03.073]     at LazyResult.then (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:436:17)[39m
+[17:51:03.093] Error: Command "./simplified-build.sh" exited with 1
+[17:51:03.428] 

@@ -45,11 +45,14 @@ EOF
 
 # Create a postcss config file for Vercel - using ES module syntax to match "type": "module" in package.json
 cat > client/postcss.config.js << 'EOF'
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+  plugins: [
+    tailwindcss,
+    autoprefixer,
+  ],
 }
 EOF
 

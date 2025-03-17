@@ -1,0 +1,106 @@
+[17:47:08.627] Running build in Washington, D.C., USA (East) – iad1
+[17:47:08.819] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: ed63de9)
+[17:47:08.954] Previous build caches not available
+[17:47:09.187] Cloning completed: 368.000ms
+[17:47:09.223] Found .vercelignore
+[17:47:09.230] Removed 33 ignored files defined in .vercelignore
+[17:47:09.536] Running "vercel build"
+[17:47:09.967] Vercel CLI 41.3.2
+[17:47:10.079] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[17:47:10.732] Starting simplified Vercel build process...
+[17:47:11.035] npm warn config production Use `--omit=dev` instead.
+[17:47:23.799] 
+[17:47:23.799] added 75 packages, and audited 76 packages in 13s
+[17:47:23.799] 
+[17:47:23.799] 11 packages are looking for funding
+[17:47:23.799]   run `npm fund` for details
+[17:47:23.806] 
+[17:47:23.806] 2 moderate severity vulnerabilities
+[17:47:23.806] 
+[17:47:23.807] To address all issues (including breaking changes), run:
+[17:47:23.807]   npm audit fix --force
+[17:47:23.807] 
+[17:47:23.807] Run `npm audit` for details.
+[17:47:25.578] 
+[17:47:25.578] added 14 packages, and audited 90 packages in 2s
+[17:47:25.578] 
+[17:47:25.578] 13 packages are looking for funding
+[17:47:25.578]   run `npm fund` for details
+[17:47:25.592] 
+[17:47:25.593] 2 moderate severity vulnerabilities
+[17:47:25.593] 
+[17:47:25.593] To address all issues (including breaking changes), run:
+[17:47:25.593]   npm audit fix --force
+[17:47:25.594] 
+[17:47:25.594] Run `npm audit` for details.
+[17:47:27.138] 
+[17:47:27.139] added 9 packages, changed 2 packages, and audited 99 packages in 1s
+[17:47:27.139] 
+[17:47:27.139] 13 packages are looking for funding
+[17:47:27.140]   run `npm fund` for details
+[17:47:27.153] 
+[17:47:27.153] 2 moderate severity vulnerabilities
+[17:47:27.153] 
+[17:47:27.153] To address all issues (including breaking changes), run:
+[17:47:27.154]   npm audit fix --force
+[17:47:27.154] 
+[17:47:27.154] Run `npm audit` for details.
+[17:47:29.221] 
+[17:47:29.222] added 6 packages, removed 9 packages, changed 2 packages, and audited 96 packages in 2s
+[17:47:29.222] 
+[17:47:29.222] 15 packages are looking for funding
+[17:47:29.223]   run `npm fund` for details
+[17:47:29.234] 
+[17:47:29.235] 2 moderate severity vulnerabilities
+[17:47:29.235] 
+[17:47:29.235] To address all issues (including breaking changes), run:
+[17:47:29.235]   npm audit fix --force
+[17:47:29.235] 
+[17:47:29.236] Run `npm audit` for details.
+[17:47:35.445] 
+[17:47:35.445] added 64 packages, removed 4 packages, and audited 156 packages in 6s
+[17:47:35.445] 
+[17:47:35.446] 13 packages are looking for funding
+[17:47:35.446]   run `npm fund` for details
+[17:47:35.457] 
+[17:47:35.457] 2 moderate severity vulnerabilities
+[17:47:35.457] 
+[17:47:35.457] To address all issues (including breaking changes), run:
+[17:47:35.457]   npm audit fix --force
+[17:47:35.458] 
+[17:47:35.458] Run `npm audit` for details.
+[17:47:36.293] 
+[17:47:36.294] removed 66 packages, and audited 90 packages in 766ms
+[17:47:36.294] 
+[17:47:36.295] 13 packages are looking for funding
+[17:47:36.295]   run `npm fund` for details
+[17:47:36.308] 
+[17:47:36.309] 2 moderate severity vulnerabilities
+[17:47:36.309] 
+[17:47:36.309] To address all issues (including breaking changes), run:
+[17:47:36.310]   npm audit fix --force
+[17:47:36.310] 
+[17:47:36.310] Run `npm audit` for details.
+[17:47:36.822] 
+[17:47:36.823] > client@0.1.0 build
+[17:47:36.823] > vite build
+[17:47:36.824] 
+[17:47:37.076] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[17:47:37.124] transforming...
+[17:47:37.138] node:internal/process/promises:394
+[17:47:37.139]     triggerUncaughtException(err, true /* fromPromise */);
+[17:47:37.139]     ^
+[17:47:37.139] 
+[17:47:37.139] [Failed to load PostCSS config: Failed to load PostCSS config (searchPath: /vercel/path0/client): [ReferenceError] module is not defined in ES module scope
+[17:47:37.139] This file is being treated as an ES module because it has a '.js' file extension and '/vercel/path0/client/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+[17:47:37.139] ReferenceError: module is not defined in ES module scope
+[17:47:37.139] This file is being treated as an ES module because it has a '.js' file extension and '/vercel/path0/client/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+[17:47:37.139]     at file:///vercel/path0/client/postcss.config.js:1:1
+[17:47:37.139]     at ModuleJob.run (node:internal/modules/esm/module_job:271:25)
+[17:47:37.139]     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:578:26)
+[17:47:37.139]     at async importDefault (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:33759:18)
+[17:47:37.140]     at async Object.search (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:25915:23)]
+[17:47:37.140] 
+[17:47:37.140] Node.js v22.14.0
+[17:47:37.155] Error: Command "./simplified-build.sh" exited with 1
+[17:47:37.277] 
