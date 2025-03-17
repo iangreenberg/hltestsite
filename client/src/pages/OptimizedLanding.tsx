@@ -25,53 +25,71 @@ export default function OptimizedLanding() {
 
       <div className="flex flex-col min-h-screen">
         {/* Hero Section */}
-        <section className="relative bg-[#2F5D50] text-white py-20 md:py-32">
-          <div className="absolute inset-0 bg-cover bg-center opacity-20"
+        <section className="relative bg-[#2F5D50] text-white py-16 md:py-24 lg:py-32">
+          <div className="absolute inset-0 bg-cover bg-center opacity-20 bg-[url('/hemp-pattern.png')] bg-repeat"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1536782376847-5c9d14d97cc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
             }}
           ></div>
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#C8A951] text-[#2F5D50] font-semibold text-sm mb-6">
-                  <Leaf size={16} />
-                  <span>LIMITED SPOTS AVAILABLE</span>
-                </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+          <div className="container mx-auto px-4 sm:px-6 relative z-10">
+            <div className="text-center md:text-left mb-10 md:mb-0">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C8A951] text-[#2F5D50] font-semibold text-xs md:text-sm mb-4 md:mb-6">
+                <Leaf size={16} />
+                <span>LIMITED SPOTS AVAILABLE</span>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div className="text-center lg:text-left">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6">
                   Launch Your Hemp-Derived THC Business <span className="text-[#C8A951]">Without The Hassle</span>
                 </h1>
-                <p className="text-xl md:text-2xl mb-8 leading-relaxed">
+                
+                <p className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 leading-relaxed">
                   We handle everything from entity formation to product launch so you can focus on building your brand and growing your business.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                
+                <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-6 md:mb-8">
                   <SimpleQualifier 
                     buttonText="Get Started Today"
-                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-6 w-full sm:w-auto border-2 border-[#C8A951]"
+                    buttonClassName="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-base md:text-lg px-6 py-3 md:px-8 md:py-4 w-full sm:w-auto border-2 border-[#C8A951]"
                   />
                   
                   <Button 
                     variant="outline" 
-                    className="border-2 border-[#2F5D50] bg-[#2F5D50] text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-lg px-8 py-6 w-full sm:w-auto"
+                    className="border-2 border-white text-white hover:bg-white hover:text-[#2F5D50] font-semibold text-base md:text-lg px-6 py-3 md:px-8 md:py-4 w-full sm:w-auto"
                     asChild
                   >
-                    <Link href="/services">
-                      Explore Services
+                    <Link href="/how-it-works">
+                      How It Works
                     </Link>
                   </Button>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-6 text-sm">
-                  <div className="flex items-center gap-2">
+                
+                <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 md:gap-6 text-sm">
+                  <div className="flex items-center justify-center lg:justify-start gap-2">
                     <CheckCircle className="h-5 w-5 text-[#C8A951]" />
                     <span>100% Compliance Guaranteed</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center lg:justify-start gap-2">
                     <CheckCircle className="h-5 w-5 text-[#C8A951]" />
                     <span>Industry Experts</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center lg:justify-start gap-2">
                     <CheckCircle className="h-5 w-5 text-[#C8A951]" />
                     <span>End-to-End Support</span>
+                  </div>
+                </div>
+                
+                <div className="mt-8 grid grid-cols-3 gap-2 text-center md:hidden">
+                  <div className="bg-[#C8A951] text-[#2F5D50] px-2 py-1 rounded font-medium text-sm">
+                    30 Days
+                  </div>
+                  <div className="bg-[#C8A951] text-[#2F5D50] px-2 py-1 rounded font-medium text-sm">
+                    Under $3,000
+                  </div>
+                  <div className="bg-[#C8A951] text-[#2F5D50] px-2 py-1 rounded font-medium text-sm">
+                    $8B Market
                   </div>
                 </div>
               </div>
