@@ -1,16 +1,17 @@
 #!/bin/bash
 
+# Configure Git
+git config --global user.name "Replit Deployment"
+git config --global user.email "deployment@replit.com"
+
+# Use token for authentication
+git remote set-url origin https://${GITHUB_TOKEN}@github.com/iangreenberg/hltestsite.git
+
 # Add all changes
 git add .
 
-# Commit changes with a message
-echo "Enter commit message:"
-read commit_message
+# Commit changes
+git commit -m "Update Vercel configuration for deployment"
 
-git commit -m "$commit_message"
-
-# Push to GitHub
+# Push to main branch
 git push origin main
-
-echo "Changes pushed to GitHub!"
-echo "Your landing page should be available at your-domain.com/fb-landing after deployment completes."
