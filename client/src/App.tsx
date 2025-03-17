@@ -20,15 +20,7 @@ import AuthTest from "./pages/auth-test";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
-// Layout components and page wrappers
-function AdminDashboardWithLayout() {
-  return (
-    <AdminLayout>
-      <AdminDashboard />
-    </AdminLayout>
-  );
-}
-
+// Layout components
 function AdminLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
@@ -56,11 +48,18 @@ function Router() {
         )}
       </Route>
       
-      {/* Use a specific component for admin dashboard */}
-      <ProtectedRoute 
-        path="/admin/dashboard" 
-        component={AdminDashboardWithLayout} 
-      />
+      {/* Protected admin dashboard route */}
+      <Route path="/admin/dashboard">
+        {() => {
+          return (
+            <ProtectedRoute path="/admin/dashboard" component={() => (
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            )} />
+          );
+        }}
+      </Route>
       
       {/* Redirect /admin to dashboard for convenience */}
       <Route path="/admin">
