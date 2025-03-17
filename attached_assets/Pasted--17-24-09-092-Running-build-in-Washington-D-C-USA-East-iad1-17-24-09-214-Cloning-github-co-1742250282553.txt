@@ -1,0 +1,74 @@
+[17:24:09.092] Running build in Washington, D.C., USA (East) – iad1
+[17:24:09.214] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: b1863d3)
+[17:24:09.944] Previous build caches not available
+[17:24:10.502] Cloning completed: 1.288s
+[17:24:10.541] Found .vercelignore
+[17:24:10.547] Removed 33 ignored files defined in .vercelignore
+[17:24:10.829] Running "vercel build"
+[17:24:12.347] Vercel CLI 41.3.2
+[17:24:12.464] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[17:24:13.136] Starting simplified Vercel build process...
+[17:24:13.495] npm warn config production Use `--omit=dev` instead.
+[17:24:24.268] 
+[17:24:24.269] added 75 packages, and audited 76 packages in 11s
+[17:24:24.269] 
+[17:24:24.269] 11 packages are looking for funding
+[17:24:24.270]   run `npm fund` for details
+[17:24:24.275] 
+[17:24:24.275] 2 moderate severity vulnerabilities
+[17:24:24.275] 
+[17:24:24.275] To address all issues (including breaking changes), run:
+[17:24:24.276]   npm audit fix --force
+[17:24:24.276] 
+[17:24:24.276] Run `npm audit` for details.
+[17:24:25.951] 
+[17:24:25.953] added 10 packages, changed 2 packages, and audited 86 packages in 2s
+[17:24:25.953] 
+[17:24:25.954] 11 packages are looking for funding
+[17:24:25.954]   run `npm fund` for details
+[17:24:25.967] 
+[17:24:25.968] 2 moderate severity vulnerabilities
+[17:24:25.968] 
+[17:24:25.968] To address all issues (including breaking changes), run:
+[17:24:25.969]   npm audit fix --force
+[17:24:25.969] 
+[17:24:25.969] Run `npm audit` for details.
+[17:24:32.684] 
+[17:24:32.685] added 110 packages, removed 8 packages, changed 3 packages, and audited 188 packages in 7s
+[17:24:32.686] 
+[17:24:32.686] 39 packages are looking for funding
+[17:24:32.686]   run `npm fund` for details
+[17:24:32.693] 
+[17:24:32.693] 2 moderate severity vulnerabilities
+[17:24:32.694] 
+[17:24:32.694] To address all issues (including breaking changes), run:
+[17:24:32.694]   npm audit fix --force
+[17:24:32.695] 
+[17:24:32.695] Run `npm audit` for details.
+[17:24:32.825] 
+[17:24:32.825] > client@0.1.0 build
+[17:24:32.826] > vite build
+[17:24:32.826] 
+[17:24:33.092] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[17:24:33.141] transforming...
+[17:24:33.450] 
+[17:24:33.451] [1m[33mwarn[39m[22m - The `content` option in your Tailwind CSS configuration is missing or empty.
+[17:24:33.451] [1m[33mwarn[39m[22m - Configure your content sources or your generated CSS will be missing styles.
+[17:24:33.451] [1m[33mwarn[39m[22m - https://tailwindcss.com/docs/content-configuration
+[17:24:33.798] [32m✓[39m 43 modules transformed.
+[17:24:33.805] [31mx[39m Build failed in 689ms
+[17:24:33.806] [31merror during build:
+[17:24:33.806] [31m[vite]: Rollup failed to resolve import "lucide-react" from "/vercel/path0/client/src/pages/not-found.tsx".
+[17:24:33.806] This is most likely unintended because it can break your application at runtime.
+[17:24:33.806] If you do want to externalize this module explicitly add it to
+[17:24:33.806] `build.rollupOptions.external`[31m
+[17:24:33.806]     at viteWarn (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65747:17)
+[17:24:33.806]     at onwarn (file:///vercel/path0/client/node_modules/@vitejs/plugin-react/dist/index.mjs:282:9)
+[17:24:33.806]     at onRollupWarning (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65777:5)
+[17:24:33.806]     at onwarn (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65442:7)
+[17:24:33.807]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:20633:13
+[17:24:33.807]     at Object.logger [as onLog] (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:22362:9)
+[17:24:33.807]     at ModuleLoader.handleInvalidResolvedId (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21245:26)
+[17:24:33.807]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21203:26[39m
+[17:24:33.826] Error: Command "./simplified-build.sh" exited with 1
+[17:24:33.976] 
