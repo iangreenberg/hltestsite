@@ -1,0 +1,14 @@
+{
+  "name": "hemp-launch-website-vercel-build",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "vite": "5.1.6",
+    "@vitejs/plugin-react": "4.2.1",
+    "typescript": "5.4.2"
+  }
+}

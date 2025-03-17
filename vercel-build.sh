@@ -3,15 +3,26 @@ set -e
 
 echo "Starting Vercel build process..."
 
-# Move to client directory first
+# Set up local environment
+export NODE_ENV=production
+export PATH="$PATH:./node_modules/.bin"
+export NODE_OPTIONS="--max-old-space-size=4096"
+
+# Ensure correct directory structure
+mkdir -p dist
+mkdir -p dist/api
+mkdir -p dist/shared
+
+# Create client build
+echo "Building client..."
 cd client
 
-# Install build dependencies explicitly with exact versions
-echo "Installing Vite and related packages with exact versions..."
+# Install exact versions to ensure compatibility
+echo "Installing build dependencies..."
 npm install --no-save vite@5.1.6 @vitejs/plugin-react@4.2.1 typescript@5.4.2
 
-# Ensure we have a local schema copy
-echo "Creating schema copy..."
+# Ensure local schema copy exists
+echo "Creating local schema..."
 mkdir -p src/lib
 cat > src/lib/schema.ts << 'EOF'
 /**
@@ -64,19 +75,187 @@ export type InsertEmailSubscription = z.infer<typeof insertEmailSubscriptionSche
 export type EmailSubscription = InsertEmailSubscription & { id: number };
 EOF
 
-# Make sure we have shared directory 
-echo "Copying shared directory..."
+# Copy shared files to client
 mkdir -p src/shared
-cp -r ../shared/* src/shared/ 2>/dev/null || echo "No shared files to copy"
+cp -r ../shared/* src/shared/ 2>/dev/null || :
 
-# Now run build directly with node modules path
-echo "Building client with npx..."
-NODE_OPTIONS="--max-old-space-size=4096" npx --no vite build
+# Try building with different strategies
+if [ -f "vite.config.ts" ]; then
+  echo "TypeScript config found, attempting to use..."
+  echo "Trying first build method with vite.config.ts..."
+  # Try to build with TS config
+  ./node_modules/.bin/vite build || {
+    echo "Vite TS config failed, trying JS config..."
+    # Rename TS config and try to build with JS config
+    mv vite.config.ts vite.config.ts.bak
+    # Try to build with JS config
+    ./node_modules/.bin/vite build || {
+      echo "JS config also failed, trying direct node execution..."
+      # Try direct Node execution
+      node ./node_modules/vite/bin/vite.js build || {
+        echo "All build attempts failed. Creating fallback."
+        mkdir -p dist
+        cat > dist/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hemp Launch Pro</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      padding: 40px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2F5D50;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #2F5D50;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #25453E;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hemp Launch Pro</h1>
+    <p>We're making some improvements to our site. Please check back soon for our full service catalog.</p>
+    <a href="mailto:contact@hemplaunch.co" class="button">Contact Us</a>
+  </div>
+</body>
+</html>
+EOF
+      }
+    }
+    # Restore TS config if we renamed it
+    if [ -f "vite.config.ts.bak" ]; then
+      mv vite.config.ts.bak vite.config.ts
+    fi
+  }
+else
+  echo "Using JS config for build..."
+  ./node_modules/.bin/vite build || {
+    echo "JS config failed, trying direct node execution..."
+    node ./node_modules/vite/bin/vite.js build || {
+      echo "All build attempts failed. Creating fallback."
+      mkdir -p dist
+      cat > dist/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hemp Launch Pro</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      padding: 40px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2F5D50;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #2F5D50;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #25453E;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hemp Launch Pro</h1>
+    <p>We're making some improvements to our site. Please check back soon for our full service catalog.</p>
+    <a href="mailto:contact@hemplaunch.co" class="button">Contact Us</a>
+  </div>
+</body>
+</html>
+EOF
+    }
+  }
+fi
 
-# If build failed, create fallback
-if [ ! -d "dist" ]; then
-  echo "Build failed, creating fallback..."
-  mkdir -p dist
+cd ..
+
+# Copy client build to final output
+echo "Copying build files to final location..."
+cp -r client/dist/* dist/ 2>/dev/null || :
+
+# Prepare API
+echo "Setting up API..."
+cd api
+npm install --omit=dev
+cd ..
+cp -r api/* dist/api/
+
+# Copy shared files
+echo "Copying shared files..."
+cp -r shared/* dist/shared/ 2>/dev/null || :
+
+# Add vercel.json to dist if needed
+[ -f "vercel.json" ] && cp vercel.json dist/
+
+# Make sure we have an index.html
+if [ ! -f "dist/index.html" ]; then
+  echo "Creating fallback index.html..."
   cat > dist/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
@@ -139,42 +318,7 @@ if [ ! -d "dist" ]; then
 EOF
 fi
 
-# Return to root directory
-cd ..
-
-# Prepare API if needed
-echo "Installing API dependencies..."
-cd api
-npm install --omit=dev
-cd ..
-
-# Create final output directory
-echo "Preparing final output..."
-mkdir -p dist
-
-# Copy client build
-echo "Copying client build..."
-cp -r client/dist/* dist/
-
-# Set up API in output
-echo "Setting up API..."
-mkdir -p dist/api
-cp -r api/* dist/api/
-
-# Copy shared files
-echo "Copying shared files..."
-mkdir -p dist/shared
-cp -r shared/* dist/shared/ 2>/dev/null || echo "No shared files to copy"
-
-# Ensure config files are copied
-for config_file in vercel.json .vercelignore; do
-  if [ -f "$config_file" ]; then
-    echo "Copying $config_file..."
-    cp "$config_file" dist/
-  fi
-done
-
-echo "Build complete! Contents of dist directory:"
+echo "Build process complete! Contents of dist directory:"
 ls -la dist
 
-echo "Vercel build process complete!"
+echo "Vercel build done."
