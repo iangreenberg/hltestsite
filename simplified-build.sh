@@ -314,7 +314,8 @@ npm install @tailwindcss/postcss --save-dev
 # Install TailwindCSS v3.3.3 and related packages which are known to be compatible
 npm install tailwindcss@3.3.3 postcss@8.4.31 autoprefixer@10.4.15 @tailwindcss/typography@0.5.10 tailwindcss-animate@1.0.7 --save-dev
 # Install build dependencies that might be missing
-npm install terser esbuild @esbuild/linux-x64 --no-save
+cd client
+npm install terser esbuild @esbuild/linux-x64 --save
 # Install UI and icon dependencies that might be missing in Vercel
 npm install lucide-react @radix-ui/react-slot class-variance-authority clsx tailwind-merge --save
 # Install shadcn UI component dependencies

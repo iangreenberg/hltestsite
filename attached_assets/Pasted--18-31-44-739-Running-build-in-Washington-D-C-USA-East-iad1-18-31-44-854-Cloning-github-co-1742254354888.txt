@@ -1,0 +1,110 @@
+[18:31:44.739] Running build in Washington, D.C., USA (East) – iad1
+[18:31:44.854] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: 159836b)
+[18:31:44.993] Previous build caches not available
+[18:31:45.198] Cloning completed: 344.000ms
+[18:31:45.238] Found .vercelignore
+[18:31:45.245] Removed 33 ignored files defined in .vercelignore
+[18:31:45.555] Running "vercel build"
+[18:31:45.938] Vercel CLI 41.3.2
+[18:31:46.053] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[18:31:47.165] Starting simplified Vercel build process...
+[18:31:47.644] npm warn config production Use `--omit=dev` instead.
+[18:32:01.794] 
+[18:32:01.795] added 75 packages, and audited 76 packages in 14s
+[18:32:01.796] 
+[18:32:01.796] 11 packages are looking for funding
+[18:32:01.796]   run `npm fund` for details
+[18:32:01.801] 
+[18:32:01.801] 2 moderate severity vulnerabilities
+[18:32:01.801] 
+[18:32:01.801] To address all issues (including breaking changes), run:
+[18:32:01.802]   npm audit fix --force
+[18:32:01.802] 
+[18:32:01.802] Run `npm audit` for details.
+[18:32:05.063] 
+[18:32:05.064] added 14 packages, and audited 90 packages in 3s
+[18:32:05.064] 
+[18:32:05.064] 14 packages are looking for funding
+[18:32:05.064]   run `npm fund` for details
+[18:32:05.077] 
+[18:32:05.077] 2 moderate severity vulnerabilities
+[18:32:05.077] 
+[18:32:05.078] To address all issues (including breaking changes), run:
+[18:32:05.078]   npm audit fix --force
+[18:32:05.078] 
+[18:32:05.078] Run `npm audit` for details.
+[18:32:10.805] 
+[18:32:10.806] added 118 packages, changed 2 packages, and audited 208 packages in 6s
+[18:32:10.807] 
+[18:32:10.807] 44 packages are looking for funding
+[18:32:10.807]   run `npm fund` for details
+[18:32:10.814] 
+[18:32:10.814] 2 moderate severity vulnerabilities
+[18:32:10.814] 
+[18:32:10.815] To address all issues (including breaking changes), run:
+[18:32:10.815]   npm audit fix --force
+[18:32:10.815] 
+[18:32:10.815] Run `npm audit` for details.
+[18:32:12.583] 
+[18:32:12.583] added 9 packages, changed 2 packages, and audited 217 packages in 2s
+[18:32:12.584] 
+[18:32:12.584] 44 packages are looking for funding
+[18:32:12.584]   run `npm fund` for details
+[18:32:12.595] 
+[18:32:12.596] 2 moderate severity vulnerabilities
+[18:32:12.596] 
+[18:32:12.596] To address all issues (including breaking changes), run:
+[18:32:12.597]   npm audit fix --force
+[18:32:12.597] 
+[18:32:12.597] Run `npm audit` for details.
+[18:32:14.893] 
+[18:32:14.894] added 6 packages, removed 9 packages, changed 2 packages, and audited 214 packages in 2s
+[18:32:14.895] 
+[18:32:14.895] 46 packages are looking for funding
+[18:32:14.895]   run `npm fund` for details
+[18:32:14.909] 
+[18:32:14.910] 2 moderate severity vulnerabilities
+[18:32:14.910] 
+[18:32:14.910] To address all issues (including breaking changes), run:
+[18:32:14.911]   npm audit fix --force
+[18:32:14.911] 
+[18:32:14.911] Run `npm audit` for details.
+[18:32:20.419] 
+[18:32:20.420] added 64 packages, and audited 278 packages in 5s
+[18:32:20.420] 
+[18:32:20.420] 46 packages are looking for funding
+[18:32:20.421]   run `npm fund` for details
+[18:32:20.439] 
+[18:32:20.440] 2 moderate severity vulnerabilities
+[18:32:20.440] 
+[18:32:20.440] To address all issues (including breaking changes), run:
+[18:32:20.440]   npm audit fix --force
+[18:32:20.440] 
+[18:32:20.440] Run `npm audit` for details.
+[18:32:22.391] 
+[18:32:22.392] added 6 packages, and audited 284 packages in 2s
+[18:32:22.392] 
+[18:32:22.392] 46 packages are looking for funding
+[18:32:22.393]   run `npm fund` for details
+[18:32:22.401] 
+[18:32:22.401] 2 moderate severity vulnerabilities
+[18:32:22.401] 
+[18:32:22.402] To address all issues (including breaking changes), run:
+[18:32:22.402]   npm audit fix --force
+[18:32:22.402] 
+[18:32:22.402] Run `npm audit` for details.
+[18:32:22.845] 
+[18:32:22.845] > client@0.1.0 build
+[18:32:22.846] > vite build
+[18:32:22.846] 
+[18:32:23.101] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[18:32:23.151] transforming...
+[18:32:27.118] [32m✓[39m 1780 modules transformed.
+[18:32:27.471] [31mx[39m Build failed in 4.34s
+[18:32:27.471] [31merror during build:
+[18:32:27.471] [31m[vite:terser] terser not found. Since Vite v3, terser has become an optional dependency. You need to install it.[31m
+[18:32:27.471]     at loadTerserPath (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:19705:13)
+[18:32:27.471]     at Object.renderChunk (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:19740:27)
+[18:32:27.471]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21967:40[39m
+[18:32:27.501] Error: Command "./simplified-build.sh" exited with 1
+[18:32:27.667] 
