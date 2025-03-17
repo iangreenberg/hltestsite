@@ -213,7 +213,7 @@ module.exports = {
 }
 EOF
 
-# Also create the ES module versions as fallbacks - now using @tailwindcss/postcss
+# Also create the ES module versions as fallbacks
 cat > client/tailwind.config.js << 'EOF'
 // ES Module version
 /** @type {import('tailwindcss').Config} */
