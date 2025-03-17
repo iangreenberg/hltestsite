@@ -394,6 +394,136 @@ export default function OptimizedLanding() {
           </div>
         </section>
 
+        {/* Technical Expertise */}
+        <section className="py-16 bg-[#f8f9fa]">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2F5D50] text-white font-semibold text-sm mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                <span>ENTERPRISE-GRADE TECHNOLOGY</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Built on a Rock-Solid Technical Foundation</h2>
+              <p className="text-lg text-gray-600">Our platform leverages modern technologies to provide a seamless, secure, and scalable experience for your hemp business.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-[#2F5D50] flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#C8A951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                  </svg>
+                  Deployment Infrastructure
+                </h3>
+                <div className="bg-gray-100 rounded-lg p-4 mb-4 font-mono text-sm overflow-auto max-h-48">
+                  <p className="text-gray-700">[20:51:10.215] Cloning completed: 512.000ms</p>
+                  <p className="text-gray-700">[20:51:11.161] Restored build cache from previous deployment</p>
+                  <p className="text-gray-700">[20:51:11.270] Running build in Washington, D.C., USA (East) – iad1</p>
+                  <p className="text-[#2F5D50] font-semibold">[20:51:12.140] Vercel CLI 41.3.2</p>
+                  <p className="text-gray-700">[20:51:22.559] vite v5.4.14 building for production...</p>
+                  <p className="text-red-500">[20:51:27.605] error: terser not found. Since Vite v3, terser has become an optional dependency.</p>
+                  <p className="text-green-500">[FIXED] Added terser to dependencies for optimized production builds</p>
+                </div>
+                <p className="text-gray-600">
+                  Our platform is hosted on enterprise-grade infrastructure with global CDN distribution, ensuring fast load times and high availability for your customers. Our team continuously optimizes the build process to deliver the best performance.
+                </p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-[#2F5D50] flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#C8A951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Performance Optimization
+                </h3>
+                <div className="space-y-3 mb-4">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-[#f0f9f6] flex items-center justify-center mr-3">
+                      <svg className="h-5 w-5 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-[#2F5D50]">Code Minification</h4>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-[#2F5D50] h-2 rounded-full" style={{ width: '95%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-[#f0f9f6] flex items-center justify-center mr-3">
+                      <svg className="h-5 w-5 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-[#2F5D50]">CDN Caching</h4>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-[#2F5D50] h-2 rounded-full" style={{ width: '90%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-[#f0f9f6] flex items-center justify-center mr-3">
+                      <svg className="h-5 w-5 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-[#2F5D50]">Image Optimization</h4>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-[#2F5D50] h-2 rounded-full" style={{ width: '85%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-600">
+                  Our platform uses advanced build tools like Terser and ESBuild to deliver optimized assets, resulting in faster page loads and better user experience for your customers.
+                </p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                <h3 className="text-xl font-bold mb-4 text-[#2F5D50] flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#C8A951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  Security & Compliance
+                </h3>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="bg-gray-100 rounded p-3 flex flex-col items-center">
+                    <svg className="h-8 w-8 text-[#2F5D50] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span className="text-sm font-medium">HTTPS Encryption</span>
+                  </div>
+                  <div className="bg-gray-100 rounded p-3 flex flex-col items-center">
+                    <svg className="h-8 w-8 text-[#2F5D50] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span className="text-sm font-medium">GDPR Compliant</span>
+                  </div>
+                  <div className="bg-gray-100 rounded p-3 flex flex-col items-center">
+                    <svg className="h-8 w-8 text-[#2F5D50] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                    <span className="text-sm font-medium">Secure Auth</span>
+                  </div>
+                  <div className="bg-gray-100 rounded p-3 flex flex-col items-center">
+                    <svg className="h-8 w-8 text-[#2F5D50] mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    <span className="text-sm font-medium">DDoS Protection</span>
+                  </div>
+                </div>
+                <p className="text-gray-600">
+                  We implement industry-leading security practices to protect your data and ensure compliance with all relevant regulations for the hemp-derived THC industry.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Final CTA */}
         <section className="py-16 bg-[#C8A951]">
           <div className="container mx-auto px-4 text-center">
