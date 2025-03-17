@@ -1,5 +1,4 @@
 {
-  "__comment": "Updated configuration for improved build process",
   "version": 2,
   "builds": [
     {
@@ -31,6 +30,7 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "SERVER_ENV": "vercel"
   }
 }
