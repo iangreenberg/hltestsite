@@ -11,14 +11,55 @@ cp -r shared/* client/shared/
 mkdir -p client/src/shared
 cp -r shared/* client/src/shared/
 
-# Using ES module syntax to match "type": "module" in package.json
+# Using dual .cjs and .js approach to ensure compatibility regardless of package.json type
 
-# Create a complete tailwind config file with ES module syntax to match "type": "module" in package.json
-cat > client/tailwind.config.js << 'EOF'
+# Create both CommonJS and ES Module versions of the configs
+# Use .cjs for CommonJS which will be used regardless of package.json type setting
+
+# CommonJS version of tailwind config (will take precedence)
+cat > client/tailwind.config.cjs << 'EOF'
 /** @type {import('tailwindcss').Config} */
-import tailwindcssAnimate from 'tailwindcss-animate';
-import typography from '@tailwindcss/typography';
+module.exports = {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        primary: "#2F5D50", // Forest Green
+        secondary: "#C8A951", // Gold
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
+    },
+  },
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography")
+  ],
+};
+EOF
 
+# CommonJS version of postcss config (will take precedence) - now using @tailwindcss/postcss
+cat > client/postcss.config.cjs << 'EOF'
+module.exports = {
+  plugins: {
+    '@tailwindcss/postcss': {},
+    autoprefixer: {},
+  }
+}
+EOF
+
+# Also create the ES module versions as fallbacks - now using @tailwindcss/postcss
+cat > client/tailwind.config.js << 'EOF'
+// ES Module version
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -39,28 +80,26 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate, typography],
+  plugins: [],
 };
 EOF
 
-# Create a postcss config file for Vercel - using ES module syntax to match "type": "module" in package.json
 cat > client/postcss.config.js << 'EOF'
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
-
 export default {
-  plugins: [
-    tailwindcss,
-    autoprefixer,
-  ],
+  plugins: {
+    '@tailwindcss/postcss': {},
+    autoprefixer: {},
+  }
 }
 EOF
 
 # Build client
 cd client
 npm install --production=false
-# First install TailwindCSS and related packages to ensure they are available for PostCSS
-npm install tailwindcss postcss autoprefixer @tailwindcss/typography tailwindcss-animate --save-dev
+# Install the specific @tailwindcss/postcss package mentioned in the error message
+npm install @tailwindcss/postcss --save-dev
+# Install TailwindCSS v3.3.3 and related packages which are known to be compatible
+npm install tailwindcss@3.3.3 postcss@8.4.31 autoprefixer@10.4.15 @tailwindcss/typography@0.5.10 tailwindcss-animate@1.0.7 --save-dev
 # Install build dependencies that might be missing
 npm install terser esbuild @esbuild/linux-x64 --no-save
 # Install UI and icon dependencies that might be missing in Vercel
