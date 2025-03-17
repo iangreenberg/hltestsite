@@ -11,15 +11,12 @@ cp -r shared/* client/shared/
 mkdir -p client/src/shared
 cp -r shared/* client/src/shared/
 
-# Tailwind config is now created with proper ES module syntax below
+# Using CommonJS syntax for better compatibility with Vercel
 
-# Create a complete tailwind config file with plugins for ES modules
+# Create a complete tailwind config file with CommonJS syntax for better Vercel compatibility
 cat > client/tailwind.config.js << 'EOF'
 /** @type {import('tailwindcss').Config} */
-import tailwindcssAnimate from 'tailwindcss-animate';
-import typography from '@tailwindcss/typography';
-
-export default {
+module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -39,13 +36,13 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssAnimate, typography],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 EOF
 
-# Create a postcss config file for Vercel
+# Create a postcss config file for Vercel - using CommonJS syntax for better compatibility
 cat > client/postcss.config.js << 'EOF'
-export default {
+module.exports = {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
@@ -56,11 +53,10 @@ EOF
 # Build client
 cd client
 npm install --production=false
+# First install TailwindCSS and related packages to ensure they are available for PostCSS
+npm install tailwindcss postcss autoprefixer @tailwindcss/typography tailwindcss-animate --save-dev
 # Install build dependencies that might be missing
 npm install terser esbuild @esbuild/linux-x64 --no-save
-# Install specific dependencies that might be missing in Vercel environment
-# Use a specific version of tailwindcss that is compatible with the setup
-npm install tailwindcss@3.3.0 postcss autoprefixer @tailwindcss/typography --no-save
 # Install UI and icon dependencies that might be missing in Vercel
 npm install lucide-react @radix-ui/react-slot class-variance-authority clsx tailwind-merge --no-save
 # Install shadcn UI component dependencies
