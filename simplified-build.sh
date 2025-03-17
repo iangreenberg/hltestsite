@@ -64,15 +64,7 @@ cat > client/src/index.css << 'EOF'
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
+/* We'll handle the base styles in the plugin instead of using @apply */
 EOF
 
 # Using dual .cjs and .js approach to ensure compatibility regardless of package.json type
@@ -84,14 +76,51 @@ EOF
 cat > client/tailwind.config.cjs << 'EOF'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        primary: "#2F5D50", // Forest Green
-        secondary: "#C8A951", // Gold
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -101,13 +130,78 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
   plugins: [
     require("tailwindcss-animate"),
-    require("@tailwindcss/typography")
+    require("@tailwindcss/typography"),
+    require("./src/lib/tailwind-plugin.cjs")
   ],
 };
+EOF
+
+# Create a helper plugin for font utilities
+mkdir -p client/src/lib
+cat > client/src/lib/tailwind-plugin.cjs << 'EOF'
+// tailwind-plugin.cjs
+const plugin = require('tailwindcss/plugin');
+
+module.exports = plugin(function({ addUtilities, addBase, theme }) {
+  const newUtilities = {
+    '.font-sans': {
+      fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    },
+    '.border-border': {
+      borderColor: 'hsl(var(--border))',
+    },
+    '.bg-background': {
+      backgroundColor: 'hsl(var(--background))',
+    },
+    '.text-foreground': {
+      color: 'hsl(var(--foreground))',
+    },
+    // Add more ShadCN utility classes
+    '.text-primary': {
+      color: 'hsl(var(--primary))',
+    },
+    '.text-secondary': {
+      color: 'hsl(var(--secondary))',
+    },
+    '.bg-primary': {
+      backgroundColor: 'hsl(var(--primary))',
+    },
+    '.bg-secondary': {
+      backgroundColor: 'hsl(var(--secondary))',
+    }
+  }
+  addUtilities(newUtilities);
+  
+  // Add base styles
+  addBase({
+    '*': {
+      borderColor: 'hsl(var(--border))',
+    },
+    'body': {
+      backgroundColor: 'hsl(var(--background))',
+      color: 'hsl(var(--foreground))',
+      fontFeatureSettings: '"rlig" 1, "calt" 1'
+    }
+  });
+});
 EOF
 
 # CommonJS version of postcss config (will take precedence) - now using @tailwindcss/postcss
@@ -125,14 +219,51 @@ cat > client/tailwind.config.js << 'EOF'
 // ES Module version
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        primary: "#2F5D50", // Forest Green
-        secondary: "#C8A951", // Gold
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -142,11 +273,26 @@ export default {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
   plugins: [
     require('@tailwindcss/typography'),
-    require('tailwindcss-animate')
+    require('tailwindcss-animate'),
+    require('./src/lib/tailwind-plugin.cjs')
   ],
 };
 EOF
