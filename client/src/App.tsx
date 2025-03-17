@@ -37,79 +37,87 @@ function MainLayout({ children }: { children: React.ReactNode }) {
 function Router() {
   return (
     <Switch>
-      {/* Admin routes */}
-      <Route path="/admin/login">
+      {/* Admin routes - place these first for higher priority */}
+      {/* Use explicit route to avoid path confusion */}
+      <Route path="/admin/login" component={() => (
         <AdminLayout>
           <AdminLogin />
         </AdminLayout>
-      </Route>
+      )} />
       
-      <Route path="/auth">
+      <Route path="/admin/dashboard" component={() => (
+        <AdminLayout>
+          <AdminDashboard />
+        </AdminLayout>
+      )} />
+      
+      {/* Redirect /admin to dashboard for convenience */}
+      <Route path="/admin" component={() => (
+        <Redirect to="/admin/dashboard" />
+      )} />
+      
+      <Route path="/auth" component={() => (
         <AdminLayout>
           <AuthPage />
         </AdminLayout>
-      </Route>
+      )} />
       
-      <ProtectedRoute path="/admin" component={AdminDashboard} />
-      
-      {/* Main site routes */}
-      <Route path="/">
-        <MainLayout>
-          <OptimizedLanding />
-        </MainLayout>
-      </Route>
-      
-      <Route path="/home">
-        <MainLayout>
-          <Home />
-        </MainLayout>
-      </Route>
-      
-      <Route path="/services">
-        <MainLayout>
-          <Services />
-        </MainLayout>
-      </Route>
-      
-      <Route path="/how-it-works">
-        <MainLayout>
-          <HowItWorks />
-        </MainLayout>
-      </Route>
-      
-      <Route path="/about">
-        <MainLayout>
-          <About />
-        </MainLayout>
-      </Route>
-      
-      <Route path="/blog">
-        <MainLayout>
-          <Blog />
-        </MainLayout>
-      </Route>
-      
-      <Route path="/contact">
-        <MainLayout>
-          <Contact />
-        </MainLayout>
-      </Route>
-
-      <Route path="/fb-landing">
-        <LandingPage />
-      </Route>
-      
-      <Route path="/auth-test">
+      <Route path="/auth-test" component={() => (
         <AdminLayout>
           <AuthTest />
         </AdminLayout>
-      </Route>
+      )} />
       
-      <Route>
+      {/* Main site routes */}
+      <Route path="/" component={() => (
+        <MainLayout>
+          <OptimizedLanding />
+        </MainLayout>
+      )} />
+      
+      <Route path="/home" component={() => (
+        <MainLayout>
+          <Home />
+        </MainLayout>
+      )} />
+      
+      <Route path="/services" component={() => (
+        <MainLayout>
+          <Services />
+        </MainLayout>
+      )} />
+      
+      <Route path="/how-it-works" component={() => (
+        <MainLayout>
+          <HowItWorks />
+        </MainLayout>
+      )} />
+      
+      <Route path="/about" component={() => (
+        <MainLayout>
+          <About />
+        </MainLayout>
+      )} />
+      
+      <Route path="/blog" component={() => (
+        <MainLayout>
+          <Blog />
+        </MainLayout>
+      )} />
+      
+      <Route path="/contact" component={() => (
+        <MainLayout>
+          <Contact />
+        </MainLayout>
+      )} />
+
+      <Route path="/fb-landing" component={() => <LandingPage />} />
+      
+      <Route component={() => (
         <MainLayout>
           <NotFound />
         </MainLayout>
-      </Route>
+      )} />
     </Switch>
   );
 }

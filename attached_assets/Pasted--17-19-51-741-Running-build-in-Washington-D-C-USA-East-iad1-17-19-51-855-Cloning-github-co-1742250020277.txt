@@ -1,0 +1,65 @@
+[17:19:51.741] Running build in Washington, D.C., USA (East) – iad1
+[17:19:51.855] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: 95c368a)
+[17:19:52.036] Previous build caches not available
+[17:19:52.269] Cloning completed: 418.000ms
+[17:19:52.304] Found .vercelignore
+[17:19:52.311] Removed 33 ignored files defined in .vercelignore
+[17:19:52.595] Running "vercel build"
+[17:19:53.000] Vercel CLI 41.3.2
+[17:19:53.114] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[17:19:53.674] Starting simplified Vercel build process...
+[17:19:53.947] npm warn config production Use `--omit=dev` instead.
+[17:20:06.738] 
+[17:20:06.739] added 75 packages, and audited 76 packages in 13s
+[17:20:06.739] 
+[17:20:06.739] 11 packages are looking for funding
+[17:20:06.740]   run `npm fund` for details
+[17:20:06.745] 
+[17:20:06.746] 2 moderate severity vulnerabilities
+[17:20:06.746] 
+[17:20:06.746] To address all issues (including breaking changes), run:
+[17:20:06.747]   npm audit fix --force
+[17:20:06.748] 
+[17:20:06.748] Run `npm audit` for details.
+[17:20:08.430] 
+[17:20:08.430] added 10 packages, changed 2 packages, and audited 86 packages in 2s
+[17:20:08.432] 
+[17:20:08.432] 11 packages are looking for funding
+[17:20:08.432]   run `npm fund` for details
+[17:20:08.444] 
+[17:20:08.445] 2 moderate severity vulnerabilities
+[17:20:08.445] 
+[17:20:08.445] To address all issues (including breaking changes), run:
+[17:20:08.445]   npm audit fix --force
+[17:20:08.446] 
+[17:20:08.446] Run `npm audit` for details.
+[17:20:10.011] 
+[17:20:10.011] added 12 packages, removed 9 packages, changed 2 packages, and audited 89 packages in 1s
+[17:20:10.012] 
+[17:20:10.012] 13 packages are looking for funding
+[17:20:10.012]   run `npm fund` for details
+[17:20:10.032] 
+[17:20:10.032] 2 moderate severity vulnerabilities
+[17:20:10.032] 
+[17:20:10.033] To address all issues (including breaking changes), run:
+[17:20:10.033]   npm audit fix --force
+[17:20:10.033] 
+[17:20:10.033] Run `npm audit` for details.
+[17:20:10.157] 
+[17:20:10.157] > client@0.1.0 build
+[17:20:10.157] > vite build
+[17:20:10.157] 
+[17:20:10.409] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[17:20:10.458] transforming...
+[17:20:10.658] [32m✓[39m 3 modules transformed.
+[17:20:10.659] [31mx[39m Build failed in 226ms
+[17:20:10.659] [31merror during build:
+[17:20:10.659] [31m[vite:css] [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.[31m
+[17:20:10.660] file: [36m/vercel/path0/client/src/index.css:undefined:NaN[31m
+[17:20:10.660]     at Re (/vercel/path0/client/node_modules/tailwindcss/dist/lib.js:33:1889)
+[17:20:10.660]     at LazyResult.runOnRoot (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:361:16)
+[17:20:10.660]     at LazyResult.runAsync (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:290:26)
+[17:20:10.660]     at LazyResult.async (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:192:30)
+[17:20:10.660]     at LazyResult.then (/vercel/path0/client/node_modules/postcss/lib/lazy-result.js:436:17)[39m
+[17:20:10.675] Error: Command "./simplified-build.sh" exited with 1
+[17:20:10.803] 
