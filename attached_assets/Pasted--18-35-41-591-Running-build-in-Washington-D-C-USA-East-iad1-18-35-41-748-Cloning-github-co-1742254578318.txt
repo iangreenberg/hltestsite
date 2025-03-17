@@ -1,0 +1,50 @@
+[18:35:41.591] Running build in Washington, D.C., USA (East) – iad1
+[18:35:41.748] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: f13ba61)
+[18:35:41.926] Previous build caches not available
+[18:35:42.549] Cloning completed: 803.000ms
+[18:35:42.604] Found .vercelignore
+[18:35:42.613] Removed 33 ignored files defined in .vercelignore
+[18:35:42.965] Running "vercel build"
+[18:35:43.488] Vercel CLI 41.3.2
+[18:35:43.637] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[18:35:44.356] Starting simplified Vercel build process...
+[18:35:44.674] npm warn config production Use `--omit=dev` instead.
+[18:35:58.795] 
+[18:35:58.796] added 84 packages, and audited 85 packages in 14s
+[18:35:58.796] 
+[18:35:58.796] 11 packages are looking for funding
+[18:35:58.797]   run `npm fund` for details
+[18:35:58.805] 
+[18:35:58.806] 2 moderate severity vulnerabilities
+[18:35:58.806] 
+[18:35:58.806] To address all issues (including breaking changes), run:
+[18:35:58.806]   npm audit fix --force
+[18:35:58.806] 
+[18:35:58.807] Run `npm audit` for details.
+[18:36:02.569] 
+[18:36:02.569] added 14 packages, and audited 99 packages in 4s
+[18:36:02.570] 
+[18:36:02.570] 14 packages are looking for funding
+[18:36:02.570]   run `npm fund` for details
+[18:36:02.594] 
+[18:36:02.594] 2 moderate severity vulnerabilities
+[18:36:02.594] 
+[18:36:02.595] To address all issues (including breaking changes), run:
+[18:36:02.595]   npm audit fix --force
+[18:36:02.595] 
+[18:36:02.595] Run `npm audit` for details.
+[18:36:10.198] 
+[18:36:10.199] added 118 packages, changed 2 packages, and audited 217 packages in 8s
+[18:36:10.200] 
+[18:36:10.200] 44 packages are looking for funding
+[18:36:10.200]   run `npm fund` for details
+[18:36:10.211] 
+[18:36:10.211] 2 moderate severity vulnerabilities
+[18:36:10.211] 
+[18:36:10.212] To address all issues (including breaking changes), run:
+[18:36:10.212]   npm audit fix --force
+[18:36:10.212] 
+[18:36:10.212] Run `npm audit` for details.
+[18:36:10.233] ./simplified-build.sh: line 317: cd: client: No such file or directory
+[18:36:10.237] Error: Command "./simplified-build.sh" exited with 1
+[18:36:10.543] 
