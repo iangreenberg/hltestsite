@@ -148,7 +148,6 @@ module.exports = {
   },
   plugins: [
     require("tailwindcss-animate"),
-    require("@tailwindcss/typography"),
     require("./src/lib/tailwind-plugin.cjs")
   ],
 };
@@ -204,12 +203,12 @@ module.exports = plugin(function({ addUtilities, addBase, theme }) {
 });
 EOF
 
-# CommonJS version of postcss config (will take precedence) - now using @tailwindcss/postcss
+# CommonJS version of postcss config (will take precedence)
 cat > client/postcss.config.cjs << 'EOF'
 module.exports = {
   plugins: {
-    '@tailwindcss/postcss': {},
-    autoprefixer: {},
+    'tailwindcss': {},
+    'autoprefixer': {},
   }
 }
 EOF
@@ -290,7 +289,6 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
     require('tailwindcss-animate'),
     require('./src/lib/tailwind-plugin.cjs')
   ],
@@ -300,8 +298,8 @@ EOF
 cat > client/postcss.config.js << 'EOF'
 export default {
   plugins: {
-    '@tailwindcss/postcss': {},
-    autoprefixer: {},
+    'tailwindcss': {},
+    'autoprefixer': {},
   }
 }
 EOF

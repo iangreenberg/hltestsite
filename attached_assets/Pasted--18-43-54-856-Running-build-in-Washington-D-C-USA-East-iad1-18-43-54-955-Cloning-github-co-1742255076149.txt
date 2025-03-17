@@ -1,0 +1,50 @@
+[18:43:54.856] Running build in Washington, D.C., USA (East) – iad1
+[18:43:54.955] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: cd4869e)
+[18:43:55.465] Previous build caches not available
+[18:43:55.686] Cloning completed: 731.000ms
+[18:43:55.721] Found .vercelignore
+[18:43:55.731] Removed 33 ignored files defined in .vercelignore
+[18:43:55.941] Running "vercel build"
+[18:43:56.319] Vercel CLI 41.3.2
+[18:43:56.439] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[18:43:56.995] Starting simplified Vercel build process...
+[18:43:57.011] Current directory: /vercel/path0
+[18:43:57.013] total 1488
+[18:43:57.013] drwxr-xr-x 9 root root    4096 Mar 17 23:43 .
+[18:43:57.013] drwxr-x--- 8 root root     162 Mar 17 23:43 ..
+[18:43:57.013] drwxr-xr-x 8 root root      86 Mar 17 23:43 .git
+[18:43:57.013] drwxr-xr-x 2 root root      26 Mar 17 23:43 .vercel
+[18:43:57.013] -rw-r--r-- 1 root root     461 Mar 17 23:43 .vercelignore
+[18:43:57.013] drwxr-xr-x 2 root root      61 Mar 17 23:43 api
+[18:43:57.013] drwxr-xr-x 2 root root    4096 Mar 17 23:43 attached_assets
+[18:43:57.014] -rwxr-xr-x 1 root root     135 Mar 17 23:43 auto-push.sh
+[18:43:57.014] -rwxr-xr-x 1 root root     388 Mar 17 23:43 build.sh
+[18:43:57.014] drwxr-xr-x 4 root root     264 Mar 17 23:43 client
+[18:43:57.014] -rw-r--r-- 1 root root     325 Mar 17 23:43 drizzle.config.ts
+[18:43:57.014] -rw-r--r-- 1 root root 1111408 Mar 17 23:43 generated-icon.png
+[18:43:57.014] -rw-r--r-- 1 root root     207 Mar 17 23:43 netlify.toml
+[18:43:57.014] -rw-r--r-- 1 root root  313268 Mar 17 23:43 package-lock.json
+[18:43:57.014] -rw-r--r-- 1 root root    3564 Mar 17 23:43 package.json
+[18:43:57.014] -rw-r--r-- 1 root root      80 Mar 17 23:43 postcss.config.js
+[18:43:57.014] -rwxr-xr-x 1 root root     563 Mar 17 23:43 push-to-github.sh
+[18:43:57.015] drwxr-xr-x 2 root root       6 Mar 17 23:43 server
+[18:43:57.015] drwxr-xr-x 2 root root      23 Mar 17 23:43 shared
+[18:43:57.015] -rwxr-xr-x 1 root root    8932 Mar 17 23:43 simplified-build.sh
+[18:43:57.015] -rw-r--r-- 1 root root    2787 Mar 17 23:43 tailwind.config.ts
+[18:43:57.015] -rw-r--r-- 1 root root     109 Mar 17 23:43 theme.json
+[18:43:57.015] -rw-r--r-- 1 root root     657 Mar 17 23:43 tsconfig.json
+[18:43:57.015] -rw-r--r-- 1 root root     264 Mar 17 23:43 vercel-build-package.json
+[18:43:57.015] -rwxr-xr-x 1 root root     417 Mar 17 23:43 vercel-build.sh
+[18:43:57.016] -rw-r--r-- 1 root root     312 Mar 17 23:43 vercel-package.json
+[18:43:57.016] -rw-r--r-- 1 root root      65 Mar 17 23:43 vercel-test.json
+[18:43:57.016] -rw-r--r-- 1 root root     278 Mar 17 23:43 vercel.json
+[18:43:57.016] -rw-r--r-- 1 root root    1008 Mar 17 23:43 vite.config.ts
+[18:43:57.016] Entering client directory: /vercel/path0/client
+[18:43:57.832] npm warn config production Use `--omit=dev` instead.
+[18:44:20.883] npm error code ETARGET
+[18:44:20.885] npm error notarget No matching version found for @tailwindcss/postcss@^3.0.0.
+[18:44:20.885] npm error notarget In most cases you or one of your dependencies are requesting
+[18:44:20.886] npm error notarget a package version that doesn't exist.
+[18:44:20.886] npm error A complete log of this run can be found in: /vercel/.npm/_logs/2025-03-17T23_43_57_787Z-debug-0.log
+[18:44:20.923] Error: Command "./simplified-build.sh" exited with 1
+[18:44:21.107] 
