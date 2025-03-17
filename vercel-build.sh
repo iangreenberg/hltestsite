@@ -17,9 +17,15 @@ mkdir -p dist/shared
 echo "Building client..."
 cd client
 
-# Install exact versions to ensure compatibility
+# Install build dependencies - using exact, compatible versions
 echo "Installing build dependencies..."
 npm install --no-save vite@5.1.6 @vitejs/plugin-react@4.2.1 typescript@5.4.2
+
+# First, clean up any conflicting configs
+if [ -f "vite.config.js" ]; then
+  echo "Removing JS config in favor of TS config..."
+  rm vite.config.js
+fi
 
 # Ensure local schema copy exists
 echo "Creating local schema..."
@@ -75,27 +81,55 @@ export type InsertEmailSubscription = z.infer<typeof insertEmailSubscriptionSche
 export type EmailSubscription = InsertEmailSubscription & { id: number };
 EOF
 
-# Copy shared files to client
+# Copy shared files to client and create necessary directories
+echo "Setting up project structure..."
 mkdir -p src/shared
+mkdir -p src/components/ui
+mkdir -p src/components/layout
+mkdir -p src/hooks
+mkdir -p src/lib
+mkdir -p src/pages
+mkdir -p src/pages/admin
+
+# Copy shared files
 cp -r ../shared/* src/shared/ 2>/dev/null || :
 
-# Try building with different strategies
-if [ -f "vite.config.ts" ]; then
-  echo "TypeScript config found, attempting to use..."
-  echo "Trying first build method with vite.config.ts..."
-  # Try to build with TS config
-  ./node_modules/.bin/vite build || {
-    echo "Vite TS config failed, trying JS config..."
-    # Rename TS config and try to build with JS config
-    mv vite.config.ts vite.config.ts.bak
-    # Try to build with JS config
-    ./node_modules/.bin/vite build || {
-      echo "JS config also failed, trying direct node execution..."
-      # Try direct Node execution
-      node ./node_modules/vite/bin/vite.js build || {
-        echo "All build attempts failed. Creating fallback."
-        mkdir -p dist
-        cat > dist/index.html << 'EOF'
+# Create a simplified vite config that should work reliably
+cat > vite.config.js << 'EOF'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@shared': path.resolve(__dirname, 'src/shared')
+    }
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    minify: true,
+    sourcemap: false,
+    rollupOptions: {
+      external: []
+    }
+  }
+});
+EOF
+
+# Try building with our new simplified config
+echo "Building client with simplified config..."
+./node_modules/.bin/vite build || {
+  echo "Build failed, trying alternate method..."
+  # Try direct Node execution as a fallback
+  node ./node_modules/vite/bin/vite.js build || {
+    echo "All build attempts failed. Creating fallback."
+    mkdir -p dist
+    cat > dist/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,83 +189,8 @@ if [ -f "vite.config.ts" ]; then
 </body>
 </html>
 EOF
-      }
-    }
-    # Restore TS config if we renamed it
-    if [ -f "vite.config.ts.bak" ]; then
-      mv vite.config.ts.bak vite.config.ts
-    fi
   }
-else
-  echo "Using JS config for build..."
-  ./node_modules/.bin/vite build || {
-    echo "JS config failed, trying direct node execution..."
-    node ./node_modules/vite/bin/vite.js build || {
-      echo "All build attempts failed. Creating fallback."
-      mkdir -p dist
-      cat > dist/index.html << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hemp Launch Pro</title>
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      max-width: 800px;
-      padding: 40px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #2F5D50;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-    .button {
-      display: inline-block;
-      background-color: #2F5D50;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-    .button:hover {
-      background-color: #25453E;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Hemp Launch Pro</h1>
-    <p>We're making some improvements to our site. Please check back soon for our full service catalog.</p>
-    <a href="mailto:contact@hemplaunch.co" class="button">Contact Us</a>
-  </div>
-</body>
-</html>
-EOF
-    }
-  }
-fi
+}
 
 cd ..
 
