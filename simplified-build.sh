@@ -307,34 +307,22 @@ export default {
 EOF
 
 # Build client
-cd client
-npm install --production=false
-# Simplified build script for Vercel environment
-# Check directory structure
 echo "Current directory: $(pwd)"
 ls -la
 
-# Check if client directory exists
-if [ -d "client" ]; then
-    echo "Client directory exists, proceeding with build..."
-    
-    # Navigate to client directory
-    cd client
-    
-    # Create dist directory if it doesn't exist
-    mkdir -p dist
-    
-    # Install all dependencies from package.json
-    npm install
-    
-    # Set NODE_ENV to production for optimized build
-    export NODE_ENV=production
-    npm run build
-    cd ..
-else
-    echo "Client directory doesn't exist, creating basic structure..."
-    mkdir -p client/dist
-    echo "<html><body><h1>Site under construction</h1></body></html>" > client/dist/index.html
-fi
+# Navigate to client directory
+cd client
+echo "Entering client directory: $(pwd)"
+
+# Create dist directory if it doesn't exist
+mkdir -p dist
+
+# Install dependencies
+npm install --production=false
+
+# Set NODE_ENV to production for optimized build
+export NODE_ENV=production
+npm run build
+cd ..
 
 echo "Build completed successfully!"
