@@ -8,6 +8,10 @@ echo "Copying shared schema to client..."
 mkdir -p client/shared
 cp -r shared/* client/shared/
 
+# Update tailwind config
+echo "Updating Tailwind configuration..."
+cp tailwind.config.ts client/
+
 # Build client
 echo "Building client..."
 cd client
