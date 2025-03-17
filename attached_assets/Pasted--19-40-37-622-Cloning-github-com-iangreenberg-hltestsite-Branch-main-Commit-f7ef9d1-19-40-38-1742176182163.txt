@@ -1,0 +1,43 @@
+[19:40:37.622] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: f7ef9d1)
+[19:40:38.015] Cloning completed: 391.000ms
+[19:40:38.076] Found .vercelignore
+[19:40:38.102] Removed 33 ignored files defined in .vercelignore
+[19:40:38.605] Restored build cache from previous deployment (7XKutAyRMfhFGrEqqiPeGDgRtwNH)
+[19:40:39.647] Running build in Washington, D.C., USA (East) – iad1
+[19:40:40.137] Running "vercel build"
+[19:40:40.490] Vercel CLI 41.3.2
+[19:40:40.599] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[19:40:41.153] Starting simplified Vercel build process...
+[19:40:41.410] npm warn config production Use `--omit=dev` instead.
+[19:40:53.196] 
+[19:40:53.197] added 61 packages, and audited 76 packages in 12s
+[19:40:53.197] 
+[19:40:53.198] 11 packages are looking for funding
+[19:40:53.198]   run `npm fund` for details
+[19:40:53.205] 
+[19:40:53.205] 2 moderate severity vulnerabilities
+[19:40:53.205] 
+[19:40:53.205] To address all issues (including breaking changes), run:
+[19:40:53.206]   npm audit fix --force
+[19:40:53.206] 
+[19:40:53.206] Run `npm audit` for details.
+[19:40:53.349] 
+[19:40:53.349] > client@0.1.0 build
+[19:40:53.349] > vite build
+[19:40:53.349] 
+[19:40:53.670] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[19:40:53.719] transforming...
+[19:40:55.059] 
+[19:40:55.060] /hemp-pattern.png referenced in /hemp-pattern.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+[19:40:55.583] [32m✓[39m 84 modules transformed.
+[19:40:55.589] [31mx[39m Build failed in 1.89s
+[19:40:55.589] [31merror during build:
+[19:40:55.589] [31m[vite:load-fallback] Could not load /vercel/path0/client/src/shared/schema (imported by src/pages/admin/Login.tsx): ENOENT: no such file or directory, open '/vercel/path0/client/src/shared/schema'[31m
+[19:40:55.589]     at async open (node:internal/fs/promises:638:25)
+[19:40:55.589]     at async Object.readFile (node:internal/fs/promises:1242:14)
+[19:40:55.590]     at async Object.load (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65249:25)
+[19:40:55.590]     at async PluginDriver.hookFirstAndGetPlugin (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21791:28)
+[19:40:55.590]     at async file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:20914:33
+[19:40:55.590]     at async Queue.work (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:22001:32)[39m
+[19:40:55.609] Error: Command "./simplified-build.sh" exited with 1
+[19:40:55.884] 

@@ -3,9 +3,13 @@ set -e
 
 echo "Starting simplified Vercel build process..."
 
-# Make sure shared directory exists for client
+# Make sure shared directory exists in both locations for maximum compatibility
 mkdir -p client/shared
 cp -r shared/* client/shared/
+
+# Also copy to src/shared for imports that use that path
+mkdir -p client/src/shared
+cp -r shared/* client/src/shared/
 
 # Build client
 cd client
