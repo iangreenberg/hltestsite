@@ -56,8 +56,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Login successful",
         description: `Welcome back, ${user.username}!`,
       });
-      // Redirect to home page on successful login
-      setLocation("/");
+      // Redirect admin users to admin dashboard, regular users to home page
+      if (user.isAdmin) {
+        setLocation("/admin/dashboard");
+      } else {
+        setLocation("/");
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -90,8 +94,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Registration successful",
         description: `Welcome, ${user.username}!`,
       });
-      // Redirect to home page on successful registration
-      setLocation("/");
+      // Redirect admin users to admin dashboard, regular users to home page
+      if (user.isAdmin) {
+        setLocation("/admin/dashboard");
+      } else {
+        setLocation("/");
+      }
     },
     onError: (error: Error) => {
       toast({
