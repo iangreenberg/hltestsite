@@ -1,12 +1,91 @@
 import { Button } from "../components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import TimelineQualifier from "../components/common/TimelineQualifier";
 import { Link } from "wouter";
-import { ArrowRight, Check, X, Shield, Clock, TrendingUp, DollarSign, PieChart, FileCheck, Map } from "lucide-react";
+import { 
+  ArrowRight, Check, X, Shield, Clock, TrendingUp, DollarSign, 
+  PieChart, FileCheck, Map, Rocket, ChevronDown
+} from "lucide-react";
+import { motion } from "framer-motion";
+
+// Animation variants for framer-motion
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3
+    }
+  }
+};
+
+// Button animation
+const pulseAnimation = {
+  scale: [1, 1.05, 1]
+};
 
 export default function LandingPage() {
   const [showQualifier, setShowQualifier] = useState(false);
+  const [isVisible, setIsVisible] = useState({
+    hero: false,
+    market: false,
+    problem: false,
+    solution: false,
+    packages: false,
+    testimonials: false
+  });
+
+  // Intersection Observer setup for animations
+  useEffect(() => {
+    type ObserverItem = {
+      observer: IntersectionObserver;
+      element: Element;
+    };
+    
+    const observers: ObserverItem[] = [];
+    
+    const sections = [
+      { id: 'hero', el: document.getElementById('hero-section') },
+      { id: 'market', el: document.getElementById('market-section') },
+      { id: 'problem', el: document.getElementById('problem-section') },
+      { id: 'solution', el: document.getElementById('solution-section') },
+      { id: 'packages', el: document.getElementById('packages-section') },
+      { id: 'testimonials', el: document.getElementById('testimonials-section') }
+    ];
+    
+    sections.forEach(section => {
+      if (section.el) {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setIsVisible(prev => ({ ...prev, [section.id]: true }));
+            }
+          },
+          { threshold: 0.1 }
+        );
+        
+        observer.observe(section.el);
+        observers.push({ observer, element: section.el });
+      }
+    });
+    
+    // Cleanup
+    return () => {
+      observers.forEach(({ observer, element }) => {
+        if (element) observer.unobserve(element);
+      });
+    };
+  }, []);
 
   return (
     <>
@@ -16,38 +95,108 @@ export default function LandingPage() {
           name="description" 
           content="Tap into Texas' $8 billion hemp market with our turnkey system. Launch in 30 days for under $3,000 with full legal compliance, branding, and manufacturing."
         />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
       </Helmet>
       
-      <main className="bg-white">
+      <main className="bg-white overflow-x-hidden">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-b from-[#2F5D50] to-[#1A3C33] text-white py-16 md:py-24">
+        <section 
+          id="hero-section"
+          className="relative bg-gradient-to-b from-[#2F5D50] to-[#1A3C33] text-white py-16 md:py-28"
+        >
           <div className="absolute inset-0 opacity-20 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4">
-                Launch Your Hemp-Derived THC Business with HempLaunch
-              </h1>
-              <p className="text-xl md:text-2xl mb-6">
-                <span className="bg-[#C8A951] text-[#2F5D50] px-3 py-1 rounded">30 Days</span> <span className="mx-2">•</span> <span className="bg-[#C8A951] text-[#2F5D50] px-3 py-1 rounded">Under $3,000</span> <span className="mx-2">•</span> <span className="bg-[#C8A951] text-[#2F5D50] px-3 py-1 rounded">$8 Billion Market</span>
-              </p>
-              <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">
-                An all-in-one, turnkey solution that handles every detail—from legal formation and compliance to custom branding, manufacturing, and e-commerce setup—so you can focus on growing your brand and dominating your market.
-              </p>
-              <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
-                <Button 
-                  onClick={() => setShowQualifier(true)}
-                  className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 text-lg border-2 border-[#C8A951]"
+          <motion.div 
+            initial="hidden"
+            animate={isVisible.hero ? "visible" : "hidden"}
+            variants={staggerContainer}
+            className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+          >
+            <div className="max-w-5xl mx-auto text-center">
+              <motion.div variants={fadeIn} className="mb-3 inline-block">
+                <span className="bg-[#C8A951] text-[#2F5D50] px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                  Turnkey Hemp Business Solution
+                </span>
+              </motion.div>
+              
+              <motion.h1 
+                variants={fadeIn}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              >
+                <span className="text-[#C8A951]">Build & Scale</span> Your Hemp Business with Confidence
+              </motion.h1>
+              
+              <motion.div 
+                variants={fadeIn}
+                className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 mb-8"
+              >
+                <div className="flex items-center bg-white/10 backdrop-blur-sm px-5 py-3 rounded-xl shadow">
+                  <Rocket className="h-5 w-5 text-[#C8A951] mr-2" />
+                  <span className="text-xl font-medium">Launch in 30 Days</span>
+                </div>
+                
+                <div className="flex items-center bg-white/10 backdrop-blur-sm px-5 py-3 rounded-xl shadow">
+                  <DollarSign className="h-5 w-5 text-[#C8A951] mr-2" />
+                  <span className="text-xl font-medium">Under $3,000</span>
+                </div>
+                
+                <div className="flex items-center bg-white/10 backdrop-blur-sm px-5 py-3 rounded-xl shadow">
+                  <TrendingUp className="h-5 w-5 text-[#C8A951] mr-2" />
+                  <span className="text-xl font-medium">$8 Billion Market</span>
+                </div>
+              </motion.div>
+              
+              <motion.p 
+                variants={fadeIn}
+                className="text-lg md:text-xl mb-10 max-w-4xl mx-auto leading-relaxed"
+              >
+                Imagine launching a fully legal hemp-derived THC business in just 30 days with our all-in-one, turnkey solution. HempLaunch handles everything—from legal formation and compliance to branding, manufacturing, and e-commerce—so you can focus on <span className="font-bold underline decoration-[#C8A951]">growing your brand and dominating your market</span>.
+              </motion.p>
+              
+              <motion.div 
+                variants={fadeIn}
+                className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center"
+              >
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    transition: { 
+                      duration: 2, 
+                      repeat: Infinity,
+                      repeatType: "reverse" as const
+                    }
+                  }}
                 >
-                  Apply For Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                  <Button 
+                    onClick={() => setShowQualifier(true)}
+                    className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-5 px-10 text-lg border-2 border-[#C8A951] rounded-xl shadow-lg"
+                    size="lg"
+                  >
+                    Apply For Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </motion.div>
+                
                 <Link href="/how-it-works">
-                  <Button variant="outline" className="w-full md:w-auto border-white text-white hover:bg-white hover:text-[#2F5D50] font-medium py-3 text-lg">
-                    How It Works
+                  <Button 
+                    variant="outline" 
+                    className="w-full md:w-auto border-white text-white hover:bg-white hover:text-[#2F5D50] font-medium py-5 px-8 text-lg rounded-xl"
+                    size="lg"
+                  >
+                    See How It Works
                   </Button>
                 </Link>
-              </div>
+              </motion.div>
+              
+              <motion.div 
+                variants={fadeIn} 
+                className="mt-12 flex justify-center"
+              >
+                <div className="animate-bounce bg-white/20 p-2 w-10 h-10 ring-1 ring-white/20 shadow-lg rounded-full flex items-center justify-center">
+                  <ChevronDown className="h-6 w-6 text-white" />
+                </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Market Opportunity Section */}
