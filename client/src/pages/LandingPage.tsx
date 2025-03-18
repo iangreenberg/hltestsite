@@ -29,11 +29,6 @@ const staggerContainer = {
   }
 };
 
-// Button animation
-const pulseAnimation = {
-  scale: [1, 1.05, 1]
-};
-
 export default function LandingPage() {
   const [showQualifier, setShowQualifier] = useState(false);
   const [isVisible, setIsVisible] = useState({
@@ -166,6 +161,8 @@ export default function LandingPage() {
                       repeatType: "reverse" as const
                     }
                   }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <Button 
                     onClick={() => setShowQualifier(true)}
@@ -371,18 +368,32 @@ export default function LandingPage() {
         </section>
         
         {/* Solution Section */}
-        <section className="py-16 bg-white">
+        <section 
+          id="solution-section"
+          className="py-16 bg-white"
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <span className="text-[#C8A951] font-semibold">THE SOLUTION</span>
-                <h2 className="text-3xl font-bold text-[#2F5D50] mt-2">
+              <motion.div 
+                initial="hidden"
+                animate={isVisible.solution ? "visible" : "hidden"}
+                variants={staggerContainer}
+                className="text-center mb-12"
+              >
+                <motion.span variants={fadeIn} className="text-[#C8A951] font-semibold">THE SOLUTION</motion.span>
+                <motion.h2 
+                  variants={fadeIn}
+                  className="text-3xl font-bold text-[#2F5D50] mt-2"
+                >
                   The HempLaunch Turnkey System
-                </h2>
-                <p className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
+                </motion.h2>
+                <motion.p 
+                  variants={fadeIn}
+                  className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto"
+                >
                   HempLaunch transforms a complex, fragmented process into a seamless, streamlined journey that gets you to market fast and at a fraction of the cost.
-                </p>
-              </div>
+                </motion.p>
+              </motion.div>
               
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-white p-8 rounded-lg shadow-md border-l-4 border-[#2F5D50] hover:shadow-lg transition-shadow">
@@ -445,8 +456,244 @@ export default function LandingPage() {
           </div>
         </section>
         
+        {/* Service Packages Section */}
+        <section 
+          id="packages-section" 
+          className="py-16 bg-gradient-to-r from-gray-100 to-gray-200"
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto">
+              <motion.div 
+                initial="hidden"
+                animate={isVisible.packages ? "visible" : "hidden"}
+                variants={staggerContainer}
+                className="text-center mb-12"
+              >
+                <motion.span variants={fadeIn} className="text-[#C8A951] font-semibold">SERVICE PACKAGES</motion.span>
+                <motion.h2 
+                  variants={fadeIn}
+                  className="text-3xl font-bold text-[#2F5D50] mt-2"
+                >
+                  Tailored Solutions for Your Business
+                </motion.h2>
+                <motion.p 
+                  variants={fadeIn}
+                  className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto"
+                >
+                  We offer three comprehensive service packages designed to fit your specific business needs and growth goals.
+                </motion.p>
+              </motion.div>
+              
+              <div className="grid md:grid-cols-3 gap-8">
+                {/* Ecom Starter Package */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                >
+                  <div className="bg-[#2F5D50] text-white p-6 text-center">
+                    <h3 className="text-2xl font-bold">Ecom Starter</h3>
+                    <div className="mt-2 flex justify-center">
+                      <Rocket className="h-12 w-12 text-[#C8A951]" />
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-gray-600 mb-6">Perfect for new businesses looking for a strong foundation.</p>
+                    <ul className="space-y-3 mb-8">
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Business formation (LLC, EIN, Sales Tax ID)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Compliance essentials (COA verification, legal framework)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">E-commerce website setup with age verification and compliance</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Financial setup (Bank account, merchant processor)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Starter branding package (logo, product design)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Free sample & example product costs included</span>
+                      </li>
+                    </ul>
+                    <div className="mt-6 text-center">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          onClick={() => setShowQualifier(true)}
+                          className="w-full bg-[#2F5D50] hover:bg-[#234840] font-semibold py-3 px-6"
+                          size="lg"
+                        >
+                          Apply Now
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </div>
+                  <div className="bg-[#f0f9f6] p-4 text-center">
+                    <p className="text-[#2F5D50] font-bold">Ideal for: First-time business owners</p>
+                  </div>
+                </motion.div>
+
+                {/* Growth Package */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative z-10 md:-mt-4 md:mb-4"
+                >
+                  <div className="absolute -top-4 inset-x-0 flex justify-center">
+                    <span className="bg-[#C8A951] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                      Most Popular
+                    </span>
+                  </div>
+                  <div className="bg-[#2F5D50] text-white p-8 text-center">
+                    <h3 className="text-2xl font-bold">Growth Package</h3>
+                    <div className="mt-2 flex justify-center">
+                      <TrendingUp className="h-12 w-12 text-[#C8A951]" />
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-gray-600 mb-6">For brands ready to scale with expert marketing & automation.</p>
+                    <ul className="space-y-3 mb-8">
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600"><span className="font-semibold">Everything in Ecom Starter PLUS:</span></span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">High-converting e-commerce website with expert design</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Custom subdomain landing page for targeted marketing</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">SMS/email marketing automation consultation</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Wholesale login portal for bulk orders</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Advanced compliance (sales tax strategy, MSO consultation)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Full branding package (complete brand book)</span>
+                      </li>
+                    </ul>
+                    <div className="mt-6 text-center">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          onClick={() => setShowQualifier(true)}
+                          className="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-6 border-2 border-[#C8A951]"
+                          size="lg"
+                        >
+                          Apply Now
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </div>
+                  <div className="bg-[#f0f9f6] p-4 text-center">
+                    <p className="text-[#2F5D50] font-bold">Ideal for: Growing brands & established businesses</p>
+                  </div>
+                </motion.div>
+
+                {/* Accelerator Program */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                >
+                  <div className="bg-[#2F5D50] text-white p-6 text-center">
+                    <h3 className="text-2xl font-bold">Accelerator Program</h3>
+                    <div className="mt-2 flex justify-center">
+                      <div className="relative">
+                        <Rocket className="h-12 w-12 text-[#C8A951]" />
+                        <Rocket className="h-12 w-12 text-[#C8A951] absolute -top-1 -left-1" />
+                        <Rocket className="h-12 w-12 text-[#C8A951] absolute -top-2 -left-2" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-gray-600 mb-6">For businesses that want an all-in-one solution with advanced automation.</p>
+                    <ul className="space-y-3 mb-8">
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600"><span className="font-semibold">Everything in Growth Package PLUS:</span></span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Full CRM backend setup & integration</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Business formation for tax optimization (S-Corp, bylaws)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">State-specific MSO setup & ongoing compliance</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Payroll & accounting automation (QuickBooks integration)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Dedicated design expert (company merch, premium branding)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Expert-level marketing campaigns and brand ambassador recruitment</span>
+                      </li>
+                    </ul>
+                    <div className="mt-6 text-center">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          onClick={() => setShowQualifier(true)}
+                          className="w-full bg-[#2F5D50] hover:bg-[#234840] font-semibold py-3 px-6"
+                          size="lg"
+                        >
+                          Apply Now
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </div>
+                  <div className="bg-[#f0f9f6] p-4 text-center">
+                    <p className="text-[#2F5D50] font-bold">Ideal for: Scaling brands ready for enterprise-level operations</p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Process Steps */}
-        <section className="py-16 bg-gray-50">
+        <section 
+          id="process-section"
+          className="py-16 bg-gray-50"
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
