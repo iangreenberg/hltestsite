@@ -2,9 +2,8 @@ import { Button } from "../components/ui/button";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import TimelineQualifier from "../components/common/TimelineQualifier";
-import { Link } from "wouter";
 import { 
-  ArrowRight, Check, TrendingUp, DollarSign, Rocket, ChevronDown
+  Check, TrendingUp, DollarSign, Rocket, ChevronDown, ArrowRight
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -29,7 +28,6 @@ const staggerContainer = {
 };
 
 export default function NewLandingPage() {
-  const [showQualifier, setShowQualifier] = useState(false);
   const [isVisible, setIsVisible] = useState({
     hero: false,
     market: false,
@@ -149,26 +147,7 @@ export default function NewLandingPage() {
                 variants={fadeIn}
                 className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center"
               >
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.05, 1],
-                    transition: { 
-                      duration: 2, 
-                      repeat: Infinity,
-                      repeatType: "reverse" as const
-                    }
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button 
-                    onClick={() => setShowQualifier(true)}
-                    className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-5 px-10 text-lg border-2 border-[#C8A951] rounded-xl shadow-lg"
-                    size="lg"
-                  >
-                    Apply For Your Free Consultation <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </motion.div>
+
                 
 
               </motion.div>
@@ -695,21 +674,12 @@ export default function NewLandingPage() {
                 <h3 className="text-2xl font-bold mb-4">Capture Your Share of the Texas Hemp Market</h3>
                 <p className="mb-8 text-lg">Our exclusive launch slots are limited—act now to start your journey</p>
                 
-                {showQualifier ? (
-                  <div className="max-w-md mx-auto">
-                    <TimelineQualifier
-                      buttonText="Apply Now"
-                      buttonClassName="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 text-lg rounded-lg"
-                    />
-                  </div>
-                ) : (
-                  <Button 
-                    onClick={() => window.location.href = '/apply'}
-                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-10 text-lg rounded-lg"
-                  >
-                    Complete Your Application Now <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                )}
+                <Button 
+                  onClick={() => window.location.href = '/apply'}
+                  className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-10 text-lg rounded-lg"
+                >
+                  Complete Your Application Now <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
                 
                 <p className="text-gray-600 text-sm mt-6 max-w-md mx-auto">
                   By applying, you'll secure a free consultation with one of our hemp business experts who will assess your readiness and explain how HempLaunch can transform your entrepreneurial vision into reality.
