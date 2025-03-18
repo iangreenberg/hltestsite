@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Navigation</title>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #f9fafb;
+      color: #111827;
+    }
+    h1 {
+      color: #2F5D50;
+      border-bottom: 2px solid #C8A951;
+      padding-bottom: 0.5rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .nav-link {
+      background-color: #2F5D50;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      text-align: center;
+      min-width: 150px;
+    }
+    .nav-link:hover {
+      background-color: #234840;
+    }
+    .nav-link.secondary {
+      background-color: #C8A951;
+      color: #111827;
+    }
+    .nav-link.secondary:hover {
+      background-color: #b39843;
+    }
+    .status-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 0.25rem;
+    }
+    .authenticated {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .not-authenticated {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    pre {
+      background-color: #f3f4f6;
+      border-radius: 0.25rem;
+      padding: 1rem;
+      overflow: auto;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hemp Launch - Admin Navigation</h1>
+  
+  <div class="card">
+    <h2>Quick Links</h2>
+    <div class="nav-links">
+      <a href="/admin/dashboard" class="nav-link">Admin Dashboard</a>
+      <a href="/admin/login" class="nav-link">Admin Login</a>
+      <a href="/" class="nav-link secondary">Main Website</a>
+      <a href="/auth-test.html" class="nav-link secondary">Auth Test Page</a>
+    </div>
+    
+    <div id="auth-status">Checking authentication status...</div>
+  </div>
+
+  <script>
+    // Check authentication status
+    async function checkAuthStatus() {
+      const statusDiv = document.getElementById('auth-status');
+      
+      try {
+        const response = await fetch('/api/user');
+        
+        if (response.ok) {
+          const user = await response.json();
+          statusDiv.innerHTML = `
+            <div class="status-box authenticated">
+              <strong>✅ Authenticated as:</strong> ${user.username}
+              <pre>${JSON.stringify(user, null, 2)}</pre>
+            </div>
+          `;
+        } else {
+          statusDiv.innerHTML = `
+            <div class="status-box not-authenticated">
+              <strong>❌ Not authenticated</strong>
+              <p>Please log in to access admin features</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        statusDiv.innerHTML = `
+          <div class="status-box not-authenticated">
+            <strong>❌ Error checking authentication:</strong> ${error.message}
+          </div>
+        `;
+      }
+    }
+
+    // Check auth status on page load
+    checkAuthStatus();
+  </script>
+</body>
+</html>
