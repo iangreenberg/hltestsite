@@ -1,0 +1,85 @@
+[20:17:31.420] Running build in Washington, D.C., USA (East) – iad1
+[20:17:31.530] Cloning github.com/iangreenberg/hltestsite (Branch: main, Commit: ce0be5f)
+[20:17:31.898] Cloning completed: 366.000ms
+[20:17:31.970] Found .vercelignore
+[20:17:31.987] Removed 33 ignored files defined in .vercelignore
+[20:17:32.999] Restored build cache from previous deployment (AbinUXPSp56rbk2QzLS4PeUvneBu)
+[20:17:33.080] Running "vercel build"
+[20:17:33.459] Vercel CLI 41.3.2
+[20:17:33.587] WARN! Due to `builds` existing in your configuration file, the Build and Development Settings defined in your Project Settings will not apply. Learn More: https://vercel.link/unused-build-settings
+[20:17:34.405] Starting custom Vercel build process...
+[20:17:34.405] Copying shared schema to client...
+[20:17:34.411] Creating clean package.json for client...
+[20:17:34.413] Creating optimized tailwind config...
+[20:17:34.421] Current directory: /vercel/path0
+[20:17:34.423] total 1512
+[20:17:34.423] drwxr-xr-x 9 root root    4096 Mar 18 01:17 .
+[20:17:34.423] drwxr-x--- 7 root root     123 Mar 18 01:17 ..
+[20:17:34.423] drwxr-xr-x 8 root root      86 Mar 18 01:17 .git
+[20:17:34.424] drwxr-xr-x 2 root root      26 Mar 18 01:17 .vercel
+[20:17:34.424] -rw-r--r-- 1 root root     461 Mar 18 01:17 .vercelignore
+[20:17:34.424] drwxr-xr-x 3 root root      81 Mar 18 01:17 api
+[20:17:34.424] -rw-r--r-- 1 root root    5167 Mar 18 01:17 api-auth-test.js
+[20:17:34.424] drwxr-xr-x 2 root root    8192 Mar 18 01:17 attached_assets
+[20:17:34.424] -rwxr-xr-x 1 root root     135 Mar 18 01:17 auto-push.sh
+[20:17:34.424] -rwxr-xr-x 1 root root     388 Mar 18 01:17 build.sh
+[20:17:34.424] drwxr-xr-x 6 root root     298 Mar 18 01:17 client
+[20:17:34.424] -rw-r--r-- 1 root root     325 Mar 18 01:17 drizzle.config.ts
+[20:17:34.424] -rw-r--r-- 1 root root 1111408 Mar 18 01:17 generated-icon.png
+[20:17:34.424] -rw-r--r-- 1 root root     207 Mar 18 01:17 netlify.toml
+[20:17:34.424] -rw-r--r-- 1 root root  313268 Mar 18 01:17 package-lock.json
+[20:17:34.424] -rw-r--r-- 1 root root    3564 Mar 18 01:17 package.json
+[20:17:34.424] -rw-r--r-- 1 root root      80 Mar 18 01:17 postcss.config.js
+[20:17:34.424] -rwxr-xr-x 1 root root     563 Mar 18 01:17 push-to-github.sh
+[20:17:34.425] drwxr-xr-x 2 root root       6 Mar 18 01:17 server
+[20:17:34.425] drwxr-xr-x 2 root root      23 Mar 18 01:17 shared
+[20:17:34.425] -rw-r--r-- 1 root root    9633 Mar 18 01:17 simplified-build.sh
+[20:17:34.425] -rw-r--r-- 1 root root    2787 Mar 18 01:17 tailwind.config.ts
+[20:17:34.425] -rw-r--r-- 1 root root     109 Mar 18 01:17 theme.json
+[20:17:34.425] -rw-r--r-- 1 root root     657 Mar 18 01:17 tsconfig.json
+[20:17:34.425] -rw-r--r-- 1 root root     264 Mar 18 01:17 vercel-build-package.json
+[20:17:34.425] -rwxr-xr-x 1 root root     417 Mar 18 01:17 vercel-build.sh
+[20:17:34.425] -rwxr-xr-x 1 root root    9188 Mar 18 01:17 vercel-custom-build.sh
+[20:17:34.425] -rw-r--r-- 1 root root     326 Mar 18 01:17 vercel-package.json
+[20:17:34.425] -rw-r--r-- 1 root root      65 Mar 18 01:17 vercel-test.json
+[20:17:34.425] -rw-r--r-- 1 root root     281 Mar 18 01:17 vercel.json
+[20:17:34.426] -rw-r--r-- 1 root root    1008 Mar 18 01:17 vite.config.ts
+[20:17:34.430] Entering client directory: /vercel/path0/client
+[20:17:34.711] npm warn config production Use `--omit=dev` instead.
+[20:17:36.362] 
+[20:17:36.363] up to date, audited 296 packages in 2s
+[20:17:36.364] 
+[20:17:36.364] 42 packages are looking for funding
+[20:17:36.364]   run `npm fund` for details
+[20:17:36.376] 
+[20:17:36.376] 2 moderate severity vulnerabilities
+[20:17:36.376] 
+[20:17:36.376] To address all issues (including breaking changes), run:
+[20:17:36.377]   npm audit fix --force
+[20:17:36.377] 
+[20:17:36.377] Run `npm audit` for details.
+[20:17:36.528] 
+[20:17:36.529] > client@0.1.0 build
+[20:17:36.529] > vite build
+[20:17:36.529] 
+[20:17:36.789] [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+[20:17:36.838] transforming...
+[20:17:37.937] 
+[20:17:37.937] /hemp-pattern.png referenced in /hemp-pattern.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+[20:17:38.271] [32m✓[39m 41 modules transformed.
+[20:17:38.278] [31mx[39m Build failed in 1.46s
+[20:17:38.278] [31merror during build:
+[20:17:38.278] [31m[vite]: Rollup failed to resolve import "framer-motion" from "/vercel/path0/client/src/pages/NewLandingPage.tsx".
+[20:17:38.278] This is most likely unintended because it can break your application at runtime.
+[20:17:38.279] If you do want to externalize this module explicitly add it to
+[20:17:38.279] `build.rollupOptions.external`[31m
+[20:17:38.279]     at viteWarn (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65747:17)
+[20:17:38.279]     at onwarn (file:///vercel/path0/client/node_modules/@vitejs/plugin-react/dist/index.mjs:282:9)
+[20:17:38.279]     at onRollupWarning (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65777:5)
+[20:17:38.279]     at onwarn (file:///vercel/path0/client/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65442:7)
+[20:17:38.279]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:20633:13
+[20:17:38.279]     at Object.logger [as onLog] (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:22362:9)
+[20:17:38.279]     at ModuleLoader.handleInvalidResolvedId (file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21245:26)
+[20:17:38.279]     at file:///vercel/path0/client/node_modules/rollup/dist/es/shared/node-entry.js:21203:26[39m
+[20:17:38.299] Error: Command "./vercel-custom-build.sh" exited with 1
+[20:17:41.471] 
