@@ -712,7 +712,7 @@ export default function NewLandingPage() {
                   </div>
                 ) : (
                   <Button 
-                    onClick={() => setShowQualifier(true)}
+                    onClick={() => window.location.href = '/apply'}
                     className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-10 text-lg rounded-lg"
                   >
                     Complete Your Application Now <ArrowRight className="ml-2 h-5 w-5" />
@@ -819,7 +819,7 @@ export default function NewLandingPage() {
                 className="mt-12 text-center"
               >
                 <Button 
-                  onClick={() => setShowQualifier(true)}
+                  onClick={() => window.location.href = '/apply'}
                   className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-8 rounded-lg"
                 >
                   Ready to Get Started? Apply Now
