@@ -270,14 +270,6 @@ export default function NewLandingPage() {
                 <p className="text-lg text-gray-700">
                   HempLaunch <span className="font-semibold">eliminates these obstacles</span> with an integrated, fast-track approach to launching your business legally and profitably.
                 </p>
-                <div className="mt-8">
-                  <Button 
-                    onClick={() => setShowQualifier(true)}
-                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-8 rounded-lg"
-                  >
-                    Learn How We Help You Succeed
-                  </Button>
-                </div>
               </motion.div>
             </motion.div>
           </div>
