@@ -4,8 +4,7 @@ import { Helmet } from "react-helmet";
 import TimelineQualifier from "../components/common/TimelineQualifier";
 import { Link } from "wouter";
 import { 
-  ArrowRight, Check, TrendingUp, DollarSign, Rocket, ChevronDown,
-  Building, AlertCircle, BadgeCheck, BriefcaseBusiness, ShieldCheck
+  ArrowRight, Check, TrendingUp, DollarSign, Rocket, ChevronDown
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -400,7 +399,11 @@ export default function NewLandingPage() {
                       </li>
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Expert-level marketing campaigns and brand ambassador recruitment</span>
+                        <span className="text-gray-600">Expert-level marketing: Social media ads, brand ambassador recruitment</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">UGC content creation, static ads, video ads</span>
                       </li>
                     </ul>
                     <div className="mt-6 text-center">
@@ -427,6 +430,92 @@ export default function NewLandingPage() {
           </div>
         </section>
 
+        {/* Testimonials Section */}
+        <section
+          id="testimonials-section"
+          className="py-16 bg-gradient-to-b from-white to-gray-100"
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <span className="text-[#C8A951] font-semibold">SUCCESS STORIES</span>
+                <h2 className="text-3xl font-bold text-[#2F5D50] mt-2 mb-4">
+                  What Our Clients Say
+                </h2>
+                <p className="text-gray-600">Hear from entrepreneurs who have successfully launched with HempLaunch</p>
+              </motion.div>
+              
+              <div className="grid md:grid-cols-3 gap-8">
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+                >
+                  <div className="text-[#C8A951] text-4xl mb-4">"</div>
+                  <p className="text-gray-700 mb-6">
+                    Working with HempLaunch was a game-changer. Their comprehensive support took all the guesswork out of launching my hemp business. In just 30 days, I was up and running, and my products are already generating buzz!
+                  </p>
+                  <div className="flex items-center">
+                    <div className="h-10 w-10 rounded-full bg-[#2F5D50]/20 flex items-center justify-center text-[#2F5D50] font-bold">ST</div>
+                    <div className="ml-3">
+                      <p className="font-medium text-[#2F5D50]">Sarah T.</p>
+                      <p className="text-gray-500 text-sm">CBD Wellness Co.</p>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+                >
+                  <div className="text-[#C8A951] text-4xl mb-4">"</div>
+                  <p className="text-gray-700 mb-6">
+                    HempLaunch's HCF system ensured that our products met every regulatory requirement. The seamless process allowed us to launch quickly and confidently, and our sales are booming!
+                  </p>
+                  <div className="flex items-center">
+                    <div className="h-10 w-10 rounded-full bg-[#2F5D50]/20 flex items-center justify-center text-[#2F5D50] font-bold">MR</div>
+                    <div className="ml-3">
+                      <p className="font-medium text-[#2F5D50]">Michael R.</p>
+                      <p className="text-gray-500 text-sm">Green Peak Products</p>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+                >
+                  <div className="text-[#C8A951] text-4xl mb-4">"</div>
+                  <p className="text-gray-700 mb-6">
+                    As a first-time entrepreneur, I was overwhelmed by the complexities of the hemp industry. HempLaunch guided me through every step, from legal setup to marketing. Now, my brand is thriving, and I couldn't be happier.
+                  </p>
+                  <div className="flex items-center">
+                    <div className="h-10 w-10 rounded-full bg-[#2F5D50]/20 flex items-center justify-center text-[#2F5D50] font-bold">JB</div>
+                    <div className="ml-3">
+                      <p className="font-medium text-[#2F5D50]">Jessica B.</p>
+                      <p className="text-gray-500 text-sm">Elevate Extracts</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
         {/* CTA Section */}
         <section 
           id="cta-section"
@@ -522,6 +611,99 @@ export default function NewLandingPage() {
                 The HempLaunch Team
               </p>
             </motion.div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section
+          id="faq-section"
+          className="py-16 bg-white"
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <span className="text-[#C8A951] font-semibold">FREQUENTLY ASKED QUESTIONS</span>
+                <h2 className="text-3xl font-bold text-[#2F5D50] mt-2 mb-4">
+                  Common Questions About Hemp Business
+                </h2>
+                <p className="text-gray-600">Everything you need to know before getting started</p>
+              </motion.div>
+              
+              <div className="space-y-6">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-gray-50 p-6 rounded-xl border border-gray-200"
+                >
+                  <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Is hemp-derived THC legal in Texas?</h3>
+                  <p className="text-gray-700">
+                    Yes! Our products contain less than 0.3% Delta-9 THC and are fully compliant with federal and Texas state regulations under the 2018 Farm Bill.
+                  </p>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="bg-gray-50 p-6 rounded-xl border border-gray-200"
+                >
+                  <h3 className="text-xl font-bold text-[#2F5D50] mb-3">How long does it take to launch with HempLaunch?</h3>
+                  <p className="text-gray-700">
+                    Our streamlined process means you can launch in as little as 30 days, compared to the industry standard of 3-6 months when attempting to launch independently.
+                  </p>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="bg-gray-50 p-6 rounded-xl border border-gray-200"
+                >
+                  <h3 className="text-xl font-bold text-[#2F5D50] mb-3">What is included in the turnkey service?</h3>
+                  <p className="text-gray-700">
+                    We cover everything—business formation, compliance, branding, e-commerce, product integration, and marketing strategy. Our packages are designed to provide everything you need to get started and scale.
+                  </p>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="bg-gray-50 p-6 rounded-xl border border-gray-200"
+                >
+                  <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Can I scale my business after launching?</h3>
+                  <p className="text-gray-700">
+                    Absolutely! Our tiered solutions allow you to expand branding, product lines, and marketing campaigns as you grow. We've designed our packages to support your business at every stage of growth.
+                  </p>
+                </motion.div>
+              </div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="mt-12 text-center"
+              >
+                <Button 
+                  onClick={() => setShowQualifier(true)}
+                  className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-8 rounded-lg"
+                >
+                  Ready to Get Started? Apply Now
+                </Button>
+              </motion.div>
+            </div>
           </div>
         </section>
       </main>
