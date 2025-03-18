@@ -193,6 +193,96 @@ export default function NewLandingPage() {
           </motion.div>
         </section>
 
+        {/* Market Opportunity Section */}
+        <section 
+          id="market-section" 
+          className="py-16 bg-white"
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div 
+              initial="hidden"
+              animate={isVisible.market ? "visible" : "hidden"}
+              variants={staggerContainer}
+              className="max-w-4xl mx-auto"
+            >
+              <motion.div variants={fadeIn} className="text-center mb-8">
+                <span className="text-[#C8A951] font-semibold">MARKET OPPORTUNITY</span>
+                <h2 className="text-3xl font-bold text-[#2F5D50] mt-2">The Hemp Revolution</h2>
+                <p className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
+                  The time to enter the hemp industry has never been better. Here's why:
+                </p>
+              </motion.div>
+
+              <motion.div variants={fadeIn} className="mb-12">
+                <div className="grid md:grid-cols-3 gap-6 mb-12">
+                  <div className="bg-gradient-to-br from-[#f0f9f6] to-white p-6 rounded-xl shadow border border-gray-100">
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Explosive Growth</h3>
+                    <p className="text-gray-700">
+                      The hemp industry is outpacing traditional markets, offering <span className="font-semibold">first-movers a competitive edge</span> in this rapidly expanding space.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-[#f0f9f6] to-white p-6 rounded-xl shadow border border-gray-100">
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Favorable Regulations</h3>
+                    <p className="text-gray-700">
+                      Thanks to the <span className="font-semibold">2018 Farm Bill</span>, hemp-derived THC products (with less than 0.3% Delta-9 THC) are federally legal.
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-[#f0f9f6] to-white p-6 rounded-xl shadow border border-gray-100">
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Texas Market Boom</h3>
+                    <p className="text-gray-700">
+                      With one of the largest consumer bases in the U.S., Texas offers <span className="font-semibold">unmatched business potential</span> for hemp entrepreneurs.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div variants={fadeIn} className="bg-gray-50 p-8 rounded-xl shadow mb-8">
+                <h3 className="text-2xl font-bold text-[#2F5D50] mb-4 text-center">Why Traditional Solutions Fail</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <span className="text-red-500 font-bold mr-2">❌</span>
+                    <div>
+                      <span className="font-semibold text-[#2F5D50]">Regulatory Complexity:</span>
+                      <span className="text-gray-700"> Navigating legal, compliance, and tax hurdles alone is risky and time-consuming.</span>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-500 font-bold mr-2">❌</span>
+                    <div>
+                      <span className="font-semibold text-[#2F5D50]">Fragmented Services:</span>
+                      <span className="text-gray-700"> Most entrepreneurs struggle to piece together vendors for legal work, branding, website development, and fulfillment.</span>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-red-500 font-bold mr-2">❌</span>
+                    <div>
+                      <span className="font-semibold text-[#2F5D50]">High Upfront Investment:</span>
+                      <span className="text-gray-700"> Traditional launches cost <span className="font-semibold">$10,000 to $50,000+</span>, with long, unpredictable timelines.</span>
+                    </div>
+                  </li>
+                </ul>
+              </motion.div>
+              
+              <motion.div variants={fadeIn} className="text-center">
+                <h3 className="text-2xl font-bold text-[#2F5D50] mb-4">The HempLaunch Solution</h3>
+                <p className="text-lg text-gray-700">
+                  HempLaunch <span className="font-semibold">eliminates these obstacles</span> with an integrated, fast-track approach to launching your business legally and profitably.
+                </p>
+                <div className="mt-8">
+                  <Button 
+                    onClick={() => setShowQualifier(true)}
+                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-8 rounded-lg"
+                  >
+                    Learn How We Help You Succeed
+                  </Button>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* Service Packages Section */}
         <section 
           id="packages-section" 
@@ -288,14 +378,14 @@ export default function NewLandingPage() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative z-10 md:-mt-4 md:mb-4"
+                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative z-10"
                 >
                   <div className="absolute -top-4 inset-x-0 flex justify-center">
                     <span className="bg-[#C8A951] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                       Most Popular
                     </span>
                   </div>
-                  <div className="bg-[#2F5D50] text-white p-8 text-center">
+                  <div className="bg-[#2F5D50] text-white p-6 text-center">
                     <h3 className="text-2xl font-bold">Growth Package</h3>
                     <div className="mt-2 flex justify-center">
                       <TrendingUp className="h-12 w-12 text-[#C8A951]" />
@@ -327,6 +417,10 @@ export default function NewLandingPage() {
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-600">Advanced compliance (sales tax strategy, MSO consultation)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Financial consulting (tax & accounting guidance)</span>
                       </li>
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
@@ -364,10 +458,15 @@ export default function NewLandingPage() {
                   transition={{ duration: 0.5, delay: 0.6 }}
                   className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                 >
+                  <div className="absolute -right-3 -top-3">
+                    <div className="bg-[#C8A951] text-white text-xs font-bold px-3 py-1 rounded-full rotate-12 shadow-lg">
+                      Elite
+                    </div>
+                  </div>
                   <div className="bg-[#2F5D50] text-white p-6 text-center">
                     <h3 className="text-2xl font-bold">Accelerator Program</h3>
                     <div className="mt-2 flex justify-center">
-                      <Rocket className="h-12 w-12 text-[#C8A951]" />
+                      <DollarSign className="h-12 w-12 text-[#C8A951]" />
                     </div>
                   </div>
                   <div className="p-6">
@@ -383,11 +482,11 @@ export default function NewLandingPage() {
                       </li>
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Business formation for tax optimization (S-Corp, bylaws)</span>
+                        <span className="text-gray-600">Business formation for tax optimization (S-Corp, stock, bylaws)</span>
                       </li>
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">State-specific MSO setup & ongoing compliance</span>
+                        <span className="text-gray-600">State-specific MSO setup & ongoing compliance support</span>
                       </li>
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
