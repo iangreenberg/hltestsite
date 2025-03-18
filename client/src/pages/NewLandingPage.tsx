@@ -369,18 +369,6 @@ export default function NewLandingPage() {
                       </li>
                     </ul>
                     <div className="mt-auto">
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Button
-                          onClick={() => setShowQualifier(true)}
-                          className="w-full bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 rounded-xl shadow-md"
-                          size="lg"
-                        >
-                          Apply Now
-                        </Button>
-                      </motion.div>
                     </div>
                   </div>
                   <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
@@ -470,20 +458,6 @@ export default function NewLandingPage() {
                       </li>
                     </ul>
                     <div className="mt-auto">
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="relative"
-                      >
-                        <div className="absolute inset-0 bg-[#C8A951] blur-sm rounded-xl"></div>
-                        <Button
-                          onClick={() => setShowQualifier(true)}
-                          className="relative w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 rounded-xl shadow-md border-2 border-[#C8A951]"
-                          size="lg"
-                        >
-                          Apply Now
-                        </Button>
-                      </motion.div>
                     </div>
                   </div>
                   <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
@@ -567,18 +541,6 @@ export default function NewLandingPage() {
                       </li>
                     </ul>
                     <div className="mt-auto">
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Button
-                          onClick={() => setShowQualifier(true)}
-                          className="w-full bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 rounded-xl shadow-md"
-                          size="lg"
-                        >
-                          Apply Now
-                        </Button>
-                      </motion.div>
                     </div>
                   </div>
                   <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
