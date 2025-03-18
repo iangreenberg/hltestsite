@@ -26,6 +26,7 @@ cat > client/package.json << 'EOF'
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-slot": "^1.0.2",
+    "framer-motion": "^10.18.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
