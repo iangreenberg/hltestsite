@@ -853,12 +853,14 @@ export default function NewLandingPage() {
                 <h3 className="text-2xl font-bold mb-4">Capture Your Share of the Texas Hemp Market</h3>
                 <p className="mb-8 text-lg">Our exclusive launch slots are limited—act now to start your journey</p>
                 
-                <Button 
-                  onClick={() => window.location.href = '/apply'}
-                  className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-10 text-lg rounded-lg"
-                >
-                  Complete Your Application Now <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+                <div className="flex justify-center">
+                  <Button 
+                    onClick={() => window.location.href = '/apply'}
+                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 md:px-10 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm"
+                  >
+                    <span className="text-center">Complete Your Application Now</span> <ArrowRight className="ml-2 h-5 w-5 flex-shrink-0" />
+                  </Button>
+                </div>
                 
                 <p className="text-gray-600 text-sm mt-6 max-w-md mx-auto">
                   By applying, you'll secure a free consultation with one of our hemp business experts who will assess your readiness and explain how HempLaunch can transform your entrepreneurial vision into reality.
@@ -959,12 +961,14 @@ export default function NewLandingPage() {
                 viewport={{ once: true }}
                 className="mt-12 text-center"
               >
-                <Button 
-                  onClick={() => window.location.href = '/apply'}
-                  className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-8 rounded-lg"
-                >
-                  Ready to Get Started? Apply Now
-                </Button>
+                <div className="flex justify-center">
+                  <Button 
+                    onClick={() => window.location.href = '/apply'}
+                    className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 md:px-8 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm"
+                  >
+                    Ready to Get Started? Apply Now
+                  </Button>
+                </div>
               </motion.div>
             </div>
           </div>
