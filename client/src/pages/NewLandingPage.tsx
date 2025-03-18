@@ -170,15 +170,7 @@ export default function NewLandingPage() {
                   </Button>
                 </motion.div>
                 
-                <Link href="/how-it-works">
-                  <Button 
-                    variant="outline" 
-                    className="w-full md:w-auto border-white text-white hover:bg-white hover:text-[#2F5D50] font-medium py-5 px-8 text-lg rounded-xl"
-                    size="lg"
-                  >
-                    See How It Works
-                  </Button>
-                </Link>
+
               </motion.div>
               
               <motion.div 
