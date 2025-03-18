@@ -4,7 +4,8 @@ import { Helmet } from "react-helmet";
 import TimelineQualifier from "../components/common/TimelineQualifier";
 import { Link } from "wouter";
 import { 
-  ArrowRight, Check, TrendingUp, DollarSign, Rocket, ChevronDown
+  ArrowRight, Check, TrendingUp, DollarSign, Rocket, ChevronDown,
+  Building, AlertCircle, BadgeCheck, BriefcaseBusiness, ShieldCheck
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -330,7 +331,11 @@ export default function NewLandingPage() {
                       </li>
                       <li className="flex items-start">
                         <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Full branding package (complete brand book)</span>
+                        <span className="text-gray-600">Full branding package (logo, product design, fonts, brand book)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-600">Affiliate marketing setup for influencers & brand ambassadors</span>
                       </li>
                     </ul>
                     <div className="mt-6 text-center">
