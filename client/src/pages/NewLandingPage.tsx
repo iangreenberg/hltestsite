@@ -2,7 +2,7 @@ import { Button } from "../components/ui/button";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { 
-  Check, TrendingUp, DollarSign, Rocket, ChevronDown, ArrowRight
+  Check, TrendingUp, DollarSign, Rocket, ChevronDown
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -854,13 +854,14 @@ export default function NewLandingPage() {
                 <p className="mb-8 text-lg">Our exclusive launch slots are limited—act now to start your journey</p>
                 
                 <div className="flex justify-center">
-                  <Button 
-                    onClick={() => window.location.href = '/apply'}
-                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 md:px-10 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm flex items-center justify-center"
-                  >
-                    <span className="inline-block">Complete Your Application Now</span> 
-                    <ArrowRight className="ml-2 h-5 w-5 inline-block flex-shrink-0" />
-                  </Button>
+                  <div className="w-full max-w-xs">
+                    <Button 
+                      onClick={() => window.location.href = '/apply'}
+                      className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-4 text-sm md:text-base rounded-lg w-full"
+                    >
+                      Complete Your Application Now
+                    </Button>
+                  </div>
                 </div>
                 
                 <p className="text-gray-600 text-sm mt-6 max-w-md mx-auto">
@@ -963,12 +964,14 @@ export default function NewLandingPage() {
                 className="mt-12 text-center"
               >
                 <div className="flex justify-center">
-                  <Button 
-                    onClick={() => window.location.href = '/apply'}
-                    className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 md:px-8 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm flex items-center justify-center"
-                  >
-                    <span className="inline-block">Ready to Get Started? Apply Now</span>
-                  </Button>
+                  <div className="w-full max-w-xs">
+                    <Button 
+                      onClick={() => window.location.href = '/apply'}
+                      className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-3 px-4 text-sm md:text-base rounded-lg w-full"
+                    >
+                      Ready to Get Started? Apply Now
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             </div>

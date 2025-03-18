@@ -1065,13 +1065,14 @@ export default function LandingPage() {
                   </div>
                 ) : (
                   <div className="flex justify-center">
-                    <Button 
-                      onClick={() => setShowQualifier(true)}
-                      className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 md:px-10 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm flex items-center justify-center"
-                    >
-                      <span className="inline-block">Complete Your Application Now</span> 
-                      <ArrowRight className="ml-2 h-5 w-5 inline-block flex-shrink-0" />
-                    </Button>
+                    <div className="w-full max-w-xs">
+                      <Button 
+                        onClick={() => setShowQualifier(true)}
+                        className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-4 text-sm md:text-base rounded-lg w-full"
+                      >
+                        Complete Your Application Now
+                      </Button>
+                    </div>
                   </div>
                 )}
                 
