@@ -1,7 +1,6 @@
 import { Button } from "../components/ui/button";
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import TimelineQualifier from "../components/common/TimelineQualifier";
 import { 
   Check, TrendingUp, DollarSign, Rocket, ChevronDown, ArrowRight
 } from "lucide-react";
@@ -516,6 +515,186 @@ export default function NewLandingPage() {
                   </div>
                   <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
                     <p className="text-[#2F5D50] font-bold text-lg">Ideal for: Scaling brands ready for enterprise-level operations</p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose HempLaunch Section */}
+        <section
+          id="why-choose-section"
+          className="py-16 bg-white"
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+                className="text-center mb-10"
+              >
+                <h2 className="text-3xl font-bold text-[#2F5D50]">Why Choose HempLaunch?</h2>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="space-y-6"
+              >
+                <div className="flex items-start">
+                  <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#2F5D50]">Industry Experts:</span>
+                    <span className="text-gray-700"> Led by a team with deep experience in <span className="font-semibold">hemp compliance, e-commerce, and business scaling</span>, including a founder with a <span className="font-semibold">Bachelor's degree in Cannabis Biology and Chemistry</span>.</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#2F5D50]">End-to-End Support:</span>
+                    <span className="text-gray-700"> From business formation to marketing, we handle everything.</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#2F5D50]">Guaranteed Compliance:</span>
+                    <span className="text-gray-700"> Our <span className="font-semibold">proprietary Hemp Compliance Framework (HCF)</span> ensures your products meet all federal and state regulations.</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#2F5D50]">Fast Time-to-Market:</span>
+                    <span className="text-gray-700"> Launch in <span className="font-semibold">as little as 30 days</span>, gaining a first-mover advantage while competitors are still planning.</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                    <Check className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="font-semibold text-[#2F5D50]">Proven Success:</span>
+                    <span className="text-gray-700"> Our clients are <span className="font-semibold">legally selling & scaling profitably</span>.</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Roadmap Section */}
+        <section
+          id="roadmap-section"
+          className="py-16 bg-gradient-to-b from-[#f5f9f8] to-white"
+        >
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                viewport={{ once: true }}
+                className="text-center mb-10"
+              >
+                <h2 className="text-3xl font-bold text-[#2F5D50]">Your Roadmap to Success: The HempLaunch Journey</h2>
+              </motion.div>
+              
+              <div className="space-y-10">
+                <motion.div 
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-start"
+                >
+                  <div className="mr-4 flex-shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">1️⃣</div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Consultation & Qualification</h3>
+                    <p className="text-gray-700">Free strategy session to assess your business goals.</p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="flex items-start"
+                >
+                  <div className="mr-4 flex-shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">2️⃣</div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Legal & Compliance Setup</h3>
+                    <p className="text-gray-700">LLC formation, EIN, Sales Tax ID, and full regulatory compliance.</p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="flex items-start"
+                >
+                  <div className="mr-4 flex-shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">3️⃣</div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Digital Presence & Branding</h3>
+                    <p className="text-gray-700">High-converting website, branding package, and marketing assets.</p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="flex items-start"
+                >
+                  <div className="mr-4 flex-shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">4️⃣</div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Product Integration & Fulfillment</h3>
+                    <p className="text-gray-700">White-label manufacturing partnerships & inventory setup.</p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  viewport={{ once: true }}
+                  className="flex items-start"
+                >
+                  <div className="mr-4 flex-shrink-0">
+                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">5️⃣</div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Marketing & Launch Support</h3>
+                    <p className="text-gray-700">Digital advertising, email/SMS campaigns, and scaling strategies.</p>
                   </div>
                 </motion.div>
               </div>
