@@ -286,7 +286,7 @@ export default function NewLandingPage() {
         {/* Service Packages Section */}
         <section 
           id="packages-section" 
-          className="py-16 bg-gradient-to-r from-gray-100 to-gray-200"
+          className="py-20 bg-gradient-to-br from-gray-50 to-gray-100"
         >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
@@ -294,73 +294,96 @@ export default function NewLandingPage() {
                 initial="hidden"
                 animate={isVisible.packages ? "visible" : "hidden"}
                 variants={staggerContainer}
-                className="text-center mb-12"
+                className="text-center mb-16"
               >
-                <motion.span variants={fadeIn} className="text-[#C8A951] font-semibold">SERVICE PACKAGES</motion.span>
+                <motion.div 
+                  variants={fadeIn} 
+                  className="inline-block bg-[#2F5D50]/10 text-[#C8A951] font-semibold px-4 py-1 rounded-full mb-3"
+                >
+                  TAILORED SERVICE PACKAGES
+                </motion.div>
                 <motion.h2 
                   variants={fadeIn}
-                  className="text-3xl font-bold text-[#2F5D50] mt-2"
+                  className="text-4xl font-bold text-[#2F5D50] mt-2"
                 >
-                  Tailored Solutions for Your Business
+                  Choose Your Path to Success
                 </motion.h2>
                 <motion.p 
                   variants={fadeIn}
-                  className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto"
+                  className="text-lg text-gray-600 mt-6 max-w-3xl mx-auto"
                 >
-                  We offer three comprehensive service packages designed to fit your specific business needs and growth goals.
+                  Select from our three comprehensive service tiers, each designed to provide everything you need 
+                  based on your business stage and growth objectives.
                 </motion.p>
               </motion.div>
               
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-10">
                 {/* Ecom Starter Package */}
                 <motion.div 
                   initial={{ opacity: 0, y: 50 }}
                   animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                  className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 h-full flex flex-col"
                 >
-                  <div className="bg-[#2F5D50] text-white p-6 text-center">
-                    <h3 className="text-2xl font-bold">Ecom Starter</h3>
-                    <div className="mt-2 flex justify-center">
-                      <Rocket className="h-12 w-12 text-[#C8A951]" />
+                  <div className="bg-[#2F5D50] text-white p-8 text-center relative">
+                    <div className="absolute inset-0 opacity-10 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
+                    <div className="relative z-10">
+                      <h3 className="text-3xl font-bold mb-4">Ecom Starter</h3>
+                      <div className="mt-2 flex justify-center">
+                        <div className="h-16 w-16 rounded-full bg-[#C8A951]/20 flex items-center justify-center">
+                          <Rocket className="h-8 w-8 text-[#C8A951]" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 mb-6">Perfect for new businesses looking for a strong foundation.</p>
-                    <ul className="space-y-3 mb-8">
+                  <div className="p-8 flex-grow">
+                    <p className="text-gray-600 text-lg mb-6 font-medium">Perfect for new businesses looking for a strong foundation.</p>
+                    <ul className="space-y-4 mb-8">
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Business formation (LLC, EIN, Sales Tax ID)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Business formation (LLC, EIN, Sales Tax ID)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Compliance essentials (COA verification, legal framework)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Compliance essentials (COA verification, legal framework)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">E-commerce website setup with age verification and compliance</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">E-commerce website setup with age verification</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Financial setup (Bank account, merchant processor)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Financial setup (Bank account, merchant processor)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Starter branding package (logo, product design)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Starter branding package (logo, product design)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Free sample & example product costs included</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Free sample & example product costs included</span>
                       </li>
                     </ul>
-                    <div className="mt-6 text-center">
+                    <div className="mt-auto">
                       <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
                       >
                         <Button
                           onClick={() => setShowQualifier(true)}
-                          className="w-full bg-[#2F5D50] hover:bg-[#234840] font-semibold py-3 px-6"
+                          className="w-full bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 rounded-xl shadow-md"
                           size="lg"
                         >
                           Apply Now
@@ -368,8 +391,8 @@ export default function NewLandingPage() {
                       </motion.div>
                     </div>
                   </div>
-                  <div className="bg-[#f0f9f6] p-4 text-center">
-                    <p className="text-[#2F5D50] font-bold">Ideal for: First-time business owners</p>
+                  <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
+                    <p className="text-[#2F5D50] font-bold text-lg">Ideal for: First-time business owners</p>
                   </div>
                 </motion.div>
 
@@ -378,67 +401,92 @@ export default function NewLandingPage() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative z-10"
+                  className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 relative z-10 h-full flex flex-col"
                 >
                   <div className="absolute -top-4 inset-x-0 flex justify-center">
-                    <span className="bg-[#C8A951] text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                    <span className="bg-[#C8A951] text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                       Most Popular
                     </span>
                   </div>
-                  <div className="bg-[#2F5D50] text-white p-6 text-center">
-                    <h3 className="text-2xl font-bold">Growth Package</h3>
-                    <div className="mt-2 flex justify-center">
-                      <TrendingUp className="h-12 w-12 text-[#C8A951]" />
+                  <div className="bg-[#2F5D50] text-white p-8 text-center relative">
+                    <div className="absolute inset-0 opacity-10 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
+                    <div className="relative z-10">
+                      <h3 className="text-3xl font-bold mb-4">Growth Package</h3>
+                      <div className="mt-2 flex justify-center">
+                        <div className="h-16 w-16 rounded-full bg-[#C8A951]/20 flex items-center justify-center">
+                          <TrendingUp className="h-8 w-8 text-[#C8A951]" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 mb-6">For brands ready to scale with expert marketing & automation.</p>
-                    <ul className="space-y-3 mb-8">
+                  <div className="p-8 flex-grow">
+                    <p className="text-gray-600 text-lg mb-6 font-medium">For brands ready to scale with expert marketing & automation.</p>
+                    <ul className="space-y-4 mb-8">
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600"><span className="font-semibold">Everything in Ecom Starter PLUS:</span></span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700"><span className="font-semibold text-[#2F5D50]">Everything in Ecom Starter PLUS:</span></span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">High-converting e-commerce website with expert design</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">High-converting e-commerce website with expert design</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Custom subdomain landing page for targeted marketing</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Custom subdomain landing page for targeted marketing</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">SMS/email marketing automation consultation</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">SMS/email marketing automation consultation</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Wholesale login portal for bulk orders</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Wholesale login portal for bulk orders</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Advanced compliance (sales tax strategy, MSO consultation)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Advanced compliance (sales tax strategy, MSO consultation)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Financial consulting (tax & accounting guidance)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Financial consulting (tax & accounting guidance)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Full branding package (logo, product design, fonts, brand book)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Full branding package (logo, product design, brand book)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Affiliate marketing setup for influencers & brand ambassadors</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Affiliate marketing setup for influencers & brand ambassadors</span>
                       </li>
                     </ul>
-                    <div className="mt-6 text-center">
+                    <div className="mt-auto">
                       <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="relative"
                       >
+                        <div className="absolute inset-0 bg-[#C8A951] blur-sm rounded-xl"></div>
                         <Button
                           onClick={() => setShowQualifier(true)}
-                          className="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-6 border-2 border-[#C8A951]"
+                          className="relative w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 rounded-xl shadow-md border-2 border-[#C8A951]"
                           size="lg"
                         >
                           Apply Now
@@ -446,8 +494,8 @@ export default function NewLandingPage() {
                       </motion.div>
                     </div>
                   </div>
-                  <div className="bg-[#f0f9f6] p-4 text-center">
-                    <p className="text-[#2F5D50] font-bold">Ideal for: Growing brands & established businesses</p>
+                  <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
+                    <p className="text-[#2F5D50] font-bold text-lg">Ideal for: Growing brands & established businesses</p>
                   </div>
                 </motion.div>
 
@@ -456,63 +504,84 @@ export default function NewLandingPage() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={isVisible.packages ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                  className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 h-full flex flex-col"
                 >
                   <div className="absolute -right-3 -top-3">
-                    <div className="bg-[#C8A951] text-white text-xs font-bold px-3 py-1 rounded-full rotate-12 shadow-lg">
+                    <div className="bg-[#C8A951] text-white text-sm font-bold px-4 py-1 rounded-full rotate-12 shadow-lg">
                       Elite
                     </div>
                   </div>
-                  <div className="bg-[#2F5D50] text-white p-6 text-center">
-                    <h3 className="text-2xl font-bold">Accelerator Program</h3>
-                    <div className="mt-2 flex justify-center">
-                      <DollarSign className="h-12 w-12 text-[#C8A951]" />
+                  <div className="bg-[#2F5D50] text-white p-8 text-center relative">
+                    <div className="absolute inset-0 opacity-10 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
+                    <div className="relative z-10">
+                      <h3 className="text-3xl font-bold mb-4">Accelerator Program</h3>
+                      <div className="mt-2 flex justify-center">
+                        <div className="h-16 w-16 rounded-full bg-[#C8A951]/20 flex items-center justify-center">
+                          <DollarSign className="h-8 w-8 text-[#C8A951]" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 mb-6">For businesses that want an all-in-one solution with advanced automation.</p>
-                    <ul className="space-y-3 mb-8">
+                  <div className="p-8 flex-grow">
+                    <p className="text-gray-600 text-lg mb-6 font-medium">For businesses that want an all-in-one solution with advanced automation.</p>
+                    <ul className="space-y-4 mb-8">
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600"><span className="font-semibold">Everything in Growth Package PLUS:</span></span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700"><span className="font-semibold text-[#2F5D50]">Everything in Growth Package PLUS:</span></span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Full CRM backend setup & integration</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Full CRM backend setup & integration</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Business formation for tax optimization (S-Corp, stock, bylaws)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Business formation for tax optimization (S-Corp, stock, bylaws)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">State-specific MSO setup & ongoing compliance support</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">State-specific MSO setup & ongoing compliance support</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Payroll & accounting automation (QuickBooks integration)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Payroll & accounting automation (QuickBooks integration)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Dedicated design expert (company merch, premium branding)</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Dedicated design expert (company merch, premium branding)</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">Expert-level marketing: Social media ads, brand ambassador recruitment</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">Expert-level marketing: Social media ads, brand ambassador recruitment</span>
                       </li>
                       <li className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-600">UGC content creation, static ads, video ads</span>
+                        <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">UGC content creation, static ads, video ads</span>
                       </li>
                     </ul>
-                    <div className="mt-6 text-center">
+                    <div className="mt-auto">
                       <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
                       >
                         <Button
                           onClick={() => setShowQualifier(true)}
-                          className="w-full bg-[#2F5D50] hover:bg-[#234840] font-semibold py-3 px-6"
+                          className="w-full bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 rounded-xl shadow-md"
                           size="lg"
                         >
                           Apply Now
@@ -520,8 +589,8 @@ export default function NewLandingPage() {
                       </motion.div>
                     </div>
                   </div>
-                  <div className="bg-[#f0f9f6] p-4 text-center">
-                    <p className="text-[#2F5D50] font-bold">Ideal for: Scaling brands ready for enterprise-level operations</p>
+                  <div className="bg-gradient-to-r from-[#f0f9f6] to-[#e6f5f0] p-4 text-center">
+                    <p className="text-[#2F5D50] font-bold text-lg">Ideal for: Scaling brands ready for enterprise-level operations</p>
                   </div>
                 </motion.div>
               </div>
