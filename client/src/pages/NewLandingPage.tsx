@@ -4,8 +4,7 @@ import { Helmet } from "react-helmet";
 import TimelineQualifier from "../components/common/TimelineQualifier";
 import { Link } from "wouter";
 import { 
-  ArrowRight, Check, X, Shield, Clock, TrendingUp, DollarSign, 
-  PieChart, FileCheck, Map, Rocket, ChevronDown
+  ArrowRight, Check, TrendingUp, DollarSign, Rocket, ChevronDown
 } from "lucide-react";
 import { motion } from "framer-motion";
 

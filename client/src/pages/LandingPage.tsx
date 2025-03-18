@@ -953,7 +953,7 @@ export default function LandingPage() {
                 To your success,<br />
                 The HempLaunch Team
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
       </main>
