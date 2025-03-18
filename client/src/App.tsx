@@ -15,6 +15,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
+import AdminNav from "./pages/AdminNav";
 import AuthPage from "./pages/auth-page";
 import AuthTest from "./pages/auth-test";
 import { AuthProvider } from "./hooks/use-auth";
@@ -59,6 +60,15 @@ function Router() {
             )} />
           );
         }}
+      </Route>
+      
+      {/* Admin Navigation Menu */}
+      <Route path="/admin-nav">
+        {() => (
+          <AdminLayout>
+            <AdminNav />
+          </AdminLayout>
+        )}
       </Route>
       
       {/* Redirect /admin to dashboard for convenience */}

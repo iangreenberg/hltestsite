@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Quick Login</title>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .login-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      color: #2F5D50;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #111827;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #2F5D50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 500;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #234840;
+    }
+    .message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    #status {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .link-button {
+      background: none;
+      border: none;
+      color: #2F5D50;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 0;
+      width: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Quick Login</h1>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" value="admin" disabled>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" value="admin123" disabled>
+    </div>
+    <button id="login-button">Login as Admin</button>
+    <div id="status"></div>
+    
+    <button id="direct-link" class="link-button">Go to Admin Dashboard Directly</button>
+  </div>
+
+  <script>
+    const statusDiv = document.getElementById('status');
+    const loginButton = document.getElementById('login-button');
+    const directLinkButton = document.getElementById('direct-link');
+    
+    // Direct link to admin dashboard
+    directLinkButton.addEventListener('click', () => {
+      window.location.href = '/admin/dashboard';
+    });
+    
+    // Handle login
+    loginButton.addEventListener('click', async () => {
+      // Show loading state
+      loginButton.disabled = true;
+      loginButton.innerHTML = '<span class="loading"></span> Logging in...';
+      statusDiv.innerHTML = '';
+      
+      try {
+        // Make login request
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: 'admin',
+            password: 'admin123'
+          })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Store token in localStorage if present
+          if (data.token) {
+            localStorage.setItem('auth_token', data.token);
+          }
+          
+          // Show success message
+          statusDiv.innerHTML = '<div class="message success">Login successful! Redirecting to admin dashboard...</div>';
+          
+          // Redirect to admin dashboard after short delay
+          setTimeout(() => {
+            window.location.href = '/admin/dashboard';
+          }, 1500);
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Login failed');
+        }
+      } catch (error) {
+        // Show error message
+        statusDiv.innerHTML = `<div class="message error">${error.message || 'Error logging in'}</div>`;
+        loginButton.disabled = false;
+        loginButton.textContent = 'Login as Admin';
+      }
+    });
+  </script>
+</body>
+</html>
