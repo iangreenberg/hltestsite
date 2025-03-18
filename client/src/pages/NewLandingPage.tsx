@@ -812,34 +812,34 @@ export default function NewLandingPage() {
               
               <div className="grid md:grid-cols-3 gap-6 mb-12 max-w-3xl mx-auto">
                 <motion.div 
-                  className="bg-white/10 backdrop-blur-sm p-5 rounded-lg"
+                  className="bg-white p-5 rounded-lg shadow-md"
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                   viewport={{ once: true }}
                 >
                   <div className="text-[#C8A951] text-4xl font-bold mb-2">30</div>
-                  <div className="text-white">Day Launch</div>
+                  <div className="text-[#2F5D50] font-medium">Day Launch</div>
                 </motion.div>
                 <motion.div 
-                  className="bg-white/10 backdrop-blur-sm p-5 rounded-lg"
+                  className="bg-white p-5 rounded-lg shadow-md"
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
                   <div className="text-[#C8A951] text-4xl font-bold mb-2">100%</div>
-                  <div className="text-white">Legal Compliance</div>
+                  <div className="text-[#2F5D50] font-medium">Legal Compliance</div>
                 </motion.div>
                 <motion.div 
-                  className="bg-white/10 backdrop-blur-sm p-5 rounded-lg"
+                  className="bg-white p-5 rounded-lg shadow-md"
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
                   <div className="text-[#C8A951] text-4xl font-bold mb-2">$3K</div>
-                  <div className="text-white">Entry Point</div>
+                  <div className="text-[#2F5D50] font-medium">Entry Point</div>
                 </motion.div>
               </div>
               
