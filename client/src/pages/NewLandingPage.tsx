@@ -856,9 +856,10 @@ export default function NewLandingPage() {
                 <div className="flex justify-center">
                   <Button 
                     onClick={() => window.location.href = '/apply'}
-                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 md:px-10 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm"
+                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-4 px-6 md:px-10 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm flex items-center justify-center"
                   >
-                    <span className="text-center">Complete Your Application Now</span> <ArrowRight className="ml-2 h-5 w-5 flex-shrink-0" />
+                    <span className="inline-block">Complete Your Application Now</span> 
+                    <ArrowRight className="ml-2 h-5 w-5 inline-block flex-shrink-0" />
                   </Button>
                 </div>
                 
@@ -964,9 +965,9 @@ export default function NewLandingPage() {
                 <div className="flex justify-center">
                   <Button 
                     onClick={() => window.location.href = '/apply'}
-                    className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 md:px-8 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm"
+                    className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-6 md:px-8 text-base md:text-lg rounded-lg w-full md:w-auto max-w-sm flex items-center justify-center"
                   >
-                    Ready to Get Started? Apply Now
+                    <span className="inline-block">Ready to Get Started? Apply Now</span>
                   </Button>
                 </div>
               </motion.div>
