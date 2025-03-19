@@ -109,6 +109,7 @@ export default function ApplicationForm() {
       // This ensures we're hitting the correct endpoint regardless of the current client route
       const apiUrl = `${window.location.origin}/api/application`;
       console.log('Submitting application to:', apiUrl);
+      console.log('Data being submitted:', data);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
