@@ -4,7 +4,6 @@ import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
 import { submitApplication } from "./api/application";
-import { sendApplicationEmail } from "./api/emailService";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -189,9 +188,6 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // The client submits to /api/application but since we mount apiApp under /api
   // we only need to register the route as /application on apiApp
   apiApp.post("/application", submitApplication);
-  
-  // API route to email application form data
-  apiApp.post("/email-application", sendApplicationEmail);
   
   // API route to get all applications (protected - admin only)
   apiApp.get("/applications", isAdmin, async (req: Request, res: Response) => {

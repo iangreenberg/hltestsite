@@ -124,39 +124,6 @@ export default function ApplicationForm() {
       // Save back to localStorage
       localStorage.setItem('hemplaunch_applications', JSON.stringify(existingApplications));
       
-      // Send application data via email
-      try {
-        const emailResponse = await fetch('/api/email-application', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: data.fullName,
-            email: data.email,
-            phone: data.phone,
-            businessName: data.businessName || 'Not provided',
-            cityState: data.cityState,
-            businessSituation: data.businessSituation === 'other' 
-              ? `Other: ${data.businessSituationOther}` 
-              : data.businessSituation,
-            packageInterest: data.packageInterest,
-            businessBasics: data.businessBasics,
-            timeframe: data.timeframe,
-            submittedAt: timestamp
-          }),
-        });
-        
-        if (!emailResponse.ok) {
-          console.warn('Email notification failed to send, but application was saved locally');
-        } else {
-          console.log('Application data sent successfully via email');
-        }
-      } catch (emailError) {
-        // Log error but don't prevent the user from continuing
-        console.error('Error sending email notification:', emailError);
-      }
-      
       // Show success message
       setIsComplete(true);
       toast({
