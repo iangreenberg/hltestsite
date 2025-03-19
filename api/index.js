@@ -3,6 +3,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import fs from 'fs/promises';
+import path from 'path';
 
 // Create a memory-based storage for this serverless function
 const memStorage = {
@@ -35,6 +37,34 @@ const memStorage = {
   
   async getEmailSubscriptions() {
     return this.emailSubscriptions;
+  }
+};
+
+// Application file functions
+async function getApplicationFiles() {
+  try {
+    const dirPath = path.join(process.cwd(), 'applicationInfo');
+    try {
+      await fs.mkdir(dirPath, { recursive: true });
+    } catch (err) {
+      console.log('Error creating or accessing applicationInfo directory:', err);
+    }
+    
+    const files = await fs.readdir(dirPath);
+    return files.filter(file => file.endsWith('.json'));
+  } catch (error) {
+    console.error('Error getting application files:', error);
+    return [];
+  }
+}
+
+async function readApplicationFile(filename) {
+  try {
+    const filePath = path.join(process.cwd(), 'applicationInfo', filename);
+    return await fs.readFile(filePath, 'utf8');
+  } catch (error) {
+    console.error(`Error reading application file ${filename}:`, error);
+    throw error;
   }
 };
 
@@ -268,25 +298,39 @@ app.post('/api/auth/register', (req, res) => {
 });
 
 // Applications endpoints for the admin dashboard
-app.get('/api/applications', checkAdminAuth, (req, res) => {
+app.get('/api/applications', checkAdminAuth, async (req, res) => {
   try {
-    console.log('GET /api/applications - Mock data for Vercel deployment');
-    // Return sample application files data
-    // This is just a mock implementation for the Vercel deployment
+    console.log('GET /api/applications - Getting real application files');
+    
+    // Get the list of application files
+    const files = await getApplicationFiles();
+    
+    // Format them for the response
+    const applicationList = files.map(filename => {
+      // Extract timestamp from filename if possible, otherwise use current time
+      let timestamp;
+      const timestampMatch = filename.match(/(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})/);
+      if (timestampMatch) {
+        timestamp = new Date(timestampMatch[0].replace(/-/g, ':')).getTime();
+      } else {
+        // If no timestamp in filename, try to extract numbers that might be a timestamp
+        const numbersMatch = filename.match(/(\d+)/);
+        timestamp = numbersMatch ? parseInt(numbersMatch[0]) : Date.now();
+      }
+      
+      return {
+        filename,
+        path: `/applicationInfo/${filename}`,
+        timestamp: timestamp.toString()
+      };
+    });
+    
+    // Sort by timestamp (newest first)
+    applicationList.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp));
+    
     res.json({
       success: true,
-      data: [
-        {
-          filename: 'application_1710876543210.json',
-          path: '/applicationInfo/application_1710876543210.json',
-          timestamp: '1710876543210'
-        },
-        {
-          filename: 'application_1710976543210.json',
-          path: '/applicationInfo/application_1710976543210.json',
-          timestamp: '1710976543210'
-        }
-      ]
+      data: applicationList
     });
   } catch (error) {
     console.error('Error getting applications:', error);
@@ -294,70 +338,99 @@ app.get('/api/applications', checkAdminAuth, (req, res) => {
   }
 });
 
-app.get('/api/applications/:filename', checkAdminAuth, (req, res) => {
+app.get('/api/applications/:filename', checkAdminAuth, async (req, res) => {
   try {
     const { filename } = req.params;
-    console.log(`GET /api/applications/${filename} - Mock data for Vercel deployment`);
+    console.log(`GET /api/applications/${filename} - Getting real file data`);
     
-    // Return sample application data depending on the filename
-    // This is just a mock implementation for the Vercel deployment
-    if (filename === 'application_1710876543210.json') {
-      res.json({
-        success: true,
-        data: JSON.stringify({
-          fullName: "John Smith",
-          email: "john@example.com",
-          phone: "512-555-1234",
-          businessName: "Green Gardens Hemp",
-          cityState: "Austin, TX",
-          businessSituation: "new",
-          packageInterest: "starter",
-          businessBasics: "partial",
-          timeframe: "within30",
-          submitDate: "2023-03-20T14:22:23.210Z"
-        })
+    // First, get the list of application files to check if the requested file exists
+    const files = await getApplicationFiles();
+    
+    if (!files.includes(filename)) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Application file not found' 
       });
-    } else if (filename === 'application_1710976543210.json') {
-      res.json({
-        success: true,
-        data: JSON.stringify({
-          fullName: "Sarah Johnson",
-          email: "sarah@example.com",
-          phone: "214-555-9876",
-          businessName: "Texas Hemp Solutions",
-          cityState: "Dallas, TX",
-          businessSituation: "existing",
-          packageInterest: "growth",
-          businessBasics: "complete",
-          timeframe: "immediate",
-          submitDate: "2023-03-21T17:42:23.210Z"
-        })
-      });
-    } else {
-      res.status(404).json({ success: false, message: 'Application file not found' });
     }
+    
+    // Read the requested file
+    const fileContent = await readApplicationFile(filename);
+    
+    res.json({
+      success: true,
+      data: fileContent
+    });
   } catch (error) {
     console.error(`Error getting application ${req.params.filename}:`, error);
-    res.status(500).json({ success: false, message: 'Failed to retrieve application' });
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to retrieve application',
+      error: error.message 
+    });
   }
 });
 
 // Admin dashboard summary endpoint
-app.get('/api/admin/dashboard', checkAdminAuth, (req, res) => {
+app.get('/api/admin/dashboard', checkAdminAuth, async (req, res) => {
   try {
-    console.log('GET /api/admin/dashboard - Mock data for Vercel deployment');
-    // Return sample dashboard summary data
+    console.log('GET /api/admin/dashboard - Getting real data');
+    
+    // Get real application counts
+    const applicationFiles = await getApplicationFiles();
+    
+    // Get waitlist entries
+    const waitlistEntries = await memStorage.getWaitlistEntries();
+    
+    // Get email subscriptions
+    const emailSubscriptions = await memStorage.getEmailSubscriptions();
+    
+    // Create recent activity from real data
+    const recentActivity = [];
+    
+    // Add application activity (from files)
+    for (const file of applicationFiles.slice(0, 3)) {
+      try {
+        const content = await readApplicationFile(file);
+        const data = JSON.parse(content);
+        recentActivity.push({
+          type: 'application',
+          name: data.fullName || 'Unknown Applicant',
+          date: new Date(file.match(/(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})/)?.[0].replace(/-/g, ':') || Date.now()).toISOString()
+        });
+      } catch (err) {
+        console.error('Error parsing application file:', err);
+      }
+    }
+    
+    // Add waitlist entries to activity
+    for (const entry of waitlistEntries.slice(0, 3)) {
+      recentActivity.push({
+        type: 'waitlist',
+        name: `${entry.firstName} ${entry.lastName}`,
+        date: new Date().toISOString() // Using current date as stored data doesn't have timestamps
+      });
+    }
+    
+    // Add subscriptions to activity
+    for (const sub of emailSubscriptions.slice(0, 3)) {
+      recentActivity.push({
+        type: 'subscription',
+        name: sub.email.split('@')[0], // Use part of email as name
+        date: new Date().toISOString() // Using current date as stored data doesn't have timestamps
+      });
+    }
+    
+    // Sort by most recent first (although dates are approximate)
+    recentActivity.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    
+    // Return the real data
     res.json({
       success: true,
       data: {
-        applications: 2,
-        waitlist: 12,
-        emailSubscriptions: 27,
-        recentActivity: [
-          { type: 'application', name: 'Sarah Johnson', date: '2023-03-21T17:42:23.210Z' },
-          { type: 'waitlist', name: 'Michael Davis', date: '2023-03-19T09:12:43.801Z' },
-          { type: 'subscription', name: 'Jessica White', date: '2023-03-18T14:33:21.432Z' }
-        ]
+        applications: applicationFiles.length,
+        waitlist: waitlistEntries.length,
+        emailSubscriptions: emailSubscriptions.length,
+        recentActivity: recentActivity.slice(0, 5) // Limit to 5 most recent activities
       }
     });
   } catch (error) {
