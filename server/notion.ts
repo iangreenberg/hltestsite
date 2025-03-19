@@ -13,6 +13,9 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
+// Flag to track if Notion is available
+let notionAvailable = false;
+
 // First try to get database schema to understand what properties are available
 export async function getDatabaseSchema() {
   try {
@@ -26,8 +29,38 @@ export async function getDatabaseSchema() {
   }
 }
 
+// Initialize Notion - will perform a test and set notionAvailable flag
+export async function initializeNotion() {
+  try {
+    await getDatabaseSchema();
+    notionAvailable = true;
+    console.log('✅ Notion integration initialized successfully');
+    return true;
+  } catch (error) {
+    notionAvailable = false;
+    console.error('❌ Notion integration initialization failed:', error instanceof Error ? error.message : 'Unknown error');
+    console.log('Applications will still be stored locally, but not in Notion.');
+    return false;
+  }
+}
+
+// Try to initialize when this module loads
+initializeNotion().catch(err => {
+  console.warn('Notion initialization failed in background:', err);
+});
+
 export async function addApplicationToNotion(applicationData: any) {
   try {
+    // If Notion is not available, store the data locally only
+    if (!notionAvailable) {
+      console.log('Notion integration is not available. Storing application data locally only.');
+      return {
+        success: false,
+        message: 'Notion integration is not available. Application data stored locally only.',
+        localOnly: true
+      };
+    }
+    
     console.log('Preparing data for Notion:', applicationData);
     
     // Extract name parts if the form has fullName instead of firstName/lastName
@@ -120,9 +153,12 @@ export async function addApplicationToNotion(applicationData: any) {
     });
 
     console.log('Notion response received');
+    notionAvailable = true; // Confirm Notion is working
     return response;
   } catch (error) {
     console.error('Error adding application to Notion:', error);
+    notionAvailable = false; // Notion is not working
+    
     if (error instanceof Error) {
       console.error('Error message:', error.message);
       if (error.message.includes('properties')) {

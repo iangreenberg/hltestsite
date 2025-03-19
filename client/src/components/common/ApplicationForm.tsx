@@ -134,12 +134,17 @@ export default function ApplicationForm() {
           body: JSON.stringify(data),
         });
         
+        const responseData = await response.json();
+        
         if (!response.ok) {
           console.warn('Notion API submission failed, but continuing with local storage only');
-          const errorData = await response.json();
-          console.warn('Error details:', errorData);
+          console.warn('Error details:', responseData);
         } else {
-          console.log('Application submitted to Notion successfully');
+          if (responseData.localOnly || responseData.fallbackToLocal) {
+            console.log('Application stored locally. Notion integration currently unavailable.');
+          } else {
+            console.log('Application submitted to Notion successfully');
+          }
         }
       } catch (apiError) {
         console.warn('Error submitting to Notion API:', apiError);

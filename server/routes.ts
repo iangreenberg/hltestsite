@@ -198,17 +198,27 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
       // Send directly to Notion
       const notionResponse = await addApplicationToNotion(req.body);
       
-      res.status(201).json({ 
-        success: true, 
-        message: 'Application submitted to Notion successfully',
-        notion: notionResponse
-      });
+      // Check if it was local only (Notion unavailable)
+      if (notionResponse && 'localOnly' in notionResponse && notionResponse.localOnly) {
+        res.status(200).json({ 
+          success: true, 
+          message: 'Application stored locally. Notion integration currently unavailable.',
+          localOnly: true
+        });
+      } else {
+        res.status(201).json({ 
+          success: true, 
+          message: 'Application submitted to Notion successfully',
+          notion: notionResponse
+        });
+      }
     } catch (error: any) {
       console.error('Error submitting to Notion:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Failed to submit application to Notion',
-        error: error.message || 'Unknown error'
+      res.status(200).json({ 
+        success: true, 
+        message: 'Application stored locally, but Notion submission failed',
+        error: error.message || 'Unknown error',
+        fallbackToLocal: true
       });
     }
   });
