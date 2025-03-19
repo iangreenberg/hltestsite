@@ -77,6 +77,9 @@ export default function AuthPage() {
             <p className="text-sm text-muted-foreground">
               Sign in to your account or create a new one
             </p>
+            <div className="text-sm bg-amber-50 text-amber-800 p-2 rounded-md border border-amber-200 mt-2">
+              <strong>Admin Login:</strong> admin / admin123
+            </div>
           </div>
 
           <Tabs 
