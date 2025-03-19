@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import { 
   Card, 
   CardContent, 
@@ -19,85 +19,103 @@ export default function SimplifiedForm() {
     fullName: "",
     email: "",
     phone: "",
-    message: "",
+    message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
-  const onSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setIsSuccess(false);
-
-    try {
-      // Basic validation
-      if (!formData.fullName || !formData.email) {
-        throw new Error("Name and email are required fields");
-      }
-
-      // Determine API URL based on environment
-      const apiUrl = process.env.NODE_ENV === 'production'
-        ? `${window.location.origin}/api/submit-form` // Production URL
-        : 'http://localhost:3000/api/submit-form'; // Development URL
-
-      console.log(`Submitting to API: ${apiUrl}`);
-
-      // Submit form to API
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      // Parse response
-      const result = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to submit form");
-      }
-
-      // Show success state
-      setIsSuccess(true);
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-
-      toast({
-        title: "Application Submitted",
-        description: "Thank you! Your application has been received successfully.",
-      });
-
-      // Reset success state after 5 seconds
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
-
-    } catch (error) {
-      console.error("Form submission error:", error);
-      
+    
+    if (!formData.fullName || !formData.email) {
       toast({
         variant: "destructive",
-        title: "Submission Failed",
-        description: error instanceof Error 
-          ? error.message 
-          : "An error occurred. Please try again later.",
+        title: "Error",
+        description: "Name and email are required fields"
       });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Try the direct API endpoint first
+      const response = await fetch('/api/form-handler', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setIsSuccess(true);
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          message: ""
+        });
+        
+        toast({
+          title: "Success",
+          description: "Your application has been submitted successfully!"
+        });
+        
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 5000);
+      } else {
+        throw new Error("Failed to submit form");
+      }
+    } catch (error) {
+      // Fallback to alternate endpoint
+      try {
+        const fallbackResponse = await fetch('https://hltestsite-4vq3.vercel.app/api/submit-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+        
+        if (fallbackResponse.ok) {
+          setIsSuccess(true);
+          setFormData({
+            fullName: "",
+            email: "",
+            phone: "",
+            message: ""
+          });
+          
+          toast({
+            title: "Success",
+            description: "Your application has been submitted successfully!"
+          });
+          
+          setTimeout(() => {
+            setIsSuccess(false);
+          }, 5000);
+        } else {
+          throw new Error("Failed to submit form through all endpoints");
+        }
+      } catch (fallbackError) {
+        console.error("Form submission error:", fallbackError);
+        
+        toast({
+          variant: "destructive",
+          title: "Submission Failed",
+          description: "We couldn't process your submission. Please try again later."
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -120,7 +138,7 @@ export default function SimplifiedForm() {
           </div>
         )}
 
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="fullName" className="text-sm font-medium">
