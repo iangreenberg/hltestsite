@@ -22,7 +22,7 @@ import { motion } from "framer-motion";
 const formSchema = z.object({
   fullName: z.string().min(2, { message: "Please enter your full name" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z.string().min(6, { message: "Please enter a valid phone number" }),
+  phone: z.string(),  // Accept any string format for phone
   businessName: z.string().optional(),
   cityState: z.string().min(2, { message: "Please enter your city and state" }),
   
@@ -240,7 +240,7 @@ export default function ApplicationForm() {
                       <FormItem>
                         <FormLabel>Phone Number*</FormLabel>
                         <FormControl>
-                          <Input placeholder="(555) 123-4567" {...field} />
+                          <Input placeholder="Any phone format works" type="tel" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
