@@ -81,7 +81,7 @@ export default function NewLandingPage() {
   return (
     <>
       <Helmet>
-        <title>Launch Your Hemp THC Business in 30 Days | $8 Billion Texas Market | HempLaunch</title>
+        <title>Launch Your Hemp Business in 30 Days | $8 Billion Texas Market | HempLaunch</title>
         <meta 
           name="description" 
           content="Tap into Texas' $8 billion hemp market with our turnkey system. Launch in 30 days for under $3,000 with full legal compliance, branding, and manufacturing."
@@ -139,7 +139,7 @@ export default function NewLandingPage() {
                 variants={fadeIn}
                 className="text-lg md:text-xl mb-10 max-w-4xl mx-auto leading-relaxed"
               >
-                Imagine launching a fully legal hemp-derived THC business in just 30 days with our all-in-one, turnkey solution. HempLaunch handles everything—from legal formation and compliance to branding, manufacturing, and e-commerce—so you can focus on <span className="font-bold underline decoration-[#C8A951]">growing your brand and dominating your market</span>.
+                Imagine launching a fully legal hemp business in just 30 days with our all-in-one, turnkey solution. HempLaunch handles everything—from legal formation and compliance to branding, manufacturing, and e-commerce—so you can focus on <span className="font-bold underline decoration-[#C8A951]">growing your brand and dominating your market</span>.
               </motion.p>
               
               <motion.div 
@@ -195,7 +195,7 @@ export default function NewLandingPage() {
                   <div className="bg-gradient-to-br from-[#f0f9f6] to-white p-6 rounded-xl shadow border border-gray-100">
                     <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Favorable Regulations</h3>
                     <p className="text-gray-700">
-                      Thanks to the <span className="font-semibold">2018 Farm Bill</span>, hemp-derived THC products (with less than 0.3% Delta-9 THC) are federally legal.
+                      Thanks to the <span className="font-semibold">2018 Farm Bill</span>, hemp-derived products are federally legal when they meet regulatory compliance standards.
                     </p>
                   </div>
                   
@@ -870,7 +870,7 @@ export default function NewLandingPage() {
               </motion.div>
               
               <p className="mt-12 text-gray-300">
-                Launching a legal hemp-derived THC business in Texas is a monumental opportunity—one that promises freedom, growth, and a chance to be at the forefront of a booming market. HempLaunch is your trusted partner, offering an integrated solution that covers every detail so you can focus on building your brand and achieving financial independence.
+                Launching a legal hemp business in Texas is a monumental opportunity—one that promises freedom, growth, and a chance to be at the forefront of a booming market. HempLaunch is your trusted partner, offering an integrated solution that covers every detail so you can focus on building your brand and achieving financial independence.
               </p>
               
               <p className="mt-6 text-lg text-[#C8A951] font-semibold">
@@ -910,9 +910,9 @@ export default function NewLandingPage() {
                   viewport={{ once: true }}
                   className="bg-gray-50 p-6 rounded-xl border border-gray-200"
                 >
-                  <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Is hemp-derived THC legal in Texas?</h3>
+                  <h3 className="text-xl font-bold text-[#2F5D50] mb-3">Are hemp products legal in Texas?</h3>
                   <p className="text-gray-700">
-                    Yes! Our products contain less than 0.3% Delta-9 THC and are fully compliant with federal and Texas state regulations under the 2018 Farm Bill.
+                    Yes! Our products meet all regulatory compliance standards and are fully compliant with federal and Texas state regulations under the 2018 Farm Bill.
                   </p>
                 </motion.div>
                 

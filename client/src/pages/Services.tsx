@@ -7,7 +7,7 @@ export default function Services() {
         <title>Our Services | HempLaunch</title>
         <meta 
           name="description" 
-          content="Comprehensive services for hemp-derived THC businesses including legal setup, branding, manufacturing, fulfillment, and marketing."
+          content="Comprehensive services for hemp businesses including legal setup, branding, manufacturing, fulfillment, and marketing."
         />
       </Helmet>
       <main className="py-20">
@@ -15,10 +15,10 @@ export default function Services() {
           <div className="text-center mb-16">
             <span className="text-[#C8A951] font-semibold">OUR SERVICES</span>
             <h1 className="text-3xl md:text-4xl font-bold font-montserrat mt-2 text-[#2F5D50]">
-              All-in-One Solution for Hemp-Derived THC Entrepreneurs
+              All-in-One Solution for Hemp Entrepreneurs
             </h1>
             <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-              We handle everything you need to launch and grow your hemp-derived THC business — from legal formation to marketing.
+              We handle everything you need to launch and grow your hemp business — from legal formation to marketing.
             </p>
           </div>
           
