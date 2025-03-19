@@ -139,38 +139,11 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // Temporary endpoint to get a specific application without authentication
   apiApp.get("/applications-test/:filename", async (req: Request, res: Response) => {
     try {
-      const fs = await import('fs');
-      const path = await import('path');
-      const applicationDir = 'applicationInfo';
       const filename = req.params.filename;
       
-      // Validate filename to prevent path traversal
-      if (filename.includes('..') || !filename.startsWith('application_') || !filename.endsWith('.txt')) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid filename format'
-        });
-      }
-      
-      const filePath = path.join(applicationDir, filename);
-      
-      // Check if file exists
-      if (!fs.existsSync(filePath)) {
-        return res.status(404).json({
-          success: false,
-          message: 'Application file not found'
-        });
-      }
-      
-      // Read file content
-      fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-          console.error(`Error reading application file ${filename}:`, err);
-          return res.status(500).json({
-            success: false,
-            message: 'Error reading application file'
-          });
-        }
+      try {
+        // Use our fileStorage module to read application file
+        const data = await readApplicationFile(filename);
         
         // Try to parse as JSON
         try {
@@ -187,8 +160,23 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
             format: 'text'
           });
         }
-      });
+      } catch (error: any) {
+        if (error.message === 'Invalid filename') {
+          return res.status(400).json({
+            success: false,
+            message: 'Invalid filename format'
+          });
+        } else if (error.code === 'ENOENT') {
+          return res.status(404).json({
+            success: false,
+            message: 'Application file not found'
+          });
+        } else {
+          throw error; // Re-throw to be caught by outer catch
+        }
+      }
     } catch (error: any) {
+      console.error('Error retrieving application:', error);
       res.status(500).json({
         success: false,
         message: error.message || "Error retrieving application"
@@ -389,41 +377,27 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // API route to get all applications (protected - admin only)
   apiApp.get("/applications", isAdmin, async (req: Request, res: Response) => {
     try {
-      const fs = await import('fs');
+      // Use our fileStorage module to get applications
+      const files = await getApplicationFiles();
+      
+      // Map files to desired format
       const path = await import('path');
       const applicationDir = 'applicationInfo';
       
-      // Ensure directory exists
-      if (!fs.existsSync(applicationDir)) {
-        fs.mkdirSync(applicationDir, { recursive: true });
-      }
+      const applicationFiles = files
+        .map(file => ({
+          filename: file,
+          path: path.join(applicationDir, file),
+          timestamp: file.split('_')[1] || '0'
+        }))
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)); // Sort by timestamp, newest first
       
-      // Read all application files
-      fs.readdir(applicationDir, (err, files) => {
-        if (err) {
-          console.error('Error reading applications directory:', err);
-          return res.status(500).json({ 
-            success: false, 
-            message: 'Error retrieving applications' 
-          });
-        }
-        
-        // Filter only application text files
-        const applicationFiles = files
-          .filter(file => file.startsWith('application_') && file.endsWith('.txt'))
-          .map(file => ({
-            filename: file,
-            path: path.join(applicationDir, file),
-            timestamp: file.split('_')[1]
-          }))
-          .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)); // Sort by timestamp, newest first
-        
-        res.status(200).json({
-          success: true,
-          data: applicationFiles
-        });
+      res.status(200).json({
+        success: true,
+        data: applicationFiles
       });
     } catch (error: any) {
+      console.error('Error retrieving applications:', error);
       res.status(500).json({ 
         success: false, 
         message: error.message || "Error retrieving applications" 
@@ -445,7 +419,6 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
       }
       
       // Save application to file using our fileStorage module
-      const { saveApplicationToFile } = await import('./fileStorage');
       const filePath = await saveApplicationToFile(applicationData, applicationData.fullName);
       
       return res.status(201).json({
@@ -465,45 +438,44 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // API route to get a specific application file (protected - admin only)
   apiApp.get("/applications/:filename", isAdmin, async (req: Request, res: Response) => {
     try {
-      const fs = await import('fs');
-      const path = await import('path');
-      const applicationDir = 'applicationInfo';
       const filename = req.params.filename;
       
-      // Validate filename to prevent path traversal
-      if (filename.includes('..') || !filename.startsWith('application_') || !filename.endsWith('.txt')) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid filename format'
-        });
-      }
-      
-      const filePath = path.join(applicationDir, filename);
-      
-      // Check if file exists
-      if (!fs.existsSync(filePath)) {
-        return res.status(404).json({
-          success: false,
-          message: 'Application file not found'
-        });
-      }
-      
-      // Read file content
-      fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-          console.error(`Error reading application file ${filename}:`, err);
-          return res.status(500).json({
-            success: false,
-            message: 'Error reading application file'
+      try {
+        // Use our fileStorage module to read application file
+        const data = await readApplicationFile(filename);
+        
+        // Try to parse as JSON
+        try {
+          const jsonData = JSON.parse(data);
+          return res.status(200).json({
+            success: true,
+            data: jsonData
+          });
+        } catch (e) {
+          // If not valid JSON, return as text
+          return res.status(200).json({
+            success: true,
+            data: data,
+            format: 'text'
           });
         }
-        
-        res.status(200).json({
-          success: true,
-          data: data
-        });
-      });
+      } catch (error: any) {
+        if (error.message === 'Invalid filename') {
+          return res.status(400).json({
+            success: false,
+            message: 'Invalid filename format'
+          });
+        } else if (error.code === 'ENOENT') {
+          return res.status(404).json({
+            success: false,
+            message: 'Application file not found'
+          });
+        } else {
+          throw error; // Re-throw to be caught by outer catch
+        }
+      }
     } catch (error: any) {
+      console.error('Error retrieving application:', error);
       res.status(500).json({
         success: false,
         message: error.message || "Error retrieving application"
