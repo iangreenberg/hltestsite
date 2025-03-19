@@ -120,11 +120,16 @@ export default function ApplicationForm() {
       setIsComplete(true);
       toast({
         title: "Application submitted successfully",
-        description: "We'll be in touch soon!",
+        description: "Redirecting you to schedule a consultation...",
         variant: "default",
       });
       
       console.log("Application saved:", result.filePath);
+      
+      // Redirect to Calendly after a brief delay
+      setTimeout(() => {
+        window.location.href = "https://calendly.com/hemplaunchinfo/free-consultation";
+      }, 2000);
     } catch (error) {
       console.error("Application submission error:", error);
       toast({
@@ -146,16 +151,16 @@ export default function ApplicationForm() {
           </div>
           <h2 className="text-3xl font-bold text-[#2F5D50] mb-4">Application Complete!</h2>
           <p className="text-lg text-gray-700 mb-6">
-            Thank you for your interest in HempLaunch. One of our hemp business experts will contact you within 24-48 hours to discuss your application and next steps.
+            Thank you for your interest in HempLaunch. You're being redirected to our scheduling system to book a free consultation.
           </p>
           <p className="text-gray-600 mb-8">
-            Meanwhile, check your email for a confirmation and additional resources to help you prepare for your consultation.
+            If you're not automatically redirected, please click the button below to schedule your consultation.
           </p>
           <Button 
-            onClick={() => window.location.href = '/'}
+            onClick={() => window.location.href = 'https://calendly.com/hemplaunchinfo/free-consultation'}
             className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-3 px-6 rounded-lg"
           >
-            Return to Homepage
+            Schedule Consultation
           </Button>
         </div>
       </div>
