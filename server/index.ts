@@ -55,7 +55,24 @@ const setupServer = async () => {
   // Create admin user if it doesn't exist yet
   await createAdminUserIfNotExists();
   
-  server = await registerRoutes(app);
+  // Create an explicit API router to handle API requests first
+  const apiRouter = express.Router();
+  
+  // Set up static file serving based on environment first
+  if (app.get("env") === "development") {
+    // We'll register the API routes after this
+    server = await registerRoutes(app, apiRouter);
+    
+    // Apply CORS to API routes
+    app.use('/api', apiRouter);
+    
+    // Then set up Vite for the frontend
+    await setupVite(app, server);
+  } else {
+    // For production, register routes normally
+    server = await registerRoutes(app);
+    serveStatic(app);
+  }
 
   // Error handling middleware
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -65,13 +82,6 @@ const setupServer = async () => {
     res.status(status).json({ message });
     throw err;
   });
-
-  // Set up static file serving based on environment
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
 
   // Only start the server if we're not in a serverless environment (like Vercel functions)
   if (process.env.NODE_ENV !== 'production' || process.env.STANDALONE_SERVER === 'true') {

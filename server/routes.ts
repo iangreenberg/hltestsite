@@ -1,4 +1,4 @@
-import type { Express, Request, Response, NextFunction } from "express";
+import express, { type Express, type Router, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
@@ -14,12 +14,14 @@ const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Express, apiRouter?: Router): Promise<Server> {
+  // If an API router is provided, use it instead of the main app for API routes
+  const apiApp = apiRouter || app;
   // Set up authentication
   setupAuth(app);
   
   // Debug endpoints to test API connectivity
-  app.get("/api/debug", (req, res) => {
+  apiApp.get("/api/debug", (req, res) => {
     res.status(200).json({
       success: true,
       message: "API is working (GET)",
@@ -35,7 +37,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   
   // POST version of the debug endpoint
-  app.post("/api/debug", (req, res) => {
+  apiApp.post("/api/debug", (req, res) => {
     res.status(200).json({
       success: true,
       message: "API is working (POST)",
@@ -51,8 +53,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
+  // Add a standalone endpoint directly on app to test direct routing
+  app.get("/direct-test", (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "Direct test endpoint working",
+      serverTime: new Date().toISOString()
+    });
+  });
+  
   // Simple test endpoint
-  app.get("/api/test", (req, res) => {
+  apiApp.get("/api/test", (req, res) => {
     res.status(200).json({
       success: true,
       message: "Test endpoint working (GET)",
@@ -60,7 +71,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
-  app.post("/api/test", (req, res) => {
+  apiApp.post("/api/test", (req, res) => {
     res.status(200).json({
       success: true,
       message: "Test endpoint working (POST)",
