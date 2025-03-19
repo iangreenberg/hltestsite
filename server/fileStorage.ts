@@ -16,6 +16,52 @@ const ensureAppDirExists = (): Promise<void> => {
   });
 };
 
+// Check if application directory is empty and create test files if needed
+export async function createTestFilesIfEmpty(): Promise<void> {
+  try {
+    await ensureAppDirExists();
+    
+    const files = await getApplicationFiles();
+    if (files.length === 0) {
+      console.log('No application files found. Creating test files...');
+      
+      // Create a couple of test application files
+      const testData1 = {
+        fullName: "Test Applicant 1",
+        email: "test1@example.com",
+        phone: "555-123-4567",
+        businessName: "Texas Hemp Solutions",
+        cityState: "Dallas, TX",
+        businessSituation: "new",
+        packageInterest: "starter",
+        businessBasics: "partial",
+        timeframe: "within30",
+        notes: "This is a test application submission"
+      };
+      
+      const testData2 = {
+        fullName: "Test Applicant 2",
+        email: "test2@example.com",
+        phone: "555-987-6543",
+        businessName: "Austin Hemp Collective",
+        cityState: "Austin, TX",
+        businessSituation: "existing",
+        packageInterest: "growth",
+        businessBasics: "complete",
+        timeframe: "immediate",
+        notes: "This is another test application submission"
+      };
+      
+      await saveApplicationToFile(testData1, testData1.fullName);
+      await saveApplicationToFile(testData2, testData2.fullName);
+      
+      console.log('Test files created successfully');
+    }
+  } catch (error) {
+    console.error('Error creating test files:', error);
+  }
+}
+
 /**
  * Saves application data to a text file in the applicationInfo directory
  * @param data Application data to save

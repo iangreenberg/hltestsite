@@ -5,6 +5,7 @@ import { setupAuth } from "./auth";
 import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
 import { submitApplication } from "./api/application";
 import { addApplicationToNotion, getDatabaseSchema } from "./notion";
+import { createTestFilesIfEmpty, getApplicationFiles, readApplicationFile } from "./fileStorage";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -23,8 +24,16 @@ const isAdmin = (req: Request, res: Response, next: NextFunction) => {
 export async function registerRoutes(app: Express, apiRouter?: Router): Promise<Server> {
   // If an API router is provided, use it instead of the main app for API routes
   const apiApp = apiRouter || app;
+  
   // Set up authentication with type assertion to work around TypeScript constraints
   setupAuth(app, apiRouter as any);
+  
+  // Create test application files if none exist
+  try {
+    await createTestFilesIfEmpty();
+  } catch (error) {
+    console.error("Error creating test files:", error);
+  }
   
   // Debug endpoints to test API connectivity
   // If using apiRouter mounted at /api, we don't include /api in the path
@@ -99,61 +108,27 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // Temporary non-protected applications endpoint for testing
   apiApp.get("/applications-test", async (req: Request, res: Response) => {
     try {
-      const fs = await import('fs');
+      // Use our fileStorage module to get applications
+      const files = await getApplicationFiles();
+      
+      // Map files to desired format
       const path = await import('path');
       const applicationDir = 'applicationInfo';
       
-      // Ensure directory exists
-      if (!fs.existsSync(applicationDir)) {
-        fs.mkdirSync(applicationDir, { recursive: true });
-        
-        // Create a test application file if none exists
-        const testData = {
-          fullName: "Test Applicant",
-          email: "test@example.com",
-          phone: "555-123-4567",
-          businessName: "Test Hemp Business",
-          cityState: "Austin, TX",
-          businessSituation: "new",
-          packageInterest: "growth",
-          timeframe: "1to3months"
-        };
-        
-        const testFilename = `application_${Date.now()}_test.txt`;
-        fs.writeFileSync(
-          path.join(applicationDir, testFilename),
-          JSON.stringify(testData, null, 2)
-        );
-        
-        console.log("Created test application file:", testFilename);
-      }
+      const applicationFiles = files
+        .map(file => ({
+          filename: file,
+          path: path.join(applicationDir, file),
+          timestamp: file.split('_')[1] || '0'
+        }))
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)); // Sort by timestamp, newest first
       
-      // Read all application files
-      fs.readdir(applicationDir, (err, files) => {
-        if (err) {
-          console.error('Error reading applications directory:', err);
-          return res.status(500).json({ 
-            success: false, 
-            message: 'Error retrieving applications' 
-          });
-        }
-        
-        // Filter only application text files
-        const applicationFiles = files
-          .filter(file => file.startsWith('application_') && file.endsWith('.txt'))
-          .map(file => ({
-            filename: file,
-            path: path.join(applicationDir, file),
-            timestamp: file.split('_')[1] || '0'
-          }))
-          .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)); // Sort by timestamp, newest first
-        
-        res.status(200).json({
-          success: true,
-          data: applicationFiles
-        });
+      res.status(200).json({
+        success: true,
+        data: applicationFiles
       });
     } catch (error: any) {
+      console.error('Error retrieving applications:', error);
       res.status(500).json({ 
         success: false, 
         message: error.message || "Error retrieving applications" 
