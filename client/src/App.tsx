@@ -8,7 +8,7 @@ import OptimizedLanding from "./pages/OptimizedLanding";
 import NewLandingPage from "./pages/NewLandingPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import TestApplicationForm from "./pages/TestApplicationForm";
-import SimplifiedForm from "./pages/SimplifiedForm";
+
 import TestForm from "./pages/TestForm";
 import Services from "./pages/Services";
 import HowItWorks from "./pages/HowItWorks";
@@ -203,13 +203,7 @@ function Router() {
         )}
       </Route>
       
-      <Route path="/simple-form">
-        {() => (
-          <MainLayout>
-            <SimplifiedForm />
-          </MainLayout>
-        )}
-      </Route>
+
       
       <Route>
         {() => (
