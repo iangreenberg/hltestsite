@@ -113,12 +113,12 @@ export default function TestApplicationForm() {
     
     try {
       // Determine URL based on selection
-      let debugUrl = "/api/debug";
+      let debugUrl = "/api/test";
       
       if (urlType === 'absolute') {
         const protocol = window.location.protocol;
         const host = window.location.host;
-        debugUrl = `${protocol}//${host}/api/debug`;
+        debugUrl = `${protocol}//${host}/api/test`;
       }
       
       console.log(`Testing API connection with ${testMethod} to:`, debugUrl);
@@ -212,11 +212,11 @@ export default function TestApplicationForm() {
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="relative" id="relative" />
-                      <Label htmlFor="relative">Relative URL (/api/debug)</Label>
+                      <Label htmlFor="relative">Relative URL (/api/test)</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="absolute" id="absolute" />
-                      <Label htmlFor="absolute">Absolute URL (http://host/api/debug)</Label>
+                      <Label htmlFor="absolute">Absolute URL (http://host/api/test)</Label>
                     </div>
                   </RadioGroup>
                 </div>

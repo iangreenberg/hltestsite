@@ -18,11 +18,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
   setupAuth(app);
   
-  // Debug endpoint to test API connectivity
+  // Debug endpoints to test API connectivity
   app.get("/api/debug", (req, res) => {
     res.status(200).json({
       success: true,
-      message: "API is working",
+      message: "API is working (GET)",
       time: new Date().toISOString(),
       requestInfo: {
         method: req.method,
@@ -31,6 +31,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
         host: req.headers.host,
         origin: req.headers.origin
       }
+    });
+  });
+  
+  // POST version of the debug endpoint
+  app.post("/api/debug", (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "API is working (POST)",
+      time: new Date().toISOString(),
+      receivedData: req.body,
+      requestInfo: {
+        method: req.method,
+        path: req.path,
+        headers: req.headers['content-type'],
+        host: req.headers.host,
+        origin: req.headers.origin
+      }
+    });
+  });
+  
+  // Simple test endpoint
+  app.get("/api/test", (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "Test endpoint working (GET)",
+      serverTime: new Date().toISOString()
+    });
+  });
+  
+  app.post("/api/test", (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "Test endpoint working (POST)",
+      receivedData: req.body,
+      serverTime: new Date().toISOString()
     });
   });
   
