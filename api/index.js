@@ -100,20 +100,26 @@ app.post('/api/login', (req, res) => {
   
   // Simple admin authentication
   if (username === 'admin' && password === 'admin123') {
-    // Return user info matching our schema
-    res.json({
-      id: 1,
-      username: 'admin',
-      isAdmin: true
-    });
+    const authToken = 'admin-token';
     
     // Set cookie for maintaining session in Vercel environment
-    res.cookie('auth_token', 'admin-token', { 
+    res.cookie('auth_token', authToken, { 
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
+    
+    // Return user info matching our schema WITH the token
+    // This is critical for our client-side code
+    res.json({
+      id: 1,
+      username: 'admin',
+      isAdmin: true,
+      token: authToken // Important! Include token in the response
+    });
+    
+    console.log('Login successful for admin, token provided in response');
   } else {
     res.status(401).json({ message: "Invalid credentials" });
   }
@@ -128,20 +134,26 @@ app.post('/api/register', (req, res) => {
     return res.status(400).json({ message: "Username already exists" });
   }
   
-  // In a real app, you'd store the user in a database
-  res.status(201).json({
-    id: 2,
-    username,
-    isAdmin: false
-  });
+  const authToken = `user-token-${username}`;
   
   // Set cookie for maintaining session in Vercel environment
-  res.cookie('auth_token', `user-token-${username}`, { 
+  res.cookie('auth_token', authToken, { 
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
   });
+  
+  // In a real app, you'd store the user in a database
+  // Include the token in the response for client-side storage
+  res.status(201).json({
+    id: 2,
+    username,
+    isAdmin: false,
+    token: authToken // Include token in the response
+  });
+  
+  console.log('Registration successful for user, token provided in response');
 });
 
 // Logout endpoint
