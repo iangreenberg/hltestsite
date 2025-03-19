@@ -57,18 +57,8 @@ export async function createAdminUserIfNotExists() {
 
 // Simplified authentication setup
 export function setupAuth(app: Express, apiRouter?: Router) {
-  // Configure session middleware on the Express app
-  const sessionSettings: session.SessionOptions = {
-    secret: process.env.SESSION_SECRET || "hempLaunchSecretKey",
-    resave: false,
-    saveUninitialized: false,
-    store: storage.sessionStore,
-    cookie: { 
-      secure: process.env.NODE_ENV === "production", 
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
-  };
-
+  // Session is now configured in index.ts BEFORE calling this function
+  
   // Configure passport
   passport.use(new LocalStrategy(async (username, password, done) => {
     try {
@@ -95,9 +85,8 @@ export function setupAuth(app: Express, apiRouter?: Router) {
     }
   });
 
-  // Set up session and passport middleware (only on app, not router)
+  // Set up passport middleware (only on app, not router)
   app.set("trust proxy", 1);
-  app.use(session(sessionSettings));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -106,11 +95,11 @@ export function setupAuth(app: Express, apiRouter?: Router) {
 
   // Login route
   router.post("/login", (req, res, next) => {
-    passport.authenticate("local", (err, user) => {
+    passport.authenticate("local", (err: Error | null, user: SelectUser | false) => {
       if (err) return next(err);
       if (!user) return res.status(401).json({ message: "Invalid credentials" });
       
-      req.login(user, (err) => {
+      req.login(user, (err: Error | null) => {
         if (err) return next(err);
         
         // Remove password from response
@@ -136,7 +125,7 @@ export function setupAuth(app: Express, apiRouter?: Router) {
       });
 
       // Log user in after registration
-      req.login(user, (err) => {
+      req.login(user, (err: Error | null) => {
         if (err) return next(err);
         
         // Remove password from response
@@ -150,7 +139,7 @@ export function setupAuth(app: Express, apiRouter?: Router) {
 
   // Logout route
   router.post("/logout", (req, res) => {
-    req.logout((err) => {
+    req.logout((err: Error | null) => {
       if (err) return res.status(500).json({ message: "Failed to logout" });
       res.status(200).json({ message: "Logged out successfully" });
     });

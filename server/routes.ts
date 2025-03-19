@@ -8,6 +8,11 @@ import { addApplicationToNotion, getDatabaseSchema } from "./notion";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  // Check if isAuthenticated exists
+  if (typeof req.isAuthenticated !== 'function') {
+    return res.status(500).json({ message: "req.isAuthenticated is not a function" });
+  }
+  
   if (req.isAuthenticated() && req.user?.isAdmin) {
     next();
   } else {

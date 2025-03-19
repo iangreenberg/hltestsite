@@ -3,6 +3,8 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { createAdminUserIfNotExists } from "./auth";
 import cors from "cors";
+import session from "express-session";
+import { storage } from "./storage";
 
 // Create the Express app
 const app = express();
@@ -11,6 +13,18 @@ const app = express();
 app.use(cors({
   origin: true, // Allow all origins
   credentials: true // Allow cookies to be sent
+}));
+
+// Configure session BEFORE setting up auth
+app.use(session({
+  secret: process.env.SESSION_SECRET || "hempLaunchSecretKey",
+  resave: false,
+  saveUninitialized: false,
+  store: storage.sessionStore,
+  cookie: { 
+    secure: process.env.NODE_ENV === "production", 
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
 app.use(express.json());
