@@ -342,6 +342,30 @@ app.get('/api/applications/:filename', checkAdminAuth, (req, res) => {
   }
 });
 
+// Admin dashboard summary endpoint
+app.get('/api/admin/dashboard', checkAdminAuth, (req, res) => {
+  try {
+    console.log('GET /api/admin/dashboard - Mock data for Vercel deployment');
+    // Return sample dashboard summary data
+    res.json({
+      success: true,
+      data: {
+        applications: 2,
+        waitlist: 12,
+        emailSubscriptions: 27,
+        recentActivity: [
+          { type: 'application', name: 'Sarah Johnson', date: '2023-03-21T17:42:23.210Z' },
+          { type: 'waitlist', name: 'Michael Davis', date: '2023-03-19T09:12:43.801Z' },
+          { type: 'subscription', name: 'Jessica White', date: '2023-03-18T14:33:21.432Z' }
+        ]
+      }
+    });
+  } catch (error) {
+    console.error('Error getting dashboard data:', error);
+    res.status(500).json({ success: false, message: 'Failed to retrieve dashboard data' });
+  }
+});
+
 // Health check endpoint
 app.get('/api/healthcheck', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
