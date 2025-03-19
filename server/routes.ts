@@ -127,6 +127,14 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
         success: true,
         data: applicationFiles
       });
+    } catch (error: any) {
+      console.error('Error retrieving applications:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: error.message || "Error retrieving applications" 
+      });
+    }
+  });
   
   // Simple test submission endpoint (no auth or Notion required)
   apiApp.post("/test-submit", async (req: Request, res: Response) => {
@@ -156,14 +164,6 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
         success: false, 
         message: 'Failed to submit test application. Please try again later.',
         error: String(error)
-      });
-    }
-  });
-    } catch (error: any) {
-      console.error('Error retrieving applications:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: error.message || "Error retrieving applications" 
       });
     }
   });
@@ -314,6 +314,38 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // The client submits to /api/application but since we mount apiApp under /api
   // we only need to register the route as /application on apiApp
   apiApp.post("/application", submitApplication);
+  
+  // Simple test submission endpoint (no auth or Notion required)
+  apiApp.post("/test-submit", async (req: Request, res: Response) => {
+    console.log('Test application received:', req.body);
+    try {
+      const applicationData = req.body;
+      
+      // Basic validation
+      if (!applicationData || !applicationData.fullName || !applicationData.email) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Invalid application data. Name and email are required.' 
+        });
+      }
+      
+      // Save application to file
+      const filePath = await saveApplicationToFile(applicationData, applicationData.fullName);
+      
+      return res.status(201).json({ 
+        success: true, 
+        message: 'Test application submitted successfully',
+        filePath
+      });
+    } catch (error) {
+      console.error('Error submitting test application:', error);
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Failed to submit test application. Please try again later.',
+        error: String(error)
+      });
+    }
+  });
   
   // API route for direct Notion integration
   apiApp.post("/notion-application", async (req: Request, res: Response) => {
