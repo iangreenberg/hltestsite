@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
 import { submitApplication } from "./api/application";
-import { addApplicationToNotion } from "./notion";
+import { addApplicationToNotion, getDatabaseSchema } from "./notion";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -208,6 +208,64 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
       res.status(500).json({ 
         success: false, 
         message: 'Failed to submit application to Notion',
+        error: error.message || 'Unknown error'
+      });
+    }
+  });
+  
+  // Test endpoint to get Notion database schema
+  apiApp.get("/notion-schema", async (req: Request, res: Response) => {
+    try {
+      console.log('Fetching Notion database schema...');
+      const schema = await getDatabaseSchema();
+      res.status(200).json({
+        success: true,
+        message: 'Notion database schema retrieved successfully',
+        schema: schema
+      });
+    } catch (error: any) {
+      console.error('Error fetching Notion schema:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to retrieve Notion database schema',
+        error: error.message || 'Unknown error'
+      });
+    }
+  });
+  
+  // Test endpoint to submit a sample application to Notion
+  apiApp.post("/notion-test", async (req: Request, res: Response) => {
+    try {
+      console.log('Running Notion test...');
+      
+      // Create a simple test payload
+      const testData = {
+        fullName: "HempLaunch Test User",
+        email: "test@hemplaunch.com",
+        phone: "555-123-4567",
+        businessName: "Test Hemp Business",
+        cityState: "Austin, TX",
+        businessSituation: "new",
+        packageInterest: "growth",
+        businessBasics: "complete",
+        timeframe: "1to3months",
+        notes: "This is a test submission from the application"
+      };
+      
+      // Send to Notion
+      const notionResponse = await addApplicationToNotion(testData);
+      
+      res.status(200).json({
+        success: true,
+        message: 'Test application submitted to Notion successfully',
+        data: testData,
+        notion: notionResponse
+      });
+    } catch (error: any) {
+      console.error('Error in Notion test:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to submit test application to Notion',
         error: error.message || 'Unknown error'
       });
     }

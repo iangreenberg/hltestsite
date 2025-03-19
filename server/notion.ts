@@ -1,116 +1,140 @@
 import { Client } from '@notionhq/client';
 
+// Log Notion configuration (without exposing sensitive data)
+console.log('Notion config check:', {
+  apiKeyExists: !!process.env.NOTION_API_KEY,
+  databaseIdExists: !!process.env.NOTION_DATABASE_ID,
+  apiKeyLength: process.env.NOTION_API_KEY?.length || 0,
+  databaseIdLength: process.env.NOTION_DATABASE_ID?.length || 0
+});
+
+// Create the Notion client
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
+
+// First try to get database schema to understand what properties are available
+export async function getDatabaseSchema() {
+  try {
+    const response = await notion.databases.retrieve({
+      database_id: process.env.NOTION_DATABASE_ID!,
+    });
+    return response;
+  } catch (error) {
+    console.error('Error fetching Notion database schema:', error);
+    throw error;
+  }
+}
 
 export async function addApplicationToNotion(applicationData: any) {
   try {
     console.log('Preparing data for Notion:', applicationData);
     
     // Extract name parts if the form has fullName instead of firstName/lastName
-    let firstName = applicationData.firstName;
-    let lastName = applicationData.lastName;
-    
-    if (!firstName && !lastName && applicationData.fullName) {
-      const nameParts = applicationData.fullName.split(' ');
-      firstName = nameParts[0];
-      lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    let fullName = applicationData.fullName || '';
+    if (!fullName && (applicationData.firstName || applicationData.lastName)) {
+      fullName = `${applicationData.firstName || ''} ${applicationData.lastName || ''}`.trim();
     }
     
+    // Try to dynamically build properties based on form data
+    const properties: any = {};
+    
+    // Always need a title field
+    properties['Name'] = {
+      title: [
+        {
+          text: {
+            content: fullName || 'New Application',
+          },
+        },
+      ],
+    };
+    
+    // Add remaining fields - handling different property types
+    // Email field
+    if (applicationData.email) {
+      properties['Email'] = {
+        email: applicationData.email,
+      };
+    }
+    
+    // Phone field
+    if (applicationData.phone) {
+      properties['Phone'] = {
+        phone_number: applicationData.phone,
+      };
+    }
+    
+    // Text fields
+    const textFields = {
+      'Business Name': applicationData.businessName || applicationData.business || '',
+      'Location': applicationData.cityState || '',
+      'Business Situation': applicationData.businessSituation || '',
+      'Package Interest': applicationData.packageInterest || '',
+      'Business Basics': applicationData.businessBasics || '',
+      'Timeline': applicationData.timeframe || applicationData.timeline || '',
+      'Notes': applicationData.notes || applicationData.additionalNotes || '',
+      'Business Type': applicationData.businessType || '',
+      'Referral Source': applicationData.referralSource || '',
+    };
+    
+    // Add all non-empty text fields
+    Object.entries(textFields).forEach(([key, value]) => {
+      if (value) {
+        properties[key] = {
+          rich_text: [
+            {
+              text: {
+                content: value.toString(),
+              },
+            },
+          ],
+        };
+      }
+    });
+    
+    // Add date field
+    properties['Submission Date'] = {
+      date: {
+        start: new Date().toISOString(),
+      },
+    };
+    
+    // Add Status if present
+    if ('status' in properties) {
+      properties['Status'] = {
+        status: {
+          name: 'New Application',
+        },
+      };
+    }
+    
+    console.log('Notion request properties:', JSON.stringify(properties, null, 2));
+    
+    // Create the page in Notion
     const response = await notion.pages.create({
       parent: {
         database_id: process.env.NOTION_DATABASE_ID!,
       },
-      properties: {
-        Name: {
-          title: [
-            {
-              text: {
-                content: applicationData.fullName || `${firstName} ${lastName}`,
-              },
-            },
-          ],
-        },
-        Email: {
-          email: applicationData.email,
-        },
-        Phone: {
-          phone_number: applicationData.phone || '',
-        },
-        Business: {
-          rich_text: [
-            {
-              text: {
-                content: applicationData.businessName || applicationData.business || 'Not specified',
-              },
-            },
-          ],
-        },
-        Location: {
-          rich_text: [
-            {
-              text: {
-                content: applicationData.cityState || 'Not specified',
-              },
-            },
-          ],
-        },
-        "Business Situation": {
-          rich_text: [
-            {
-              text: {
-                content: applicationData.businessSituation || 'Not specified',
-              },
-            },
-          ],
-        },
-        "Package Interest": {
-          rich_text: [
-            {
-              text: {
-                content: applicationData.packageInterest || 'Not specified',
-              },
-            },
-          ],
-        },
-        "Business Basics": {
-          rich_text: [
-            {
-              text: {
-                content: applicationData.businessBasics || 'Not specified',
-              },
-            },
-          ],
-        },
-        Timeline: {
-          rich_text: [
-            {
-              text: {
-                content: applicationData.timeframe || 'Not specified',
-              },
-            },
-          ],
-        },
-        Status: {
-          status: {
-            name: 'New',
-          },
-        },
-        'Submission Date': {
-          date: {
-            start: new Date().toISOString(),
-          },
-        },
-      },
+      properties: properties,
     });
 
-    console.log('Notion response:', response);
+    console.log('Notion response received');
     return response;
   } catch (error) {
     console.error('Error adding application to Notion:', error);
     if (error instanceof Error) {
       console.error('Error message:', error.message);
+      if (error.message.includes('properties')) {
+        console.error('This appears to be a property mismatch. The Notion database columns might not match our expected schema.');
+        // Try to get schema info to help debug
+        try {
+          const schema = await getDatabaseSchema();
+          console.log('Database schema:', JSON.stringify(schema.properties, null, 2));
+        } catch (schemaError) {
+          console.error('Failed to fetch schema:', schemaError);
+        }
+      }
       console.error('Error stack:', error.stack);
     }
     throw error;
