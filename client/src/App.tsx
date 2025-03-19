@@ -109,6 +109,14 @@ function Router() {
         )}
       </Route>
       
+      <Route path="/test-application">
+        {() => (
+          <MainLayout>
+            <TestApplicationForm />
+          </MainLayout>
+        )}
+      </Route>
+      
       {/* Main site routes */}
       <Route path="/">
         {() => (
@@ -186,7 +194,7 @@ function Router() {
         )}
       </Route>
       
-      <Route path="/test-application">
+      <Route path="/test-form-old">
         {() => (
           <MainLayout>
             <TestForm />
