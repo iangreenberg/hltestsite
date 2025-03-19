@@ -6,7 +6,7 @@ export default function CTABanner() {
     <section className="py-16 bg-[#2F5D50]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl md:text-4xl font-bold font-montserrat text-white mb-6">
-          Ready to Launch Your Hemp-Derived THC Brand?
+          Ready to Launch Your Hemp Brand?
         </h2>
         <p className="text-white text-lg mb-8 max-w-3xl mx-auto">
           Join the waitlist today for our all-in-one business launch service. Limited spots available for our next cohort of entrepreneurs.

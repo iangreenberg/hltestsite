@@ -3,8 +3,8 @@ import { Link } from "wouter";
 export default function BlogPreview() {
   const blogPosts = [
     {
-      title: "2023 Farm Bill Updates: What Hemp-Derived THC Businesses Need to Know",
-      excerpt: "The latest regulatory changes in the 2023 Farm Bill and how they impact the legal landscape for hemp-derived THC products across state lines.",
+      title: "2023 Farm Bill Updates: What Hemp Businesses Need to Know",
+      excerpt: "The latest regulatory changes in the 2023 Farm Bill and how they impact the legal landscape for hemp products across state lines.",
       category: "Compliance",
       date: "March 2, 2024",
       image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
@@ -18,7 +18,7 @@ export default function BlogPreview() {
     },
     {
       title: "LLC vs. Corporation: Choosing the Right Legal Structure for Hemp Businesses",
-      excerpt: "A comprehensive analysis of liability protection, tax implications, and operational flexibility for different business entities in the hemp-derived THC industry.",
+      excerpt: "A comprehensive analysis of liability protection, tax implications, and operational flexibility for different business entities in the hemp industry.",
       category: "Business Setup",
       date: "January 28, 2024",
       image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
@@ -32,7 +32,7 @@ export default function BlogPreview() {
           <span className="text-[#C8A951] font-semibold">OUR BLOG</span>
           <h2 className="text-3xl md:text-4xl font-bold font-montserrat mt-2 text-[#2F5D50]">Latest Industry Insights</h2>
           <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-            Stay informed with our expert guidance on hemp-derived THC business trends, compliance updates, and marketing strategies.
+            Stay informed with our expert guidance on hemp business trends, compliance updates, and marketing strategies.
           </p>
         </div>
         

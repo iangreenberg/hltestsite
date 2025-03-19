@@ -10,7 +10,7 @@ export default function QualifierSection() {
             Qualify for a Free Consultation
           </h2>
           <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-            See if you're a good fit for our all-in-one hemp-derived THC business solutions.
+            See if you're a good fit for our all-in-one hemp business solutions.
           </p>
         </div>
         
