@@ -124,6 +124,28 @@ export default function ApplicationForm() {
       // Save back to localStorage
       localStorage.setItem('hemplaunch_applications', JSON.stringify(existingApplications));
       
+      // Submit to backend API for Notion integration
+      try {
+        const response = await fetch('/api/notion-application', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          console.warn('Notion API submission failed, but continuing with local storage only');
+          const errorData = await response.json();
+          console.warn('Error details:', errorData);
+        } else {
+          console.log('Application submitted to Notion successfully');
+        }
+      } catch (apiError) {
+        console.warn('Error submitting to Notion API:', apiError);
+        // Continue with the process even if API submission fails
+      }
+      
       // Show success message
       setIsComplete(true);
       toast({

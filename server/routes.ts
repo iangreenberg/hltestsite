@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
 import { submitApplication } from "./api/application";
+import { addApplicationToNotion } from "./notion";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -188,6 +189,29 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // The client submits to /api/application but since we mount apiApp under /api
   // we only need to register the route as /application on apiApp
   apiApp.post("/application", submitApplication);
+  
+  // API route for direct Notion integration
+  apiApp.post("/notion-application", async (req: Request, res: Response) => {
+    try {
+      console.log('Received Notion application submission:', req.body);
+      
+      // Send directly to Notion
+      const notionResponse = await addApplicationToNotion(req.body);
+      
+      res.status(201).json({ 
+        success: true, 
+        message: 'Application submitted to Notion successfully',
+        notion: notionResponse
+      });
+    } catch (error: any) {
+      console.error('Error submitting to Notion:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Failed to submit application to Notion',
+        error: error.message || 'Unknown error'
+      });
+    }
+  });
   
   // API route to get all applications (protected - admin only)
   apiApp.get("/applications", isAdmin, async (req: Request, res: Response) => {

@@ -6,6 +6,18 @@ const notion = new Client({
 
 export async function addApplicationToNotion(applicationData: any) {
   try {
+    console.log('Preparing data for Notion:', applicationData);
+    
+    // Extract name parts if the form has fullName instead of firstName/lastName
+    let firstName = applicationData.firstName;
+    let lastName = applicationData.lastName;
+    
+    if (!firstName && !lastName && applicationData.fullName) {
+      const nameParts = applicationData.fullName.split(' ');
+      firstName = nameParts[0];
+      lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    }
+    
     const response = await notion.pages.create({
       parent: {
         database_id: process.env.NOTION_DATABASE_ID!,
@@ -15,7 +27,7 @@ export async function addApplicationToNotion(applicationData: any) {
           title: [
             {
               text: {
-                content: `${applicationData.firstName} ${applicationData.lastName}`,
+                content: applicationData.fullName || `${firstName} ${lastName}`,
               },
             },
           ],
@@ -24,22 +36,49 @@ export async function addApplicationToNotion(applicationData: any) {
           email: applicationData.email,
         },
         Phone: {
-          phone_number: applicationData.phone,
+          phone_number: applicationData.phone || '',
         },
         Business: {
           rich_text: [
             {
               text: {
-                content: applicationData.business || 'Not specified',
+                content: applicationData.businessName || applicationData.business || 'Not specified',
               },
             },
           ],
         },
-        Investment: {
+        Location: {
           rich_text: [
             {
               text: {
-                content: applicationData.investmentAmount || 'Not specified',
+                content: applicationData.cityState || 'Not specified',
+              },
+            },
+          ],
+        },
+        "Business Situation": {
+          rich_text: [
+            {
+              text: {
+                content: applicationData.businessSituation || 'Not specified',
+              },
+            },
+          ],
+        },
+        "Package Interest": {
+          rich_text: [
+            {
+              text: {
+                content: applicationData.packageInterest || 'Not specified',
+              },
+            },
+          ],
+        },
+        "Business Basics": {
+          rich_text: [
+            {
+              text: {
+                content: applicationData.businessBasics || 'Not specified',
               },
             },
           ],
@@ -66,9 +105,14 @@ export async function addApplicationToNotion(applicationData: any) {
       },
     });
 
+    console.log('Notion response:', response);
     return response;
   } catch (error) {
     console.error('Error adding application to Notion:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
     throw error;
   }
 }
