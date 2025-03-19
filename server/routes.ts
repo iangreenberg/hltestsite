@@ -187,6 +187,9 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // API route to submit application form
   apiApp.post("/application", submitApplication);
   
+  // Add additional route with the same handler to support client-side URL format
+  app.post("/api/application", submitApplication);
+  
   // API route to get all applications (protected - admin only)
   apiApp.get("/applications", isAdmin, async (req: Request, res: Response) => {
     try {
