@@ -418,8 +418,9 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
         });
       }
       
-      // Save application to file using our fileStorage module
+      // Import was removed in refactoring, use our directly imported function
       const filePath = await saveApplicationToFile(applicationData, applicationData.fullName);
+      console.log('Application saved to:', filePath);
       
       return res.status(201).json({
         success: true,
