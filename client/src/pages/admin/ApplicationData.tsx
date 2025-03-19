@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertCircle, Download, RefreshCw, Trash2 } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Redirect } from "wouter";
 
 export default function ApplicationData() {
-  const { user } = useAuth();
   const [applications, setApplications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -61,11 +58,6 @@ export default function ApplicationData() {
       alert("Failed to download applications data.");
     }
   };
-
-  // Redirect if not logged in as admin
-  if (!user || !user.isAdmin) {
-    return <Redirect to="/admin/login" />;
-  }
 
   return (
     <div className="container mx-auto px-4 py-8">
