@@ -2,9 +2,17 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { createAdminUserIfNotExists } from "./auth";
+import cors from "cors";
 
 // Create the Express app
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors({
+  origin: true, // Allow all origins
+  credentials: true // Allow cookies to be sent
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
