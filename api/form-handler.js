@@ -1,94 +1,98 @@
-// Standalone form handler that handles form submissions without relying on Express
-// This is a direct Vercel serverless function to capture form data
-
+// Form handler for API requests
 const fs = require('fs').promises;
 const path = require('path');
 
-// Set CORS headers for all responses
+// Set CORS headers helper
 function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
-// Save application to file
+// Save application data to file
 async function saveApplication(data) {
   try {
-    // Validate data
-    if (!data || !data.fullName || !data.email) {
-      return { 
-        success: false, 
-        message: 'Name and email are required fields' 
-      };
-    }
-
-    // Create filename with timestamp
-    const timestamp = Date.now();
-    const sanitizedName = (data.fullName || 'anonymous')
-      .toLowerCase()
-      .replace(/[^a-z0-9]/g, '_');
+    // Create directory if it doesn't exist
+    const dir = path.join(process.cwd(), 'applicationInfo');
+    await fs.mkdir(dir, { recursive: true });
+    
+    // Generate filename with timestamp
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const sanitizedName = (data.fullName || 'unnamed').toLowerCase().replace(/[^a-z0-9]/g, '-');
     const filename = `application_${timestamp}_${sanitizedName}.json`;
     
-    // Create directory if it doesn't exist
-    const dirPath = path.join(process.cwd(), 'applicationInfo');
-    await fs.mkdir(dirPath, { recursive: true });
+    // Add timestamp to data
+    const appData = {
+      ...data,
+      submitted_at: new Date().toISOString()
+    };
     
-    // Write the file
-    const filePath = path.join(dirPath, filename);
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+    // Write data to file
+    const filePath = path.join(dir, filename);
+    await fs.writeFile(filePath, JSON.stringify(appData, null, 2));
     
-    return { 
-      success: true, 
-      message: 'Application submitted successfully',
+    return {
+      success: true,
       filename,
-      timestamp
+      path: filePath
     };
-  } catch (error) {
-    console.error('Error saving application:', error);
-    return { 
-      success: false, 
-      message: `Error saving application: ${error.message}` 
-    };
+  } catch (err) {
+    console.error('Error saving application:', err);
+    throw err;
   }
 }
 
+// Main handler function
 module.exports = async (req, res) => {
   // Set CORS headers for all responses
   setCorsHeaders(res);
-  res.setHeader('Content-Type', 'application/json');
   
-  // Handle OPTIONS request (preflight)
+  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
   
-  // Handle POST request
-  if (req.method === 'POST') {
-    try {
-      // Parse the request body
-      const data = req.body;
-      
-      // Save the application
-      const result = await saveApplication(data);
-      
-      // Return the response
-      if (result.success) {
-        return res.status(201).json(result);
-      } else {
-        return res.status(400).json(result);
-      }
-    } catch (error) {
-      console.error('Error handling form submission:', error);
-      return res.status(500).json({ 
-        success: false, 
-        message: `Server error: ${error.message}` 
-      });
-    }
+  // Only allow POST method
+  if (req.method !== 'POST') {
+    return res.status(405).json({
+      success: false,
+      message: 'Method not allowed, please use POST'
+    });
   }
   
-  // Handle other request methods
-  return res.status(405).json({ 
-    success: false, 
-    message: `Method ${req.method} not allowed` 
-  });
+  try {
+    // Parse form data (should already be JSON from fetch)
+    const formData = req.body;
+    
+    // Basic validation
+    if (!formData) {
+      throw new Error('No form data received');
+    }
+    
+    if (!formData.fullName || !formData.email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields: fullName and email'
+      });
+    }
+    
+    // Save application
+    const result = await saveApplication(formData);
+    
+    // Return success response
+    return res.status(200).json({
+      success: true,
+      message: 'Form submitted successfully',
+      id: result.filename
+    });
+    
+  } catch (error) {
+    console.error('Form submission error:', error);
+    
+    return res.status(500).json({
+      success: false,
+      message: 'Error processing form submission',
+      error: error.message
+    });
+  }
 };
