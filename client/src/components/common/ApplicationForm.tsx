@@ -39,7 +39,7 @@ const formSchema = z.object({
     required_error: "Please select an option",
   }),
   
-  timeframe: z.enum(["immediate", "1-3months", "exploring"], {
+  timeframe: z.enum(["immediate", "1to3months", "exploring"], {
     required_error: "Please select your timeframe",
   }),
   
