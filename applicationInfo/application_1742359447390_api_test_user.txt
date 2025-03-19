@@ -1,0 +1,12 @@
+{
+  "fullName": "API Test User",
+  "email": "apitest@example.com",
+  "phone": "555-111-2222",
+  "businessName": "API Test Hemp Business",
+  "cityState": "Houston, TX",
+  "businessSituation": "new",
+  "packageInterest": "growth",
+  "businessBasics": "complete",
+  "timeframe": "within30",
+  "notes": "This application was submitted via direct API call"
+}

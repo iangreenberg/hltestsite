@@ -5,7 +5,7 @@ import { setupAuth } from "./auth";
 import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
 import { submitApplication } from "./api/application";
 import { addApplicationToNotion, getDatabaseSchema } from "./notion";
-import { createTestFilesIfEmpty, getApplicationFiles, readApplicationFile } from "./fileStorage";
+import { createTestFilesIfEmpty, getApplicationFiles, readApplicationFile, saveApplicationToFile } from "./fileStorage";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
