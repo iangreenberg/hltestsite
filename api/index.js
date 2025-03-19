@@ -202,9 +202,13 @@ const checkAdminAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authCookie || (authHeader && authHeader.startsWith('Bearer ') ? authHeader.substring(7) : null);
   
+  console.log('Admin auth check - Token:', token);
+  
   if (token === 'admin-token') {
+    console.log('Admin auth check - Access granted');
     next();
   } else {
+    console.log('Admin auth check - Access denied');
     res.status(401).json({ message: 'Forbidden: Admin privileges required' });
   }
 };
@@ -260,6 +264,81 @@ app.post('/api/auth/register', (req, res) => {
       success: false,
       message: 'Username and password are required'
     });
+  }
+});
+
+// Applications endpoints for the admin dashboard
+app.get('/api/applications', checkAdminAuth, (req, res) => {
+  try {
+    console.log('GET /api/applications - Mock data for Vercel deployment');
+    // Return sample application files data
+    // This is just a mock implementation for the Vercel deployment
+    res.json({
+      success: true,
+      data: [
+        {
+          filename: 'application_1710876543210.json',
+          path: '/applicationInfo/application_1710876543210.json',
+          timestamp: '1710876543210'
+        },
+        {
+          filename: 'application_1710976543210.json',
+          path: '/applicationInfo/application_1710976543210.json',
+          timestamp: '1710976543210'
+        }
+      ]
+    });
+  } catch (error) {
+    console.error('Error getting applications:', error);
+    res.status(500).json({ success: false, message: 'Failed to retrieve applications' });
+  }
+});
+
+app.get('/api/applications/:filename', checkAdminAuth, (req, res) => {
+  try {
+    const { filename } = req.params;
+    console.log(`GET /api/applications/${filename} - Mock data for Vercel deployment`);
+    
+    // Return sample application data depending on the filename
+    // This is just a mock implementation for the Vercel deployment
+    if (filename === 'application_1710876543210.json') {
+      res.json({
+        success: true,
+        data: JSON.stringify({
+          fullName: "John Smith",
+          email: "john@example.com",
+          phone: "512-555-1234",
+          businessName: "Green Gardens Hemp",
+          cityState: "Austin, TX",
+          businessSituation: "new",
+          packageInterest: "starter",
+          businessBasics: "partial",
+          timeframe: "within30",
+          submitDate: "2023-03-20T14:22:23.210Z"
+        })
+      });
+    } else if (filename === 'application_1710976543210.json') {
+      res.json({
+        success: true,
+        data: JSON.stringify({
+          fullName: "Sarah Johnson",
+          email: "sarah@example.com",
+          phone: "214-555-9876",
+          businessName: "Texas Hemp Solutions",
+          cityState: "Dallas, TX",
+          businessSituation: "existing",
+          packageInterest: "growth",
+          businessBasics: "complete",
+          timeframe: "immediate",
+          submitDate: "2023-03-21T17:42:23.210Z"
+        })
+      });
+    } else {
+      res.status(404).json({ success: false, message: 'Application file not found' });
+    }
+  } catch (error) {
+    console.error(`Error getting application ${req.params.filename}:`, error);
+    res.status(500).json({ success: false, message: 'Failed to retrieve application' });
   }
 });
 
