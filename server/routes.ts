@@ -17,8 +17,8 @@ const isAdmin = (req: Request, res: Response, next: NextFunction) => {
 export async function registerRoutes(app: Express, apiRouter?: Router): Promise<Server> {
   // If an API router is provided, use it instead of the main app for API routes
   const apiApp = apiRouter || app;
-  // Set up authentication
-  setupAuth(app, apiRouter);
+  // Set up authentication with type assertion to work around TypeScript constraints
+  setupAuth(app, apiRouter as any);
   
   // Debug endpoints to test API connectivity
   // If using apiRouter mounted at /api, we don't include /api in the path
