@@ -17,6 +17,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
+import ApplicationData from "./pages/admin/ApplicationData";
 import AdminNav from "./pages/AdminNav";
 import AuthPage from "./pages/auth-page";
 import AuthTest from "./pages/auth-test";
@@ -58,6 +59,19 @@ function Router() {
             <ProtectedRoute path="/admin/dashboard" component={() => (
               <AdminLayout>
                 <AdminDashboard />
+              </AdminLayout>
+            )} />
+          );
+        }}
+      </Route>
+      
+      {/* Protected admin applications data route */}
+      <Route path="/admin/applications">
+        {() => {
+          return (
+            <ProtectedRoute path="/admin/applications" component={() => (
+              <AdminLayout>
+                <ApplicationData />
               </AdminLayout>
             )} />
           );

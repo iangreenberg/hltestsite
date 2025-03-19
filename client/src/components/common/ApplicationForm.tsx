@@ -105,10 +105,26 @@ export default function ApplicationForm() {
     setIsSubmitting(true);
     
     try {
-      // Log the data that would be submitted (for debugging only)
+      // Log the data to console
       console.log('Application data collected:', data);
       
-      // Skip the server submission and just show success
+      // Save application data to local storage with timestamp
+      const timestamp = new Date().toISOString();
+      const applicationEntry = {
+        timestamp,
+        data
+      };
+      
+      // Get existing applications or initialize empty array
+      const existingApplications = JSON.parse(localStorage.getItem('hemplaunch_applications') || '[]');
+      
+      // Add new application to the array
+      existingApplications.push(applicationEntry);
+      
+      // Save back to localStorage
+      localStorage.setItem('hemplaunch_applications', JSON.stringify(existingApplications));
+      
+      // Show success message
       setIsComplete(true);
       toast({
         title: "Application complete",

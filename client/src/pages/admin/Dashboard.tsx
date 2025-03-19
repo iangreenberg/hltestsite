@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, LogOut } from "lucide-react";
+import { Loader2, LogOut, FileText } from "lucide-react";
 import { Waitlist, EmailSubscription } from "@shared/schema";
+import { Link } from "wouter";
 import { 
   Table, 
   TableBody, 
@@ -52,20 +53,28 @@ export default function AdminDashboard() {
             Welcome, {user?.username || 'Admin'}
           </p>
         </div>
-        <Button 
-          variant="outline" 
-          onClick={handleLogout}
-          disabled={logoutMutation.isPending}
-        >
-          {logoutMutation.isPending ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </>
-          )}
-        </Button>
+        <div className="flex space-x-3">
+          <Link href="/admin/applications">
+            <Button variant="secondary">
+              <FileText className="mr-2 h-4 w-4" />
+              Applications
+            </Button>
+          </Link>
+          <Button 
+            variant="outline" 
+            onClick={handleLogout}
+            disabled={logoutMutation.isPending}
+          >
+            {logoutMutation.isPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </>
+            )}
+          </Button>
+        </div>
       </div>
       
       {isLoading ? (
