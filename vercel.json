@@ -6,6 +6,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "api/form-handler.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "vercel-custom-build.sh",
       "use": "@vercel/static-build",
       "config": {
@@ -15,13 +19,23 @@
   ],
   "routes": [
     { 
+      "src": "/api/form",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "/api/form-handler.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept"
+      }
+    },
+    { 
       "src": "/api/test-submit", 
       "methods": ["POST", "OPTIONS"],
       "dest": "/api/index.js",
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept" 
       }
     },
     { 
@@ -30,7 +44,7 @@
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept"
       }
     },
     { "handle": "filesystem" },
