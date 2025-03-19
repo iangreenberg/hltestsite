@@ -1,20 +1,29 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, LogOut, FileText } from "lucide-react";
-import { Waitlist, EmailSubscription } from "@shared/schema";
 import { Link } from "wouter";
 import { 
   Table, 
   TableBody, 
-  TableCaption, 
   TableCell, 
   TableHead, 
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+
+// Define the dashboard data type
+interface DashboardData {
+  applications: number;
+  waitlist: number;
+  emailSubscriptions: number;
+  recentActivity: {
+    type: string;
+    name: string;
+    date: string;
+  }[];
+}
 
 export default function AdminDashboard() {
   const { user, logoutMutation } = useAuth();
@@ -24,7 +33,7 @@ export default function AdminDashboard() {
     data: dashboardData,
     isLoading: dashboardLoading,
     error: dashboardError
-  } = useQuery({
+  } = useQuery<DashboardData>({
     queryKey: ["/api/admin/dashboard"],
     queryFn: async () => {
       const res = await fetch('/api/admin/dashboard', {
@@ -44,10 +53,6 @@ export default function AdminDashboard() {
       return result.data;
     }
   });
-  
-  // Placeholder for data
-  const waitlistEntries: Waitlist[] = [];
-  const emailSubscriptions: EmailSubscription[] = [];
   
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -153,7 +158,7 @@ export default function AdminDashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {dashboardData.recentActivity && dashboardData.recentActivity.map((activity, index) => (
+                  {dashboardData.recentActivity && dashboardData.recentActivity.map((activity: {type: string; name: string; date: string}, index: number) => (
                     <TableRow key={index}>
                       <TableCell className="capitalize">{activity.type}</TableCell>
                       <TableCell className="font-medium">{activity.name}</TableCell>

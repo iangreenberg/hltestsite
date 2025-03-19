@@ -483,6 +483,81 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
       });
     }
   });
+  
+  // Admin dashboard summary endpoint
+  apiApp.get("/admin/dashboard", isAdmin, async (req: Request, res: Response) => {
+    try {
+      // Get applications count
+      const applicationFiles = await getApplicationFiles();
+      const applicationsCount = applicationFiles.length;
+      
+      // Get waitlist count
+      const waitlistEntries = await storage.getWaitlistEntries();
+      const waitlistCount = waitlistEntries.length;
+      
+      // Get email subscriptions count
+      const emailSubscriptions = await storage.getEmailSubscriptions();
+      const emailSubscriptionsCount = emailSubscriptions.length;
+      
+      // Generate recent activity from available data
+      const recentActivity = [];
+      
+      // Add recent applications (up to 5)
+      for (const filename of applicationFiles.slice(0, 5)) {
+        try {
+          const fileContent = await readApplicationFile(filename);
+          const applicationData = JSON.parse(fileContent);
+          
+          recentActivity.push({
+            type: 'application',
+            name: applicationData.fullName || 'Unknown',
+            date: new Date(filename.split('_')[1] ? filename.split('_')[1].replace(/-/g, ':') : Date.now()).toISOString()
+          });
+        } catch (error) {
+          console.error('Error parsing application file:', filename, error);
+          // Skip this file if there's an error
+        }
+      }
+      
+      // Add recent waitlist entries (up to 5)
+      for (const entry of waitlistEntries.slice(0, 5)) {
+        recentActivity.push({
+          type: 'waitlist',
+          name: `${entry.firstName} ${entry.lastName}` || entry.email || 'Unknown',
+          date: new Date().toISOString() // Use current timestamp as we don't store creation date
+        });
+      }
+      
+      // Add recent email subscriptions (up to 5)
+      for (const subscription of emailSubscriptions.slice(0, 5)) {
+        recentActivity.push({
+          type: 'subscription',
+          name: subscription.email || 'Unknown',
+          date: new Date().toISOString() // Use current timestamp as we don't store creation date
+        });
+      }
+      
+      // Sort by most recent first (this is a placeholder since we don't have real timestamps for all entries)
+      recentActivity.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+      // Return dashboard data
+      res.status(200).json({
+        success: true,
+        data: {
+          applications: applicationsCount,
+          waitlist: waitlistCount,
+          emailSubscriptions: emailSubscriptionsCount,
+          recentActivity: recentActivity.slice(0, 10) // Limit to 10 most recent activities
+        }
+      });
+    } catch (error: any) {
+      console.error('Error getting admin dashboard data:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || "Error retrieving dashboard data"
+      });
+    }
+  });
 
   const httpServer = createServer(app);
 
