@@ -480,7 +480,7 @@ export default function ApplicationForm() {
                             </FormItem>
                             <FormItem className="flex items-start space-x-3 space-y-0">
                               <FormControl>
-                                <RadioGroupItem value="1-3months" />
+                                <RadioGroupItem value="1to3months" />
                               </FormControl>
                               <FormLabel className="font-normal cursor-pointer">
                                 1-3 months
