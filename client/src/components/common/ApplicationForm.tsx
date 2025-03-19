@@ -114,11 +114,20 @@ export default function ApplicationForm() {
         body: JSON.stringify(data)
       });
       
-      const result = await response.json();
-      
+      // Check if the response is OK before trying to parse JSON
       if (!response.ok) {
-        throw new Error(result.message || 'Failed to submit application');
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorResult = await response.json();
+          throw new Error(errorResult.message || `Error ${response.status}: Failed to submit application`);
+        } else {
+          // If response is not JSON, use the status text
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
       }
+      
+      // Parse the JSON response only if response was ok
+      const result = await response.json();
       
       setIsComplete(true);
       toast({
