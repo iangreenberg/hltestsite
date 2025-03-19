@@ -21,8 +21,13 @@ export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   
-  // If user is already logged in, redirect to home
+  // If user is already logged in, redirect to appropriate page
   if (user) {
+    // If user is admin, redirect to admin dashboard
+    if (user.isAdmin) {
+      return <Redirect to="/admin/dashboard" />;
+    }
+    // Otherwise redirect to home
     return <Redirect to="/" />;
   }
 

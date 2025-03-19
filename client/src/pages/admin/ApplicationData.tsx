@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { apiRequest } from "@/lib/queryClient";
+import { Link } from "wouter";
 
 // Define application file type
 interface ApplicationFile {
@@ -98,6 +99,11 @@ export default function ApplicationData() {
         </div>
         
         <div className="flex space-x-2 mt-4 md:mt-0">
+          <Link href="/admin/dashboard">
+            <Button variant="secondary" className="mr-2">
+              Dashboard
+            </Button>
+          </Link>
           <Button variant="outline" onClick={() => refetch()} disabled={isLoading}>
             {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
             Refresh
