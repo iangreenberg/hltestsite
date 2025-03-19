@@ -1,50 +1,76 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AlertCircle, Download, RefreshCw, Trash2 } from "lucide-react";
+import { Loader2, FileText, Download, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { Helmet } from "react-helmet";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { apiRequest } from "@/lib/queryClient";
+
+// Define application file type
+interface ApplicationFile {
+  filename: string;
+  path: string;
+  timestamp: string;
+}
+
+// Define application data type
+interface ApplicationData {
+  fullName: string;
+  email: string;
+  phone: string;
+  businessName?: string;
+  cityState?: string;
+  businessSituation: string;
+  businessSituationOther?: string;
+  packageInterest: string;
+  businessBasics: string;
+  timeframe: string;
+  [key: string]: any; // For other potential fields
+}
 
 export default function ApplicationData() {
-  const [applications, setApplications] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const [fileContent, setFileContent] = useState<ApplicationData | null>(null);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
 
-  useEffect(() => {
-    loadApplications();
-  }, []);
+  // Fetch applications from server API
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ['/api/applications'],
+    queryFn: async () => {
+      const res = await apiRequest('GET', '/api/applications');
+      const data = await res.json();
+      return data.data as ApplicationFile[];
+    },
+  });
 
-  // Function to load applications from localStorage
-  const loadApplications = () => {
-    setLoading(true);
+  // Function to view application details
+  const viewApplication = async (filename: string) => {
+    setSelectedFile(filename);
+    setViewDialogOpen(true);
+    
     try {
-      const storedApplications = localStorage.getItem('hemplaunch_applications');
-      if (storedApplications) {
-        const parsedApplications = JSON.parse(storedApplications);
-        setApplications(parsedApplications);
+      const res = await apiRequest('GET', `/api/applications/${filename}`);
+      const data = await res.json();
+      if (data.success) {
+        setFileContent(JSON.parse(data.data));
       } else {
-        setApplications([]);
+        console.error("Error fetching application:", data.message);
+        setFileContent(null);
       }
     } catch (error) {
-      console.error("Error loading applications:", error);
-      setApplications([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Function to clear all applications
-  const clearApplications = () => {
-    if (window.confirm("Are you sure you want to delete all application data? This cannot be undone.")) {
-      localStorage.removeItem('hemplaunch_applications');
-      setApplications([]);
+      console.error("Error fetching application:", error);
+      setFileContent(null);
     }
   };
 
   // Function to download applications as JSON
   const downloadApplications = () => {
+    if (!data) return;
+    
     try {
-      const dataStr = JSON.stringify(applications, null, 2);
+      const dataStr = JSON.stringify(data, null, 2);
       const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
       
       const exportFileDefaultName = `hemplaunch_applications_${new Date().toISOString()}.json`;
@@ -72,93 +98,177 @@ export default function ApplicationData() {
         </div>
         
         <div className="flex space-x-2 mt-4 md:mt-0">
-          <Button variant="outline" onClick={loadApplications} disabled={loading}>
-            <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+          <Button variant="outline" onClick={() => refetch()} disabled={isLoading}>
+            {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
             Refresh
           </Button>
-          <Button variant="outline" onClick={downloadApplications} disabled={applications.length === 0}>
+          <Button variant="outline" onClick={downloadApplications} disabled={!data || data.length === 0}>
             <Download className="mr-2 h-4 w-4" />
             Export
-          </Button>
-          <Button variant="destructive" onClick={clearApplications} disabled={applications.length === 0}>
-            <Trash2 className="mr-2 h-4 w-4" />
-            Clear All
           </Button>
         </div>
       </div>
 
-      {applications.length === 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-[#2F5D50]" />
+        </div>
+      ) : isError ? (
+        <Alert className="mb-6" variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error Loading Applications</AlertTitle>
+          <AlertDescription>
+            There was an error loading application data. Please ensure you're logged in as an admin.
+          </AlertDescription>
+        </Alert>
+      ) : !data || data.length === 0 ? (
         <Alert className="mb-6">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>No Applications Found</AlertTitle>
           <AlertDescription>
-            There are no application submissions available. Application data is stored in the browser's 
-            localStorage and will only show submissions made on this device and browser.
+            There are no application submissions available. Applications are stored on the server.
           </AlertDescription>
         </Alert>
       ) : (
         <>
           <p className="text-sm text-gray-500 mb-4">
-            Showing {applications.length} application(s). Data is stored in the browser's localStorage.
+            Showing {data.length} application(s). Data is stored on the server.
           </p>
 
-          {applications.map((app, index) => (
-            <Card key={index} className="mb-6">
-              <CardHeader>
-                <CardTitle>Application #{index + 1}</CardTitle>
-                <CardDescription>
-                  Submitted: {new Date(app.timestamp).toLocaleString()}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="font-semibold mb-2">Contact Information</h3>
-                    <ul className="space-y-1">
-                      <li><span className="font-medium">Name:</span> {app.data.fullName}</li>
-                      <li><span className="font-medium">Email:</span> {app.data.email}</li>
-                      <li><span className="font-medium">Phone:</span> {app.data.phone}</li>
-                      <li><span className="font-medium">Business:</span> {app.data.businessName || 'N/A'}</li>
-                      <li><span className="font-medium">Location:</span> {app.data.cityState}</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Business Details</h3>
-                    <ul className="space-y-1">
-                      <li><span className="font-medium">Situation:</span> {app.data.businessSituation === 'other' ? 
-                        `Other: ${app.data.businessSituationOther || 'Not specified'}` : 
-                        app.data.businessSituation === 'new' ? 'New hemp business' : 
-                        'Existing hemp business'}</li>
-                      <li><span className="font-medium">Package Interest:</span> {
-                        app.data.packageInterest === 'starter' ? 'Ecom Starter' :
-                        app.data.packageInterest === 'growth' ? 'Growth Package' :
-                        app.data.packageInterest === 'accelerator' ? 'Accelerator Program' :
-                        'Not sure, needs guidance'
-                      }</li>
-                      <li><span className="font-medium">Business Basics:</span> {
-                        app.data.businessBasics === 'complete' ? 'Has LLC, EIN, and bank account' :
-                        app.data.businessBasics === 'partial' ? 'Has some, needs help completing' :
-                        'Needs assistance with all'
-                      }</li>
-                      <li><span className="font-medium">Timeframe:</span> {
-                        app.data.timeframe === 'immediate' ? 'Immediately' :
-                        app.data.timeframe === 'within30' ? 'Within 30 days' :
-                        app.data.timeframe === 'within90' ? 'Within 90 days' :
-                        app.data.timeframe === 'later' ? 'More than 90 days' : 'Unknown'
-                      }</li>
-                    </ul>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-end">
-                <Button variant="ghost" size="sm" disabled={true}>
-                  Application was redirected to Calendly
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.map((app, index) => (
+              <Card key={index} className="mb-2">
+                <CardHeader>
+                  <CardTitle className="text-lg">Application #{index + 1}</CardTitle>
+                  <CardDescription className="text-sm">
+                    Timestamp: {new Date(parseInt(app.timestamp)).toLocaleString()}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="space-y-1 text-sm">
+                    <li><span className="font-medium">File:</span> {app.filename}</li>
+                  </ul>
+                </CardContent>
+                <CardFooter className="flex justify-end">
+                  <Button variant="secondary" size="sm" onClick={() => viewApplication(app.filename)}>
+                    <Eye className="mr-2 h-4 w-4" />
+                    View Details
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
         </>
       )}
+
+      {/* Application Details Dialog */}
+      <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Application Details</DialogTitle>
+          </DialogHeader>
+          
+          {selectedFile && !fileContent ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-[#2F5D50]" />
+            </div>
+          ) : fileContent ? (
+            <div className="overflow-y-auto max-h-[70vh]">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-semibold mb-2 text-lg">Contact Information</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-xs text-gray-500">Full Name</label>
+                      <p className="font-medium">{fileContent.fullName}</p>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500">Email</label>
+                      <p className="font-medium">{fileContent.email}</p>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500">Phone</label>
+                      <p className="font-medium">{fileContent.phone}</p>
+                    </div>
+                    {fileContent.businessName && (
+                      <div>
+                        <label className="text-xs text-gray-500">Business Name</label>
+                        <p className="font-medium">{fileContent.businessName}</p>
+                      </div>
+                    )}
+                    {fileContent.cityState && (
+                      <div>
+                        <label className="text-xs text-gray-500">Location</label>
+                        <p className="font-medium">{fileContent.cityState}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="font-semibold mb-2 text-lg">Business Details</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-xs text-gray-500">Business Situation</label>
+                      <p className="font-medium">
+                        {fileContent.businessSituation === 'new' ? 'New hemp business' : 
+                         fileContent.businessSituation === 'existing' ? 'Existing hemp business' :
+                         fileContent.businessSituation === 'other' ? `Other: ${fileContent.businessSituationOther || 'Not specified'}` :
+                         fileContent.businessSituation || 'Not specified'}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500">Package Interest</label>
+                      <p className="font-medium">
+                        {fileContent.packageInterest === 'starter' ? 'Ecom Starter' :
+                         fileContent.packageInterest === 'growth' ? 'Growth Package' :
+                         fileContent.packageInterest === 'accelerator' ? 'Accelerator Program' :
+                         fileContent.packageInterest === 'unsure' ? 'Not sure, needs guidance' :
+                         fileContent.packageInterest || 'Not specified'}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500">Business Basics</label>
+                      <p className="font-medium">
+                        {fileContent.businessBasics === 'complete' ? 'Has LLC, EIN, and bank account' :
+                         fileContent.businessBasics === 'partial' ? 'Has some, needs help completing' :
+                         fileContent.businessBasics === 'none' ? 'Needs assistance with all' :
+                         fileContent.businessBasics || 'Not specified'}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-500">Timeframe</label>
+                      <p className="font-medium">
+                        {fileContent.timeframe === 'immediate' ? 'Immediately' :
+                         fileContent.timeframe === 'within30' ? 'Within 30 days' :
+                         fileContent.timeframe === 'within90' ? 'Within 90 days' :
+                         fileContent.timeframe === 'later' ? 'More than 90 days' :
+                         fileContent.timeframe || 'Not specified'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Display any additional fields */}
+              <div className="mt-6">
+                <h3 className="font-semibold mb-2 text-lg">Additional Information</h3>
+                <pre className="bg-gray-50 p-4 rounded text-sm overflow-x-auto">
+                  {JSON.stringify(fileContent, null, 2)}
+                </pre>
+              </div>
+            </div>
+          ) : (
+            <Alert>
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                Failed to load application details. Please try again.
+              </AlertDescription>
+            </Alert>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
