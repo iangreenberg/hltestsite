@@ -8,6 +8,7 @@ import OptimizedLanding from "./pages/OptimizedLanding";
 import NewLandingPage from "./pages/NewLandingPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import TestApplicationForm from "./pages/TestApplicationForm";
+import GoogleSheetsForm from "./pages/GoogleSheetsForm";
 
 import TestForm from "./pages/TestForm";
 import Services from "./pages/Services";
@@ -203,7 +204,13 @@ function Router() {
         )}
       </Route>
       
-
+      <Route path="/apply-sheets">
+        {() => (
+          <MainLayout>
+            <GoogleSheetsForm />
+          </MainLayout>
+        )}
+      </Route>
       
       <Route>
         {() => (
