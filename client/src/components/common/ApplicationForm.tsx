@@ -105,8 +105,8 @@ export default function ApplicationForm() {
     setIsSubmitting(true);
     
     try {
-      // Use direct URL to API endpoint to avoid routing issues
-      const apiUrl = 'http://localhost:5000/api/application';
+      // Use a relative URL to avoid CORS issues
+      const apiUrl = '/api/application';
       console.log('Submitting application to:', apiUrl);
       console.log('Data being submitted:', data);
       

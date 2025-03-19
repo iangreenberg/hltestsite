@@ -26,8 +26,8 @@ export default function TestApplicationForm() {
     setResult(null);
     
     try {
-      // Make sure we're using a direct URL to the API endpoint
-      const apiUrl = "http://localhost:5000/api/application";
+      // Use a relative URL to avoid CORS issues
+      const apiUrl = "/api/application";
       console.log("Submitting to:", apiUrl);
       
       const response = await fetch(apiUrl, {
