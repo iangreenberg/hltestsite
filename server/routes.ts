@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { insertEmailSubscriptionSchema, insertWaitlistSchema, loginSchema, insertUserSchema, User as SelectUser } from "@shared/schema";
+import { submitApplication } from "./api/application";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
