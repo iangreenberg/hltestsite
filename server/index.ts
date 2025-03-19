@@ -60,13 +60,14 @@ const setupServer = async () => {
   
   // Set up static file serving based on environment first
   if (app.get("env") === "development") {
-    // We'll register the API routes after this
-    server = await registerRoutes(app, apiRouter);
-    
-    // Apply CORS to API routes
+    // First, mount the API router so it's available at /api
     app.use('/api', apiRouter);
     
-    // Then set up Vite for the frontend
+    // Now register the routes - specify the router without '/api' prefix
+    // since we've already mounted it
+    server = await registerRoutes(app, apiRouter);
+    
+    // Then set up Vite for the frontend (after API routes are registered)
     await setupVite(app, server);
   } else {
     // For production, register routes normally

@@ -18,10 +18,11 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // If an API router is provided, use it instead of the main app for API routes
   const apiApp = apiRouter || app;
   // Set up authentication
-  setupAuth(app);
+  setupAuth(app, apiRouter);
   
   // Debug endpoints to test API connectivity
-  apiApp.get("/api/debug", (req, res) => {
+  // If using apiRouter mounted at /api, we don't include /api in the path
+  apiApp.get("/debug", (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "API is working (GET)",
@@ -37,7 +38,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
   
   // POST version of the debug endpoint
-  apiApp.post("/api/debug", (req, res) => {
+  apiApp.post("/debug", (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "API is working (POST)",
@@ -54,7 +55,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
   
   // Add a standalone endpoint directly on app to test direct routing
-  app.get("/direct-test", (req, res) => {
+  app.get("/direct-test", (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Direct test endpoint working",
@@ -63,7 +64,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
   
   // Simple test endpoint
-  apiApp.get("/api/test", (req, res) => {
+  apiApp.get("/test", (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Test endpoint working (GET)",
@@ -71,7 +72,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
     });
   });
   
-  apiApp.post("/api/test", (req, res) => {
+  apiApp.post("/test", (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Test endpoint working (POST)",
@@ -81,7 +82,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
   
   // Test admin-only route
-  app.get("/api/admin-test", isAdmin, (req, res) => {
+  apiApp.get("/admin-test", isAdmin, (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "You have admin access",
@@ -90,7 +91,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
   
   // Auth status check - handled by our Passport setup in auth.ts
-  app.get("/api/auth/status", (req, res) => {
+  apiApp.get("/auth/status", (req: Request, res: Response) => {
     if (req.isAuthenticated()) {
       const { password, ...userWithoutPassword } = req.user as SelectUser;
       return res.status(200).json({
@@ -106,7 +107,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
     });
   });
   // API route to add to waitlist
-  app.post("/api/waitlist", async (req, res) => {
+  apiApp.post("/waitlist", async (req: Request, res: Response) => {
     try {
       const validatedData = insertWaitlistSchema.parse(req.body);
       const newEntry = await storage.addToWaitlist(validatedData);
@@ -124,7 +125,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
 
   // API route to get all waitlist entries (protected - admin only)
-  app.get("/api/waitlist", isAdmin, async (req, res) => {
+  apiApp.get("/waitlist", isAdmin, async (req: Request, res: Response) => {
     try {
       const entries = await storage.getWaitlistEntries();
       res.status(200).json({
@@ -140,7 +141,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
 
   // API route to add email subscription
-  app.post("/api/subscribe", async (req, res) => {
+  apiApp.post("/subscribe", async (req: Request, res: Response) => {
     try {
       const validatedData = insertEmailSubscriptionSchema.parse(req.body);
       
@@ -168,7 +169,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
 
   // API route to get all email subscriptions (protected - admin only)
-  app.get("/api/subscribe", isAdmin, async (req, res) => {
+  apiApp.get("/subscribe", isAdmin, async (req: Request, res: Response) => {
     try {
       const subscriptions = await storage.getEmailSubscriptions();
       res.status(200).json({
@@ -184,10 +185,10 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
 
   // API route to submit application form
-  app.post("/api/application", submitApplication);
+  apiApp.post("/application", submitApplication);
   
   // API route to get all applications (protected - admin only)
-  app.get("/api/applications", isAdmin, async (req, res) => {
+  apiApp.get("/applications", isAdmin, async (req: Request, res: Response) => {
     try {
       const fs = await import('fs');
       const path = await import('path');

@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { Express } from "express";
+import { Express, Router } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
@@ -48,7 +48,10 @@ export async function createAdminUserIfNotExists() {
   }
 }
 
-export function setupAuth(app: Express) {
+export function setupAuth(app: Express, apiRouter?: Router) {
+  // Determine which object to use for API routes
+  const apiApp = apiRouter || app;
+  
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "hempLaunchSecretKey",
     resave: false,
@@ -60,6 +63,7 @@ export function setupAuth(app: Express) {
     }
   };
 
+  // These methods only work on the Express app, not on a Router
   app.set("trust proxy", 1);
   app.use(session(sessionSettings));
   app.use(passport.initialize());
@@ -99,7 +103,7 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/login", (req, res, next) => {
+  apiApp.post("/login", (req, res, next) => {
     passport.authenticate("local", (err: Error, user: SelectUser) => {
       if (err) {
         return next(err);
@@ -134,7 +138,7 @@ export function setupAuth(app: Express) {
     })(req, res, next);
   });
 
-  app.post("/api/register", async (req, res, next) => {
+  apiApp.post("/register", async (req, res, next) => {
     try {
       const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
@@ -176,7 +180,7 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/logout", (req, res) => {
+  apiApp.post("/logout", (req, res) => {
     req.logout((err) => {
       if (err) {
         return res.status(500).json({ message: "Failed to logout" });
@@ -227,9 +231,14 @@ export function setupAuth(app: Express) {
   };
   
   // Apply token auth middleware to all routes
-  app.use(tokenAuthMiddleware);
+  // Apply token auth middleware to specific router
+  if (apiRouter) {
+    apiRouter.use(tokenAuthMiddleware);
+  } else {
+    app.use(tokenAuthMiddleware);
+  }
   
-  app.get("/api/user", (req: any, res) => {
+  apiApp.get("/user", (req: any, res) => {
     // Check both session and token authentication
     if (!req.isAuthenticated() && !(req as any)._isTokenAuthenticated) {
       return res.status(401).json({ message: "Not authenticated" });
