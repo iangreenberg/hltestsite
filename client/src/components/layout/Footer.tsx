@@ -9,7 +9,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center mb-6">
               <span className="text-white text-2xl font-bold font-montserrat">Hemp<span className="text-[#C8A951]">Launch</span></span>
             </Link>
-            <p className="text-gray-300 mb-6">Your all-in-one solution for launching and growing a successful hemp-derived THC business.</p>
+            <p className="text-gray-300 mb-6">Your all-in-one solution for launching and growing a successful hemp business.</p>
             <div className="flex space-x-4">
               <a href="#" className="text-white hover:text-[#C8A951] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">

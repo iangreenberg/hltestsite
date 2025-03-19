@@ -26,7 +26,7 @@ export default function AboutSection() {
               We're Your Partners in Hemp Business Success
             </h2>
             <p className="text-gray-700 mb-6">
-              HempLaunch was founded by a team of industry experts who recognized the challenges entrepreneurs face when entering the hemp-derived THC market. Our mission is to simplify the business launch process by providing comprehensive, done-for-you services that handle every aspect of building a successful brand.
+              HempLaunch was founded by a team of industry experts who recognized the challenges entrepreneurs face when entering the hemp market. Our mission is to simplify the business launch process by providing comprehensive, done-for-you services that handle every aspect of building a successful brand.
             </p>
             <p className="text-gray-700 mb-8">
               With backgrounds in legal compliance, branding, manufacturing, and digital marketing specifically for the hemp industry, our team offers unparalleled expertise to guide you through every step of your business journey.

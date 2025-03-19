@@ -35,10 +35,10 @@ export default function ServiceOverview() {
         <div className="text-center mb-16">
           <span className="text-[#C8A951] font-semibold">OUR SERVICES</span>
           <h2 className="text-3xl md:text-4xl font-bold font-montserrat mt-2 text-[#2F5D50]">
-            All-in-One Solution for Hemp-Derived THC Entrepreneurs
+            All-in-One Solution for Hemp Entrepreneurs
           </h2>
           <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-            We handle everything you need to launch and grow your hemp-derived THC business — from legal formation to marketing.
+            We handle everything you need to launch and grow your hemp business — from legal formation to marketing.
           </p>
         </div>
         

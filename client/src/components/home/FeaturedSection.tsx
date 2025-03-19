@@ -24,10 +24,10 @@ export default function FeaturedSection() {
           <div>
             <span className="text-[#C8A951] font-semibold">WHY CHOOSE US</span>
             <h2 className="text-3xl md:text-4xl font-bold font-montserrat mt-2 mb-6 text-[#2F5D50]">
-              Fast-Track Your Hemp-Derived THC Business Launch
+              Fast-Track Your Hemp Business Launch
             </h2>
             <p className="text-gray-700 mb-6">
-              Our turnkey solution eliminates the complexity and guesswork from launching your hemp-derived THC business. We've helped entrepreneurs like you successfully enter the market with professionally established brands.
+              Our turnkey solution eliminates the complexity and guesswork from launching your hemp business. We've helped entrepreneurs like you successfully enter the market with professionally established brands.
             </p>
             
             <div className="space-y-4 mb-8">

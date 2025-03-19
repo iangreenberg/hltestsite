@@ -84,7 +84,7 @@ export default function NewLandingPage() {
         <title>Launch Your Hemp Business in 30 Days | Texas Market | HempLaunch</title>
         <meta 
           name="description" 
-          content="Tap into Texas' $8 billion hemp market with our turnkey system. Launch in 30 days for under $3,000 with full legal compliance, branding, and manufacturing."
+          content="Tap into Texas' hemp market with our turnkey system. Launch in 30 days for under $3,000 with full legal compliance, branding, and manufacturing."
         />
       </Helmet>
       
@@ -131,7 +131,7 @@ export default function NewLandingPage() {
                 
                 <div className="flex items-center bg-white/10 backdrop-blur-sm px-5 py-3 rounded-xl shadow">
                   <TrendingUp className="h-5 w-5 text-[#C8A951] mr-2" />
-                  <span className="text-xl font-medium">$8 Billion Market</span>
+                  <span className="text-xl font-medium">Growing Market</span>
                 </div>
               </motion.div>
               

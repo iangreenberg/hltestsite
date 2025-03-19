@@ -29,7 +29,7 @@ export default function Testimonials() {
           <span className="text-[#C8A951] font-semibold">SUCCESS STORIES</span>
           <h2 className="text-3xl md:text-4xl font-bold font-montserrat mt-2 text-[#2F5D50]">What Our Clients Say</h2>
           <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-            Hear from entrepreneurs who have successfully launched their hemp-derived THC businesses with our help.
+            Hear from entrepreneurs who have successfully launched their hemp businesses with our help.
           </p>
         </div>
         
