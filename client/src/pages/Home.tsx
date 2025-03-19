@@ -14,10 +14,10 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>HempLaunch | All-in-One Hemp-Derived THC Business Solutions</title>
+        <title>HempLaunch | All-in-One Hemp Business Solutions</title>
         <meta 
           name="description" 
-          content="Turnkey Hemp-Derived THC Business Solutions - From entity formation to product launch, start your brand with zero hassle."
+          content="Turnkey Hemp Business Solutions - From entity formation to product launch, start your brand with zero hassle."
         />
       </Helmet>
       <main>

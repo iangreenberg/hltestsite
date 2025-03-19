@@ -30,7 +30,7 @@ export default function About() {
         <title>About Us | HempLaunch</title>
         <meta 
           name="description" 
-          content="Meet our team of industry experts who help entrepreneurs successfully launch and grow hemp-derived THC businesses."
+          content="Meet our team of industry experts who help entrepreneurs successfully launch and grow hemp businesses."
         />
       </Helmet>
       <main>
@@ -51,7 +51,7 @@ export default function About() {
                   We're Your Partners in Hemp Business Success
                 </h1>
                 <p className="text-gray-700 mb-6">
-                  HempLaunch was founded by a team of industry experts who recognized the challenges entrepreneurs face when entering the hemp-derived THC market. Our mission is to simplify the business launch process by providing comprehensive, done-for-you services that handle every aspect of building a successful brand.
+                  HempLaunch was founded by a team of industry experts who recognized the challenges entrepreneurs face when entering the hemp market. Our mission is to simplify the business launch process by providing comprehensive, done-for-you services that handle every aspect of building a successful brand.
                 </p>
                 <p className="text-gray-700 mb-8">
                   With backgrounds in legal compliance, branding, manufacturing, and digital marketing specifically for the hemp industry, our team offers unparalleled expertise to guide you through every step of your business journey.
@@ -88,7 +88,7 @@ export default function About() {
               <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold font-montserrat text-[#2F5D50]">Meet Our Experts</h2>
                 <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-                  Our specialized team brings together all the skills needed to launch and grow your hemp-derived THC business.
+                  Our specialized team brings together all the skills needed to launch and grow your hemp business.
                 </p>
               </div>
               

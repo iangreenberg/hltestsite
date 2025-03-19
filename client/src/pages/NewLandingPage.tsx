@@ -81,7 +81,7 @@ export default function NewLandingPage() {
   return (
     <>
       <Helmet>
-        <title>Launch Your Hemp Business in 30 Days | $8 Billion Texas Market | HempLaunch</title>
+        <title>Launch Your Hemp Business in 30 Days | Texas Market | HempLaunch</title>
         <meta 
           name="description" 
           content="Tap into Texas' $8 billion hemp market with our turnkey system. Launch in 30 days for under $3,000 with full legal compliance, branding, and manufacturing."

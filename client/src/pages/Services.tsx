@@ -27,7 +27,7 @@ export default function Services() {
               Entity & Legal Setup
             </h2>
             <p className="text-gray-700 mb-6">
-              Our comprehensive legal setup services ensure your hemp-derived THC business starts on solid legal ground:
+              Our comprehensive legal setup services ensure your hemp business starts on solid legal ground:
             </p>
             <ul className="list-disc pl-6 mb-8 space-y-2 text-gray-700">
               <li>LLC formation and documentation</li>
