@@ -110,6 +110,8 @@ export default function ApplicationForm() {
       
       // Submit to backend API to store application locally
       try {
+        console.log('Submitting application data:', data);
+        
         const response = await fetch('/api/applications/submit', {
           method: 'POST',
           headers: {
@@ -118,7 +120,17 @@ export default function ApplicationForm() {
           body: JSON.stringify(data),
         });
         
-        const responseData = await response.json();
+        console.log('Response status:', response.status);
+        
+        // Try to parse the response as JSON
+        let responseData;
+        try {
+          responseData = await response.json();
+          console.log('Response data:', responseData);
+        } catch (jsonError) {
+          console.error('Error parsing response JSON:', jsonError);
+          throw new Error('Failed to parse server response');
+        }
         
         if (!response.ok) {
           console.warn('Application submission failed');

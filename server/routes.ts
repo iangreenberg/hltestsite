@@ -408,19 +408,38 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   // API route to submit application and save it locally
   apiApp.post("/applications/submit", async (req: Request, res: Response) => {
     try {
+      console.log('Application submission received:', {
+        body: req.body,
+        method: req.method,
+        path: req.path,
+        headers: req.headers['content-type']
+      });
+      
       const applicationData = req.body;
       
       // Basic validation
       if (!applicationData || !applicationData.fullName || !applicationData.email) {
+        console.log('Application validation failed:', { applicationData });
         return res.status(400).json({ 
           success: false, 
           message: 'Invalid application data. Name and email are required.' 
         });
       }
       
-      // Import was removed in refactoring, use our directly imported function
+      // Save application to file
+      console.log('Saving application to file...');
       const filePath = await saveApplicationToFile(applicationData, applicationData.fullName);
       console.log('Application saved to:', filePath);
+      
+      // Add to Notion database
+      console.log('Adding application to Notion...');
+      try {
+        const notionResponse = await addApplicationToNotion(applicationData);
+        console.log('Application added to Notion:', notionResponse);
+      } catch (notionError) {
+        console.error('Error adding to Notion (continuing with submission):', notionError);
+        // We don't want to fail the submission if Notion sync fails
+      }
       
       return res.status(201).json({
         success: true,
