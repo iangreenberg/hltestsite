@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { saveApplicationToFile } from '../fileStorage';
+import { addApplicationToNotion } from '../notion';
 
 export async function submitApplication(req: Request, res: Response) {
   console.log('Application submission received:', {
@@ -27,6 +28,16 @@ export async function submitApplication(req: Request, res: Response) {
     console.log('Saving application to file...');
     const filePath = await saveApplicationToFile(applicationData, applicationData.fullName);
     console.log('Application saved to:', filePath);
+
+    // Add to Notion database
+    console.log('Adding application to Notion...');
+    try {
+      const notionResponse = await addApplicationToNotion(applicationData);
+      console.log('Application added to Notion:', notionResponse);
+    } catch (notionError) {
+      console.error('Error adding to Notion (continuing with submission):', notionError);
+      // We don't want to fail the submission if Notion sync fails
+    }
     
     // Return success
     return res.status(201).json({ 
