@@ -105,8 +105,12 @@ export default function ApplicationForm() {
     setIsSubmitting(true);
     
     try {
-      // Send the application data to our API
-      const response = await fetch('/api/application', {
+      // Send the application data to our API with the full URL
+      // This ensures we're hitting the correct endpoint regardless of the current client route
+      const apiUrl = `${window.location.origin}/api/application`;
+      console.log('Submitting application to:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
