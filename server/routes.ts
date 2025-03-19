@@ -121,6 +121,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API route to submit application form
+  app.post("/api/application", submitApplication);
+  
+  // API route to get all applications (protected - admin only)
+  app.get("/api/applications", isAdmin, async (req, res) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const applicationDir = 'applicationInfo';
+      
+      // Read all application files
+      fs.readdir(applicationDir, (err, files) => {
+        if (err) {
+          console.error('Error reading applications directory:', err);
+          return res.status(500).json({ 
+            success: false, 
+            message: 'Error retrieving applications' 
+          });
+        }
+        
+        // Filter only application text files
+        const applicationFiles = files
+          .filter(file => file.startsWith('application_') && file.endsWith('.txt'))
+          .map(file => ({
+            filename: file,
+            path: path.join(applicationDir, file),
+            timestamp: file.split('_')[1]
+          }));
+        
+        res.status(200).json({
+          success: true,
+          data: applicationFiles
+        });
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: error.message || "Error retrieving applications" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

@@ -102,11 +102,20 @@ export default function ApplicationForm() {
     setIsSubmitting(true);
     
     try {
-      // In a real implementation, you would send this data to your API
-      console.log("Form submitted:", data);
+      // Send the application data to our API
+      const response = await fetch('/api/application', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to submit application');
+      }
       
       setIsComplete(true);
       toast({
@@ -114,10 +123,13 @@ export default function ApplicationForm() {
         description: "We'll be in touch soon!",
         variant: "default",
       });
+      
+      console.log("Application saved:", result.filePath);
     } catch (error) {
+      console.error("Application submission error:", error);
       toast({
         title: "Something went wrong",
-        description: "Please try again later",
+        description: error instanceof Error ? error.message : "Please try again later",
         variant: "destructive",
       });
     } finally {
