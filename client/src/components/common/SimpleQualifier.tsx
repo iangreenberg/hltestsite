@@ -117,7 +117,7 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
             </div>
             
             <div className="space-y-3">
-              <Label>Are you ready to invest in a hemp-derived THC business?</Label>
+              <Label>Are you ready to invest in a hemp business?</Label>
               <RadioGroup value={investmentReady} onValueChange={setInvestmentReady}>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="yes" id="investment-yes" />
