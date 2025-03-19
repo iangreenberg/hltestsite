@@ -62,25 +62,43 @@ export function setupAuth(app: Express, apiRouter?: Router) {
   // Configure passport
   passport.use(new LocalStrategy(async (username, password, done) => {
     try {
+      console.log("Authenticating user:", username);
       const user = await storage.getUserByUsername(username);
-      if (!user || !(await comparePasswords(password, user.password))) {
+      if (!user) {
+        console.log("User not found");
         return done(null, false, { message: "Invalid credentials" });
       }
+      
+      const passwordMatch = await comparePasswords(password, user.password);
+      if (!passwordMatch) {
+        console.log("Password doesn't match");
+        return done(null, false, { message: "Invalid credentials" });
+      }
+      
+      console.log("Authentication successful for user:", username);
       return done(null, user);
     } catch (err) {
+      console.error("Authentication error:", err);
       return done(err);
     }
   }));
 
   passport.serializeUser((user, done) => {
+    console.log("Serializing user:", user.id);
     done(null, user.id);
   });
 
   passport.deserializeUser(async (id: number, done) => {
     try {
+      console.log("Deserializing user:", id);
       const user = await storage.getUser(id);
+      if (!user) {
+        console.log("User not found during deserialization");
+        return done(null, false);
+      }
       done(null, user);
     } catch (err) {
+      console.error("Deserialization error:", err);
       done(err);
     }
   });

@@ -96,6 +96,131 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
     });
   });
   
+  // Temporary non-protected applications endpoint for testing
+  apiApp.get("/applications-test", async (req: Request, res: Response) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const applicationDir = 'applicationInfo';
+      
+      // Ensure directory exists
+      if (!fs.existsSync(applicationDir)) {
+        fs.mkdirSync(applicationDir, { recursive: true });
+        
+        // Create a test application file if none exists
+        const testData = {
+          fullName: "Test Applicant",
+          email: "test@example.com",
+          phone: "555-123-4567",
+          businessName: "Test Hemp Business",
+          cityState: "Austin, TX",
+          businessSituation: "new",
+          packageInterest: "growth",
+          timeframe: "1to3months"
+        };
+        
+        const testFilename = `application_${Date.now()}_test.txt`;
+        fs.writeFileSync(
+          path.join(applicationDir, testFilename),
+          JSON.stringify(testData, null, 2)
+        );
+        
+        console.log("Created test application file:", testFilename);
+      }
+      
+      // Read all application files
+      fs.readdir(applicationDir, (err, files) => {
+        if (err) {
+          console.error('Error reading applications directory:', err);
+          return res.status(500).json({ 
+            success: false, 
+            message: 'Error retrieving applications' 
+          });
+        }
+        
+        // Filter only application text files
+        const applicationFiles = files
+          .filter(file => file.startsWith('application_') && file.endsWith('.txt'))
+          .map(file => ({
+            filename: file,
+            path: path.join(applicationDir, file),
+            timestamp: file.split('_')[1] || '0'
+          }))
+          .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)); // Sort by timestamp, newest first
+        
+        res.status(200).json({
+          success: true,
+          data: applicationFiles
+        });
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: error.message || "Error retrieving applications" 
+      });
+    }
+  });
+  
+  // Temporary endpoint to get a specific application without authentication
+  apiApp.get("/applications-test/:filename", async (req: Request, res: Response) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const applicationDir = 'applicationInfo';
+      const filename = req.params.filename;
+      
+      // Validate filename to prevent path traversal
+      if (filename.includes('..') || !filename.startsWith('application_') || !filename.endsWith('.txt')) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid filename format'
+        });
+      }
+      
+      const filePath = path.join(applicationDir, filename);
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({
+          success: false,
+          message: 'Application file not found'
+        });
+      }
+      
+      // Read file content
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error(`Error reading application file ${filename}:`, err);
+          return res.status(500).json({
+            success: false,
+            message: 'Error reading application file'
+          });
+        }
+        
+        // Try to parse as JSON
+        try {
+          const jsonData = JSON.parse(data);
+          return res.status(200).json({
+            success: true,
+            data: jsonData
+          });
+        } catch (e) {
+          // If not valid JSON, return as text
+          return res.status(200).json({
+            success: true,
+            data: data,
+            format: 'text'
+          });
+        }
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        message: error.message || "Error retrieving application"
+      });
+    }
+  });
+  
   // Auth status check - handled by our Passport setup in auth.ts
   apiApp.get("/auth/status", (req: Request, res: Response) => {
     if (req.isAuthenticated()) {
