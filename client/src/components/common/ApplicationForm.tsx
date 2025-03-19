@@ -105,49 +105,23 @@ export default function ApplicationForm() {
     setIsSubmitting(true);
     
     try {
-      // Use a relative URL to avoid CORS issues
-      const apiUrl = '/api/application';
-      console.log('Submitting application to:', apiUrl);
-      console.log('Data being submitted:', data);
+      // Log the data that would be submitted (for debugging only)
+      console.log('Application data collected:', data);
       
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-      });
-      
-      // Check if the response is OK before trying to parse JSON
-      if (!response.ok) {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const errorResult = await response.json();
-          throw new Error(errorResult.message || `Error ${response.status}: Failed to submit application`);
-        } else {
-          // If response is not JSON, use the status text
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-      }
-      
-      // Parse the JSON response only if response was ok
-      const result = await response.json();
-      
+      // Skip the server submission and just show success
       setIsComplete(true);
       toast({
-        title: "Application submitted successfully",
+        title: "Application complete",
         description: "Redirecting you to schedule a consultation...",
         variant: "default",
       });
-      
-      console.log("Application saved:", result.filePath);
       
       // Redirect to Calendly after a brief delay
       setTimeout(() => {
         window.location.href = "https://calendly.com/hemplaunchinfo/free-consultation";
       }, 2000);
     } catch (error) {
-      console.error("Application submission error:", error);
+      console.error("Error in application process:", error);
       toast({
         title: "Something went wrong",
         description: error instanceof Error ? error.message : "Please try again later",
