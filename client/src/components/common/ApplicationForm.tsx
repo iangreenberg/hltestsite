@@ -108,25 +108,9 @@ export default function ApplicationForm() {
       // Log the data to console
       console.log('Application data collected:', data);
       
-      // Save application data to local storage with timestamp
-      const timestamp = new Date().toISOString();
-      const applicationEntry = {
-        timestamp,
-        data
-      };
-      
-      // Get existing applications or initialize empty array
-      const existingApplications = JSON.parse(localStorage.getItem('hemplaunch_applications') || '[]');
-      
-      // Add new application to the array
-      existingApplications.push(applicationEntry);
-      
-      // Save back to localStorage
-      localStorage.setItem('hemplaunch_applications', JSON.stringify(existingApplications));
-      
-      // Submit to backend API for Notion integration
+      // Submit to backend API to store application locally
       try {
-        const response = await fetch('/api/notion-application', {
+        const response = await fetch('/api/applications/submit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -137,18 +121,16 @@ export default function ApplicationForm() {
         const responseData = await response.json();
         
         if (!response.ok) {
-          console.warn('Notion API submission failed, but continuing with local storage only');
+          console.warn('Application submission failed');
           console.warn('Error details:', responseData);
+          throw new Error(responseData.message || 'Failed to submit application');
         } else {
-          if (responseData.localOnly || responseData.fallbackToLocal) {
-            console.log('Application stored locally. Notion integration currently unavailable.');
-          } else {
-            console.log('Application submitted to Notion successfully');
-          }
+          console.log('Application submitted and stored successfully', responseData);
         }
       } catch (apiError) {
-        console.warn('Error submitting to Notion API:', apiError);
-        // Continue with the process even if API submission fails
+        console.error('Error submitting application:', apiError);
+        // Re-throw the error to be caught by the outer try/catch
+        throw apiError;
       }
       
       // Show success message

@@ -65,13 +65,17 @@ function Router() {
         }}
       </Route>
       
-      {/* Applications data route - accessible without auth */}
+      {/* Applications data route - protected admin route */}
       <Route path="/admin/applications">
-        {() => (
-          <AdminLayout>
-            <ApplicationData />
-          </AdminLayout>
-        )}
+        {() => {
+          return (
+            <ProtectedRoute path="/admin/applications" component={() => (
+              <AdminLayout>
+                <ApplicationData />
+              </AdminLayout>
+            )} />
+          );
+        }}
       </Route>
       
       {/* Admin Navigation Menu */}

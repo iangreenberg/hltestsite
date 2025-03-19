@@ -288,6 +288,11 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
       const path = await import('path');
       const applicationDir = 'applicationInfo';
       
+      // Ensure directory exists
+      if (!fs.existsSync(applicationDir)) {
+        fs.mkdirSync(applicationDir, { recursive: true });
+      }
+      
       // Read all application files
       fs.readdir(applicationDir, (err, files) => {
         if (err) {
@@ -305,7 +310,8 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
             filename: file,
             path: path.join(applicationDir, file),
             timestamp: file.split('_')[1]
-          }));
+          }))
+          .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)); // Sort by timestamp, newest first
         
         res.status(200).json({
           success: true,
@@ -316,6 +322,86 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
       res.status(500).json({ 
         success: false, 
         message: error.message || "Error retrieving applications" 
+      });
+    }
+  });
+  
+  // API route to submit application and save it locally
+  apiApp.post("/applications/submit", async (req: Request, res: Response) => {
+    try {
+      const applicationData = req.body;
+      
+      // Basic validation
+      if (!applicationData || !applicationData.fullName || !applicationData.email) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Invalid application data. Name and email are required.' 
+        });
+      }
+      
+      // Save application to file using our fileStorage module
+      const { saveApplicationToFile } = await import('./fileStorage');
+      const filePath = await saveApplicationToFile(applicationData, applicationData.fullName);
+      
+      return res.status(201).json({
+        success: true,
+        message: 'Application submitted and saved successfully',
+        filePath
+      });
+    } catch (error: any) {
+      console.error('Error submitting application:', error);
+      return res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to submit application. Please try again later.'
+      });
+    }
+  });
+
+  // API route to get a specific application file (protected - admin only)
+  apiApp.get("/applications/:filename", isAdmin, async (req: Request, res: Response) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const applicationDir = 'applicationInfo';
+      const filename = req.params.filename;
+      
+      // Validate filename to prevent path traversal
+      if (filename.includes('..') || !filename.startsWith('application_') || !filename.endsWith('.txt')) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid filename format'
+        });
+      }
+      
+      const filePath = path.join(applicationDir, filename);
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({
+          success: false,
+          message: 'Application file not found'
+        });
+      }
+      
+      // Read file content
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error(`Error reading application file ${filename}:`, err);
+          return res.status(500).json({
+            success: false,
+            message: 'Error reading application file'
+          });
+        }
+        
+        res.status(200).json({
+          success: true,
+          data: data
+        });
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        message: error.message || "Error retrieving application"
       });
     }
   });
