@@ -26,22 +26,50 @@ export default function TestApplicationForm() {
     try {
       console.log('Submitting form data:', formData);
       
-      // Get the base URL for the API
+      // Form validation
+      if (!formData.fullName.trim() || !formData.email.trim()) {
+        throw new Error('Name and email are required fields');
+      }
+      
+      // Get the base URL for the API - handle both development and production environments
       // In development this will be relative (/api/...)
       // In production with Vercel, we need the full URL
-      const apiUrl = process.env.NODE_ENV === 'production' 
+      const apiUrl = process.env.NODE_ENV === 'production'
         ? `${window.location.origin}/api/test-submit`
         : '/api/test-submit';
       
       console.log('Using API URL:', apiUrl);
       
-      const response = await fetch(apiUrl, {
+      // First try with credentials included
+      let response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify(formData),
+        // Try with credentials first
+        credentials: 'include'
+      }).catch(err => {
+        console.warn('Initial fetch with credentials failed:', err);
+        // Return null to indicate we should retry without credentials
+        return null;
       });
+      
+      // If the first attempt failed, retry without credentials
+      // This helps with certain CORS configurations
+      if (!response) {
+        console.log('Retrying without credentials...');
+        response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(formData),
+          credentials: 'omit' // explicitly exclude credentials
+        });
+      }
       
       console.log('Response status:', response.status);
       console.log('Response headers:', Object.fromEntries([...response.headers.entries()]));
@@ -51,16 +79,48 @@ export default function TestApplicationForm() {
       let data;
       
       if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
-        console.log('Response JSON data:', data);
+        try {
+          data = await response.json();
+          console.log('Response JSON data:', data);
+        } catch (jsonError) {
+          console.error('Error parsing JSON:', jsonError);
+          const text = await response.text();
+          console.log('Response text instead:', text);
+          
+          // Try to extract JSON from HTML response (common with Vercel)
+          // Sometimes Vercel wraps the JSON in HTML when there's an error
+          const jsonMatch = text.match(/{[\s\S]*}/);
+          if (jsonMatch) {
+            try {
+              data = JSON.parse(jsonMatch[0]);
+              console.log('Extracted JSON from HTML:', data);
+            } catch {
+              data = { success: false, message: 'Failed to parse server response' };
+            }
+          } else {
+            data = { success: false, message: 'Server returned non-JSON response' };
+          }
+        }
       } else {
         // Handle non-JSON responses
         const text = await response.text();
-        console.log('Response text:', text);
-        data = { message: text || 'Unknown error (non-JSON response)' };
+        console.log('Response text (non-JSON):', text);
+        
+        // Try to extract JSON if it's embedded in HTML
+        const jsonMatch = text.match(/{[\s\S]*}/);
+        if (jsonMatch) {
+          try {
+            data = JSON.parse(jsonMatch[0]);
+            console.log('Extracted JSON from HTML:', data);
+          } catch {
+            data = { success: false, message: 'Failed to parse response' };
+          }
+        } else {
+          data = { success: false, message: text || 'Unknown error (non-JSON response)' };
+        }
       }
       
-      if (response.ok) {
+      if (response.ok && data.success) {
         toast({
           title: "Success",
           description: "Your application has been submitted successfully!",
@@ -72,7 +132,7 @@ export default function TestApplicationForm() {
           phone: '',
         });
       } else {
-        throw new Error(data.message || 'Something went wrong');
+        throw new Error(data.message || 'Something went wrong with the submission');
       }
     } catch (error) {
       console.error('Error submitting form:', error);

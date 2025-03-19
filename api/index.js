@@ -447,11 +447,18 @@ app.get('/api/healthcheck', (req, res) => {
 // Add the missing test-submit endpoint for form submission
 app.post('/api/test-submit', async (req, res) => {
   console.log('Test application received:', req.body);
+  
+  // Set CORS headers explicitly
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
   try {
     const applicationData = req.body;
     
     // Basic validation
     if (!applicationData || !applicationData.fullName || !applicationData.email) {
+      console.log('Validation failed', applicationData);
       return res.status(400).json({ 
         success: false, 
         message: 'Invalid application data. Name and email are required.' 
@@ -474,6 +481,8 @@ app.post('/api/test-submit', async (req, res) => {
       await fs.writeFile(filePath, fileContent, 'utf8');
       console.log(`Application saved to ${filePath}`);
       
+      // Return explicit JSON response
+      res.contentType('application/json');
       return res.status(201).json({ 
         success: true, 
         message: 'Test application submitted successfully',
@@ -500,8 +509,26 @@ export default function handler(req, res) {
   
   // Handle preflight requests for CORS
   if (req.method === 'OPTIONS') {
+    // Set CORS headers for preflight requests
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
     res.status(200).end();
     return;
+  }
+  
+  // Special handling for the test-submit endpoint
+  if (req.url === '/api/test-submit' && req.method === 'POST') {
+    console.log('Direct handling of test-submit endpoint');
+    
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+    // Ensure content-type is set for the response
+    res.setHeader('Content-Type', 'application/json');
   }
   
   // Forward to Express
