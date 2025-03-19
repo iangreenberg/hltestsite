@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-query";
 import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "./use-toast";
-import { useLocation } from "wouter";
 import type { User, InsertUser, LoginData } from "../lib/schema";
 
 type AuthContextType = {
@@ -22,7 +21,6 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
-  const [, setLocation] = useLocation();
   
   const {
     data: user,
@@ -60,14 +58,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Redirect admin users to admin dashboard, regular users to home page
       // Use setTimeout to ensure the redirect happens after state updates
       setTimeout(() => {
+        // Check if we're in production/Vercel environment
+        const isVercel = window.location.hostname.includes('vercel.app') || 
+                        window.location.hostname.includes('hemplaunch.co') ||
+                        window.location.hostname.includes('hemplaunch.com');
+        
+        // For Vercel deployments, use absolute URLs
         if (user.isAdmin) {
           console.log("Redirecting admin to dashboard...");
-          window.location.href = "/admin/dashboard";
+          if (isVercel) {
+            // For Vercel, construct the full URL with origin
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/admin/dashboard`;
+            console.log("Vercel redirect to:", `${baseUrl}/admin/dashboard`);
+          } else {
+            // For local development
+            window.location.href = "/admin/dashboard";
+          }
         } else {
           console.log("Redirecting user to home...");
-          window.location.href = "/";
+          if (isVercel) {
+            const baseUrl = window.location.origin;
+            window.location.href = baseUrl;
+          } else {
+            window.location.href = "/";
+          }
         }
-      }, 300);
+      }, 500); // Increased timeout for Vercel
     },
     onError: (error: Error) => {
       toast({
@@ -104,14 +121,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Redirect admin users to admin dashboard, regular users to home page
       // Use setTimeout to ensure the redirect happens after state updates
       setTimeout(() => {
+        // Check if we're in production/Vercel environment
+        const isVercel = window.location.hostname.includes('vercel.app') || 
+                        window.location.hostname.includes('hemplaunch.co') ||
+                        window.location.hostname.includes('hemplaunch.com');
+        
         if (user.isAdmin) {
           console.log("Redirecting admin to dashboard...");
-          window.location.href = "/admin/dashboard";
+          if (isVercel) {
+            // For Vercel, construct the full URL with origin
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/admin/dashboard`;
+            console.log("Vercel redirect to:", `${baseUrl}/admin/dashboard`);
+          } else {
+            // For local development
+            window.location.href = "/admin/dashboard";
+          }
         } else {
           console.log("Redirecting user to home...");
-          window.location.href = "/";
+          if (isVercel) {
+            const baseUrl = window.location.origin;
+            window.location.href = baseUrl;
+          } else {
+            window.location.href = "/";
+          }
         }
-      }, 300);
+      }, 500); // Increased timeout for Vercel
     },
     onError: (error: Error) => {
       toast({
@@ -149,9 +184,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Redirect to login page after logout using direct window location
       // Use setTimeout to ensure the redirect happens after state updates
       setTimeout(() => {
+        // Check if we're in production/Vercel environment
+        const isVercel = window.location.hostname.includes('vercel.app') || 
+                        window.location.hostname.includes('hemplaunch.co') ||
+                        window.location.hostname.includes('hemplaunch.com');
+                        
         console.log("Redirecting to auth page...");
-        window.location.href = "/auth";
-      }, 300);
+        if (isVercel) {
+          // For Vercel, construct the full URL with origin
+          const baseUrl = window.location.origin;
+          window.location.href = `${baseUrl}/auth`;
+          console.log("Vercel redirect to:", `${baseUrl}/auth`);
+        } else {
+          window.location.href = "/auth";
+        }
+      }, 500); // Increased timeout for Vercel
     },
     onError: (error: Error) => {
       // If server-side logout fails, still clear client-side auth
@@ -166,9 +213,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Still redirect to auth page using direct window location
       setTimeout(() => {
+        // Check if we're in production/Vercel environment
+        const isVercel = window.location.hostname.includes('vercel.app') || 
+                        window.location.hostname.includes('hemplaunch.co') ||
+                        window.location.hostname.includes('hemplaunch.com');
+                        
         console.log("Redirecting to auth page after error...");
-        window.location.href = "/auth";
-      }, 300);
+        if (isVercel) {
+          // For Vercel, construct the full URL with origin
+          const baseUrl = window.location.origin;
+          window.location.href = `${baseUrl}/auth`;
+          console.log("Vercel redirect to:", `${baseUrl}/auth`);
+        } else {
+          window.location.href = "/auth";
+        }
+      }, 500); // Increased timeout for Vercel
     },
   });
 
