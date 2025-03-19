@@ -26,7 +26,16 @@ export default function TestApplicationForm() {
     try {
       console.log('Submitting form data:', formData);
       
-      const response = await fetch('/api/test-submit', {
+      // Get the base URL for the API
+      // In development this will be relative (/api/...)
+      // In production with Vercel, we need the full URL
+      const apiUrl = process.env.NODE_ENV === 'production' 
+        ? `${window.location.origin}/api/test-submit`
+        : '/api/test-submit';
+      
+      console.log('Using API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,9 +44,21 @@ export default function TestApplicationForm() {
       });
       
       console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries([...response.headers.entries()]));
       
-      const data = await response.json();
-      console.log('Response data:', data);
+      // Check the content type to avoid JSON parse errors
+      const contentType = response.headers.get('content-type');
+      let data;
+      
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+        console.log('Response JSON data:', data);
+      } else {
+        // Handle non-JSON responses
+        const text = await response.text();
+        console.log('Response text:', text);
+        data = { message: text || 'Unknown error (non-JSON response)' };
+      }
       
       if (response.ok) {
         toast({
@@ -57,7 +78,9 @@ export default function TestApplicationForm() {
       console.error('Error submitting form:', error);
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to submit your application. Please try again.",
+        description: error instanceof Error 
+          ? error.message 
+          : "Failed to submit your application. Please try again.",
         variant: "destructive",
       });
     } finally {

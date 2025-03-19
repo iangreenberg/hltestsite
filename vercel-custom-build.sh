@@ -3,6 +3,10 @@ set -e
 
 echo "Starting custom Vercel build process..."
 
+# Create applicationInfo directory for storing application data
+echo "Creating applicationInfo directory..."
+mkdir -p applicationInfo
+
 # Copy shared schema to client for local builds
 echo "Copying shared schema to client..."
 mkdir -p client/shared

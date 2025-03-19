@@ -444,6 +444,55 @@ app.get('/api/healthcheck', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Add the missing test-submit endpoint for form submission
+app.post('/api/test-submit', async (req, res) => {
+  console.log('Test application received:', req.body);
+  try {
+    const applicationData = req.body;
+    
+    // Basic validation
+    if (!applicationData || !applicationData.fullName || !applicationData.email) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid application data. Name and email are required.' 
+      });
+    }
+    
+    // Create filename with timestamp
+    const timestamp = Date.now();
+    const sanitizedName = (applicationData.fullName || 'anonymous').toLowerCase().replace(/[^a-z0-9]/g, '_');
+    const filename = `application_${timestamp}_${sanitizedName}.json`;
+    
+    // Save application to file
+    try {
+      const dirPath = path.join(process.cwd(), 'applicationInfo');
+      await fs.mkdir(dirPath, { recursive: true });
+      
+      const filePath = path.join(dirPath, filename);
+      const fileContent = JSON.stringify(applicationData, null, 2);
+      
+      await fs.writeFile(filePath, fileContent, 'utf8');
+      console.log(`Application saved to ${filePath}`);
+      
+      return res.status(201).json({ 
+        success: true, 
+        message: 'Test application submitted successfully',
+        filePath: `/applicationInfo/${filename}`
+      });
+    } catch (fileError) {
+      console.error('Error saving application file:', fileError);
+      throw new Error(`Failed to save application file: ${fileError.message}`);
+    }
+  } catch (error) {
+    console.error('Error submitting test application:', error);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Failed to submit test application. Please try again later.',
+      error: String(error)
+    });
+  }
+});
+
 // Vercel serverless function handler
 export default function handler(req, res) {
   // Log the incoming request for debugging
