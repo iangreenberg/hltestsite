@@ -37,7 +37,7 @@ export async function createAdminUserIfNotExists() {
     
     if (!adminUser) {
       // Hash password for admin
-      const hashedPassword = await hashPassword("admin123");
+      const hashedPassword = await hashPassword("admin");
       
       // Create admin user
       await storage.createUser({
