@@ -1,13 +1,25 @@
 # Application Information Storage
 
-This directory stores application form submissions as text files.
+This folder stores application submissions from the HempLaunch website in text format.
 
 ## File Format
 
-Files are named using the pattern: `application_{timestamp}_{name}.txt`
+- Files are named in the format: `application_[timestamp]_[sanitized-name].txt`
+- Files contain JSON data of the application submission
 
-Each file contains the application data in a readable text format with fields clearly labeled.
+## Data Fields
+
+Applications include the following information:
+- Full Name
+- Email Address
+- Phone Number
+- Business Name (if applicable)
+- City & State
+- Business Situation
+- Package Interest
+- Business Basics Status
+- Launch Timeframe
 
 ## Security Notice
 
-This simple file-based storage system is for demonstration purposes. In a production environment, sensitive user data should be stored in a secure database with proper encryption and access controls.
+This data should be treated as confidential customer information.
