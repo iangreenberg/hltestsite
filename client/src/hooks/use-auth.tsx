@@ -56,12 +56,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Login successful",
         description: `Welcome back, ${user.username}!`,
       });
+      
       // Redirect admin users to admin dashboard, regular users to home page
-      if (user.isAdmin) {
-        setLocation("/admin/dashboard");
-      } else {
-        setLocation("/");
-      }
+      // Use setTimeout to ensure the redirect happens after state updates
+      setTimeout(() => {
+        if (user.isAdmin) {
+          console.log("Redirecting admin to dashboard...");
+          window.location.href = "/admin/dashboard";
+        } else {
+          console.log("Redirecting user to home...");
+          window.location.href = "/";
+        }
+      }, 300);
     },
     onError: (error: Error) => {
       toast({
@@ -94,12 +100,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Registration successful",
         description: `Welcome, ${user.username}!`,
       });
+      
       // Redirect admin users to admin dashboard, regular users to home page
-      if (user.isAdmin) {
-        setLocation("/admin/dashboard");
-      } else {
-        setLocation("/");
-      }
+      // Use setTimeout to ensure the redirect happens after state updates
+      setTimeout(() => {
+        if (user.isAdmin) {
+          console.log("Redirecting admin to dashboard...");
+          window.location.href = "/admin/dashboard";
+        } else {
+          console.log("Redirecting user to home...");
+          window.location.href = "/";
+        }
+      }, 300);
     },
     onError: (error: Error) => {
       toast({
@@ -133,8 +145,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Logged out",
         description: "You have been successfully logged out",
       });
-      // Redirect to login page after logout
-      setLocation("/auth");
+      
+      // Redirect to login page after logout using direct window location
+      // Use setTimeout to ensure the redirect happens after state updates
+      setTimeout(() => {
+        console.log("Redirecting to auth page...");
+        window.location.href = "/auth";
+      }, 300);
     },
     onError: (error: Error) => {
       // If server-side logout fails, still clear client-side auth
@@ -147,8 +164,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         variant: "destructive",
       });
       
-      // Still redirect to auth page
-      setLocation("/auth");
+      // Still redirect to auth page using direct window location
+      setTimeout(() => {
+        console.log("Redirecting to auth page after error...");
+        window.location.href = "/auth";
+      }, 300);
     },
   });
 
