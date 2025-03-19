@@ -626,7 +626,7 @@ export default function NewLandingPage() {
                   className="flex items-start"
                 >
                   <div className="mr-4 flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">1️⃣</div>
+                    <div className="h-12 w-12 rounded-full bg-[#C8A951] text-[#2F5D50] flex items-center justify-center font-bold text-xl">1️⃣</div>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Consultation & Qualification</h3>
@@ -642,7 +642,7 @@ export default function NewLandingPage() {
                   className="flex items-start"
                 >
                   <div className="mr-4 flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">2️⃣</div>
+                    <div className="h-12 w-12 rounded-full bg-[#C8A951] text-[#2F5D50] flex items-center justify-center font-bold text-xl">2️⃣</div>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Legal & Compliance Setup</h3>
@@ -658,7 +658,7 @@ export default function NewLandingPage() {
                   className="flex items-start"
                 >
                   <div className="mr-4 flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">3️⃣</div>
+                    <div className="h-12 w-12 rounded-full bg-[#C8A951] text-[#2F5D50] flex items-center justify-center font-bold text-xl">3️⃣</div>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Digital Presence & Branding</h3>
@@ -674,7 +674,7 @@ export default function NewLandingPage() {
                   className="flex items-start"
                 >
                   <div className="mr-4 flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">4️⃣</div>
+                    <div className="h-12 w-12 rounded-full bg-[#C8A951] text-[#2F5D50] flex items-center justify-center font-bold text-xl">4️⃣</div>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Product Integration & Fulfillment</h3>
@@ -690,7 +690,7 @@ export default function NewLandingPage() {
                   className="flex items-start"
                 >
                   <div className="mr-4 flex-shrink-0">
-                    <div className="h-12 w-12 rounded-full bg-[#2F5D50] text-white flex items-center justify-center font-bold text-xl">5️⃣</div>
+                    <div className="h-12 w-12 rounded-full bg-[#C8A951] text-[#2F5D50] flex items-center justify-center font-bold text-xl">5️⃣</div>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-[#2F5D50] mb-2">Marketing & Launch Support</h3>
