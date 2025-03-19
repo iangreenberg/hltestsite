@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import OptimizedLanding from "./pages/OptimizedLanding";
 import NewLandingPage from "./pages/NewLandingPage";
 import ApplicationPage from "./pages/ApplicationPage";
+import TestApplicationForm from "./pages/TestApplicationForm";
 import Services from "./pages/Services";
 import HowItWorks from "./pages/HowItWorks";
 import About from "./pages/About";
@@ -158,6 +159,14 @@ function Router() {
         {() => (
           <MainLayout>
             <ApplicationPage />
+          </MainLayout>
+        )}
+      </Route>
+      
+      <Route path="/test-form">
+        {() => (
+          <MainLayout>
+            <TestApplicationForm />
           </MainLayout>
         )}
       </Route>
