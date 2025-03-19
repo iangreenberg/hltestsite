@@ -19,27 +19,30 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 
+// Completely rewritten schema with string types instead of enums to avoid pattern matching issues
 const formSchema = z.object({
+  // Basic information
   fullName: z.string().min(2, { message: "Please enter your full name" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z.string(),  // Accept any string format for phone
+  phone: z.string(), // Accept any phone format
   businessName: z.string().optional(),
   cityState: z.string().min(2, { message: "Please enter your city and state" }),
   
-  businessSituation: z.enum(["new", "existing", "other"], {
+  // All radio selects are just strings - no enums to avoid pattern matching
+  businessSituation: z.string({
     required_error: "Please select an option",
   }),
   businessSituationOther: z.string().optional(),
   
-  packageInterest: z.enum(["starter", "growth", "accelerator", "notSure"], {
+  packageInterest: z.string({
     required_error: "Please select a package",
   }),
   
-  businessBasics: z.enum(["complete", "partial", "none"], {
+  businessBasics: z.string({
     required_error: "Please select an option",
   }),
   
-  timeframe: z.enum(["immediate", "1to3months", "exploring"], {
+  timeframe: z.string({
     required_error: "Please select your timeframe",
   }),
   
@@ -64,11 +67,11 @@ export default function ApplicationForm() {
       phone: "",
       businessName: "",
       cityState: "",
-      businessSituation: undefined,
+      businessSituation: "",
       businessSituationOther: "",
-      packageInterest: undefined,
-      businessBasics: undefined,
-      timeframe: undefined,
+      packageInterest: "",
+      businessBasics: "",
+      timeframe: "",
       termsAgreed: false,
     },
   });
@@ -308,7 +311,7 @@ export default function ApplicationForm() {
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                             className="space-y-2"
                           >
                             <FormItem className="flex items-start space-x-3 space-y-0">
@@ -369,7 +372,7 @@ export default function ApplicationForm() {
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                             className="space-y-2"
                           >
                             <FormItem className="flex items-start space-x-3 space-y-0">
@@ -422,7 +425,7 @@ export default function ApplicationForm() {
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                             className="space-y-2"
                           >
                             <FormItem className="flex items-start space-x-3 space-y-0">
@@ -467,7 +470,7 @@ export default function ApplicationForm() {
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                             className="space-y-2"
                           >
                             <FormItem className="flex items-start space-x-3 space-y-0">
