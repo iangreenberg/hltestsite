@@ -105,9 +105,8 @@ export default function ApplicationForm() {
     setIsSubmitting(true);
     
     try {
-      // Send the application data to our API with the full URL
-      // This ensures we're hitting the correct endpoint regardless of the current client route
-      const apiUrl = `${window.location.origin}/api/application`;
+      // Use direct URL to API endpoint to avoid routing issues
+      const apiUrl = 'http://localhost:5000/api/application';
       console.log('Submitting application to:', apiUrl);
       console.log('Data being submitted:', data);
       
