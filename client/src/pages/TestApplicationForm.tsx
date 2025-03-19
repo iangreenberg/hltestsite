@@ -73,12 +73,50 @@ export default function TestApplicationForm() {
     }
   };
 
+  // Debug function to test basic API connectivity
+  const testApiConnection = async () => {
+    try {
+      // First try with a relative URL
+      const debugUrl = "/api/debug";
+      console.log("Testing API connection with:", debugUrl);
+      
+      const response = await fetch(debugUrl);
+      const data = await response.json();
+      console.log("Debug API response:", data);
+      
+      setResult(JSON.stringify(data, null, 2));
+      toast({
+        title: "API Test Successful",
+        description: "The API connection is working!",
+      });
+    } catch (error) {
+      console.error("Error testing API:", error);
+      setResult(error instanceof Error ? error.message : "Unknown error");
+      toast({
+        title: "API Test Failed",
+        description: error instanceof Error ? error.message : "Failed to connect to API",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
         <h1 className="text-2xl font-bold text-center text-[#2F5D50] mb-6">
           Test Application Form
         </h1>
+        
+        <div className="mb-6">
+          <Button 
+            type="button" 
+            variant="outline" 
+            className="w-full" 
+            onClick={testApiConnection}
+          >
+            Test API Connection
+          </Button>
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

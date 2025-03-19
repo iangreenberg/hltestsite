@@ -18,6 +18,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
   setupAuth(app);
   
+  // Debug endpoint to test API connectivity
+  app.get("/api/debug", (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "API is working",
+      time: new Date().toISOString(),
+      requestInfo: {
+        method: req.method,
+        path: req.path,
+        headers: req.headers['content-type'],
+        host: req.headers.host,
+        origin: req.headers.origin
+      }
+    });
+  });
+  
   // Test admin-only route
   app.get("/api/admin-test", isAdmin, (req, res) => {
     res.status(200).json({
