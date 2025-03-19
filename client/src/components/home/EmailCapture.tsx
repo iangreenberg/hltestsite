@@ -47,7 +47,7 @@ export default function EmailCapture() {
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="mb-4 md:mb-0 flex-1">
             <h3 className="text-[#2F5D50] font-semibold text-lg">
-              Download Our Free Guide: "5 Steps to Launching Your Hemp-Derived THC Brand"
+              Download Our Free Guide: "5 Steps to Launching Your Hemp Brand"
             </h3>
           </div>
           <form className="flex w-full md:w-auto" onSubmit={handleSubmit}>

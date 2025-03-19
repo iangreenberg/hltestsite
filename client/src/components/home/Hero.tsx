@@ -17,7 +17,7 @@ export default function Hero() {
             Limited Spots Available
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-montserrat leading-tight mb-6">
-            Turnkey Hemp-Derived THC Business Solutions
+            Turnkey Hemp Business Solutions
           </h1>
           <p className="text-xl md:text-2xl font-opensans mb-8 max-w-2xl">
             From entity formation to product launch—start your brand with zero hassle. We handle everything so you can focus on growth.

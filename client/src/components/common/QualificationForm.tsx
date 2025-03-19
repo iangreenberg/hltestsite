@@ -145,7 +145,7 @@ export default function QualificationForm({
                 name="investmentReady"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Are you ready to invest in starting a hemp-derived THC business?</FormLabel>
+                    <FormLabel>Are you ready to invest in starting a hemp business?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}

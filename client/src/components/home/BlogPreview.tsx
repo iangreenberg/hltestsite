@@ -10,7 +10,7 @@ export default function BlogPreview() {
       image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "5 Effective Meta Ads Strategies That Work for Hemp-Derived Products",
+      title: "5 Effective Meta Ads Strategies That Work for Hemp Products",
       excerpt: "Detailed case studies and proven approaches to navigating Meta's advertising policies while creating compliant, high-converting campaigns for your hemp business.",
       category: "Marketing",
       date: "February 15, 2024",
