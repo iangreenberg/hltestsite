@@ -856,7 +856,7 @@ export default function NewLandingPage() {
                 <div className="flex justify-center">
                   <div className="w-full max-w-xs">
                     <Button 
-                      onClick={() => window.open('https://calendly.com/hemplaunchinfo/application', '_blank')}
+                      onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')}
                       className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-4 text-sm md:text-base rounded-lg w-full"
                     >
                       Complete Your Application Now
@@ -966,7 +966,7 @@ export default function NewLandingPage() {
                 <div className="flex justify-center">
                   <div className="w-full max-w-xs">
                     <Button 
-                      onClick={() => window.open('https://calendly.com/hemplaunchinfo/application', '_blank')}
+                      onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')}
                       className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-3 px-4 text-sm md:text-base rounded-lg w-full"
                     >
                       Ready to Get Started? Apply Now
