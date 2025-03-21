@@ -458,66 +458,7 @@ export default function FBLandingPage() {
         </div>
       </section>
 
-      {/* Why Choose HempLaunch */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Why HempLaunch Is Your Fastest Path to Hemp Success</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="h-14 w-14 bg-[#f0f9f6] rounded-full flex items-center justify-center mb-6">
-                <UserCheck className="h-7 w-7 text-[#2F5D50]" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Backed by True Experts</h3>
-              <p className="text-gray-600">
-                Our team, led by a founder with a Bachelor's in Cannabis Biology and Chemistry, brings years of hemp compliance, e-commerce, and scaling expertise.
-              </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="h-14 w-14 bg-[#f0f9f6] rounded-full flex items-center justify-center mb-6">
-                <CheckCircle className="h-7 w-7 text-[#2F5D50]" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">We Handle It All for You</h3>
-              <p className="text-gray-600">
-                From business formation to marketing, our end-to-end support means you can focus on growing your brand—not wrestling with logistics or legal headaches.
-              </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="h-14 w-14 bg-[#f0f9f6] rounded-full flex items-center justify-center mb-6">
-                <CheckCircle className="h-7 w-7 text-[#2F5D50]" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Bulletproof Compliance</h3>
-              <p className="text-gray-600">
-                Our proprietary Hemp Compliance Framework (HCF) guarantees your products meet all federal and state regulations, protecting your business.
-              </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-xl shadow-md">
-              <div className="h-14 w-14 bg-[#f0f9f6] rounded-full flex items-center justify-center mb-6">
-                <Clock className="h-7 w-7 text-[#2F5D50]" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Profits in Just 30 Days</h3>
-              <p className="text-gray-600">
-                Launch your hemp business in as little as 30 days, gaining a first-mover edge while competitors are still figuring out their first step.
-              </p>
-            </div>
-            
-            <div className="bg-white p-8 rounded-xl shadow-md md:col-span-2 lg:col-span-1">
-              <div className="h-14 w-14 bg-[#f0f9f6] rounded-full flex items-center justify-center mb-6">
-                <TrendingUp className="h-7 w-7 text-[#2F5D50]" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Proven to Win</h3>
-              <p className="text-gray-600">
-                Our clients are already selling legally and scaling fast—join 50+ hemp brands who've turned their vision into profitable reality with HempLaunch.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Your Roadmap to Success */}
       <section className="py-20 bg-[#2F5D50] text-white">
