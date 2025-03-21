@@ -6,6 +6,7 @@ import NotFound from "./pages/not-found";
 import Home from "./pages/Home";
 import OptimizedLanding from "./pages/OptimizedLanding";
 import NewLandingPage from "./pages/NewLandingPage";
+import FBLandingPage from "./pages/FBLandingPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import TestApplicationForm from "./pages/TestApplicationForm";
 
@@ -177,6 +178,10 @@ function Router() {
 
       <Route path="/fb-landing">
         {() => <NewLandingPage />}
+      </Route>
+      
+      <Route path="/fb-landing-new">
+        {() => <FBLandingPage />}
       </Route>
       
       <Route path="/apply">
