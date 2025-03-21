@@ -5,6 +5,7 @@ import { createAdminUserIfNotExists } from "./auth";
 import cors from "cors";
 import session from "express-session";
 import { storage } from "./storage";
+import { initializeMailchimp } from "./mailchimp";
 
 // Create the Express app
 const app = express();
@@ -68,6 +69,9 @@ let server: any = null;
 const setupServer = async () => {
   // Create admin user if it doesn't exist yet
   await createAdminUserIfNotExists();
+  
+  // Initialize Mailchimp client
+  initializeMailchimp();
   
   // Create an explicit API router to handle API requests first
   const apiRouter = express.Router();
