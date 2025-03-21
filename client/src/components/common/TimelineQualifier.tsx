@@ -136,7 +136,7 @@ export default function TimelineQualifier({ buttonText, buttonClassName }: Timel
         </div>
         
         <Button 
-          onClick={() => setOpen(true)} 
+          onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')} 
           className={buttonClassName || "w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 border-2 border-[#C8A951]"}
         >
           {buttonText}

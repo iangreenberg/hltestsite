@@ -165,7 +165,7 @@ export default function LandingPage() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Button 
-                    onClick={() => setShowQualifier(true)}
+                    onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')}
                     className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-5 px-10 text-lg border-2 border-[#C8A951] rounded-xl shadow-lg"
                     size="lg"
                   >

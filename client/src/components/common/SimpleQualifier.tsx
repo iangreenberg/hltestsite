@@ -77,7 +77,7 @@ export default function SimpleQualifier({ buttonText, buttonClassName }: SimpleQ
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className={buttonClassName}>
+      <Button onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')} className={buttonClassName}>
         {buttonText}
       </Button>
       
