@@ -539,7 +539,7 @@ export default function LandingPage() {
                         whileTap={{ scale: 0.95 }}
                       >
                         <Button
-                          onClick={() => openJotForm()}
+                          onClick={() => setShowQualifier(true)}
                           className="w-full bg-[#2F5D50] hover:bg-[#234840] font-semibold py-3 px-6"
                           size="lg"
                         >
@@ -609,7 +609,7 @@ export default function LandingPage() {
                         whileTap={{ scale: 0.95 }}
                       >
                         <Button
-                          onClick={() => openJotForm()}
+                          onClick={() => setShowQualifier(true)}
                           className="w-full bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-6 border-2 border-[#C8A951]"
                           size="lg"
                         >
@@ -678,7 +678,7 @@ export default function LandingPage() {
                         whileTap={{ scale: 0.95 }}
                       >
                         <Button
-                          onClick={() => openJotForm()}
+                          onClick={() => setShowQualifier(true)}
                           className="w-full bg-[#2F5D50] hover:bg-[#234840] font-semibold py-3 px-6"
                           size="lg"
                         >
@@ -1074,7 +1074,7 @@ export default function LandingPage() {
                   <div className="flex justify-center">
                     <div className="w-full max-w-xs">
                       <Button 
-                        onClick={() => openJotForm()}
+                        onClick={() => setShowQualifier(true)}
                         className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-4 text-sm md:text-base rounded-lg w-full"
                       >
                         Complete Your Application Now
