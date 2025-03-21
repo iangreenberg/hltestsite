@@ -1,4 +1,4 @@
-import { CheckCircle, Clock, TrendingUp, UserCheck } from 'lucide-react';
+import { CheckCircle, TrendingUp, UserCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
@@ -676,18 +676,18 @@ export default function FBLandingPage() {
             </div>
           </div>
           
-          <div className="max-w-xl mx-auto bg-white rounded-xl p-8 shadow-xl">
-            <h3 className="text-2xl font-bold mb-4 text-[#2F5D50]">Claim Your Spot in the Hemp Revolution</h3>
-            <p className="text-[#2F5D50] mb-6">
+          <div className="max-w-xl mx-auto bg-white rounded-xl p-6 md:p-8 shadow-xl">
+            <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-[#2F5D50]">Claim Your Spot in the Hemp Revolution</h3>
+            <p className="text-sm md:text-base text-[#2F5D50] mb-4 md:mb-6">
               Only 10 Launch Slots Left—Act Now to Start Your Journey!
             </p>
             <Button 
               onClick={openJotForm}
-              className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-4 px-8 text-lg rounded-xl w-full md:w-auto"
+              className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-3 md:py-4 px-4 md:px-8 text-sm md:text-lg rounded-xl w-full md:w-auto"
             >
-              Unlock Your Free Strategy Session
+              Get Your Free Strategy Call
             </Button>
-            <p className="text-sm text-gray-600 mt-4">
+            <p className="text-xs md:text-sm text-gray-600 mt-3 md:mt-4">
               By signing up, you'll get a free 1:1 consultation with our hemp experts to kickstart your business.
             </p>
           </div>
