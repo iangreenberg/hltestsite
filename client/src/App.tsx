@@ -10,6 +10,7 @@ import FBLandingPage from "./pages/FBLandingPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import TestApplicationForm from "./pages/TestApplicationForm";
 import ThankYouBooking from "./pages/ThankYouBooking";
+import LoadingDemo from "./pages/LoadingDemo";
 
 import TestForm from "./pages/TestForm";
 import Services from "./pages/Services";
@@ -212,6 +213,14 @@ function Router() {
       <Route path="/thank-you-booking">
         {() => (
           <ThankYouBooking />
+        )}
+      </Route>
+      
+      <Route path="/loading-demo">
+        {() => (
+          <MainLayout>
+            <LoadingDemo />
+          </MainLayout>
         )}
       </Route>
       
