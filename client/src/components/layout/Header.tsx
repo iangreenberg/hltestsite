@@ -22,7 +22,7 @@ export default function Header() {
           </div>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden lg:flex space-x-5 xl:space-x-8">
             <Link 
               href="/" 
               className={`${isActive('/') ? 'text-[#2F5D50]' : 'text-gray-800'} font-semibold font-opensans hover:text-[#C8A951] transition-colors`}
@@ -70,17 +70,17 @@ export default function Header() {
           </nav>
           
           {/* CTA Button */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <button 
               onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')}
-              className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-2 px-4 rounded-md shadow-sm hover:shadow-md transition-all"
+              className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold text-sm lg:text-xs xl:text-sm py-1.5 px-3 xl:py-2 xl:px-4 rounded-md shadow-sm hover:shadow-md transition-all whitespace-nowrap"
             >
               Schedule Free Consultation
             </button>
           </div>
           
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
               className="text-gray-800 hover:text-[#2F5D50]" 
@@ -94,7 +94,7 @@ export default function Header() {
         </div>
         
         {/* Mobile Menu */}
-        <div className={`md:hidden ${mobileMenuOpen ? 'block' : 'hidden'} pb-4`}>
+        <div className={`lg:hidden ${mobileMenuOpen ? 'block' : 'hidden'} pb-4`}>
           <Link href="/" className="block py-2 text-[#2F5D50] font-semibold">Home</Link>
           <div className="py-2">
             <button 
