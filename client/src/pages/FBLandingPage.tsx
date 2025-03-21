@@ -99,10 +99,15 @@ export default function FBLandingPage() {
               >
                 <Button 
                   onClick={openJotForm}
-                  className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-5 px-10 text-lg border-2 border-[#C8A951] rounded-xl shadow-lg"
+                  className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-5 px-10 text-lg border-2 border-[#C8A951] rounded-xl shadow-lg flex items-center"
                   size="lg"
                 >
-                  Get Started Now – Spots Limited! <ArrowRight className="ml-2 h-5 w-5" />
+                  Get Started Now – Spots Limited!
+                  <div className="ml-2 animate-bounce">
+                    <svg className="h-5 w-5 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </div>
                 </Button>
               </motion.div>
             </motion.div>
