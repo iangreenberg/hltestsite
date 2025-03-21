@@ -153,9 +153,9 @@ export default function ApplicationForm() {
         variant: "default",
       });
       
-      // Redirect to Calendly after a brief delay
+      // Redirect to JotForm after a brief delay
       setTimeout(() => {
-        window.location.href = "https://calendly.com/hemplaunchinfo/free-consultation";
+        window.location.href = "https://form.jotform.com/250775888697180";
       }, 2000);
     } catch (error) {
       console.error("Error in application process:", error);
@@ -178,16 +178,16 @@ export default function ApplicationForm() {
           </div>
           <h2 className="text-3xl font-bold text-[#2F5D50] mb-4">Application Complete!</h2>
           <p className="text-lg text-gray-700 mb-6">
-            Thank you for your interest in HempLaunch. You're being redirected to our scheduling system to book a free consultation.
+            Thank you for your interest in HempLaunch. You're being redirected to our application form to complete your information.
           </p>
           <p className="text-gray-600 mb-8">
-            If you're not automatically redirected, please click the button below to schedule your consultation.
+            If you're not automatically redirected, please click the button below to complete your application.
           </p>
           <Button 
-            onClick={() => window.location.href = 'https://calendly.com/hemplaunchinfo/free-consultation'}
+            onClick={() => window.location.href = 'https://form.jotform.com/250775888697180'}
             className="bg-[#2F5D50] hover:bg-[#234840] text-white font-bold py-3 px-6 rounded-lg"
           >
-            Schedule Consultation
+            Complete Application
           </Button>
         </div>
       </div>
