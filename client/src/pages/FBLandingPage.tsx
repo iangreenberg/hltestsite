@@ -164,10 +164,10 @@ export default function FBLandingPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Why Traditional Solutions Fail</h2>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-[#2F5D50] font-bold">1</span>
+          <div className="grid md:grid-cols-1 gap-6 max-w-3xl mx-auto">
+            <div className="flex items-start space-x-4 bg-white p-6 rounded-lg shadow-sm">
+              <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span className="text-white font-bold">✕</span>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2 text-[#2F5D50]">Regulatory Confusion</h3>
@@ -177,9 +177,9 @@ export default function FBLandingPage() {
               </div>
             </div>
             
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-[#2F5D50] font-bold">2</span>
+            <div className="flex items-start space-x-4 bg-white p-6 rounded-lg shadow-sm">
+              <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span className="text-white font-bold">✕</span>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2 text-[#2F5D50]">Market Access & Logistics</h3>
@@ -189,9 +189,9 @@ export default function FBLandingPage() {
               </div>
             </div>
             
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-[#2F5D50] font-bold">3</span>
+            <div className="flex items-start space-x-4 bg-white p-6 rounded-lg shadow-sm">
+              <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span className="text-white font-bold">✕</span>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2 text-[#2F5D50]">Marketing Barriers</h3>
@@ -201,9 +201,9 @@ export default function FBLandingPage() {
               </div>
             </div>
             
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-[#2F5D50] font-bold">4</span>
+            <div className="flex items-start space-x-4 bg-white p-6 rounded-lg shadow-sm">
+              <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span className="text-white font-bold">✕</span>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2 text-[#2F5D50]">High Costs & Risk</h3>
@@ -213,9 +213,9 @@ export default function FBLandingPage() {
               </div>
             </div>
             
-            <div className="flex items-start space-x-4 md:col-span-2 max-w-xl mx-auto">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-[#2F5D50] font-bold">5</span>
+            <div className="flex items-start space-x-4 bg-white p-6 rounded-lg shadow-sm">
+              <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <span className="text-white font-bold">✕</span>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2 text-[#2F5D50]">Lack of Expertise</h3>
