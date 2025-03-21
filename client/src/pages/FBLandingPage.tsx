@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Clock, TrendingUp, UserCheck } from 'lucide-react';
+import { CheckCircle, Clock, TrendingUp, UserCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
@@ -83,32 +83,33 @@ export default function FBLandingPage() {
             
             <motion.div 
               variants={fadeIn}
-              className="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center"
+              className="pt-16 flex justify-center"
             >
               <motion.div
                 animate={{ 
-                  scale: [1, 1.05, 1],
+                  y: [0, 10, 0],
                   transition: { 
-                    duration: 2, 
+                    duration: 1.5, 
                     repeat: Infinity,
                     repeatType: "reverse" as const
                   }
                 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+                className="cursor-pointer"
+                onClick={() => {
+                  window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                  });
+                }}
               >
-                <Button 
-                  onClick={openJotForm}
-                  className="w-full md:w-auto bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-5 px-10 text-lg border-2 border-[#C8A951] rounded-xl shadow-lg flex items-center"
-                  size="lg"
-                >
-                  Get Started Now – Spots Limited!
-                  <div className="ml-2 animate-bounce">
-                    <svg className="h-5 w-5 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex flex-col items-center">
+                  <div className="h-12 w-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center mb-2">
+                    <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                   </div>
-                </Button>
+                  <p className="text-white/70 text-sm">Scroll to learn more</p>
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>
