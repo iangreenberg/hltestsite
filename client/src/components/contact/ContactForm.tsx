@@ -172,7 +172,7 @@ export default function ContactForm() {
           required
         />
         <label htmlFor="consent" className="ml-2 block text-sm text-gray-700">
-          I agree to receive communications about my hemp-derived THC business launch. See our 
+          I agree to receive communications about my hemp business launch. See our 
           <a href="#" className="text-[#2F5D50] hover:text-[#C8A951]"> Privacy Policy</a>.
         </label>
       </div>

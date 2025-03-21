@@ -285,7 +285,7 @@ export default function LandingPage() {
                   </div>
                   <div className="bg-[#f9f9f9] p-3 rounded-lg">
                     <p className="text-sm text-gray-500 italic">
-                      "Products with less than 0.3% Delta-9 THC operate within a clear legal framework, reducing barriers for new entrepreneurs."
+                      "Hemp products operate within a clear legal framework, reducing barriers for new entrepreneurs."
                     </p>
                   </div>
                 </div>
@@ -752,7 +752,7 @@ export default function LandingPage() {
                 </motion.div>
                 
                 <p className="mt-12 text-gray-300">
-                  Launching a legal hemp-derived THC business in Texas is a monumental opportunity—one that promises freedom, growth, and a chance to be at the forefront of a booming market. HempLaunch is your trusted partner, offering an integrated solution that covers every detail so you can focus on building your brand and achieving financial independence.
+                  Launching a legal hemp business in Texas is a monumental opportunity—one that promises freedom, growth, and a chance to be at the forefront of a booming market. HempLaunch is your trusted partner, offering an integrated solution that covers every detail so you can focus on building your brand and achieving financial independence.
                 </p>
                 
                 <p className="mt-6 text-lg text-[#C8A951] font-semibold">
