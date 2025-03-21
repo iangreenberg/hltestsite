@@ -303,14 +303,7 @@ export default function FBLandingPage() {
             </div>
           </div>
           
-          <div className="text-center mt-12">
-            <Button 
-              onClick={openJotForm}
-              className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold py-3 px-8 text-lg rounded-xl"
-            >
-              Get Started Today
-            </Button>
-          </div>
+
         </div>
       </section>
 
