@@ -199,7 +199,7 @@ export default function AuthPage() {
         <div className="max-w-md mx-auto">
           <h2 className="text-3xl font-bold mb-4">Hemp Launch Pro</h2>
           <p className="text-lg mb-6">
-            Your all-in-one solution for starting and growing a successful hemp-derived THC business.
+            Your all-in-one solution for starting and growing a successful hemp business.
           </p>
           <ul className="space-y-3">
             <li className="flex items-start">

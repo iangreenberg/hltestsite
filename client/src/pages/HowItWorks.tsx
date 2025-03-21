@@ -35,7 +35,7 @@ export default function HowItWorks() {
         <title>How It Works | HempLaunch</title>
         <meta 
           name="description" 
-          content="Learn how our streamlined process takes you from initial concept to market-ready hemp-derived THC business with expert guidance at every step."
+          content="Learn how our streamlined process takes you from initial concept to market-ready hemp business with expert guidance at every step."
         />
       </Helmet>
       <main>

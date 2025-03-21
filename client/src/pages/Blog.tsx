@@ -3,14 +3,14 @@ import { Helmet } from "react-helmet";
 export default function Blog() {
   const blogPosts = [
     {
-      title: "2023 Farm Bill Updates: What Hemp-Derived THC Businesses Need to Know",
-      excerpt: "The latest regulatory changes in the 2023 Farm Bill and how they impact the legal landscape for hemp-derived THC products across state lines.",
+      title: "2023 Farm Bill Updates: What Hemp Businesses Need to Know",
+      excerpt: "The latest regulatory changes in the 2023 Farm Bill and how they impact the legal landscape for hemp products across state lines.",
       category: "Compliance",
       date: "March 2, 2024",
       image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "5 Effective Meta Ads Strategies That Work for Hemp-Derived Products",
+      title: "5 Effective Meta Ads Strategies That Work for Hemp Products",
       excerpt: "Detailed case studies and proven approaches to navigating Meta's advertising policies while creating compliant, high-converting campaigns for your hemp business.",
       category: "Marketing",
       date: "February 15, 2024",
@@ -18,13 +18,13 @@ export default function Blog() {
     },
     {
       title: "LLC vs. Corporation: Choosing the Right Legal Structure for Hemp Businesses",
-      excerpt: "A comprehensive analysis of liability protection, tax implications, and operational flexibility for different business entities in the hemp-derived THC industry.",
+      excerpt: "A comprehensive analysis of liability protection, tax implications, and operational flexibility for different business entities in the hemp industry.",
       category: "Business Setup",
       date: "January 28, 2024",
       image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
     },
     {
-      title: "Quality Control: Vetting Hemp-Derived THC Product Manufacturers",
+      title: "Quality Control: Vetting Hemp Product Manufacturers",
       excerpt: "Step-by-step guidance on evaluating manufacturing partners, understanding COAs, and implementing quality control processes to ensure consistent product standards.",
       category: "Manufacturing",
       date: "January 10, 2024",
@@ -38,7 +38,7 @@ export default function Blog() {
       image: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     },
     {
-      title: "Navigating Payment Processing for Hemp-Derived THC Ecommerce",
+      title: "Navigating Payment Processing for Hemp Ecommerce",
       excerpt: "The latest solutions for reliable payment processing, shipping strategies, and platform recommendations specifically designed for hemp product businesses.",
       category: "Ecommerce",
       date: "November 28, 2023",

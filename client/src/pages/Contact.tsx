@@ -9,7 +9,7 @@ export default function Contact() {
         <title>Contact Us | HempLaunch</title>
         <meta 
           name="description" 
-          content="Join our waitlist and schedule a free consultation to discuss your hemp-derived THC business goals."
+          content="Join our waitlist and schedule a free consultation to discuss your hemp business goals."
         />
       </Helmet>
       <main>
@@ -19,7 +19,7 @@ export default function Contact() {
               <span className="text-[#C8A951] font-semibold">CONTACT US</span>
               <h1 className="text-3xl md:text-4xl font-bold font-montserrat mt-2 text-[#2F5D50]">Join the Waitlist</h1>
               <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-                Fill out the form below to join our waitlist and schedule a free consultation to discuss your hemp-derived THC business goals.
+                Fill out the form below to join our waitlist and schedule a free consultation to discuss your hemp business goals.
               </p>
             </div>
             
