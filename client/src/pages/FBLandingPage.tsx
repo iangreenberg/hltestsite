@@ -235,62 +235,62 @@ export default function FBLandingPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">The HempLaunch Solution</h2>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <CheckCircle className="h-5 w-5 text-[#2F5D50]" />
+          <div className="grid md:grid-cols-1 gap-6 max-w-3xl mx-auto">
+            <div className="flex items-start space-x-4 bg-[#234840] p-6 rounded-lg shadow-md border border-[#C8A951]/30">
+              <div className="h-10 w-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <CheckCircle className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Compliance Made Simple</h3>
-                <p className="text-white/80">
+                <p className="text-white/90">
                   We handle the legal heavy lifting—ensuring all products meet federal and state standards—so you can launch confidently without the guesswork.
                 </p>
               </div>
             </div>
             
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <CheckCircle className="h-5 w-5 text-[#2F5D50]" />
+            <div className="flex items-start space-x-4 bg-[#234840] p-6 rounded-lg shadow-md border border-[#C8A951]/30">
+              <div className="h-10 w-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <CheckCircle className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Ready-to-Sell Supply Chain</h3>
-                <p className="text-white/80">
+                <p className="text-white/90">
                   Get instant access to premium, lab-certified hemp THC products and a streamlined logistics system—no sourcing headaches or inventory risks required.
                 </p>
               </div>
             </div>
             
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <CheckCircle className="h-5 w-5 text-[#2F5D50]" />
+            <div className="flex items-start space-x-4 bg-[#234840] p-6 rounded-lg shadow-md border border-[#C8A951]/30">
+              <div className="h-10 w-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <CheckCircle className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Marketing That Works</h3>
-                <p className="text-white/80">
+                <p className="text-white/90">
                   Our proven, THC-friendly strategies cut through restrictions to drive traffic and sales fast.
                 </p>
               </div>
             </div>
             
-            <div className="flex items-start space-x-4">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <CheckCircle className="h-5 w-5 text-[#2F5D50]" />
+            <div className="flex items-start space-x-4 bg-[#234840] p-6 rounded-lg shadow-md border border-[#C8A951]/30">
+              <div className="h-10 w-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <CheckCircle className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Low-Cost, Low-Risk Entry</h3>
-                <p className="text-white/80">
+                <p className="text-white/90">
                   With HempLaunch, you get a fully built e-commerce store and expert support for a fraction of the traditional cost.
                 </p>
               </div>
             </div>
             
-            <div className="flex items-start space-x-4 md:col-span-2 max-w-xl mx-auto">
-              <div className="h-10 w-10 bg-[#C8A951] rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                <CheckCircle className="h-5 w-5 text-[#2F5D50]" />
+            <div className="flex items-start space-x-4 bg-[#234840] p-6 rounded-lg shadow-md border border-[#C8A951]/30">
+              <div className="h-10 w-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <CheckCircle className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">Expert Guidance, Step-by-Step</h3>
-                <p className="text-white/80">
+                <p className="text-white/90">
                   From product selection to customer education, our team equips you with the tools and know-how to succeed, even if you're starting from scratch.
                 </p>
               </div>
