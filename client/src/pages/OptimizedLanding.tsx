@@ -381,7 +381,7 @@ export default function OptimizedLanding() {
               <div className="bg-gray-50 rounded-lg p-6">
                 <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Is hemp legal?</h3>
                 <p className="text-gray-700">
-                  Hemp products containing less than 0.3% Delta-9 THC are federally legal under the 2018 Farm Bill. However, state regulations vary. Our team ensures your business complies with all applicable laws.
+                  Hemp products are federally legal under the 2018 Farm Bill. However, state regulations vary. Our team ensures your business complies with all applicable laws.
                 </p>
               </div>
               
