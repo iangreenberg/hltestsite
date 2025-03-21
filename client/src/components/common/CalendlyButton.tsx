@@ -12,13 +12,13 @@ export default function CalendlyButton({
   size = "lg",
   ...props 
 }: CalendlyButtonProps) {
-  const openCalendly = () => {
-    window.open("https://calendly.com/testhemp/hemplaunch", "_blank");
+  const openJotForm = () => {
+    window.open("https://form.jotform.com/250775888697180", "_blank");
   };
 
   return (
     <Button
-      onClick={openCalendly}
+      onClick={openJotForm}
       className={`gap-2 ${className || ""}`}
       variant={variant}
       size={size}
