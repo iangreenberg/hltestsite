@@ -71,9 +71,12 @@ export default function Header() {
           
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link href="/contact" className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-2 px-4 rounded-md shadow-sm hover:shadow-md transition-all">
+            <button 
+              onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')}
+              className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-2 px-4 rounded-md shadow-sm hover:shadow-md transition-all"
+            >
               Schedule Free Consultation
-            </Link>
+            </button>
           </div>
           
           {/* Mobile Menu Button */}
@@ -114,12 +117,12 @@ export default function Header() {
           <Link href="/about" className="block py-2 text-gray-800">About Us</Link>
           <Link href="/blog" className="block py-2 text-gray-800">Blog</Link>
           <Link href="/contact" className="block py-2 text-gray-800">Contact</Link>
-          <Link 
-            href="/contact" 
-            className="block mt-4 bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-2 px-4 rounded-md text-center"
+          <button 
+            onClick={() => window.open('https://form.jotform.com/250775888697180', '_blank')}
+            className="block w-full mt-4 bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white font-semibold py-2 px-4 rounded-md text-center"
           >
             Schedule Free Consultation
-          </Link>
+          </button>
         </div>
       </div>
     </header>
