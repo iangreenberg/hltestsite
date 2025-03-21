@@ -430,27 +430,6 @@ export default function OptimizedLanding() {
               <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                 <h3 className="text-xl font-bold mb-4 text-[#2F5D50] flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#C8A951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-                  </svg>
-                  Deployment Infrastructure
-                </h3>
-                <div className="bg-gray-100 rounded-lg p-4 mb-4 font-mono text-sm overflow-auto max-h-48">
-                  <p className="text-gray-700">[20:51:10.215] Cloning completed: 512.000ms</p>
-                  <p className="text-gray-700">[20:51:11.161] Restored build cache from previous deployment</p>
-                  <p className="text-gray-700">[20:51:11.270] Running build in Washington, D.C., USA (East) – iad1</p>
-                  <p className="text-[#2F5D50] font-semibold">[20:51:12.140] Vercel CLI 41.3.2</p>
-                  <p className="text-gray-700">[20:51:22.559] vite v5.4.14 building for production...</p>
-                  <p className="text-red-500">[20:51:27.605] error: terser not found. Since Vite v3, terser has become an optional dependency.</p>
-                  <p className="text-green-500">[FIXED] Added terser to dependencies for optimized production builds</p>
-                </div>
-                <p className="text-gray-600">
-                  Our platform is hosted on enterprise-grade infrastructure with global CDN distribution, ensuring fast load times and high availability for your customers. Our team continuously optimizes the build process to deliver the best performance.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <h3 className="text-xl font-bold mb-4 text-[#2F5D50] flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-[#C8A951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                   Performance Optimization
