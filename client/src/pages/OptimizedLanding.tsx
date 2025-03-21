@@ -16,10 +16,10 @@ export default function OptimizedLanding() {
   return (
     <>
       <Helmet>
-        <title>HempLaunch Pro | Start Your Hemp-Derived THC Business</title>
+        <title>HempLaunch Pro | Start Your Hemp Business</title>
         <meta 
           name="description" 
-          content="Get qualified for our turnkey Hemp-Derived THC Business Solutions. Schedule a consultation today to start your profitable cannabis brand with expert guidance."
+          content="Get qualified for our turnkey Hemp Business Solutions. Schedule a consultation today to start your profitable hemp brand with expert guidance."
         />
       </Helmet>
 
@@ -42,7 +42,7 @@ export default function OptimizedLanding() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div className="text-center lg:text-left">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6">
-                  Launch Your Hemp-Derived THC Business <span className="text-[#C8A951]">Without The Hassle</span>
+                  Launch Your Hemp Business <span className="text-[#C8A951]">Without The Hassle</span>
                 </h1>
                 
                 <p className="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 leading-relaxed">
@@ -196,7 +196,7 @@ export default function OptimizedLanding() {
                 <Award size={16} />
                 <span>ALL-IN-ONE SOLUTION</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Everything You Need to Launch Your THC Business</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Everything You Need to Launch Your Hemp Business</h2>
               <p className="text-lg text-gray-600">We've streamlined the entire process so you can focus on what matters most: growing a successful brand in this booming industry.</p>
             </div>
             
@@ -223,7 +223,7 @@ export default function OptimizedLanding() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Product Development</h3>
-                <p className="text-gray-600 mb-4">From formulation to manufacturing and packaging, we create premium hemp-derived THC products that stand out in the market.</p>
+                <p className="text-gray-600 mb-4">From formulation to manufacturing and packaging, we create premium hemp products that stand out in the market.</p>
                 <Link href="/services" className="inline-flex items-center text-[#2F5D50] font-semibold hover:text-[#C8A951]">
                   Learn more <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -291,9 +291,9 @@ export default function OptimizedLanding() {
         {/* CTA Section */}
         <section className="py-20 bg-[#2F5D50] text-white">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Launch Your Hemp-Derived THC Business?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Launch Your Hemp Business?</h2>
             <p className="text-xl mb-10 max-w-3xl mx-auto">
-              Join the growing industry of hemp-derived THC products with expert guidance every step of the way.
+              Join the growing hemp industry with expert guidance every step of the way.
             </p>
             <div className="flex justify-center">
               <SimpleQualifier
@@ -310,7 +310,7 @@ export default function OptimizedLanding() {
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#2F5D50]">What Our Clients Say</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Hear from entrepreneurs who've successfully launched their hemp-derived THC businesses with our help.
+                Hear from entrepreneurs who've successfully launched their hemp businesses with our help.
               </p>
             </div>
             
@@ -327,7 +327,7 @@ export default function OptimizedLanding() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  "Working with HempLaunch made getting into the THC business easy. Their expertise in compliance and regulatory matters saved us countless hours and potential legal issues."
+                  "Working with HempLaunch made getting into the hemp business easy. Their expertise in compliance and regulatory matters saved us countless hours and potential legal issues."
                 </p>
               </div>
               
