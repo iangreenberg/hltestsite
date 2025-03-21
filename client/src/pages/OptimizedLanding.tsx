@@ -359,7 +359,7 @@ export default function OptimizedLanding() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  "As someone new to the cannabis industry, I needed guidance at every step. HempLaunch delivered exceptional service, helping us build a successful D8 product line with ongoing support."
+                  "As someone new to the hemp industry, I needed guidance at every step. HempLaunch delivered exceptional service, helping us build a successful product line with ongoing support."
                 </p>
               </div>
             </div>
@@ -372,22 +372,22 @@ export default function OptimizedLanding() {
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#2F5D50]">Frequently Asked Questions</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Everything you need to know about starting your hemp-derived THC business.
+                Everything you need to know about starting your hemp business.
               </p>
             </div>
             
             <div className="max-w-3xl mx-auto space-y-6">
               {/* FAQ Item 1 */}
               <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Is hemp-derived THC legal?</h3>
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Is hemp legal?</h3>
                 <p className="text-gray-700">
-                  Hemp-derived THC products containing less than 0.3% Delta-9 THC are federally legal under the 2018 Farm Bill. However, state regulations vary. Our team ensures your business complies with all applicable laws.
+                  Hemp products containing less than 0.3% Delta-9 THC are federally legal under the 2018 Farm Bill. However, state regulations vary. Our team ensures your business complies with all applicable laws.
                 </p>
               </div>
               
               {/* FAQ Item 2 */}
               <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">How much investment is required to start a hemp THC business?</h3>
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">How much investment is required to start a hemp business?</h3>
                 <p className="text-gray-700">
                   Initial investments typically range from $10,000 to $50,000 depending on your business scale and goals. During our consultation, we'll provide detailed estimates based on your specific business plan.
                 </p>
@@ -395,7 +395,7 @@ export default function OptimizedLanding() {
               
               {/* FAQ Item 3 */}
               <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">How long does it take to launch a hemp THC business?</h3>
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">How long does it take to launch a hemp business?</h3>
                 <p className="text-gray-700">
                   With our streamlined process, most clients can launch within 2-4 months. This includes entity formation, product development, compliance, and initial marketing setup.
                 </p>
@@ -403,7 +403,7 @@ export default function OptimizedLanding() {
               
               {/* FAQ Item 4 */}
               <div className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Do I need prior experience in the cannabis industry?</h3>
+                <h3 className="text-xl font-bold mb-3 text-[#2F5D50]">Do I need prior experience in the hemp industry?</h3>
                 <p className="text-gray-700">
                   No prior experience is required. Our experts will guide you through every aspect of the business, from understanding the market to operational best practices.
                 </p>
@@ -514,7 +514,7 @@ export default function OptimizedLanding() {
                   </div>
                 </div>
                 <p className="text-gray-600">
-                  We implement industry-leading security practices to protect your data and ensure compliance with all relevant regulations for the hemp-derived THC industry.
+                  We implement industry-leading security practices to protect your data and ensure compliance with all relevant regulations for the hemp industry.
                 </p>
               </div>
             </div>

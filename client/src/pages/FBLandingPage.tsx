@@ -134,7 +134,7 @@ export default function FBLandingPage() {
               <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Explosive Market Growth</h3>
               <h4 className="text-lg font-semibold mb-3 text-[#C8A951]">A $5B Industry and Growing Fast</h4>
               <p className="text-gray-600">
-                The hemp-derived THC market is projected to hit $8 billion by 2026, with demand for Delta 8 and Delta 9 products skyrocketing. Early movers are claiming their share—don't get left behind in this green rush.
+                The hemp market is projected to hit $8 billion by 2026, with demand for hemp products skyrocketing. Early movers are claiming their share—don't get left behind in this green rush.
               </p>
             </div>
             
