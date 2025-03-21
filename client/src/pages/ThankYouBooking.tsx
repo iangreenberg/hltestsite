@@ -5,10 +5,40 @@ import { CheckCircle } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
+// Add Facebook Pixel to window interface
+declare global {
+  interface Window {
+    fbq?: (eventType: string, eventName: string, params?: any) => void;
+  }
+}
+
 export default function ThankYouBooking() {
-  // Scroll to top on page load
+  // Scroll to top on page load and set up event tracking
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Add event listener for contact button clicks
+    const handleContactClick = () => {
+      if (window.fbq) {
+        window.fbq('track', 'Contact', {
+          content_name: 'Post-Booking Contact',
+          status: 'inquiry'
+        });
+      }
+    };
+    
+    // Get the contact button
+    const contactButton = document.querySelector('a[href="/contact"]');
+    if (contactButton) {
+      contactButton.addEventListener('click', handleContactClick);
+    }
+    
+    // Cleanup function
+    return () => {
+      if (contactButton) {
+        contactButton.removeEventListener('click', handleContactClick);
+      }
+    };
   }, []);
 
   return (
@@ -32,6 +62,10 @@ export default function ThankYouBooking() {
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '628995636411694');
             fbq('track', 'PageView');
+            fbq('track', 'CompleteRegistration', {
+              content_name: 'Booking Confirmation',
+              status: 'confirmed'
+            });
           `}
         </script>
         <noscript>
