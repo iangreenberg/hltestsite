@@ -5,7 +5,7 @@ export default function HowItWorks() {
     {
       number: 1,
       title: "Free Consultation & Business Strategy",
-      description: "We'll discuss your vision, goals, and timeline to create a customized roadmap for your hemp-derived THC business launch."
+      description: "We'll discuss your vision, goals, and timeline to create a customized roadmap for your hemp business launch."
     },
     {
       number: 2,

@@ -145,7 +145,7 @@ export default function FBLandingPage() {
               <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Clear Legal Path</h3>
               <h4 className="text-lg font-semibold mb-3 text-[#C8A951]">Backed by the 2018 Farm Bill</h4>
               <p className="text-gray-600">
-                Hemp-derived THC (under 0.3% Delta 9) is federally legal, and more states are embracing it every year. HempLaunch ensures you're fully compliant, so you can sell with confidence anywhere.
+                Hemp is federally legal under the 2018 Farm Bill, and more states are embracing it every year. HempLaunch ensures you're fully compliant, so you can sell with confidence anywhere.
               </p>
             </div>
             
@@ -156,7 +156,7 @@ export default function FBLandingPage() {
               <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Massive Consumer Demand</h3>
               <h4 className="text-lg font-semibold mb-3 text-[#C8A951]">Millions Are Hungry for Hemp</h4>
               <p className="text-gray-600">
-                Over 30% of U.S. adults have tried hemp THC products, and the number is climbing. From wellness seekers to recreational users, your customer base is ready—and HempLaunch helps you reach them.
+                Over 30% of U.S. adults have tried hemp products, and the number is climbing. From wellness seekers to recreational users, your customer base is ready—and HempLaunch helps you reach them.
               </p>
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function FBLandingPage() {
               <div>
                 <h3 className="text-xl font-bold mb-2 text-[#2F5D50]">Regulatory Confusion</h3>
                 <p className="text-gray-600">
-                  Hemp-derived THC is legal under the 2018 Farm Bill, but state laws vary widely, and advertising platforms often restrict THC-related ads, even if compliant.
+                  Hemp is legal under the 2018 Farm Bill, but state laws vary widely, and advertising platforms often restrict hemp-related ads, even if compliant.
                 </p>
               </div>
             </div>
@@ -261,7 +261,7 @@ export default function FBLandingPage() {
               <div>
                 <h3 className="text-xl font-bold mb-2">Ready-to-Sell Supply Chain</h3>
                 <p className="text-white/90">
-                  Get instant access to premium, lab-certified hemp THC products and a streamlined logistics system—no sourcing headaches or inventory risks required.
+                  Get instant access to premium, lab-certified hemp products and a streamlined logistics system—no sourcing headaches or inventory risks required.
                 </p>
               </div>
             </div>
@@ -273,7 +273,7 @@ export default function FBLandingPage() {
               <div>
                 <h3 className="text-xl font-bold mb-2">Marketing That Works</h3>
                 <p className="text-white/90">
-                  Our proven, THC-friendly strategies cut through restrictions to drive traffic and sales fast.
+                  Our proven, hemp-friendly strategies cut through restrictions to drive traffic and sales fast.
                 </p>
               </div>
             </div>
@@ -554,7 +554,7 @@ export default function FBLandingPage() {
                 <h3 className="text-xl font-bold mb-2">Product Setup & Fulfillment (Day 21–25)</h3>
                 <p className="font-semibold text-[#C8A951] mb-2">What Happens:</p>
                 <p className="mb-2 text-white/80">
-                  We integrate premium, lab-tested hemp THC products through our white-label manufacturing partners and set up your inventory and fulfillment system.
+                  We integrate premium, lab-tested hemp products through our white-label manufacturing partners and set up your inventory and fulfillment system.
                 </p>
                 <p className="font-semibold text-[#C8A951] mb-2">What You Get:</p>
                 <p className="mb-2 text-white/80">
@@ -640,7 +640,7 @@ export default function FBLandingPage() {
               </div>
               <h3 className="text-xl font-bold mb-4 text-[#2F5D50]">Tapping a Booming Market</h3>
               <p className="text-gray-600">
-                The hemp-derived THC market is projected to hit $8B by 2026, with demand soaring. With HempLaunch, you're not just entering the market—you're positioned to dominate it with premium products and expert marketing.
+                The hemp market is projected to hit $8B by 2026, with demand soaring. With HempLaunch, you're not just entering the market—you're positioned to dominate it with premium products and expert marketing.
               </p>
             </div>
           </div>
