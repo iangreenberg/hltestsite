@@ -9,6 +9,7 @@ import NewLandingPage from "./pages/NewLandingPage";
 import FBLandingPage from "./pages/FBLandingPage";
 import ApplicationPage from "./pages/ApplicationPage";
 import TestApplicationForm from "./pages/TestApplicationForm";
+import ThankYouBooking from "./pages/ThankYouBooking";
 
 import TestForm from "./pages/TestForm";
 import Services from "./pages/Services";
@@ -208,7 +209,11 @@ function Router() {
         )}
       </Route>
       
-
+      <Route path="/thank-you-booking">
+        {() => (
+          <ThankYouBooking />
+        )}
+      </Route>
       
       <Route>
         {() => (
