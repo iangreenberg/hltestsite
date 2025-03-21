@@ -54,7 +54,7 @@ export default function Blog() {
         <title>Blog | HempLaunch</title>
         <meta 
           name="description" 
-          content="Industry insights, tips, and guidance for hemp-derived THC business owners and entrepreneurs."
+          content="Industry insights, tips, and guidance for hemp business owners and entrepreneurs."
         />
       </Helmet>
       <main>
@@ -66,7 +66,7 @@ export default function Blog() {
                 Latest Industry Insights
               </h1>
               <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-                Stay informed with our expert guidance on hemp-derived THC business trends, compliance updates, and marketing strategies.
+                Stay informed with our expert guidance on hemp business trends, compliance updates, and marketing strategies.
               </p>
             </div>
 

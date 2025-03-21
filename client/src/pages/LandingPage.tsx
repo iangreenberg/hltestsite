@@ -88,7 +88,7 @@ export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>Launch Your Hemp THC Business in 30 Days | $8 Billion Texas Market | HempLaunch</title>
+        <title>Launch Your Hemp Business in 30 Days | $8 Billion Texas Market | HempLaunch</title>
         <meta 
           name="description" 
           content="Tap into Texas' $8 billion hemp market with our turnkey system. Launch in 30 days for under $3,000 with full legal compliance, branding, and manufacturing."
@@ -148,7 +148,7 @@ export default function LandingPage() {
                 variants={fadeIn}
                 className="text-lg md:text-xl mb-10 max-w-4xl mx-auto leading-relaxed"
               >
-                Imagine launching a fully legal hemp-derived THC business in just 30 days with our all-in-one, turnkey solution. HempLaunch handles everything—from legal formation and compliance to branding, manufacturing, and e-commerce—so you can focus on <span className="font-bold underline decoration-[#C8A951]">growing your brand and dominating your market</span>.
+                Imagine launching a fully legal hemp business in just 30 days with our all-in-one, turnkey solution. HempLaunch handles everything—from legal formation and compliance to branding, manufacturing, and e-commerce—so you can focus on <span className="font-bold underline decoration-[#C8A951]">growing your brand and dominating your market</span>.
               </motion.p>
               
               <motion.div 
@@ -209,7 +209,7 @@ export default function LandingPage() {
                   The Texas Hemp Revolution
                 </h2>
                 <p className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
-                  The window to capture market share in the exploding hemp-derived THC industry is wide open—but only for those who act quickly.
+                  The window to capture market share in the exploding hemp industry is wide open—but only for those who act quickly.
                 </p>
               </div>
               
@@ -222,7 +222,7 @@ export default function LandingPage() {
                     <div>
                       <h3 className="text-xl font-bold text-[#2F5D50]">$8 Billion+ Industry</h3>
                       <p className="text-gray-600 mt-2">
-                        The Texas hemp-derived THC market is valued at over $8 billion with projections for exponential growth in the next 5 years.
+                        The Texas hemp market is valued at over $8 billion with projections for exponential growth in the next 5 years.
                       </p>
                     </div>
                   </div>
@@ -279,7 +279,7 @@ export default function LandingPage() {
                     <div>
                       <h3 className="text-xl font-bold text-[#2F5D50]">Clear Legal Framework</h3>
                       <p className="text-gray-600 mt-2">
-                        Thanks to the 2018 Farm Bill and supportive Texas regulations, hemp-derived THC products now enjoy a favorable regulatory environment.
+                        Thanks to the 2018 Farm Bill and supportive Texas regulations, hemp products now enjoy a favorable regulatory environment.
                       </p>
                     </div>
                   </div>
@@ -389,7 +389,7 @@ export default function LandingPage() {
                   HempLaunch: Your Complete Business System
                 </h2>
                 <p className="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
-                  Introducing a revolutionary turnkey solution that transforms the complex process of launching a hemp-derived THC business into a simple, streamlined system.
+                  Introducing a revolutionary turnkey solution that transforms the complex process of launching a hemp business into a simple, streamlined system.
                 </p>
               </div>
               
