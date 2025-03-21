@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LoadingScreen } from '@/components/ui/loading-screen';
 import { HempLoader, HempBouncingLoader, HempGrowingLoader, HempProgress } from '@/components/ui/hemp-loader';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
