@@ -30,7 +30,14 @@ const staggerContainer = {
 };
 
 export default function LandingPage() {
+  // Direct JotForm opening function for application buttons
+  const openJotForm = () => {
+    window.open('https://form.jotform.com/250775888697180', '_blank');
+  };
+  
+  // Keep this state for backward compatibility
   const [showQualifier, setShowQualifier] = useState(false);
+  
   const [isVisible, setIsVisible] = useState({
     hero: false,
     market: false,
