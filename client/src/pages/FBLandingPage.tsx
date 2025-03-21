@@ -32,7 +32,7 @@ export default function FBLandingPage() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative py-20 md:py-28 bg-[#2F5D50] text-white overflow-hidden">
+      <section className="relative py-12 md:py-28 bg-[#2F5D50] text-white overflow-hidden">
         <div className="absolute inset-0 bg-cover bg-center opacity-20 z-0"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1536782376847-5c9d14d97cc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
@@ -47,43 +47,43 @@ export default function FBLandingPage() {
             className="max-w-4xl mx-auto text-center"
           >
             <motion.div variants={fadeIn}>
-              <div className="inline-block mb-5 px-4 py-1 bg-[#C8A951] rounded-full text-[#2F5D50] font-semibold">
+              <div className="inline-block mb-3 md:mb-5 px-3 py-1 bg-[#C8A951] rounded-full text-[#2F5D50] font-semibold text-sm md:text-base">
                 Limited Time Opportunity
               </div>
             </motion.div>
             
             <motion.h1 
               variants={fadeIn}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-8"
             >
               Launch Your Hemp Empire in 30 Days—Risk-Free!
             </motion.h1>
             
             <motion.div
               variants={fadeIn}
-              className="flex flex-wrap justify-center gap-4 mb-8"
+              className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-8"
             >
-              <div className="bg-[#C8A951]/20 text-white px-4 py-2 rounded-lg flex items-center font-semibold">
+              <div className="bg-[#C8A951]/20 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg flex items-center font-semibold text-sm md:text-base">
                 🚀 Live in 30 Days
               </div>
-              <div className="bg-[#C8A951]/20 text-white px-4 py-2 rounded-lg flex items-center font-semibold">
+              <div className="bg-[#C8A951]/20 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg flex items-center font-semibold text-sm md:text-base">
                 💸 Under $3,000
               </div>
-              <div className="bg-[#C8A951]/20 text-white px-4 py-2 rounded-lg flex items-center font-semibold">
+              <div className="bg-[#C8A951]/20 text-white px-3 py-1 md:px-4 md:py-2 rounded-lg flex items-center font-semibold text-sm md:text-base">
                 📈 Tap a $8B Market
               </div>
             </motion.div>
             
             <motion.p 
               variants={fadeIn}
-              className="text-lg md:text-xl mb-10 max-w-4xl mx-auto leading-relaxed"
+              className="text-base md:text-xl mb-6 md:mb-10 max-w-4xl mx-auto leading-relaxed"
             >
               <strong>Your All-in-One Hemp Solution:</strong> HempLaunch builds your fully legal Hemp business—from compliance and branding to e-commerce and marketing—so you can start profiting fast. Join 50+ hemp brands who've scaled with us!
             </motion.p>
             
             <motion.div 
               variants={fadeIn}
-              className="pt-16 flex justify-center"
+              className="pt-6 md:pt-16 flex justify-center"
             >
               <motion.div
                 animate={{ 
@@ -103,12 +103,12 @@ export default function FBLandingPage() {
                 }}
               >
                 <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center mb-2">
-                    <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center mb-1 md:mb-2">
+                    <svg className="h-5 w-5 md:h-6 md:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                   </div>
-                  <p className="text-white/70 text-sm">Scroll to learn more</p>
+                  <p className="text-white/70 text-xs md:text-sm">Scroll to learn more</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -117,11 +117,11 @@ export default function FBLandingPage() {
       </section>
 
       {/* Market Opportunity Section */}
-      <section className="py-20 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Join the Hemp Gold Rush—Now's Your Moment!</h2>
-            <p className="text-xl max-w-3xl mx-auto text-gray-600">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-[#2F5D50]">Join the Hemp Gold Rush—Now's Your Moment!</h2>
+            <p className="text-base md:text-xl max-w-3xl mx-auto text-gray-600">
               The hemp industry is booming, and HempLaunch gives you the perfect entry point. Here's why you can't afford to wait:
             </p>
           </div>
@@ -164,10 +164,10 @@ export default function FBLandingPage() {
       </section>
 
       {/* Why Traditional Solutions Fail */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 md:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Why Traditional Solutions Fail</h2>
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-[#2F5D50]">Why Traditional Solutions Fail</h2>
           </div>
           
           <div className="grid md:grid-cols-1 gap-6 max-w-3xl mx-auto">
@@ -235,10 +235,10 @@ export default function FBLandingPage() {
       </section>
 
       {/* The HempLaunch Solution */}
-      <section className="py-20 bg-[#2F5D50] text-white">
+      <section className="py-12 md:py-20 bg-[#2F5D50] text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">The HempLaunch Solution</h2>
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6">The HempLaunch Solution</h2>
           </div>
           
           <div className="grid md:grid-cols-1 gap-6 max-w-3xl mx-auto">
@@ -308,11 +308,11 @@ export default function FBLandingPage() {
       </section>
 
       {/* Packages */}
-      <section className="py-20 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Choose Your Path to Success</h2>
-            <p className="text-xl max-w-3xl mx-auto text-gray-600">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-[#2F5D50]">Choose Your Path to Success</h2>
+            <p className="text-base md:text-xl max-w-3xl mx-auto text-gray-600">
               Select the package that fits your goals and budget
             </p>
           </div>
@@ -461,11 +461,11 @@ export default function FBLandingPage() {
 
 
       {/* Your Roadmap to Success */}
-      <section className="py-20 bg-[#2F5D50] text-white">
+      <section className="py-12 md:py-20 bg-[#2F5D50] text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Your Step-by-Step Path to Hemp Success—From Day 1 to Domination</h2>
-            <p className="text-xl max-w-3xl mx-auto text-white/80">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6">Your Step-by-Step Path to Hemp Success—From Day 1 to Domination</h2>
+            <p className="text-base md:text-xl max-w-3xl mx-auto text-white/80">
               Here's exactly what happens when you join HempLaunch, starting the moment you sign up:
             </p>
           </div>
@@ -604,11 +604,11 @@ export default function FBLandingPage() {
       </section>
 
       {/* Set Up for Success */}
-      <section className="py-20 bg-white">
+      <section className="py-12 md:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Set Up for Success with HempLaunch</h2>
-            <p className="text-xl max-w-3xl mx-auto text-gray-600">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-[#2F5D50]">Set Up for Success with HempLaunch</h2>
+            <p className="text-base md:text-xl max-w-3xl mx-auto text-gray-600">
               Here's why entrepreneurs trust us to launch their hemp businesses—and why you'll thrive too:
             </p>
           </div>
@@ -657,21 +657,21 @@ export default function FBLandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-[#C8A951]">
+      <section className="py-10 md:py-16 bg-[#C8A951]">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[#2F5D50]">Launch Your Hemp Empire and Secure Your Future—Today!</h2>
-          <p className="text-xl mb-8 text-[#2F5D50] max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-6 text-[#2F5D50]">Launch Your Hemp Empire and Secure Your Future—Today!</h2>
+          <p className="text-base md:text-xl mb-5 md:mb-8 text-[#2F5D50] max-w-3xl mx-auto">
             Don't let the $5B hemp market pass you by. With HempLaunch, you'll be selling in just 30 days—fully compliant and ready to dominate.
           </p>
           
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
-            <div className="bg-white/20 text-[#2F5D50] font-bold px-6 py-3 rounded-lg">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-6 md:mb-10">
+            <div className="bg-white/20 text-[#2F5D50] font-bold px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base">
               30 Days to Launch
             </div>
-            <div className="bg-white/20 text-[#2F5D50] font-bold px-6 py-3 rounded-lg">
+            <div className="bg-white/20 text-[#2F5D50] font-bold px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base">
               100% Legal Compliance
             </div>
-            <div className="bg-white/20 text-[#2F5D50] font-bold px-6 py-3 rounded-lg">
+            <div className="bg-white/20 text-[#2F5D50] font-bold px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base">
               $3K to Start
             </div>
           </div>
