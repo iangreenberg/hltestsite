@@ -35,6 +35,14 @@ import CompliancePage from "./pages/services/CompliancePage";
 import ProductPage from "./pages/services/ProductPage";
 import BrandPage from "./pages/services/BrandPage";
 
+// Blog posts
+import FarmBillUpdates from "./pages/blog-posts/FarmBillUpdates";
+import MetaAdsStrategies from "./pages/blog-posts/MetaAdsStrategies";
+import LegalStructure from "./pages/blog-posts/LegalStructure";
+import VettingManufacturers from "./pages/blog-posts/VettingManufacturers";
+import BrandDifferentiation from "./pages/blog-posts/BrandDifferentiation";
+import PaymentProcessing from "./pages/blog-posts/PaymentProcessing";
+
 // Layout components
 function AdminLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
@@ -205,6 +213,55 @@ function Router() {
         {() => (
           <MainLayout>
             <Blog />
+          </MainLayout>
+        )}
+      </Route>
+
+      {/* Blog post routes */}
+      <Route path="/blog/farm-bill-updates">
+        {() => (
+          <MainLayout>
+            <FarmBillUpdates />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/blog/meta-ads-strategies">
+        {() => (
+          <MainLayout>
+            <MetaAdsStrategies />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/blog/llc-vs-corporation">
+        {() => (
+          <MainLayout>
+            <LegalStructure />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/blog/vetting-manufacturers">
+        {() => (
+          <MainLayout>
+            <VettingManufacturers />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/blog/brand-differentiation">
+        {() => (
+          <MainLayout>
+            <BrandDifferentiation />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/blog/payment-processing">
+        {() => (
+          <MainLayout>
+            <PaymentProcessing />
           </MainLayout>
         )}
       </Route>

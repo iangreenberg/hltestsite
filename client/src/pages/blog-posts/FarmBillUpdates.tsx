@@ -1,4 +1,3 @@
-import React from "react";
 import BlogPostTemplate from "./BlogPostTemplate";
 
 export default function FarmBillUpdates() {

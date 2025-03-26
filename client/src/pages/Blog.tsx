@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+import { Link } from "wouter";
 
 export default function Blog() {
   const blogPosts = [
@@ -90,8 +91,8 @@ export default function Blog() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts.map((post, index) => (
-                <a href="#" className="group" key={index}>
-                  <div className="bg-gray-100 rounded-lg overflow-hidden shadow-sm group-hover:shadow-md transition-all">
+                <Link href={post.slug} key={index}>
+                  <div className="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group">
                     <img 
                       src={post.image} 
                       alt={`${post.title} featured image`}
@@ -116,28 +117,38 @@ export default function Blog() {
                       </div>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
             
             {/* Pagination */}
             <div className="flex justify-center mt-12">
               <div className="flex space-x-1">
-                <a href="#" className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200">
-                  Previous
-                </a>
-                <a href="#" className="px-4 py-2 rounded bg-[#2F5D50] text-white">
-                  1
-                </a>
-                <a href="#" className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200">
-                  2
-                </a>
-                <a href="#" className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200">
-                  3
-                </a>
-                <a href="#" className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200">
-                  Next
-                </a>
+                <Link href="/blog">
+                  <span className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200 cursor-pointer inline-block">
+                    Previous
+                  </span>
+                </Link>
+                <Link href="/blog">
+                  <span className="px-4 py-2 rounded bg-[#2F5D50] text-white cursor-pointer inline-block">
+                    1
+                  </span>
+                </Link>
+                <Link href="/blog">
+                  <span className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200 cursor-pointer inline-block">
+                    2
+                  </span>
+                </Link>
+                <Link href="/blog">
+                  <span className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200 cursor-pointer inline-block">
+                    3
+                  </span>
+                </Link>
+                <Link href="/blog">
+                  <span className="px-4 py-2 rounded bg-gray-100 text-gray-800 hover:bg-gray-200 cursor-pointer inline-block">
+                    Next
+                  </span>
+                </Link>
               </div>
             </div>
           </div>
