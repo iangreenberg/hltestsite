@@ -1,407 +1,255 @@
-import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { Package, Beaker, CheckCircle, ArrowRightLeft, Tag, Box } from "lucide-react";
+import CalendlyButton from "@/components/common/CalendlyButton";
 
 export default function ProductPage() {
-  const handleScheduleConsultation = () => {
-    window.open('https://form.jotform.com/250775888697180', '_blank');
-  };
+  // Product development process steps
+  const processSteps = [
+    {
+      title: "Formulation",
+      description: "Working with labs to create unique product formulas with specific cannabinoid profiles and effects.",
+      icon: <Beaker className="h-10 w-10 text-[#2F5D50]" />
+    },
+    {
+      title: "Testing",
+      description: "Comprehensive product testing for potency, safety, stability, and compliance with regulations.",
+      icon: <CheckCircle className="h-10 w-10 text-[#2F5D50]" />
+    },
+    {
+      title: "Production",
+      description: "Scaling your formula with trusted manufacturing partners for consistent, high-quality products.",
+      icon: <ArrowRightLeft className="h-10 w-10 text-[#2F5D50]" />
+    },
+    {
+      title: "Packaging",
+      description: "Creating compliant, branded packaging that stands out on shelves and protects product integrity.",
+      icon: <Box className="h-10 w-10 text-[#2F5D50]" />
+    },
+    {
+      title: "Labeling",
+      description: "Designing legally compliant labels with proper disclosures, ingredients, and usage instructions.",
+      icon: <Tag className="h-10 w-10 text-[#2F5D50]" />
+    }
+  ];
+
+  // Product categories
+  const productCategories = [
+    {
+      name: "Tinctures & Oils",
+      features: ["Custom formulations", "Various carrier oils", "Multiple potency options", "Flavor development"]
+    },
+    {
+      name: "Edibles",
+      features: ["Gummies", "Chocolates", "Baked goods", "Beverages"]
+    },
+    {
+      name: "Topicals",
+      features: ["Creams", "Lotions", "Balms", "Roll-ons"]
+    },
+    {
+      name: "Capsules & Tablets",
+      features: ["Softgels", "Capsules", "Tablets", "Time-release formulas"]
+    },
+    {
+      name: "Flower & Pre-rolls",
+      features: ["Multiple strains", "Custom blends", "Various sizes", "Premium packaging"]
+    },
+    {
+      name: "Vape Products",
+      features: ["Cartridges", "Disposables", "Custom hardware", "Specialized formulas"]
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {/* Hero Section */}
-      <div className="relative py-20 bg-gradient-to-r from-[#f2f7f6] to-[#e6f0ee]">
-        <div className="absolute inset-0 bg-cover bg-center opacity-5 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
-        <div className="container px-4 mx-auto relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-[#2F5D50] mb-6">Premium Hemp Product Development</h1>
-            <p className="text-xl text-gray-700 mb-8">
-              From concept to shelf-ready products, we handle every step of creating distinctive, 
-              high-quality hemp products that consumers love and trust.
-            </p>
-            <Button
-              onClick={handleScheduleConsultation}
-              className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white px-8 py-3 text-lg"
-            >
-              Schedule a Consultation
-            </Button>
+      <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="flex flex-col md:flex-row items-center">
+            <div className="md:w-1/2 text-white mb-10 md:mb-0">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                Hemp Product Development
+              </h1>
+              <p className="text-xl mb-8">
+                From concept to shelf-ready products, we develop premium hemp formulations tailored to your brand vision and market demands.
+              </p>
+              <CalendlyButton
+                text="Discuss Your Product Ideas"
+                size="lg"
+                className="bg-[#C8A951] hover:bg-[#D9BA62] text-white"
+              />
+            </div>
+            <div className="md:w-1/2 flex justify-center">
+              <div className="bg-white p-6 rounded-full shadow-xl">
+                <Package className="h-32 w-32 text-[#2F5D50]" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="container px-4 py-16 mx-auto">
-        {/* Overview Section */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-[#2F5D50] mb-6">Creating Exceptional Hemp Products</h2>
-          <p className="text-lg text-gray-700 mb-6">
-            The success of your hemp business starts with exceptional products. We combine scientific expertise, 
-            market knowledge, and production experience to create premium hemp products that stand out in a competitive marketplace.
-          </p>
-          <p className="text-lg text-gray-700">
-            Our end-to-end product development services cover everything from initial formulation to packaging design, 
-            ensuring that every aspect of your product meets the highest standards of quality, compliance, and consumer appeal.
-          </p>
-        </div>
-
-        {/* Product Development Process */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold text-[#2F5D50] mb-10 text-center">Our Product Development Process</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="relative">
-              <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 h-full">
-                <div className="absolute -top-4 -left-4 w-12 h-12 bg-[#2F5D50] rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  1
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 mt-4">Concept & Strategy</h3>
-                <p className="text-gray-600 mb-4">
-                  We begin by understanding your vision and target market to develop a product strategy that aligns with your business goals.
-                </p>
-                <ul className="space-y-2 text-gray-600">
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Market research and trend analysis</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Target customer profiling</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Competitive landscape assessment</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Product positioning strategy</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="hidden md:block absolute -right-12 top-1/2 transform -translate-y-1/2 z-10">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 5L21 12M21 12L14 19M21 12H3" stroke="#2F5D50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="relative">
-              <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 h-full">
-                <div className="absolute -top-4 -left-4 w-12 h-12 bg-[#2F5D50] rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  2
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 mt-4">Formulation & Prototyping</h3>
-                <p className="text-gray-600 mb-4">
-                  Our expert formulators develop and refine product formulations that deliver the desired experience and efficacy.
-                </p>
-                <ul className="space-y-2 text-gray-600">
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Custom formulation development</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Ingredient sourcing and evaluation</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Prototype creation and testing</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Stability and shelf-life testing</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="hidden md:block absolute -right-12 top-1/2 transform -translate-y-1/2 z-10">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 5L21 12M21 12L14 19M21 12H3" stroke="#2F5D50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div>
-              <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 h-full">
-                <div className="absolute -top-4 -left-4 w-12 h-12 bg-[#2F5D50] rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  3
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 mt-4">Production & Packaging</h3>
-                <p className="text-gray-600 mb-4">
-                  We manage the manufacturing process and create packaging that protects your product and attracts consumers.
-                </p>
-                <ul className="space-y-2 text-gray-600">
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Manufacturing partner selection</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Quality control protocols</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Packaging design and production</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[#2F5D50] mr-2">✓</span>
-                    <span>Compliance and testing verification</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Our Product Categories */}
+      <div className="container mx-auto max-w-6xl py-16 px-4">
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-[#2F5D50] mb-10 text-center">Product Categories We Develop</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Category 1 */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 bg-[#f2f7f6] rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Tinctures & Oils</h3>
-              <p className="text-gray-600 mb-4">
-                Premium sublingual products designed for precise dosing and rapid absorption.
-              </p>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Full-spectrum, broad-spectrum, and isolate formulations</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Flavored and unflavored options</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Various potency levels</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Organic and natural ingredient options</span>
-                </li>
-              </ul>
-            </div>
+          <h2 className="text-3xl font-bold text-[#2F5D50] mb-6 text-center">
+            Our Product Development Process
+          </h2>
+          <p className="text-lg text-gray-700 max-w-4xl mx-auto text-center mb-12">
+            We handle every aspect of creating market-ready hemp products, from initial formulation through production and packaging.
+          </p>
 
-            {/* Category 2 */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 bg-[#f2f7f6] rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-16">
+            {processSteps.map((step, index) => (
+              <div key={index} className="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-all text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-sm">
+                  {step.icon}
+                </div>
+                <h3 className="text-xl font-bold text-[#2F5D50] mb-2">{step.title}</h3>
+                <p className="text-gray-700">{step.description}</p>
+                {index < processSteps.length - 1 && (
+                  <div className="hidden md:block absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2">
+                    <svg className="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                )}
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Edibles & Gummies</h3>
-              <p className="text-gray-600 mb-4">
-                Delicious, precisely dosed edible products that combine enjoyment with effectiveness.
-              </p>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Gummies in various shapes and flavors</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Specialty chocolates and confections</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Baked goods and snacks</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Specialty formulations (sleep, energy, etc.)</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Category 3 */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 bg-[#f2f7f6] rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Topicals & Skincare</h3>
-              <p className="text-gray-600 mb-4">
-                Targeted relief and skincare solutions that combine hemp extracts with effective ingredients.
-              </p>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Relief balms and salves</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Luxurious lotions and creams</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Facial serums and treatments</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Bath and body products</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Category 4 */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 bg-[#f2f7f6] rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Capsules & Tablets</h3>
-              <p className="text-gray-600 mb-4">
-                Convenient, precise formulations for those who prefer traditional supplement formats.
-              </p>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Soft gels and capsules</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Tablets and compressed formulations</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Specialty blends with supporting ingredients</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Extended-release formulations</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Category 5 */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 bg-[#f2f7f6] rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Beverages & Drink Mixes</h3>
-              <p className="text-gray-600 mb-4">
-                Innovative hemp-infused beverage solutions for the rapidly growing functional drink market.
-              </p>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Ready-to-drink beverages</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Powdered drink mixes</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Flavor concentrates and syrups</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Functional beverages with added benefits</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Category 6 */}
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="w-14 h-14 bg-[#f2f7f6] rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-[#2F5D50]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">Pet Products</h3>
-              <p className="text-gray-600 mb-4">
-                Specially formulated products to support the health and wellness of pets.
-              </p>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Pet tinctures and oils</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Treats and chews</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Topical pet formulations</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#2F5D50] mr-2">✓</span>
-                  <span>Age and breed-specific formulations</span>
-                </li>
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Quality Assurance */}
-        <div className="bg-[#f2f7f6] p-8 md:p-12 rounded-2xl mb-16">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-[#2F5D50] mb-6">Our Quality Commitment</h2>
-            <p className="text-lg text-gray-700 mb-8">
-              We maintain rigorous quality standards throughout the product development process to ensure that every product 
-              we create is safe, effective, and consistent.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">Ingredient Sourcing</h3>
-                <p className="text-gray-700">
-                  We use only premium, traceable ingredients and hemp extracts that meet our strict quality criteria.
-                </p>
+        {/* Product Categories */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-[#2F5D50] mb-8 text-center">
+            Product Categories We Develop
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {productCategories.map((category, index) => (
+              <div key={index} className="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-[#2F5D50] mb-4">{category.name}</h3>
+                <ul className="space-y-2">
+                  {category.features.map((feature, fIndex) => (
+                    <li key={fIndex} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">Testing Protocols</h3>
-                <p className="text-gray-700">
-                  Multiple testing stages ensure purity, potency, and safety of all formulations and finished products.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">Manufacturing Standards</h3>
-                <p className="text-gray-700">
-                  All production facilities adhere to cGMP standards and are regularly audited for compliance.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3">Continuous Improvement</h3>
-                <p className="text-gray-700">
-                  We continuously evaluate and refine our formulations based on new research and customer feedback.
-                </p>
-              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Benefits Section */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-[#2F5D50] mb-8 text-center">
+            Why Choose Our Product Development Services
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
+              <h3 className="text-xl font-bold text-[#2F5D50] mb-4">Expert Formulation</h3>
+              <p className="text-gray-700 mb-4">
+                Our team includes experienced chemists and formulators who specialize in hemp-derived products, ensuring your products are effective and differentiated in the market.
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Proprietary formulations unique to your brand</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Terpene profiles for targeted effects</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Stability and shelf-life optimization</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
+              <h3 className="text-xl font-bold text-[#2F5D50] mb-4">Compliant Manufacturing</h3>
+              <p className="text-gray-700 mb-4">
+                All products are manufactured in cGMP-compliant facilities with strict quality control procedures and full regulatory compliance.
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>cGMP certified manufacturing partners</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Comprehensive COA testing</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Batch tracking and quality assurance</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
+              <h3 className="text-xl font-bold text-[#2F5D50] mb-4">Scalable Production</h3>
+              <p className="text-gray-700 mb-4">
+                Start with small production runs and scale up as your business grows, with manufacturing partners capable of meeting increased demand.
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Flexible minimum order quantities</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Consistent product quality at any scale</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Supply chain management</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-gray-50 p-8 rounded-lg border border-gray-200">
+              <h3 className="text-xl font-bold text-[#2F5D50] mb-4">Branded Packaging</h3>
+              <p className="text-gray-700 mb-4">
+                Create packaging that enhances your brand identity while ensuring product protection, compliance, and shelf appeal.
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Custom packaging design</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Child-resistant options</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Eco-friendly packaging solutions</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-8 md:p-12 rounded-2xl text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Develop Your Hemp Products?</h2>
-          <p className="text-xl text-white/80 mb-8 max-w-3xl mx-auto">
-            Whether you have a specific product in mind or need guidance on what would work best for your brand, 
-            our product development team is ready to help.
+        <div className="bg-gray-50 p-8 md:p-12 rounded-xl border border-gray-200 text-center">
+          <h2 className="text-3xl font-bold text-[#2F5D50] mb-4">
+            Ready to Develop Your Hemp Product Line?
+          </h2>
+          <p className="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
+            Our product development team will help you create unique, high-quality hemp products that align with your brand vision and attract customers.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              onClick={handleScheduleConsultation}
-              className="bg-white text-[#2F5D50] hover:bg-gray-100 px-8 py-3 text-lg"
-            >
-              Schedule a Consultation
-            </Button>
-            <Link href="/packages">
-              <Button
-                variant="outline"
-                className="bg-transparent border-white text-white hover:bg-white/10 px-8 py-3 text-lg"
-              >
-                View Our Packages
-              </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <CalendlyButton
+              text="Schedule a Product Development Consultation"
+              size="lg"
+              className="bg-[#2F5D50] hover:bg-[#264A40] text-white"
+            />
+            <Link href="/packages" className="inline-flex items-center justify-center px-6 py-3 border border-[#2F5D50] text-[#2F5D50] font-medium rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2F5D50]">
+              View Our Packages
             </Link>
           </div>
         </div>
