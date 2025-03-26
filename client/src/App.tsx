@@ -30,6 +30,11 @@ import AuthTest from "./pages/auth-test";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
+// Service pages
+import CompliancePage from "./pages/services/CompliancePage";
+import ProductPage from "./pages/services/ProductPage";
+import BrandPage from "./pages/services/BrandPage";
+
 // Layout components
 function AdminLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
@@ -151,6 +156,31 @@ function Router() {
         {() => (
           <MainLayout>
             <Packages />
+          </MainLayout>
+        )}
+      </Route>
+
+      {/* Service Detail Pages */}
+      <Route path="/services/compliance">
+        {() => (
+          <MainLayout>
+            <CompliancePage />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/services/product-development">
+        {() => (
+          <MainLayout>
+            <ProductPage />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/services/brand-development">
+        {() => (
+          <MainLayout>
+            <BrandPage />
           </MainLayout>
         )}
       </Route>

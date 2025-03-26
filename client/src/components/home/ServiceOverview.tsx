@@ -4,26 +4,26 @@ import { Shield, Palette, Package, PieChart } from "lucide-react";
 export default function ServiceOverview() {
   const services = [
     {
-      title: "Entity & Legal Setup",
-      description: "LLC formation, EIN assistance, and bank account guidance to establish your business legally.",
+      title: "Complete Compliance",
+      description: "We ensure your business meets all legal requirements with proper entity formation, licensing, and ongoing compliance monitoring.",
       icon: <Shield className="h-8 w-8 text-white" />,
-      link: "/services"
+      link: "/services/compliance"
     },
     {
-      title: "Branding & Web Design",
-      description: "Professional logo creation, brand identity, packaging design, and website development.",
+      title: "Brand Development",
+      description: "Create a compelling brand identity with professional logo design, packaging, website development, and marketing materials.",
       icon: <Palette className="h-8 w-8 text-white" />,
-      link: "/services"
+      link: "/services/brand-development"
     },
     {
-      title: "Manufacturing & Fulfillment",
-      description: "White-label product sourcing, sample creation, and shipping logistics management.",
+      title: "Product Development",
+      description: "From formulation to manufacturing and packaging, we create premium hemp products that stand out in the market.",
       icon: <Package className="h-8 w-8 text-white" />,
-      link: "/services"
+      link: "/services/product-development"
     },
     {
-      title: "Marketing & Meta Ads",
-      description: "Targeted advertising campaigns designed to boost brand awareness and drive sales.",
+      title: "Marketing Strategy",
+      description: "Develop comprehensive marketing plans including digital advertising, social media management, and content creation.",
       icon: <PieChart className="h-8 w-8 text-white" />,
       link: "/services"
     }
