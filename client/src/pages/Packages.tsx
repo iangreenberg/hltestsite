@@ -13,27 +13,37 @@ export default function Packages() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      {/* Hero Section */}
-      <div className="relative py-16 md:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center opacity-5 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
-        <div className="container px-4 mx-auto relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#2F5D50] mb-6">
-              Ready-to-Launch Hemp Business Packages
-            </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-8">
-              Choose the perfect package to start and scale your hemp business with confidence.
-              Our all-inclusive solutions handle everything from legal compliance to marketing.
-            </p>
+      {/* Hero Section - Compacted & Modernized */}
+      <div className="bg-white shadow-sm">
+        <div className="container px-4 py-6 mx-auto">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div className="mb-4 md:mb-0">
+                <h1 className="text-3xl md:text-4xl font-bold text-[#2F5D50]">
+                  Hemp Business Packages
+                </h1>
+                <p className="text-lg text-gray-600 mt-2">
+                  Turnkey solutions for launching and scaling your hemp business
+                </p>
+              </div>
+              <div className="flex space-x-4">
+                <Button 
+                  onClick={handleScheduleConsultation}
+                  className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859]"
+                >
+                  Schedule Consultation
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="container px-4 mx-auto pb-24">
+      <div className="container px-4 mx-auto py-8">
         <Tabs defaultValue="cards" className="w-full">
-          <div className="flex justify-center mb-8">
-            <TabsList className="grid w-full max-w-md grid-cols-2">
+          <div className="flex justify-center mb-6">
+            <TabsList className="grid w-full max-w-md grid-cols-2 mb-0">
               <TabsTrigger value="cards">Package Cards</TabsTrigger>
               <TabsTrigger value="compare">Compare Features</TabsTrigger>
             </TabsList>
@@ -41,28 +51,28 @@ export default function Packages() {
 
           {/* Package Cards View */}
           <TabsContent value="cards" className="w-full">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Ecom Starter Package */}
               <div 
                 className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border-2 ${selectedPackage === 'ecom' ? 'border-[#2F5D50] ring-4 ring-[#2F5D50]/20' : 'border-transparent'}`}
                 onClick={() => setSelectedPackage('ecom')}
               >
-                <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-6 text-white">
-                  <Badge className="bg-white text-[#2F5D50] mb-3">STARTER</Badge>
-                  <h3 className="text-2xl font-bold">Ecom Starter</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">$3,000</span>
+                <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-4 text-white">
+                  <Badge className="bg-white text-[#2F5D50] mb-2">STARTER</Badge>
+                  <h3 className="text-xl font-bold">Ecom Starter</h3>
+                  <div className="mt-1 flex items-baseline">
+                    <span className="text-2xl font-bold">$3,000</span>
                   </div>
-                  <p className="mt-3 text-sm text-white/80">
+                  <p className="mt-2 text-sm text-white/80">
                     Everything you need to start selling hemp products online
                   </p>
                 </div>
-                <div className="p-6">
-                  <ScrollArea className="h-64 pr-4">
-                    <div className="space-y-4">
+                <div className="p-4">
+                  <ScrollArea className="h-40 pr-3">
+                    <div className="space-y-3">
                       <div>
                         <h4 className="font-medium text-gray-800">E-commerce Website Setup</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#2F5D50]">✓</span>
                             High-converting landing page
@@ -82,73 +92,35 @@ export default function Packages() {
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-800">Business Formation</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                        <h4 className="font-medium text-gray-800">Business & Compliance</h4>
+                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#2F5D50]">✓</span>
                             LLC formation
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Articles of Organization
+                            EIN & Sales Tax ID
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#2F5D50]">✓</span>
-                            EIN registration
+                            Business bank account setup
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Operating Agreement
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Compliance & Finance</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Basic potency-only COA
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Sales Tax ID
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Business bank account assistance
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Merchant processor setup
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Starter Design Package</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Logo
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Basic product label design
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Free product sample
+                            Basic logo & product label design
                           </li>
                         </ul>
                       </div>
                     </div>
                   </ScrollArea>
                 </div>
-                <div className="p-6 pt-0">
+                <div className="p-4 pt-2">
                   <Button 
                     onClick={handleScheduleConsultation}
                     className="w-full bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859]"
                   >
-                    Schedule Consultation
+                    Get Started
                   </Button>
                 </div>
               </div>
@@ -158,25 +130,25 @@ export default function Packages() {
                 className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border-2 ${selectedPackage === 'growth' ? 'border-[#C8A951] ring-4 ring-[#C8A951]/20' : 'border-transparent'}`}
                 onClick={() => setSelectedPackage('growth')}
               >
-                <div className="bg-gradient-to-r from-[#C8A951] to-[#E0C169] p-6 text-white">
-                  <Badge className="bg-white text-[#C8A951] mb-3">RECOMMENDED</Badge>
-                  <h3 className="text-2xl font-bold">Growth</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">$7,500</span>
+                <div className="bg-gradient-to-r from-[#C8A951] to-[#E0C169] p-4 text-white">
+                  <Badge className="bg-white text-[#C8A951] mb-2">RECOMMENDED</Badge>
+                  <h3 className="text-xl font-bold">Growth</h3>
+                  <div className="mt-1 flex items-baseline">
+                    <span className="text-2xl font-bold">$7,500</span>
                   </div>
-                  <p className="mt-3 text-sm text-white/80">
+                  <p className="mt-2 text-sm text-white/80">
                     Advanced marketing tools + entry into wholesale retail strategies
                   </p>
                 </div>
-                <div className="p-6">
-                  <ScrollArea className="h-64 pr-4">
-                    <div className="space-y-4">
+                <div className="p-4">
+                  <ScrollArea className="h-40 pr-3">
+                    <div className="space-y-3">
                       <div>
                         <p className="font-semibold text-[#C8A951]">Everything in Ecom Starter, PLUS:</p>
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-800">Advanced E-Commerce Setup</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                        <h4 className="font-medium text-gray-800">Advanced E-Commerce</h4>
+                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#C8A951]">✓</span>
                             Expert-level website optimization
@@ -196,40 +168,15 @@ export default function Packages() {
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-800">Enhanced Compliance</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                        <h4 className="font-medium text-gray-800">Enhanced Design & Marketing</h4>
+                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#C8A951]">✓</span>
-                            Full-panel, company-branded COA
+                            Advanced logo & packaging design
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#C8A951]">✓</span>
-                            Sales tax planning
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            MSO consultation
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Nationwide compliance guidance
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Upgraded Design & Marketing</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Advanced logo & product packaging design
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Brand book (colors, fonts, guidelines)
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Multiple free samples
+                            Brand book & multiple product samples
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#C8A951]">✓</span>
@@ -237,23 +184,19 @@ export default function Packages() {
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#C8A951]">✓</span>
-                            Meta advertising best practices
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Social media guidance
+                            Full-panel COA & nationwide compliance
                           </li>
                         </ul>
                       </div>
                     </div>
                   </ScrollArea>
                 </div>
-                <div className="p-6 pt-0">
+                <div className="p-4 pt-2">
                   <Button 
                     onClick={handleScheduleConsultation}
                     className="w-full bg-gradient-to-r from-[#C8A951] to-[#E0C169] hover:from-[#B69942] hover:to-[#D1B25A] text-white"
                   >
-                    Schedule Consultation
+                    Get Started
                   </Button>
                 </div>
               </div>
@@ -263,87 +206,49 @@ export default function Packages() {
                 className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border-2 ${selectedPackage === 'accelerator' ? 'border-[#3A3A3A] ring-4 ring-[#3A3A3A]/20' : 'border-transparent'}`}
                 onClick={() => setSelectedPackage('accelerator')}
               >
-                <div className="bg-gradient-to-r from-[#3A3A3A] to-[#555555] p-6 text-white">
-                  <Badge className="bg-white text-[#3A3A3A] mb-3">ENTERPRISE</Badge>
-                  <h3 className="text-2xl font-bold">Accelerator</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">$19,999</span>
+                <div className="bg-gradient-to-r from-[#3A3A3A] to-[#555555] p-4 text-white">
+                  <Badge className="bg-white text-[#3A3A3A] mb-2">ENTERPRISE</Badge>
+                  <h3 className="text-xl font-bold">Accelerator</h3>
+                  <div className="mt-1 flex items-baseline">
+                    <span className="text-2xl font-bold">$19,999</span>
                   </div>
-                  <p className="mt-3 text-sm text-white/80">
+                  <p className="mt-2 text-sm text-white/80">
                     Built to scale your hemp business into a national-level distributor
                   </p>
                 </div>
-                <div className="p-6">
-                  <ScrollArea className="h-64 pr-4">
-                    <div className="space-y-4">
+                <div className="p-4">
+                  <ScrollArea className="h-40 pr-3">
+                    <div className="space-y-3">
                       <div>
                         <p className="font-semibold text-[#3A3A3A]">Everything in Growth, PLUS:</p>
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-800">Backend CRM & Automation</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                        <h4 className="font-medium text-gray-800">Enterprise Solutions</h4>
+                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Custom CRM setup
+                            Custom CRM setup & site integration
                           </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Site integration for automation & analytics
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Advanced Business Formation</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
                             S-Corp setup for tax efficiency
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Form 2553 filing
+                            QuickBooks & payroll system setup
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Stock issuance
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Custom bylaws
+                            State-by-state MSO compliance
                           </li>
                         </ul>
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-800">Enterprise Compliance & Finance</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
+                        <h4 className="font-medium text-gray-800">Advanced Marketing</h4>
+                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            State-by-state MSO setup & product verification
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Post-launch compliance support
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            QuickBooks setup (bank integration)
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Payroll system setup
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Full-Service Brand & Marketing</h4>
-                        <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Dedicated design expert
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Branded company merchandise
+                            Dedicated design expert & branded merch
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
@@ -351,31 +256,23 @@ export default function Packages() {
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Social media ad campaign setup (3 platforms)
+                            3-platform social ad campaigns
                           </li>
                           <li className="flex items-center">
                             <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            30-day strategy & lead management
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            2 UGC videos & 6 static creatives
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Distribution strategy for national networks
+                            National distribution strategy
                           </li>
                         </ul>
                       </div>
                     </div>
                   </ScrollArea>
                 </div>
-                <div className="p-6 pt-0">
+                <div className="p-4 pt-2">
                   <Button 
                     onClick={handleScheduleConsultation}
                     className="w-full bg-gradient-to-r from-[#3A3A3A] to-[#555555] hover:from-[#2B2B2B] hover:to-[#464646]"
                   >
-                    Schedule Consultation
+                    Get Started
                   </Button>
                 </div>
               </div>
@@ -511,35 +408,16 @@ export default function Packages() {
           </TabsContent>
         </Tabs>
         
-        {/* FAQ Section */}
-        <div className="mt-24 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-[#2F5D50] mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">How long does it take to launch my hemp business?</h3>
-              <p className="text-gray-600">With our Ecom Starter package, you can expect to launch within 30 days. The Growth and Accelerator packages may take 45-60 days depending on the complexity of your specific requirements.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">Do I need to provide my own products?</h3>
-              <p className="text-gray-600">No, we'll help you source high-quality hemp products from our network of trusted manufacturers. Each package includes product samples to help you make informed decisions.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">What ongoing support do you provide?</h3>
-              <p className="text-gray-600">All packages include initial launch support. The Growth package adds ongoing compliance guidance, while the Accelerator package includes comprehensive post-launch support for compliance, marketing, and business operations.</p>
-            </div>
-          </div>
-        </div>
-        
         {/* CTA Section */}
-        <div className="mt-24 text-center">
-          <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-10 rounded-2xl shadow-xl max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Hemp Empire?</h2>
-            <p className="text-white/80 mb-8 max-w-2xl mx-auto">
-              Schedule a free consultation to discuss which package is right for your business goals. Our hemp industry experts will guide you through every step of the process.
+        <div className="mt-12 text-center">
+          <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Ready to Start Your Hemp Empire?</h2>
+            <p className="text-white/80 mb-6 max-w-2xl mx-auto">
+              Schedule a free consultation to discuss which package is right for your business goals.
             </p>
             <Button 
               onClick={handleScheduleConsultation}
-              className="bg-white text-[#2F5D50] hover:bg-gray-100 px-8 py-6 text-lg font-semibold"
+              className="bg-white text-[#2F5D50] hover:bg-gray-100 px-6 py-2 text-lg font-semibold"
             >
               Schedule Your Free Consultation
             </Button>
