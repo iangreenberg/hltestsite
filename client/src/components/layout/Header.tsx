@@ -36,11 +36,13 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
-                <Link href="/services" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Entity & Legal Setup</Link>
-                <Link href="/services" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Branding & Web</Link>
-                <Link href="/services" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Manufacturing & Fulfillment</Link>
-                <Link href="/services" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Marketing & Ads</Link>
+              <div className="absolute left-0 mt-1 w-64 bg-white rounded-md shadow-lg py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out" style={{ marginTop: '0.5rem' }}>
+                <div className="py-1">
+                  <Link href="/services" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]">Entity & Legal Setup</Link>
+                  <Link href="/services" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]">Branding & Web</Link>
+                  <Link href="/services" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]">Manufacturing & Fulfillment</Link>
+                  <Link href="/services" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]">Marketing & Ads</Link>
+                </div>
               </div>
             </div>
             <Link 
