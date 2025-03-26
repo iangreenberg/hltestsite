@@ -391,17 +391,19 @@ export default function Packages() {
         
         {/* CTA Section */}
         <div className="mt-12 text-center">
-          <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+          <div className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] p-6 md:p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Ready to Start Your Hemp Empire?</h2>
             <p className="text-white/80 mb-6 max-w-2xl mx-auto">
               Schedule a free consultation to discuss which package is right for your business goals.
             </p>
-            <Button 
-              onClick={handleScheduleConsultation}
-              className="bg-white text-[#2F5D50] hover:bg-gray-100 px-6 py-2 text-lg font-semibold"
-            >
-              Schedule Your Free Consultation
-            </Button>
+            <div className="flex justify-center">
+              <Button 
+                onClick={handleScheduleConsultation}
+                className="bg-white text-[#2F5D50] hover:bg-gray-100 px-3 py-2 sm:px-6 text-sm sm:text-lg font-semibold max-w-[300px] mx-auto w-full"
+              >
+                Free Consultation
+              </Button>
+            </div>
           </div>
         </div>
       </div>
