@@ -14,7 +14,7 @@ import ThankYouBooking from "./pages/ThankYouBooking";
 import LoadingDemo from "./pages/LoadingDemo";
 
 import TestForm from "./pages/TestForm";
-import Services from "./pages/Services";
+import Packages from "./pages/Packages";
 import HowItWorks from "./pages/HowItWorks";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -139,10 +139,18 @@ function Router() {
         )}
       </Route>
       
+      <Route path="/packages">
+        {() => (
+          <MainLayout>
+            <Packages />
+          </MainLayout>
+        )}
+      </Route>
+      
       <Route path="/services">
         {() => (
           <MainLayout>
-            <Services />
+            <Packages />
           </MainLayout>
         )}
       </Route>
