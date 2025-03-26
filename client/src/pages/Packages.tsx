@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Packages() {
@@ -13,28 +12,16 @@ export default function Packages() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      {/* Hero Section - Compacted & Modernized */}
+      {/* Hero Section - Centered */}
       <div className="bg-white shadow-sm">
-        <div className="container px-4 py-6 mx-auto">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              <div className="mb-4 md:mb-0">
-                <h1 className="text-3xl md:text-4xl font-bold text-[#2F5D50]">
-                  Hemp Business Packages
-                </h1>
-                <p className="text-lg text-gray-600 mt-2">
-                  Turnkey solutions for launching and scaling your hemp business
-                </p>
-              </div>
-              <div className="flex space-x-4">
-                <Button 
-                  onClick={handleScheduleConsultation}
-                  className="bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859]"
-                >
-                  Schedule Consultation
-                </Button>
-              </div>
-            </div>
+        <div className="container px-4 py-8 mx-auto text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#2F5D50]">
+              Hemp Business Packages
+            </h1>
+            <p className="text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
+              Turnkey solutions for launching and scaling your hemp business
+            </p>
           </div>
         </div>
       </div>
@@ -68,52 +55,50 @@ export default function Packages() {
                   </p>
                 </div>
                 <div className="p-4">
-                  <ScrollArea className="h-40 pr-3">
-                    <div className="space-y-3">
-                      <div>
-                        <h4 className="font-medium text-gray-800">E-commerce Website Setup</h4>
-                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            High-converting landing page
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Age verification
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            COA page
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Privacy & accessibility compliance
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Business & Compliance</h4>
-                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            LLC formation
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            EIN & Sales Tax ID
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Business bank account setup
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#2F5D50]">✓</span>
-                            Basic logo & product label design
-                          </li>
-                        </ul>
-                      </div>
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="font-medium text-gray-800">E-commerce Website Setup</h4>
+                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          High-converting landing page
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          Age verification
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          COA page
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          Privacy & accessibility compliance
+                        </li>
+                      </ul>
                     </div>
-                  </ScrollArea>
+                    <div>
+                      <h4 className="font-medium text-gray-800">Business & Compliance</h4>
+                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          LLC formation
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          EIN & Sales Tax ID
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          Business bank account setup
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#2F5D50]">✓</span>
+                          Basic logo & product label design
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4 pt-2">
                   <Button 
@@ -141,55 +126,53 @@ export default function Packages() {
                   </p>
                 </div>
                 <div className="p-4">
-                  <ScrollArea className="h-40 pr-3">
-                    <div className="space-y-3">
-                      <div>
-                        <p className="font-semibold text-[#C8A951]">Everything in Ecom Starter, PLUS:</p>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Advanced E-Commerce</h4>
-                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Expert-level website optimization
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Meta-compliant subdomain landing page
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Email & SMS automation
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Wholesale login portal
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Enhanced Design & Marketing</h4>
-                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Advanced logo & packaging design
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Brand book & multiple product samples
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Affiliate marketing system setup
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#C8A951]">✓</span>
-                            Full-panel COA & nationwide compliance
-                          </li>
-                        </ul>
-                      </div>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="font-semibold text-[#C8A951]">Everything in Ecom Starter, PLUS:</p>
                     </div>
-                  </ScrollArea>
+                    <div>
+                      <h4 className="font-medium text-gray-800">Advanced E-Commerce</h4>
+                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Expert-level website optimization
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Meta-compliant subdomain landing page
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Email & SMS automation
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Wholesale login portal
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-800">Enhanced Design & Marketing</h4>
+                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Advanced logo & packaging design
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Brand book & multiple product samples
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Affiliate marketing system setup
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#C8A951]">✓</span>
+                          Full-panel COA & nationwide compliance
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4 pt-2">
                   <Button 
@@ -217,55 +200,53 @@ export default function Packages() {
                   </p>
                 </div>
                 <div className="p-4">
-                  <ScrollArea className="h-40 pr-3">
-                    <div className="space-y-3">
-                      <div>
-                        <p className="font-semibold text-[#3A3A3A]">Everything in Growth, PLUS:</p>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Enterprise Solutions</h4>
-                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Custom CRM setup & site integration
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            S-Corp setup for tax efficiency
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            QuickBooks & payroll system setup
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            State-by-state MSO compliance
-                          </li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800">Advanced Marketing</h4>
-                        <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Dedicated design expert & branded merch
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            Brand ambassador recruitment
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            3-platform social ad campaigns
-                          </li>
-                          <li className="flex items-center">
-                            <span className="mr-2 text-[#3A3A3A]">✓</span>
-                            National distribution strategy
-                          </li>
-                        </ul>
-                      </div>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="font-semibold text-[#3A3A3A]">Everything in Growth, PLUS:</p>
                     </div>
-                  </ScrollArea>
+                    <div>
+                      <h4 className="font-medium text-gray-800">Enterprise Solutions</h4>
+                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          Custom CRM setup & site integration
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          S-Corp setup for tax efficiency
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          QuickBooks & payroll system setup
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          State-by-state MSO compliance
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-800">Advanced Marketing</h4>
+                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          Dedicated design expert & branded merch
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          Brand ambassador recruitment
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          3-platform social ad campaigns
+                        </li>
+                        <li className="flex items-center">
+                          <span className="mr-2 text-[#3A3A3A]">✓</span>
+                          National distribution strategy
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4 pt-2">
                   <Button 
