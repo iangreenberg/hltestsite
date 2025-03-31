@@ -278,7 +278,7 @@ function Router() {
         {() => <NewLandingPage />}
       </Route>
       
-      <Route path="/fb-landing-new">
+      <Route path="/landing">
         {() => <FBLandingPage />}
       </Route>
       
