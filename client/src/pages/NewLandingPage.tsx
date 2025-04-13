@@ -94,7 +94,11 @@ export default function NewLandingPage() {
           id="hero-section"
           className="relative bg-gradient-to-b from-[#2F5D50] to-[#1A3C33] text-white py-16 md:py-28"
         >
-          <div className="absolute inset-0 opacity-20 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
+          <div className="absolute inset-0 bg-cover bg-center opacity-40"
+            style={{
+              backgroundImage: `url('/images/hemp-products.png')`
+            }}
+          ></div>
           <motion.div 
             initial="hidden"
             animate={isVisible.hero ? "visible" : "hidden"}
@@ -793,7 +797,11 @@ export default function NewLandingPage() {
           id="cta-section"
           className="py-20 bg-gradient-to-b from-[#2F5D50] to-[#1A3C33] text-white relative overflow-hidden"
         >
-          <div className="absolute inset-0 opacity-20 bg-[url('/hemp-pattern.png')] bg-repeat"></div>
+          <div className="absolute inset-0 bg-cover bg-center opacity-40"
+            style={{
+              backgroundImage: `url('/images/hemp-products.png')`
+            }}
+          ></div>
           <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-r from-[#C8A951]/20 to-transparent"></div>
           <div className="absolute bottom-0 right-0 w-full h-12 bg-gradient-to-l from-[#C8A951]/20 to-transparent"></div>
           

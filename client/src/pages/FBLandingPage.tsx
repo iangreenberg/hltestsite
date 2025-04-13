@@ -33,9 +33,9 @@ export default function FBLandingPage() {
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative py-12 md:py-28 bg-[#2F5D50] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center opacity-20 z-0"
+        <div className="absolute inset-0 bg-cover bg-center opacity-40 z-0"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1536782376847-5c9d14d97cc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+            backgroundImage: `url('/images/hemp-products.png')`
           }}
         ></div>
         
