@@ -57,39 +57,77 @@ export default function Packages() {
                 <div className="p-4">
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-medium text-gray-800">All Features</h4>
-                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Ecommerce website with age gate
+                      <h4 className="font-bold text-lg text-gray-800 mb-2">All Features</h4>
+                      <ul className="mt-1 text-base font-medium text-gray-700 space-y-4">
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">🌐</span>
+                          <div>
+                            <p className="font-semibold">Ecommerce Website</p>
+                            <p>Complete with age verification</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Lab results page
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">🧪</span>
+                          <div>
+                            <p className="font-semibold">Lab Results Page</p>
+                            <p>Basic template for COAs</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Privacy policy
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">📝</span>
+                          <div>
+                            <p className="font-semibold">Privacy Policies</p>
+                            <p>Legally compliant documents</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          3PL services guidance
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">📦</span>
+                          <div>
+                            <p className="font-semibold">3PL Services Guidance</p>
+                            <p>Fulfillment options & setup</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          LLC, EIN, Articles of Org, Operating Agreement
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">🏢</span>
+                          <div>
+                            <p className="font-semibold">LLC Formation</p>
+                            <p>Complete business structure</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Basic compliance: lab results, Sales Tax ID
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">🔢</span>
+                          <div>
+                            <p className="font-semibold">EIN Setup</p>
+                            <p>Federal tax ID registration</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Bank account & merchant processor setup
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">📄</span>
+                          <div>
+                            <p className="font-semibold">Business Documents</p>
+                            <p>Articles & Operating Agreement</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Starter branding: logo + product label design
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">✅</span>
+                          <div>
+                            <p className="font-semibold">Basic Compliance</p>
+                            <p>Lab results, Sales Tax ID</p>
+                          </div>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">🏦</span>
+                          <div>
+                            <p className="font-semibold">Banking Setup</p>
+                            <p>Account & processor integration</p>
+                          </div>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#2F5D50] text-xl">🎨</span>
+                          <div>
+                            <p className="font-semibold">Starter Branding</p>
+                            <p>Logo + product label design</p>
+                          </div>
                         </li>
                       </ul>
                     </div>
@@ -126,39 +164,63 @@ export default function Packages() {
                       <p className="font-semibold text-[#C8A951]">Everything in Ecom Starter, PLUS:</p>
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-800">All Features</h4>
-                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Pro website optimization + ad-compliant landing page
+                      <h4 className="font-bold text-lg text-gray-800 mb-2">All Features</h4>
+                      <ul className="mt-1 text-base font-medium text-gray-700 space-y-4">
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">⚡</span>
+                          <div>
+                            <p className="font-semibold">Pro Website Optimization</p>
+                            <p>With ad-compliant landing page</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Email & SMS automation setup
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">📱</span>
+                          <div>
+                            <p className="font-semibold">Email & SMS Automation</p>
+                            <p>Complete marketing flows</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Wholesale portal for retailers
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">🏪</span>
+                          <div>
+                            <p className="font-semibold">Wholesale Portal</p>
+                            <p>B2B sales system for retailers</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Affiliate system setup, Meta ad best practices
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">📈</span>
+                          <div>
+                            <p className="font-semibold">Affiliate Program</p>
+                            <p>Setup + Meta ad best practices</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Full-panel branded lab results
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">🧪</span>
+                          <div>
+                            <p className="font-semibold">Full-Panel Lab Results</p>
+                            <p>Branded laboratory certificates</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Tax strategy, MSO consult
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">💼</span>
+                          <div>
+                            <p className="font-semibold">Tax Strategy</p>
+                            <p>Multi-state operation consultation</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Accounting & income tax consult
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">📊</span>
+                          <div>
+                            <p className="font-semibold">Accounting Consultation</p>
+                            <p>Income tax planning & strategy</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#C8A951]">✓</span>
-                          Enhanced branding: brand book, upgraded logo/packaging
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#C8A951] text-xl">🎨</span>
+                          <div>
+                            <p className="font-semibold">Enhanced Branding</p>
+                            <p>Brand book + premium packaging</p>
+                          </div>
                         </li>
                       </ul>
                     </div>
@@ -195,39 +257,63 @@ export default function Packages() {
                       <p className="font-semibold text-[#3A3A3A]">Everything in Growth, PLUS:</p>
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-800">All Features</h4>
-                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Custom backend CRM with automation
+                      <h4 className="font-bold text-lg text-gray-800 mb-2">All Features</h4>
+                      <ul className="mt-1 text-base font-medium text-gray-700 space-y-4">
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">🚀</span>
+                          <div>
+                            <p className="font-semibold">Custom CRM System</p>
+                            <p>Advanced automation workflows</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          S-Corp setup, stock issuance, bylaws
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">🏛️</span>
+                          <div>
+                            <p className="font-semibold">S-Corporation Setup</p>
+                            <p>Stock issuance & corporate bylaws</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Multi-state MSO setup + product verification
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">🌎</span>
+                          <div>
+                            <p className="font-semibold">Multi-State Operations</p>
+                            <p>Complete MSO setup & verification</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          QuickBooks + payroll setup
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">💵</span>
+                          <div>
+                            <p className="font-semibold">Financial Systems</p>
+                            <p>QuickBooks + payroll integration</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Dedicated design expert + merch
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">🎭</span>
+                          <div>
+                            <p className="font-semibold">Dedicated Design Expert</p>
+                            <p>Custom merchandise & packaging</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          30-day marketing system: UGC, ad campaigns
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">📣</span>
+                          <div>
+                            <p className="font-semibold">Complete Marketing System</p>
+                            <p>30-day launch: UGC & campaigns</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Brand ambassadors program
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">👥</span>
+                          <div>
+                            <p className="font-semibold">Brand Ambassador Program</p>
+                            <p>Influencer outreach & management</p>
+                          </div>
                         </li>
-                        <li className="flex items-center">
-                          <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          National distribution strategy support
+                        <li className="flex items-start">
+                          <span className="mr-2 text-[#3A3A3A] text-xl">🔄</span>
+                          <div>
+                            <p className="font-semibold">Distribution Strategy</p>
+                            <p>National-level growth planning</p>
+                          </div>
                         </li>
                       </ul>
                     </div>
@@ -273,9 +359,9 @@ export default function Packages() {
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Ecommerce website with age gate</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] text-xl">🌐</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] text-xl">🌐</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">🌐</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Lab results page</td>
@@ -292,14 +378,14 @@ export default function Packages() {
                     <tr>
                       <td className="py-3 px-6 border-b">Ad-compliant landing page</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] text-xl">📱</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">📱</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Email & automation</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Email + SMS</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">📧</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Wholesale/CRM features</td>
@@ -329,9 +415,9 @@ export default function Packages() {
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Bank account & processor setup</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] text-xl">🏦</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] text-xl">🏦</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">🏦</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Multi-state compliance</td>
@@ -365,7 +451,7 @@ export default function Packages() {
                       <td className="py-3 px-6 border-b">Ambassador program</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">👥</td>
                     </tr>
                   </tbody>
                 </table>
