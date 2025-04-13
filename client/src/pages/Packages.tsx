@@ -136,7 +136,7 @@ export default function Packages() {
                 <div className="p-4 pt-2">
                   <Button 
                     onClick={handleScheduleConsultation}
-                    className="w-full bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859]"
+                    className="w-full bg-gradient-to-r from-[#2F5D50] to-[#3A7A6A] hover:from-[#264A40] hover:to-[#326859] text-white"
                   >
                     Get Started
                   </Button>
@@ -322,7 +322,7 @@ export default function Packages() {
                 <div className="p-4 pt-2">
                   <Button 
                     onClick={handleScheduleConsultation}
-                    className="w-full bg-gradient-to-r from-[#3A3A3A] to-[#555555] hover:from-[#2B2B2B] hover:to-[#464646]"
+                    className="w-full bg-gradient-to-r from-[#3A3A3A] to-[#555555] hover:from-[#2B2B2B] hover:to-[#464646] text-white"
                   >
                     Get Started
                   </Button>
