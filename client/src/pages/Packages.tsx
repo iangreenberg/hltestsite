@@ -209,19 +209,19 @@ export default function Packages() {
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Custom CRM setup & site integration
+                          Custom backend CRM with automation
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          S-Corp setup for tax efficiency
+                          S-Corp setup, stock issuance, bylaws
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          QuickBooks & payroll system setup
+                          Multi-state MSO setup + product verification
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          State-by-state MSO compliance
+                          QuickBooks + payroll setup
                         </li>
                       </ul>
                     </div>
@@ -230,19 +230,19 @@ export default function Packages() {
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Dedicated design expert & branded merch
+                          Dedicated design expert + merch
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          Brand ambassador recruitment
+                          30-day marketing system: UGC, ad campaigns
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          3-platform social ad campaigns
+                          Brand ambassadors program
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
-                          National distribution strategy
+                          National distribution strategy support
                         </li>
                       </ul>
                     </div>
@@ -287,71 +287,71 @@ export default function Packages() {
                       <td colSpan={4} className="py-3 px-6 font-medium text-gray-800">Website & E-commerce</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">High-converting landing page</td>
+                      <td className="py-3 px-6 border-b">Ecommerce website with age gate</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">✓</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Age verification</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 border-b">Lab results page</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">Basic</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Full-panel</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Full-panel</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Expert-level website optimization</td>
+                      <td className="py-3 px-6 border-b">Website optimization</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">Basic</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Expert</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Premium</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 px-6 border-b">Ad-compliant landing page</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Meta-compliant subdomain</td>
+                      <td className="py-3 px-6 border-b">Email & automation</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Email + SMS</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Wholesale portal</td>
+                      <td className="py-3 px-6 border-b">Wholesale/CRM features</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 px-6 border-b">Custom CRM integration</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Portal</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Custom CRM</td>
                     </tr>
                     
                     <tr className="bg-gray-50">
                       <td colSpan={4} className="py-3 px-6 font-medium text-gray-800">Business Formation</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">LLC formation</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 border-b">Business formation</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">LLC + EIN</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">LLC + EIN</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">S-Corp</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">S-Corp setup</td>
+                      <td className="py-3 px-6 border-b">Accounting setup</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Consult</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">QB + Payroll</td>
                     </tr>
                     
                     <tr className="bg-gray-50">
                       <td colSpan={4} className="py-3 px-6 font-medium text-gray-800">Compliance</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">COA setup</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">Basic</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Full-panel</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Full-panel</td>
+                      <td className="py-3 px-6 border-b">Bank account & processor setup</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Multi-state operation</td>
+                      <td className="py-3 px-6 border-b">Multi-state compliance</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Consultation</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">MSO consult</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Full setup</td>
                     </tr>
                     
@@ -359,25 +359,25 @@ export default function Packages() {
                       <td colSpan={4} className="py-3 px-6 font-medium text-gray-800">Design & Marketing</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Logo design</td>
+                      <td className="py-3 px-6 border-b">Branding package</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">Basic</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Advanced</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Brand book</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Premium</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Product samples</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">1</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">1 design</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Multiple</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Multiple</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Multiple + merch</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Social media campaigns</td>
+                      <td className="py-3 px-6 border-b">Marketing system</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Guidance</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Full setup</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Affiliate setup</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">Full 30-day</td>
                     </tr>
                     <tr>
-                      <td className="py-3 px-6 border-b">Video content</td>
+                      <td className="py-3 px-6 border-b">Ambassador program</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f4f4f4]">✓</td>
