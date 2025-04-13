@@ -359,9 +359,9 @@ export default function Packages() {
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Ecommerce website with age gate</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] font-bold">•</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] font-bold">•</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] font-bold text-green-600">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] font-bold text-green-600">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold text-green-600">✓</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Lab results page</td>
@@ -378,14 +378,14 @@ export default function Packages() {
                     <tr>
                       <td className="py-3 px-6 border-b">Ad-compliant landing page</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] font-bold">•</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] font-bold text-green-600">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold text-green-600">✓</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Email & automation</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Email + SMS</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold text-green-600">✓</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Wholesale/CRM features</td>
@@ -415,9 +415,9 @@ export default function Packages() {
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Bank account & processor setup</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] font-bold">•</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] font-bold">•</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] font-bold text-green-600">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] font-bold text-green-600">✓</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold text-green-600">✓</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Multi-state compliance</td>
@@ -451,7 +451,7 @@ export default function Packages() {
                       <td className="py-3 px-6 border-b">Ambassador program</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] font-bold text-green-600">✓</td>
                     </tr>
                   </tbody>
                 </table>
