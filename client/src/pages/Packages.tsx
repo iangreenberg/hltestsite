@@ -57,7 +57,7 @@ export default function Packages() {
                 <div className="p-4">
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-medium text-gray-800">E-commerce Website Setup</h4>
+                      <h4 className="font-medium text-gray-800">All Features</h4>
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
@@ -75,11 +75,6 @@ export default function Packages() {
                           <span className="mr-2 text-[#2F5D50]">✓</span>
                           3PL services guidance
                         </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-800">Business & Compliance</h4>
-                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
                           LLC, EIN, Articles of Org, Operating Agreement
@@ -131,7 +126,7 @@ export default function Packages() {
                       <p className="font-semibold text-[#C8A951]">Everything in Ecom Starter, PLUS:</p>
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-800">Advanced E-Commerce</h4>
+                      <h4 className="font-medium text-gray-800">All Features</h4>
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
@@ -149,11 +144,6 @@ export default function Packages() {
                           <span className="mr-2 text-[#C8A951]">✓</span>
                           Affiliate system setup, Meta ad best practices
                         </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-800">Enhanced Business & Compliance</h4>
-                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
                           Full-panel branded lab results
@@ -205,7 +195,7 @@ export default function Packages() {
                       <p className="font-semibold text-[#3A3A3A]">Everything in Growth, PLUS:</p>
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-800">Enterprise Solutions</h4>
+                      <h4 className="font-medium text-gray-800">All Features</h4>
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
@@ -223,11 +213,6 @@ export default function Packages() {
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
                           QuickBooks + payroll setup
                         </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-800">Advanced Marketing</h4>
-                      <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#3A3A3A]">✓</span>
                           Dedicated design expert + merch
