@@ -26,9 +26,9 @@ export default function OptimizedLanding() {
       <div className="flex flex-col min-h-screen">
         {/* Hero Section */}
         <section className="relative bg-[#2F5D50] text-white py-16 md:py-24 lg:py-32">
-          <div className="absolute inset-0 bg-cover bg-center opacity-20 bg-[url('/hemp-pattern.png')] bg-repeat"
+          <div className="absolute inset-0 bg-cover bg-center opacity-40"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1536782376847-5c9d14d97cc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+              backgroundImage: `url('/images/hemp-products.png')`
             }}
           ></div>
           <div className="container mx-auto px-4 sm:px-6 relative z-10">
