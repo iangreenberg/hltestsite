@@ -74,56 +74,56 @@ export default function Packages() {
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">📝</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Privacy Policies</p>
                             <p>Legally compliant documents</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">📦</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">3PL Services Guidance</p>
                             <p>Fulfillment options & setup</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">🏢</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">LLC Formation</p>
                             <p>Complete business structure</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">🔢</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">EIN Setup</p>
                             <p>Federal tax ID registration</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">📄</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Business Documents</p>
                             <p>Articles & Operating Agreement</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">✅</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Basic Compliance</p>
                             <p>Lab results, Sales Tax ID</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">🏦</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Banking Setup</p>
                             <p>Account & processor integration</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#2F5D50] text-xl">🎨</span>
+                          <span className="mr-2 text-[#2F5D50] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Starter Branding</p>
                             <p>Logo + product label design</p>
@@ -167,56 +167,56 @@ export default function Packages() {
                       <h4 className="font-bold text-lg text-gray-800 mb-2">All Features</h4>
                       <ul className="mt-1 text-base font-medium text-gray-700 space-y-4">
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">⚡</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Pro Website Optimization</p>
                             <p>With ad-compliant landing page</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">📱</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Email & SMS Automation</p>
                             <p>Complete marketing flows</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">🏪</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Wholesale Portal</p>
                             <p>B2B sales system for retailers</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">📈</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Affiliate Program</p>
                             <p>Setup + Meta ad best practices</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">🧪</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Full-Panel Lab Results</p>
                             <p>Branded laboratory certificates</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">💼</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Tax Strategy</p>
                             <p>Multi-state operation consultation</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">📊</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Accounting Consultation</p>
                             <p>Income tax planning & strategy</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#C8A951] text-xl">🎨</span>
+                          <span className="mr-2 text-[#C8A951] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Enhanced Branding</p>
                             <p>Brand book + premium packaging</p>
@@ -260,56 +260,56 @@ export default function Packages() {
                       <h4 className="font-bold text-lg text-gray-800 mb-2">All Features</h4>
                       <ul className="mt-1 text-base font-medium text-gray-700 space-y-4">
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">🚀</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Custom CRM System</p>
                             <p>Advanced automation workflows</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">🏛️</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">S-Corporation Setup</p>
                             <p>Stock issuance & corporate bylaws</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">🌎</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Multi-State Operations</p>
                             <p>Complete MSO setup & verification</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">💵</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Financial Systems</p>
                             <p>QuickBooks + payroll integration</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">🎭</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Dedicated Design Expert</p>
                             <p>Custom merchandise & packaging</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">📣</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Complete Marketing System</p>
                             <p>30-day launch: UGC & campaigns</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">👥</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Brand Ambassador Program</p>
                             <p>Influencer outreach & management</p>
                           </div>
                         </li>
                         <li className="flex items-start">
-                          <span className="mr-2 text-[#3A3A3A] text-xl">🔄</span>
+                          <span className="mr-2 text-[#3A3A3A] font-bold">•</span>
                           <div>
                             <p className="font-semibold">Distribution Strategy</p>
                             <p>National-level growth planning</p>
@@ -359,9 +359,9 @@ export default function Packages() {
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Ecommerce website with age gate</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] text-xl">🌐</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] text-xl">🌐</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">🌐</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f3f9f8] font-bold">•</td>] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#fcf9ef] font-bold">•</td>] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f4f4f4] font-bold">•</td>] font-bold">•</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Lab results page</td>
@@ -378,14 +378,14 @@ export default function Packages() {
                     <tr>
                       <td className="py-3 px-6 border-b">Ad-compliant landing page</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] text-xl">📱</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">📱</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#fcf9ef] font-bold">•</td>] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f4f4f4] font-bold">•</td>] font-bold">•</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Email & automation</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">Email + SMS</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">📧</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f4f4f4] font-bold">•</td>] font-bold">•</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Wholesale/CRM features</td>
@@ -415,9 +415,9 @@ export default function Packages() {
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Bank account & processor setup</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f3f9f8] text-xl">🏦</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#fcf9ef] text-xl">🏦</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">🏦</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f3f9f8] font-bold">•</td>] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#fcf9ef] font-bold">•</td>] font-bold">•</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f4f4f4] font-bold">•</td>] font-bold">•</td>
                     </tr>
                     <tr>
                       <td className="py-3 px-6 border-b">Multi-state compliance</td>
@@ -451,7 +451,7 @@ export default function Packages() {
                       <td className="py-3 px-6 border-b">Ambassador program</td>
                       <td className="py-3 px-6 text-center border-b bg-[#f3f9f8]">-</td>
                       <td className="py-3 px-6 text-center border-b bg-[#fcf9ef]">-</td>
-                      <td className="py-3 px-6 text-center border-b bg-[#f4f4f4] text-xl">👥</td>
+                      <td className="py-3 px-6 text-center border-b bg-[text-center border-b bg-[#f4f4f4] font-bold">•</td>] font-bold">•</td>
                     </tr>
                   </tbody>
                 </table>
