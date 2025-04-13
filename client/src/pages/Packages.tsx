@@ -48,10 +48,10 @@ export default function Packages() {
                   <Badge className="bg-white text-[#2F5D50] mb-2">STARTER</Badge>
                   <h3 className="text-xl font-bold">Ecom Starter</h3>
                   <div className="mt-1 flex items-baseline">
-                    <span className="text-2xl font-bold">$3,000</span>
+                    <span className="text-2xl font-bold">$4,500</span>
                   </div>
                   <p className="mt-2 text-sm text-white/80">
-                    Everything you need to start selling hemp products online
+                    Everything needed to start selling hemp products online
                   </p>
                 </div>
                 <div className="p-4">
@@ -61,19 +61,19 @@ export default function Packages() {
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          High-converting landing page
+                          Ecommerce website with age gate
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Age verification
+                          Lab results page
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          COA page
+                          Privacy policy
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Privacy & accessibility compliance
+                          3PL services guidance
                         </li>
                       </ul>
                     </div>
@@ -82,19 +82,19 @@ export default function Packages() {
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          LLC formation
+                          LLC, EIN, Articles of Org, Operating Agreement
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          EIN & Sales Tax ID
+                          Basic compliance: lab results, Sales Tax ID
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Business bank account setup
+                          Bank account & merchant processor setup
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#2F5D50]">✓</span>
-                          Basic logo & product label design
+                          Starter branding: logo + product label design
                         </li>
                       </ul>
                     </div>
@@ -119,10 +119,10 @@ export default function Packages() {
                   <Badge className="bg-white text-[#C8A951] mb-2">RECOMMENDED</Badge>
                   <h3 className="text-xl font-bold">Growth</h3>
                   <div className="mt-1 flex items-baseline">
-                    <span className="text-2xl font-bold">$7,500</span>
+                    <span className="text-2xl font-bold">$9,999</span>
                   </div>
                   <p className="mt-2 text-sm text-white/80">
-                    Advanced marketing tools + entry into wholesale retail strategies
+                    Advanced tools for marketing and wholesale readiness
                   </p>
                 </div>
                 <div className="p-4">
@@ -135,40 +135,40 @@ export default function Packages() {
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Expert-level website optimization
+                          Pro website optimization + ad-compliant landing page
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Meta-compliant subdomain landing page
+                          Email & SMS automation setup
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Email & SMS automation
+                          Wholesale portal for retailers
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Wholesale login portal
+                          Affiliate system setup, Meta ad best practices
                         </li>
                       </ul>
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-800">Enhanced Design & Marketing</h4>
+                      <h4 className="font-medium text-gray-800">Enhanced Business & Compliance</h4>
                       <ul className="mt-1 text-sm text-gray-600 space-y-0.5">
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Advanced logo & packaging design
+                          Full-panel branded lab results
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Brand book & multiple product samples
+                          Tax strategy, MSO consult
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Affiliate marketing system setup
+                          Accounting & income tax consult
                         </li>
                         <li className="flex items-center">
                           <span className="mr-2 text-[#C8A951]">✓</span>
-                          Full-panel COA & nationwide compliance
+                          Enhanced branding: brand book, upgraded logo/packaging
                         </li>
                       </ul>
                     </div>
@@ -196,7 +196,7 @@ export default function Packages() {
                     <span className="text-2xl font-bold">$19,999</span>
                   </div>
                   <p className="mt-2 text-sm text-white/80">
-                    Built to scale your hemp business into a national-level distributor
+                    Built to scale into a national-level distributor
                   </p>
                 </div>
                 <div className="p-4">
@@ -270,11 +270,11 @@ export default function Packages() {
                       <th className="py-4 px-6 text-left text-lg font-medium text-gray-800 border-b">Features</th>
                       <th className="py-4 px-6 text-center border-b bg-[#f3f9f8]">
                         <div className="text-[#2F5D50] font-bold">Ecom Starter</div>
-                        <div className="text-lg font-bold">$3,000</div>
+                        <div className="text-lg font-bold">$4,500</div>
                       </th>
                       <th className="py-4 px-6 text-center border-b bg-[#fcf9ef]">
                         <div className="text-[#C8A951] font-bold">Growth</div>
-                        <div className="text-lg font-bold">$7,500</div>
+                        <div className="text-lg font-bold">$9,999</div>
                       </th>
                       <th className="py-4 px-6 text-center border-b bg-[#f4f4f4]">
                         <div className="text-[#3A3A3A] font-bold">Accelerator</div>
