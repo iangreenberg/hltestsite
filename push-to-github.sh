@@ -14,7 +14,7 @@ git remote set-url origin "https://${GITHUB_TOKEN}@github.com/iangreenberg/hltes
 git add .
 
 # Commit changes (even if there are no changes)
-git commit -m "Update Vercel configuration for deployment" || true
+git commit -m "Update landing page with new design and hero backgrounds" || true
 
 # Pull any remote changes first
 git pull origin main --no-rebase
