@@ -234,7 +234,7 @@ export default function FBLandingPage() {
                 onClick={openJotForm}
                 className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold px-8 py-3"
               >
-                Get Everything You Need for $2,999
+                Get Your Complete Brand Package
               </Button>
             </div>
           </div>
