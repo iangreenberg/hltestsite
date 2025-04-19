@@ -262,15 +262,6 @@ export default function FBLandingPage() {
                   <p>Choose from beverages, capsules, edibles, tinctures, topicals and more!</p>
                 </div>
               </div>
-              
-              <div className="mt-8 text-center">
-                <Button 
-                  onClick={openJotForm}
-                  className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold px-8 py-3"
-                >
-                  View Our Full Catalog
-                </Button>
-              </div>
             </div>
           </div>
         </section>
