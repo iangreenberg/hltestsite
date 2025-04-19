@@ -1,4 +1,4 @@
-import { CheckCircle, TrendingUp, UserCheck, Rocket, DollarSign, Check, BarChart4, Calendar, Building, ShieldCheck, Truck, ShoppingBag } from 'lucide-react';
+import { CheckCircle, TrendingUp, UserCheck, Rocket, DollarSign, BarChart4, Calendar, Building, ShieldCheck, Truck, ShoppingBag } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Helmet } from 'react-helmet';
@@ -236,6 +236,41 @@ export default function FBLandingPage() {
               >
                 Get Your Complete Brand Package
               </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Product Lineup Section */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#2F5D50]">Extensive Product Lineup</h2>
+              <p className="text-gray-600 max-w-3xl mx-auto mb-8">
+                Our white-label product catalog includes everything you need to build a complete hemp brand
+              </p>
+            </div>
+            
+            <div className="max-w-4xl mx-auto">
+              <div className="relative rounded-xl overflow-hidden shadow-lg">
+                <img 
+                  src="/images/product-lineup.png" 
+                  alt="Hemp Product Lineup" 
+                  className="w-full"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2F5D50]/90 to-transparent p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">Your Brand, Your Products</h3>
+                  <p>Choose from beverages, capsules, edibles, tinctures, topicals and more!</p>
+                </div>
+              </div>
+              
+              <div className="mt-8 text-center">
+                <Button 
+                  onClick={openJotForm}
+                  className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold px-8 py-3"
+                >
+                  View Our Full Catalog
+                </Button>
+              </div>
             </div>
           </div>
         </section>
