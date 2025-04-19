@@ -246,21 +246,17 @@ export default function FBLandingPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#2F5D50]">Extensive Product Lineup</h2>
               <p className="text-gray-600 max-w-3xl mx-auto mb-8">
-                Our white-label product catalog includes everything you need to build a complete hemp brand
+                Our product catalog includes everything you need to build a complete hemp brand
               </p>
             </div>
             
             <div className="max-w-4xl mx-auto">
-              <div className="relative rounded-xl overflow-hidden shadow-lg">
+              <div className="rounded-xl overflow-hidden shadow-lg">
                 <img 
                   src="/images/product-lineup.png" 
                   alt="Hemp Product Lineup" 
                   className="w-full"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2F5D50]/90 to-transparent p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">Your Brand, Your Products</h3>
-                  <p>Choose from beverages, capsules, edibles, tinctures, topicals and more!</p>
-                </div>
               </div>
             </div>
           </div>
@@ -643,17 +639,19 @@ export default function FBLandingPage() {
               </div>
               
               <div className="bg-[#2F5D50] text-white p-8 rounded-xl shadow-lg">
-                <h3 className="text-2xl font-bold mb-4">Start your hemp business today!</h3>
+                <h3 className="text-2xl font-bold mb-4">Start Your Hemp Business Today!</h3>
                 <p className="mb-6">
                   Take advantage of this limited-time offer and launch your profitable hemp brand in just 30 days.
                 </p>
                 
-                <Button 
-                  onClick={openJotForm}
-                  className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-8 py-3"
-                >
-                  Apply For Your Brand Launch
-                </Button>
+                <div className="px-2 mx-auto">
+                  <Button 
+                    onClick={openJotForm}
+                    className="bg-[#C8A951] hover:bg-[#B89841] text-[#2F5D50] font-bold text-lg px-6 py-3 max-w-full"
+                  >
+                    Apply For Your Brand Launch
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
