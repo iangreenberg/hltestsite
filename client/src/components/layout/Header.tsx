@@ -60,42 +60,42 @@ export default function Header() {
               
               {servicesOpen && (
                 <div className="absolute left-0 mt-2 w-60 rounded-md shadow-lg bg-white z-10 py-2">
-                  <a 
-                    href="/services#compliance-section" 
+                  <Link 
+                    href="/services/compliance" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Compliance Services
-                  </a>
-                  <a 
-                    href="/services#product-section" 
+                  </Link>
+                  <Link 
+                    href="/services/product-development" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Product Development
-                  </a>
-                  <a 
-                    href="/services#brand-section" 
+                  </Link>
+                  <Link 
+                    href="/services/brand-development" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Brand Development
-                  </a>
-                  <a 
-                    href="/services#distribution-section" 
+                  </Link>
+                  <Link 
+                    href="/services" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Sales & Distribution
-                  </a>
-                  <a 
-                    href="/services#marketing-section" 
+                  </Link>
+                  <Link 
+                    href="/services" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Marketing Strategy
-                  </a>
-                  <a 
-                    href="/services#support-section" 
+                  </Link>
+                  <Link 
+                    href="/services" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Ongoing Support
-                  </a>
+                  </Link>
                   <div className="border-t my-1 border-gray-200"></div>
                   <Link 
                     href="/services" 
@@ -181,42 +181,42 @@ export default function Header() {
             
             {mobileServicesOpen && (
               <div className="pl-4 border-l-2 border-gray-200 ml-2 mt-1 mb-2">
-                <a 
-                  href="/services#compliance-section" 
+                <Link 
+                  href="/services/compliance" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Compliance Services
-                </a>
-                <a 
-                  href="/services#product-section" 
+                </Link>
+                <Link 
+                  href="/services/product-development" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Product Development
-                </a>
-                <a 
-                  href="/services#brand-section" 
+                </Link>
+                <Link 
+                  href="/services/brand-development" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Brand Development
-                </a>
-                <a 
-                  href="/services#distribution-section" 
+                </Link>
+                <Link 
+                  href="/services" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Sales & Distribution
-                </a>
-                <a 
-                  href="/services#marketing-section" 
+                </Link>
+                <Link 
+                  href="/services" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Marketing Strategy
-                </a>
-                <a 
-                  href="/services#support-section" 
+                </Link>
+                <Link 
+                  href="/services" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Ongoing Support
-                </a>
+                </Link>
                 <Link 
                   href="/services" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
