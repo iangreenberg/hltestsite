@@ -34,6 +34,9 @@ import { ProtectedRoute } from "./lib/protected-route";
 import CompliancePage from "./pages/services/CompliancePage";
 import ProductPage from "./pages/services/ProductPage";
 import BrandPage from "./pages/services/BrandPage";
+import DistributionPage from "./pages/services/DistributionPage";
+import MarketingPage from "./pages/services/MarketingPage";
+import SupportPage from "./pages/services/SupportPage";
 
 // Blog posts
 import FarmBillUpdates from "./pages/blog-posts/FarmBillUpdates";
@@ -190,6 +193,30 @@ function Router() {
         {() => (
           <MainLayout>
             <BrandPage />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/services/distribution">
+        {() => (
+          <MainLayout>
+            <DistributionPage />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/services/marketing">
+        {() => (
+          <MainLayout>
+            <MarketingPage />
+          </MainLayout>
+        )}
+      </Route>
+
+      <Route path="/services/support">
+        {() => (
+          <MainLayout>
+            <SupportPage />
           </MainLayout>
         )}
       </Route>

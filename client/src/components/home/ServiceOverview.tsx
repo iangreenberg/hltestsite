@@ -28,21 +28,21 @@ export default function ServiceOverview() {
       title: "Sales & Distribution",
       description: "Gain access to our established network of retailers and distributors to get your products on shelves quickly and efficiently.",
       icon: <Users className="h-8 w-8 text-white" />,
-      link: "/services",
+      link: "/services/distribution",
       sectionId: "distribution-section"
     },
     {
       title: "Marketing Strategy",
       description: "Develop comprehensive marketing plans including digital advertising, social media management, and content creation.",
       icon: <PieChart className="h-8 w-8 text-white" />,
-      link: "/services",
+      link: "/services/marketing",
       sectionId: "marketing-section"
     },
     {
       title: "Ongoing Support",
       description: "Receive continuous business support including inventory management, regulatory compliance updates, and operational guidance.",
       icon: <HeadphonesIcon className="h-8 w-8 text-white" />,
-      link: "/services",
+      link: "/services/support",
       sectionId: "support-section"
     }
   ];

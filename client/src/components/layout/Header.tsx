@@ -79,19 +79,19 @@ export default function Header() {
                     Brand Development
                   </Link>
                   <Link 
-                    href="/services" 
+                    href="/services/distribution" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Sales & Distribution
                   </Link>
                   <Link 
-                    href="/services" 
+                    href="/services/marketing" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Marketing Strategy
                   </Link>
                   <Link 
-                    href="/services" 
+                    href="/services/support" 
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#2F5D50]"
                   >
                     Ongoing Support
@@ -200,19 +200,19 @@ export default function Header() {
                   Brand Development
                 </Link>
                 <Link 
-                  href="/services" 
+                  href="/services/distribution" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Sales & Distribution
                 </Link>
                 <Link 
-                  href="/services" 
+                  href="/services/marketing" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Marketing Strategy
                 </Link>
                 <Link 
-                  href="/services" 
+                  href="/services/support" 
                   className="block py-2 text-gray-700 hover:text-[#2F5D50]"
                 >
                   Ongoing Support
