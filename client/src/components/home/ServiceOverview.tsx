@@ -7,21 +7,21 @@ export default function ServiceOverview() {
       title: "Complete Compliance",
       description: "We ensure your business meets all legal requirements with proper entity formation, licensing, and ongoing compliance monitoring.",
       icon: <Shield className="h-8 w-8 text-white" />,
-      link: "/services/compliance",
+      link: "/services#compliance-section",
       sectionId: "compliance-section"
     },
     {
       title: "Brand Development",
       description: "Create a compelling brand identity with professional logo design, packaging, website development, and marketing materials.",
       icon: <Palette className="h-8 w-8 text-white" />,
-      link: "/services/brand-development",
+      link: "/services#brand-section",
       sectionId: "brand-section"
     },
     {
       title: "Product Development",
       description: "From formulation to manufacturing and packaging, we create premium hemp products that stand out in the market.",
       icon: <Package className="h-8 w-8 text-white" />,
-      link: "/services/product-development",
+      link: "/services#product-section",
       sectionId: "product-section"
     },
     {
