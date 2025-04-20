@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Shield, Palette, Package, PieChart } from "lucide-react";
+import { Shield, Palette, Package, PieChart, Users, HeadphonesIcon } from "lucide-react";
 
 export default function ServiceOverview() {
   const services = [
@@ -7,25 +7,43 @@ export default function ServiceOverview() {
       title: "Complete Compliance",
       description: "We ensure your business meets all legal requirements with proper entity formation, licensing, and ongoing compliance monitoring.",
       icon: <Shield className="h-8 w-8 text-white" />,
-      link: "/services/compliance"
+      link: "/services/compliance",
+      sectionId: "compliance-section"
     },
     {
       title: "Brand Development",
       description: "Create a compelling brand identity with professional logo design, packaging, website development, and marketing materials.",
       icon: <Palette className="h-8 w-8 text-white" />,
-      link: "/services/brand-development"
+      link: "/services/brand-development",
+      sectionId: "brand-section"
     },
     {
       title: "Product Development",
       description: "From formulation to manufacturing and packaging, we create premium hemp products that stand out in the market.",
       icon: <Package className="h-8 w-8 text-white" />,
-      link: "/services/product-development"
+      link: "/services/product-development",
+      sectionId: "product-section"
+    },
+    {
+      title: "Sales & Distribution",
+      description: "Gain access to our established network of retailers and distributors to get your products on shelves quickly and efficiently.",
+      icon: <Users className="h-8 w-8 text-white" />,
+      link: "/services#distribution-section",
+      sectionId: "distribution-section"
     },
     {
       title: "Marketing Strategy",
       description: "Develop comprehensive marketing plans including digital advertising, social media management, and content creation.",
       icon: <PieChart className="h-8 w-8 text-white" />,
-      link: "/services"
+      link: "/services#marketing-section",
+      sectionId: "marketing-section"
+    },
+    {
+      title: "Ongoing Support",
+      description: "Receive continuous business support including inventory management, regulatory compliance updates, and operational guidance.",
+      icon: <HeadphonesIcon className="h-8 w-8 text-white" />,
+      link: "/services#support-section",
+      sectionId: "support-section"
     }
   ];
 
