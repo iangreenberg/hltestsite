@@ -68,12 +68,12 @@ export default function ServiceOverview() {
               </div>
               <h3 className="text-xl font-bold font-montserrat mb-2 text-[#2F5D50]">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
-              <Link href={service.link} className="text-[#C8A951] font-semibold hover:underline inline-flex items-center">
+              <a href={service.link} className="text-[#C8A951] font-semibold hover:underline inline-flex items-center">
                 Learn More
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
-              </Link>
+              </a>
             </div>
           ))}
         </div>
