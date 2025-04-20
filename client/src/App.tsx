@@ -15,6 +15,7 @@ import LoadingDemo from "./pages/LoadingDemo";
 
 import TestForm from "./pages/TestForm";
 import Packages from "./pages/Packages";
+import Services from "./pages/Services";
 import HowItWorks from "./pages/HowItWorks";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -163,7 +164,7 @@ function Router() {
       <Route path="/services">
         {() => (
           <MainLayout>
-            <Packages />
+            <Services />
           </MainLayout>
         )}
       </Route>
