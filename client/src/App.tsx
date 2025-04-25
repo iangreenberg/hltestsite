@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { MetaPixelTracker } from "./components/tracking/MetaPixel";
+import { GoogleAnalyticsTracker } from "./components/tracking/GoogleAnalytics";
 import NotFound from "./pages/not-found";
 import Home from "./pages/Home";
 import OptimizedLanding from "./pages/OptimizedLanding";
@@ -366,6 +367,7 @@ function App() {
       <AuthProvider>
         <Router />
         <MetaPixelTracker /> {/* Add Meta Pixel tracker to handle route changes */}
+        <GoogleAnalyticsTracker /> {/* Add Google Analytics tracker to handle route changes */}
         <Toaster />
         <SpeedInsights />
       </AuthProvider>
