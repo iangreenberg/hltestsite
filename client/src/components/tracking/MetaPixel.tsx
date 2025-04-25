@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
 
-// Declare the fbq function type for TypeScript
+// Make TypeScript recognize the Facebook Pixel
 declare global {
   interface Window {
-    fbq?: (
-      eventType: string,
-      eventName: string,
-      params?: any
-    ) => void;
+    fbq: any;
   }
 }
 
+/**
+ * Meta Pixel Tracker Component
+ * Tracks page views when routes change in single page application
+ */
 export function MetaPixelTracker() {
   const [location] = useLocation();
 
@@ -25,7 +25,11 @@ export function MetaPixelTracker() {
   return null; // This component doesn't render anything
 }
 
-// Helper function to track custom events
+/**
+ * Helper function to track custom Meta Pixel events
+ * @param eventName The name of the event to track
+ * @param params Optional parameters for the event
+ */
 export function trackPixelEvent(eventName: string, params?: Record<string, any>) {
   if (typeof window !== 'undefined' && window.fbq) {
     window.fbq('track', eventName, params);
