@@ -5,6 +5,8 @@ import { Toaster } from "./components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { MetaPixelTracker } from "./components/tracking/MetaPixel";
 import { GoogleAnalyticsTracker } from "./components/tracking/GoogleAnalytics";
+import { MicrosoftClarityTracker } from "./components/tracking/MicrosoftClarity";
+import { CLARITY_PROJECT_ID } from "./lib/clarity-config";
 import NotFound from "./pages/not-found";
 import Home from "./pages/Home";
 import OptimizedLanding from "./pages/OptimizedLanding";
@@ -368,6 +370,7 @@ function App() {
         <Router />
         <MetaPixelTracker /> {/* Add Meta Pixel tracker to handle route changes */}
         <GoogleAnalyticsTracker /> {/* Add Google Analytics tracker to handle route changes */}
+        <MicrosoftClarityTracker projectId={CLARITY_PROJECT_ID} /> {/* Add Microsoft Clarity tracker */}
         <Toaster />
         <SpeedInsights />
       </AuthProvider>
