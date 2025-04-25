@@ -14,7 +14,6 @@
     "@hookform/resolvers": "^3.9.1",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
-    "@microsoft/clarity": "^1.0.0",
     "@neondatabase/serverless": "^0.10.4",
     "@notionhq/client": "^2.3.0",
     "@radix-ui/react-accordion": "^1.2.1",
