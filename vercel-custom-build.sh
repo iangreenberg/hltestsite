@@ -63,6 +63,7 @@ cat > client/package.json << 'EOF'
     "clsx": "^2.1.0",
     "esbuild": "^0.18.20",
     "lucide-react": "^0.363.0",
+    "@microsoft/clarity": "^1.3.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
