@@ -84,21 +84,12 @@ interface ContentSuggestion {
   implementedAt?: string;
 }
 
-// Interface for SEO actions
-interface SeoAction {
-  id: string;
-  type: 'fix_issue' | 'implement_suggestion' | 'technical_improvement';
-  title: string;
-  description: string;
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  estimatedImpact: 'high' | 'medium' | 'low';
-  difficulty: 'easy' | 'medium' | 'hard';
-  estimatedTimeMinutes: number;
-  assignedTo?: string;
-  status: 'pending' | 'in_progress' | 'completed' | 'skipped';
-  createdAt: string;
-  completedAt?: string;
-}
+// Interface for SEO actions (used in the Actions tab)
+type SeoActionType = 'fix_issue' | 'implement_suggestion' | 'technical_improvement';
+type SeoActionPriority = 'critical' | 'high' | 'medium' | 'low';
+type SeoActionImpact = 'high' | 'medium' | 'low';
+type SeoActionDifficulty = 'easy' | 'medium' | 'hard';
+type SeoActionStatus = 'pending' | 'in_progress' | 'completed' | 'skipped';
 
 interface IssueCount {
   critical: number;

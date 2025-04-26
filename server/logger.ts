@@ -1,58 +1,21 @@
 /**
- * Simple logging utility for the application
+ * Simple logger utility
  */
-
-// Simple logger implementation with different log levels and module prefixes
-export interface Logger {
-  debug(message: string, ...args: any[]): void;
-  info(message: string, ...args: any[]): void;
-  warn(message: string, ...args: any[]): void;
-  error(message: string, ...args: any[]): void;
-}
-
-// Log levels
-enum LogLevel {
-  DEBUG = 0,
-  INFO = 1,
-  WARN = 2,
-  ERROR = 3,
-}
-
-// Environment-based log level
-const LOG_LEVEL = process.env.NODE_ENV === 'production' 
-  ? LogLevel.INFO 
-  : LogLevel.DEBUG;
-
-/**
- * Create a logger instance for a specific module
- */
-export function createLogger(moduleName: string): Logger {
+export function createLogger(module: string) {
   return {
-    debug(message: string, ...args: any[]) {
-      if (LOG_LEVEL <= LogLevel.DEBUG) {
-        console.debug(`[${moduleName}] ${message}`, ...args);
-      }
+    info: (message: string, ...args: any[]) => {
+      console.log(`[${new Date().toISOString()}] [INFO] [${module}] ${message}`, ...args);
     },
-    
-    info(message: string, ...args: any[]) {
-      if (LOG_LEVEL <= LogLevel.INFO) {
-        console.info(`[${moduleName}] ${message}`, ...args);
-      }
+    warn: (message: string, ...args: any[]) => {
+      console.warn(`[${new Date().toISOString()}] [WARN] [${module}] ${message}`, ...args);
     },
-    
-    warn(message: string, ...args: any[]) {
-      if (LOG_LEVEL <= LogLevel.WARN) {
-        console.warn(`[${moduleName}] ${message}`, ...args);
-      }
+    error: (message: string, ...args: any[]) => {
+      console.error(`[${new Date().toISOString()}] [ERROR] [${module}] ${message}`, ...args);
     },
-    
-    error(message: string, ...args: any[]) {
-      if (LOG_LEVEL <= LogLevel.ERROR) {
-        console.error(`[${moduleName}] ${message}`, ...args);
+    debug: (message: string, ...args: any[]) => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.debug(`[${new Date().toISOString()}] [DEBUG] [${module}] ${message}`, ...args);
       }
     }
   };
 }
-
-// Default logger
-export const logger = createLogger('app');

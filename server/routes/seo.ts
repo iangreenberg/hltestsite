@@ -1,242 +1,228 @@
 import { Router } from 'express';
+import { createLogger } from '../logger';
 import { seoEngine } from '../seo-engine';
 import { storageSeo } from '../seo-engine/storage';
-import { createLogger } from '../logger';
+import { auditSite, auditPage } from '../seo-engine/audit';
+import { SEOIssue } from '../seo-engine/types';
 
 const logger = createLogger('seo-routes');
 const router = Router();
 
-// Get latest SEO report
+/**
+ * Get the latest SEO report
+ */
 router.get('/report/latest', async (req, res) => {
   try {
     const report = await storageSeo.getLatestReport();
+    
     if (!report) {
-      return res.status(404).json({ error: 'No SEO reports found' });
+      return res.status(404).json({ 
+        message: 'No SEO reports available. Run an audit to generate a report.' 
+      });
     }
     
-    res.status(200).json(report);
+    return res.json(report);
   } catch (error) {
-    logger.error('Error fetching latest SEO report:', error);
-    res.status(500).json({ error: 'Failed to fetch SEO report' });
+    logger.error('Error fetching latest report:', error);
+    return res.status(500).json({ message: 'Failed to fetch latest SEO report' });
   }
 });
 
-// Get all daily reports (with optional limit)
+/**
+ * Get all SEO reports
+ */
 router.get('/reports', async (req, res) => {
   try {
     const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
     const reports = await storageSeo.getDailyReports(limit);
     
-    res.status(200).json(reports);
+    return res.json(reports);
   } catch (error) {
-    logger.error('Error fetching SEO reports:', error);
-    res.status(500).json({ error: 'Failed to fetch SEO reports' });
+    logger.error('Error fetching reports:', error);
+    return res.status(500).json({ message: 'Failed to fetch SEO reports' });
   }
 });
 
-// Get all page audits
-router.get('/audits', async (req, res) => {
+/**
+ * Get the SEO engine status
+ */
+router.get('/status', (req, res) => {
   try {
-    const audits = await storageSeo.getAllPageAudits();
-    res.status(200).json(audits);
+    const status = seoEngine.getStatus();
+    return res.json(status);
   } catch (error) {
-    logger.error('Error fetching page audits:', error);
-    res.status(500).json({ error: 'Failed to fetch page audits' });
+    logger.error('Error fetching SEO engine status:', error);
+    return res.status(500).json({ message: 'Failed to fetch SEO engine status' });
   }
 });
 
-// Get a specific page audit
-router.get('/audits/:url', async (req, res) => {
-  try {
-    const decodedUrl = decodeURIComponent(req.params.url);
-    const audit = await storageSeo.getPageAudit(decodedUrl);
-    
-    if (!audit) {
-      return res.status(404).json({ error: 'Audit not found for specified URL' });
-    }
-    
-    res.status(200).json(audit);
-  } catch (error) {
-    logger.error('Error fetching page audit:', error);
-    res.status(500).json({ error: 'Failed to fetch page audit' });
-  }
-});
-
-// Get all SEO issues
-router.get('/issues', async (req, res) => {
-  try {
-    const issues = await storageSeo.getAllIssues();
-    res.status(200).json(issues);
-  } catch (error) {
-    logger.error('Error fetching SEO issues:', error);
-    res.status(500).json({ error: 'Failed to fetch SEO issues' });
-  }
-});
-
-// Mark an issue as fixed
-router.post('/issues/:id/fixed', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const issue = await storageSeo.getIssue(id);
-    
-    if (!issue) {
-      return res.status(404).json({ error: 'Issue not found' });
-    }
-    
-    await storageSeo.markIssueFixed(id);
-    res.status(200).json({ success: true, message: 'Issue marked as fixed' });
-  } catch (error) {
-    logger.error('Error marking issue as fixed:', error);
-    res.status(500).json({ error: 'Failed to mark issue as fixed' });
-  }
-});
-
-// Ignore/unignore an issue
-router.post('/issues/:id/ignore', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { ignored } = req.body;
-    
-    if (typeof ignored !== 'boolean') {
-      return res.status(400).json({ error: 'Ignored parameter must be a boolean' });
-    }
-    
-    const issue = await storageSeo.getIssue(id);
-    
-    if (!issue) {
-      return res.status(404).json({ error: 'Issue not found' });
-    }
-    
-    await storageSeo.ignoreIssue(id, ignored);
-    
-    res.status(200).json({ 
-      success: true, 
-      message: `Issue ${ignored ? 'ignored' : 'unignored'} successfully` 
-    });
-  } catch (error) {
-    logger.error('Error updating issue ignored status:', error);
-    res.status(500).json({ error: 'Failed to update issue ignored status' });
-  }
-});
-
-// Get keyword rankings
-router.get('/keywords', async (req, res) => {
-  try {
-    const keywords = await storageSeo.getKeywordRankings();
-    res.status(200).json(keywords);
-  } catch (error) {
-    logger.error('Error fetching keyword rankings:', error);
-    res.status(500).json({ error: 'Failed to fetch keyword rankings' });
-  }
-});
-
-// Get content suggestions
-router.get('/content-suggestions', async (req, res) => {
-  try {
-    const suggestions = await storageSeo.getContentSuggestions();
-    res.status(200).json(suggestions);
-  } catch (error) {
-    logger.error('Error fetching content suggestions:', error);
-    res.status(500).json({ error: 'Failed to fetch content suggestions' });
-  }
-});
-
-// Mark content suggestion as implemented
-router.post('/content-suggestions/:id/implemented', async (req, res) => {
-  try {
-    const { id } = req.params;
-    await storageSeo.markSuggestionImplemented(id);
-    res.status(200).json({ success: true, message: 'Content suggestion marked as implemented' });
-  } catch (error) {
-    logger.error('Error marking content suggestion as implemented:', error);
-    res.status(500).json({ error: 'Failed to mark content suggestion as implemented' });
-  }
-});
-
-// Get SEO actions
-router.get('/actions', async (req, res) => {
-  try {
-    const status = req.query.status as string | undefined;
-    const actions = await storageSeo.getActions(status);
-    res.status(200).json(actions);
-  } catch (error) {
-    logger.error('Error fetching SEO actions:', error);
-    res.status(500).json({ error: 'Failed to fetch SEO actions' });
-  }
-});
-
-// Update action status
-router.post('/actions/:id/status', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-    
-    if (!status || !['pending', 'in_progress', 'completed', 'skipped'].includes(status)) {
-      return res.status(400).json({ 
-        error: 'Invalid status. Must be one of: pending, in_progress, completed, skipped' 
-      });
-    }
-    
-    await storageSeo.updateActionStatus(id, status);
-    
-    res.status(200).json({ 
-      success: true, 
-      message: `Action status updated to ${status}` 
-    });
-  } catch (error) {
-    logger.error('Error updating action status:', error);
-    res.status(500).json({ error: 'Failed to update action status' });
-  }
-});
-
-// Run a new SEO audit (admin only)
+/**
+ * Run a new SEO audit
+ * This is a long-running task, so it returns immediately and runs in the background
+ */
 router.post('/run-audit', async (req, res) => {
   try {
-    // Check if the engine is already running
+    // Check if an audit is already running
     const status = seoEngine.getStatus();
-    if (status.isRunning) {
+    
+    if (status.isAuditRunning) {
       return res.status(409).json({ 
-        error: 'An SEO audit is already running',
-        status
+        message: 'An audit is already running', 
+        progress: status.currentAuditProgress 
       });
     }
     
     // Start the audit in the background
     seoEngine.runDailyAudit().catch(error => {
-      logger.error('Error running SEO audit:', error);
+      logger.error('Error running daily audit:', error);
     });
     
-    // Return immediately with a success message
-    res.status(202).json({ 
-      success: true, 
-      message: 'SEO audit started successfully',
-      status: seoEngine.getStatus()
+    return res.json({ 
+      message: 'SEO audit started', 
+      status: 'running' 
     });
   } catch (error) {
     logger.error('Error starting SEO audit:', error);
-    res.status(500).json({ error: 'Failed to start SEO audit' });
+    return res.status(500).json({ message: 'Failed to start SEO audit' });
   }
 });
 
-// Get the current status of the SEO engine
-router.get('/status', (req, res) => {
+/**
+ * Get all page audits
+ */
+router.get('/audits', async (req, res) => {
   try {
-    const status = seoEngine.getStatus();
-    res.status(200).json(status);
+    const audits = await storageSeo.getAllPageAudits();
+    return res.json(audits);
   } catch (error) {
-    logger.error('Error getting SEO engine status:', error);
-    res.status(500).json({ error: 'Failed to get SEO engine status' });
+    logger.error('Error fetching page audits:', error);
+    return res.status(500).json({ message: 'Failed to fetch page audits' });
   }
 });
 
-// Generate and return a weekly email report
-router.get('/weekly-report', async (req, res) => {
+/**
+ * Get a specific page audit
+ */
+router.get('/audit/:url', async (req, res) => {
   try {
-    const emailContent = await seoEngine.generateWeeklyEmailReport();
-    res.status(200).json({ content: emailContent });
+    const url = req.params.url;
+    const decodedUrl = decodeURIComponent(url);
+    
+    const audit = await storageSeo.getPageAudit(decodedUrl);
+    
+    if (!audit) {
+      return res.status(404).json({ message: 'Page audit not found' });
+    }
+    
+    return res.json(audit);
   } catch (error) {
-    logger.error('Error generating weekly email report:', error);
-    res.status(500).json({ error: 'Failed to generate weekly email report' });
+    logger.error('Error fetching page audit:', error);
+    return res.status(500).json({ message: 'Failed to fetch page audit' });
+  }
+});
+
+/**
+ * Get all SEO issues
+ */
+router.get('/issues', async (req, res) => {
+  try {
+    const issues = await storageSeo.getAllIssues();
+    return res.json(issues);
+  } catch (error) {
+    logger.error('Error fetching SEO issues:', error);
+    return res.status(500).json({ message: 'Failed to fetch SEO issues' });
+  }
+});
+
+/**
+ * Mark an issue as fixed
+ */
+router.post('/issues/:id/fix', async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await storageSeo.markIssueFixed(id);
+    
+    return res.json({ message: 'Issue marked as fixed' });
+  } catch (error) {
+    logger.error('Error marking issue as fixed:', error);
+    return res.status(500).json({ message: 'Failed to mark issue as fixed' });
+  }
+});
+
+/**
+ * Ignore an issue
+ */
+router.post('/issues/:id/ignore', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const ignore = req.body.ignore === true;
+    
+    await storageSeo.ignoreIssue(id, ignore);
+    
+    return res.json({ 
+      message: ignore ? 'Issue ignored' : 'Issue un-ignored' 
+    });
+  } catch (error) {
+    logger.error('Error updating issue ignore status:', error);
+    return res.status(500).json({ message: 'Failed to update issue' });
+  }
+});
+
+/**
+ * Get all keyword rankings
+ */
+router.get('/keywords', async (req, res) => {
+  try {
+    const rankings = await storageSeo.getKeywordRankings();
+    return res.json(rankings);
+  } catch (error) {
+    logger.error('Error fetching keyword rankings:', error);
+    return res.status(500).json({ message: 'Failed to fetch keyword rankings' });
+  }
+});
+
+/**
+ * Get all content suggestions
+ */
+router.get('/content-suggestions', async (req, res) => {
+  try {
+    const suggestions = await storageSeo.getContentSuggestions();
+    return res.json(suggestions);
+  } catch (error) {
+    logger.error('Error fetching content suggestions:', error);
+    return res.status(500).json({ message: 'Failed to fetch content suggestions' });
+  }
+});
+
+/**
+ * Mark a content suggestion as implemented
+ */
+router.post('/content-suggestions/:id/implement', async (req, res) => {
+  try {
+    const id = req.params.id;
+    
+    await storageSeo.markSuggestionImplemented(id);
+    
+    return res.json({ message: 'Content suggestion marked as implemented' });
+  } catch (error) {
+    logger.error('Error marking content suggestion as implemented:', error);
+    return res.status(500).json({ message: 'Failed to mark content suggestion as implemented' });
+  }
+});
+
+/**
+ * Generate weekly email report
+ */
+router.get('/email-report', async (req, res) => {
+  try {
+    const html = await seoEngine.generateWeeklyEmailReport();
+    
+    // Return the HTML of the email
+    return res.send(html);
+  } catch (error) {
+    logger.error('Error generating email report:', error);
+    return res.status(500).json({ message: 'Failed to generate email report' });
   }
 });
 
