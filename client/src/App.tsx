@@ -369,7 +369,7 @@ function App() {
         <Router />
         <MetaPixelTracker /> {/* Add Meta Pixel tracker to handle route changes */}
         <GoogleAnalyticsTracker /> {/* Add Google Analytics tracker to handle route changes */}
-        <MicrosoftClarityTracker projectId="hwm27ibvs3" /> {/* Add Microsoft Clarity tracker */}
+        <MicrosoftClarityTracker projectId="r9scftonwm" /> {/* Add Microsoft Clarity tracker */}
         <Toaster />
         <SpeedInsights />
       </AuthProvider>
