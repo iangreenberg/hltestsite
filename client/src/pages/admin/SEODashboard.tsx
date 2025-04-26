@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
@@ -84,12 +84,7 @@ interface ContentSuggestion {
   implementedAt?: string;
 }
 
-// Interface for SEO actions (used in the Actions tab)
-type SeoActionType = 'fix_issue' | 'implement_suggestion' | 'technical_improvement';
-type SeoActionPriority = 'critical' | 'high' | 'medium' | 'low';
-type SeoActionImpact = 'high' | 'medium' | 'low';
-type SeoActionDifficulty = 'easy' | 'medium' | 'hard';
-type SeoActionStatus = 'pending' | 'in_progress' | 'completed' | 'skipped';
+// Interface for SEO actions (removed unused types)
 
 interface IssueCount {
   critical: number;
@@ -128,19 +123,10 @@ interface PageAudit {
 
 function SEODashboard() {
   const { toast } = useToast();
-  const { user } = useAuth();
+  // Removed user auth check since we're allowing public access
   const [activeTab, setActiveTab] = useState('overview');
   
-  // Check permissions (only admins should access this)
-  useEffect(() => {
-    if (!user?.isAdmin) {
-      toast({
-        title: "Access denied",
-        description: "You need admin privileges to access the SEO Dashboard",
-        variant: "destructive",
-      });
-    }
-  }, [user, toast]);
+  // Removed admin check to allow public access
   
   // Fetch latest SEO report
   const { 
@@ -336,20 +322,7 @@ function SEODashboard() {
     }
   });
   
-  // Handle permission denied
-  if (!user?.isAdmin) {
-    return (
-      <div className="container mx-auto py-10">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Access Denied</AlertTitle>
-          <AlertDescription>
-            You need administrator privileges to access the SEO Dashboard.
-          </AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+  // Permission check removed to allow public access
   
   // Handle loading state
   if (reportLoading) {

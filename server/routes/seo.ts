@@ -65,10 +65,10 @@ router.post('/run-audit', async (req, res) => {
     // Check if an audit is already running
     const status = seoEngine.getStatus();
     
-    if (status.isAuditRunning) {
+    if (status.isRunning) {
       return res.status(409).json({ 
         message: 'An audit is already running', 
-        progress: status.currentAuditProgress 
+        progress: status.currentProgress 
       });
     }
     

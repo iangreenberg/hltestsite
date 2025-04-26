@@ -104,17 +104,13 @@ function Router() {
         }}
       </Route>
       
-      {/* SEO Dashboard - protected admin route */}
+      {/* SEO Dashboard - publicly accessible */}
       <Route path="/admin/seo">
-        {() => {
-          return (
-            <ProtectedRoute path="/admin/seo" component={() => (
-              <AdminLayout>
-                <SEODashboard />
-              </AdminLayout>
-            )} />
-          );
-        }}
+        {() => (
+          <AdminLayout>
+            <SEODashboard />
+          </AdminLayout>
+        )}
       </Route>
       
       {/* Admin Navigation Menu */}
