@@ -8,6 +8,7 @@ import { addApplicationToNotion, getDatabaseSchema } from "./notion";
 import { createTestFilesIfEmpty, getApplicationFiles, readApplicationFile, saveApplicationToFile } from "./fileStorage";
 import { buildSitemap, generateSitemap, scheduleSitemapGeneration } from "./sitemap";
 import { createLogger } from "./logger";
+import seoRoutes from "./routes/seo";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -644,7 +645,47 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
     }
   });
 
+  // SEO sitemap endpoints
+  // Serve sitemap.xml 
+  app.get('/sitemap.xml', async (req: Request, res: Response) => {
+    try {
+      const sitemap = await buildSitemap();
+      res.header('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error serving sitemap:', error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+  
+  // API endpoint to manually trigger sitemap generation (admin only)
+  apiApp.post("/seo/generate-sitemap", isAdmin, async (req: Request, res: Response) => {
+    try {
+      await generateSitemap();
+      res.status(200).json({
+        success: true,
+        message: "Sitemap generated successfully"
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        message: error.message || "Error generating sitemap"
+      });
+    }
+  });
+  
+  // Register SEO routes
+  apiApp.use('/seo', seoRoutes);
+  
+  // Schedule automatic sitemap generation (daily at midnight)
+  scheduleSitemapGeneration();
+
   const httpServer = createServer(app);
+
+  // Generate sitemap on server start
+  generateSitemap().catch(error => {
+    console.error('Error generating initial sitemap:', error);
+  });
 
   return httpServer;
 }

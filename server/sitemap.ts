@@ -3,8 +3,11 @@ import path from 'path';
 import { SitemapStream, streamToPromise } from 'sitemap';
 import { Readable } from 'stream';
 import { createLogger } from './logger';
+import { fileURLToPath } from 'url';
 
 const logger = createLogger('sitemap');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const SITEMAP_PATH = path.join(__dirname, '../client/public/sitemap.xml');
 const BASE_URL = 'https://hltestsite-4vq3.vercel.app';
 
@@ -176,15 +179,17 @@ export async function generateSitemap(): Promise<void> {
  * @param cronExpression cron expression for scheduling (default is daily at midnight)
  */
 export function scheduleSitemapGeneration(cronExpression: string = '0 0 * * *'): void {
-  const cron = require('node-cron');
-  
-  if (cron.validate(cronExpression)) {
-    cron.schedule(cronExpression, async () => {
-      logger.info('Running scheduled sitemap generation');
-      await generateSitemap();
-    });
-    logger.info(`Sitemap generation scheduled with cron expression: ${cronExpression}`);
-  } else {
-    logger.error(`Invalid cron expression: ${cronExpression}`);
-  }
+  import('node-cron').then(cron => {
+    if (cron.validate(cronExpression)) {
+      cron.schedule(cronExpression, async () => {
+        logger.info('Running scheduled sitemap generation');
+        await generateSitemap();
+      });
+      logger.info(`Sitemap generation scheduled with cron expression: ${cronExpression}`);
+    } else {
+      logger.error(`Invalid cron expression: ${cronExpression}`);
+    }
+  }).catch(err => {
+    logger.error('Error loading node-cron module:', err);
+  });
 }
