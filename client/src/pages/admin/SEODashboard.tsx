@@ -84,7 +84,8 @@ interface ContentSuggestion {
   implementedAt?: string;
 }
 
-interface SEOAction {
+// Interface for SEO actions
+interface SeoAction {
   id: string;
   type: 'fix_issue' | 'implement_suggestion' | 'technical_improvement';
   title: string;
@@ -441,10 +442,10 @@ function SEODashboard() {
                     {report?.overallScore}/100
                   </div>
                   <Progress 
-                    value={report?.overallScore} 
+                    value={report?.overallScore || 0} 
                     className={`w-full mt-2 ${
-                      report?.overallScore >= 90 ? "bg-green-500/20" :
-                      report?.overallScore >= 70 ? "bg-yellow-500/20" :
+                      (report?.overallScore || 0) >= 90 ? "bg-green-500/20" :
+                      (report?.overallScore || 0) >= 70 ? "bg-yellow-500/20" :
                       "bg-red-500/20"
                     }`}
                   />

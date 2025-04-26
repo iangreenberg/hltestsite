@@ -119,7 +119,6 @@ class SEOEngine {
       
       // Create the report
       const dailyReport: DailySEOReport = {
-        id: uuidv4(),
         date: new Date(),
         totalIssues,
         newIssues: newIssues.length,

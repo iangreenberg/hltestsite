@@ -10,11 +10,10 @@ import {
   KeywordRanking,
   PerformanceMetric
 } from './types';
-import { loadPageContent, extractLinks, getMetaTags } from './crawler';
+import { BASE_URL, createCrawler } from './crawler';
 import { storageSeo } from './storage';
 
 const logger = createLogger('seo-audit');
-const BASE_URL = 'https://hltestsite-4vq3.vercel.app';
 
 /**
  * Runs a complete SEO audit for a URL
@@ -23,18 +22,22 @@ export async function auditPage(url: string): Promise<PageAudit> {
   try {
     logger.info(`Starting SEO audit for ${url}`);
     
-    // Load page content
-    const { html, dom, status } = await loadPageContent(url);
+    // Load page content using the crawler
+    const crawler = createCrawler();
+    const crawledPage = await crawler.crawlPage(url);
     
-    if (status !== 200) {
-      throw new Error(`Failed to load page: ${url}, status: ${status}`);
+    if (!crawledPage || crawledPage.statusCode !== 200) {
+      throw new Error(`Failed to load page: ${url}, status: ${crawledPage ? crawledPage.statusCode : 'unknown'}`);
     }
     
+    // Create DOM from HTML
+    const dom = new JSDOM(crawledPage.html);
+    
     // Extract basic page metadata
-    const title = dom.window.document.title;
-    const metaTags = getMetaTags(dom);
+    const title = crawledPage.title;
+    const metaTags = crawledPage.metaTags;
     const metaDescription = metaTags.find(tag => tag.name === 'description')?.content || '';
-    const h1Elements = Array.from(dom.window.document.querySelectorAll('h1')).map(el => el.textContent?.trim() || '');
+    const h1Elements = crawledPage.h1;
     const wordCount = countWords(dom.window.document.body.textContent || '');
     
     // Run various checks
@@ -45,7 +48,7 @@ export async function auditPage(url: string): Promise<PageAudit> {
       ...checkLinks(url, dom),
       ...checkMobileOptimization(url, metaTags),
       ...checkPerformance(url),
-      ...checkStructuredData(url, html)
+      ...checkStructuredData(url, crawledPage.html)
     ];
     
     // Count issues by severity
