@@ -1,0 +1,29 @@
+# HempLaunch robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /test-*/
+Disallow: /loading-demo/
+
+# Block AI crawling of admin and test pages
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: Google-Extended
+User-agent: CCBot
+User-agent: anthropic-ai
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /test-*/
+
+# Allow Google Image bot to access all images
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# Sitemap location
+Sitemap: https://hltestsite-4vq3.vercel.app/sitemap.xml
