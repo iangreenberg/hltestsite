@@ -1,0 +1,69 @@
+Objective:
+Upgrade our website to best-in-class SEO standards and create an automated system that monitors SEO daily, identifies improvement opportunities, checks rankings, and implements adjustments continuously.
+
+⸻
+
+Scope of Work:
+	1.	On-Page SEO Overhaul
+	•	Ensure fully optimized title tags, meta descriptions, H1/H2/H3 structures.
+	•	Correct all image alt text, file names, and compression for site speed.
+	•	Optimize internal linking and external authority links.
+	•	Install structured schema markup (for articles, products, FAQ, breadcrumbs, etc.).
+	•	Full mobile optimization, passing Google Lighthouse tests.
+	•	Full core web vitals compliance (LCP, FID, CLS).
+	2.	Technical SEO Enhancement
+	•	Create and submit updated XML sitemap dynamically.
+	•	Set up robots.txt to guide crawlers correctly.
+	•	Implement canonical tags to prevent duplicate content issues.
+	•	Add Open Graph metadata and Twitter Cards for social sharing optimization.
+	•	Ensure SSL (HTTPS), HTTP/2, and fast loading times.
+	•	Implement breadcrumb structured data.
+	3.	SEO Monitoring & Improvement Tool (Daily Engine)
+	•	Build a backend tool (simple dashboard or admin panel) that:
+a. Runs daily site audits (errors, warnings, opportunities).
+b. Tracks keyword rankings for at least 25 keywords.
+c. Analyzes competitors once a week (optional stretch goal).
+d. Lists prioritized daily action items based on audit data.
+e. Suggests new content ideas based on keyword gaps.
+	4.	Automation
+	•	Integrate with Google Search Console and Google Analytics 4 for real-time SEO performance tracking.
+	•	Set up alerts if rankings drop or major errors are detected.
+	•	Optionally use APIs (like Ahrefs, SEMrush, or SERP API) for keyword ranking tracking.
+	5.	Reporting
+	•	Build a simple weekly SEO performance report emailed automatically (rank changes, traffic changes, suggestions).
+	6.	Continuous Improvement
+	•	Schedule monthly website performance reviews to auto-optimize based on audit history (speed improvements, keyword refresh, schema upgrades, etc.).
+
+⸻
+
+Technical Preferences:
+	•	Frontend: whatever matches the current stack (ensure no unnecessary page reloads).
+	•	Backend: Node.js / Python preferred.
+	•	Database (if needed for logs/ranking history): lightweight (PostgreSQL, Firebase, etc.).
+	•	Hosting: Maintain existing (but ensure CDN and caching layers are in place).
+
+⸻
+
+Ultimate Goal:
+The website should become a self-improving SEO machine, with minimal manual input needed — just review reports and approve recommended changes.
+
+⸻
+
+Deliverables:
+	•	Upgraded, SEO-optimized site
+	•	Daily SEO audit tool
+	•	Keyword tracker & improvement engine
+	•	Automated weekly report
+	•	Competitor monitoring (stretch goal)
+
+⸻
+
+Notes:
+	•	Focus on speed, security, and scalability.
+	•	All solutions must be lightweight (no heavy plugins that slow down performance).
+	•	Code must be modular and easy to update.
+
+⸻
+
+Priority:
+🚨 This project is high-priority. Execute with performance and SEO at the forefront.
