@@ -202,56 +202,9 @@ function SEODashboard() {
     data: fixableIssues,
     isLoading: fixableIssuesLoading,
   } = useQuery({
-    queryKey: ['/api/seo/fixable-issues'],
+    queryKey: ['seo', 'fixable-issues'],
     queryFn: async () => {
-      // For development, return mock data
-      const mockFixableIssues: SEOIssue[] = [
-        {
-          id: 'missing_meta_desc_1',
-          title: 'Missing meta description',
-          description: 'The page is missing a meta description tag, which is important for SEO.',
-          severity: 'high',
-          category: 'meta_tags',
-          url: 'https://hltestsite-4vq3.vercel.app/services/support',
-          recommendedFix: 'Add a descriptive meta description between 120-155 characters.',
-          autoFixAvailable: true,
-          detected: new Date().toISOString()
-        },
-        {
-          id: 'missing_title_2',
-          title: 'Missing page title',
-          description: 'The page is missing a title tag, which is crucial for SEO.',
-          severity: 'critical',
-          category: 'meta_tags',
-          url: 'https://hltestsite-4vq3.vercel.app/landing/texas',
-          recommendedFix: 'Add a descriptive title that includes your main keyword.',
-          autoFixAvailable: true,
-          detected: new Date().toISOString()
-        },
-        {
-          id: 'missing_canonical_3',
-          title: 'Missing canonical tag',
-          description: 'The page is missing a canonical tag, which helps prevent duplicate content issues.',
-          severity: 'medium',
-          category: 'meta_tags',
-          url: 'https://hltestsite-4vq3.vercel.app/blog/hemp-regulations',
-          recommendedFix: 'Add a canonical tag pointing to the preferred URL version.',
-          autoFixAvailable: true,
-          detected: new Date().toISOString()
-        }
-      ];
-      
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('GET', '/api/seo/fixable-issues');
-        const data = await response.json();
-        
-        // If no data or empty array, use mockFixableIssues for demonstration
-        return data && data.length > 0 ? data : mockFixableIssues;
-      } catch (error) {
-        console.error('Error fetching fixable issues:', error);
-        throw new Error('Failed to fetch fixable issues');
-      }
+      return await seoApi.getFixableIssues();
     },
     enabled: activeTab === 'automation',
     retry: 1,
@@ -262,60 +215,9 @@ function SEODashboard() {
     data: topKeywords,
     isLoading: topKeywordsLoading,
   } = useQuery({
-    queryKey: ['/api/seo/top-keywords'],
+    queryKey: ['seo', 'top-keywords'],
     queryFn: async () => {
-      // For development, return mock data
-      const mockTopKeywords: KeywordResearchResult[] = [
-        {
-          keyword: 'hemp business startup',
-          searchVolume: 1200,
-          difficulty: 45,
-          relevance: 95,
-          cpc: 3.50,
-          trend: 'up',
-          userIntent: 'informational',
-          relatedKeywords: ['hemp business license', 'hemp startup costs', 'legal hemp business'],
-          suggestedContent: ['10 Steps to Start a Hemp Business', 'Hemp Business Startup Guide']
-        },
-        {
-          keyword: 'hemp product compliance',
-          searchVolume: 890,
-          difficulty: 60,
-          relevance: 90,
-          cpc: 4.20,
-          trend: 'stable',
-          userIntent: 'informational',
-          relatedKeywords: ['hemp regulations', 'FDA hemp compliance', 'hemp testing requirements'],
-          suggestedContent: ['Hemp Compliance Checklist for 2025', 'Understanding Hemp Regulations']
-        },
-        {
-          keyword: 'hemp marketing strategy',
-          searchVolume: 780,
-          difficulty: 50,
-          relevance: 85,
-          cpc: 3.75,
-          trend: 'up',
-          userIntent: 'commercial',
-          relatedKeywords: ['hemp digital marketing', 'hemp brand strategy', 'hemp advertising'],
-          suggestedContent: ['Hemp Marketing Guide', 'Digital Marketing for Hemp Businesses']
-        }
-      ];
-      
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('GET', '/api/seo/top-keywords');
-        const data = await response.json();
-        
-        if (data && Array.isArray(data) && data.length > 0) {
-          return data;
-        }
-        
-        // Fallback to mock data if API doesn't return expected format
-        return mockTopKeywords;
-      } catch (error) {
-        console.error('Error fetching top keywords:', error);
-        throw new Error('Failed to fetch top keywords');
-      }
+      return await seoApi.getTopKeywords(10, 100);
     },
     enabled: activeTab === 'automation',
     retry: 1,
@@ -326,57 +228,9 @@ function SEODashboard() {
     data: suggestedTopics,
     isLoading: suggestedTopicsLoading,
   } = useQuery({
-    queryKey: ['/api/seo/suggested-topics'],
+    queryKey: ['seo', 'suggested-topics'],
     queryFn: async () => {
-      // For development, return mock data
-      const mockSuggestedTopics: ContentTopic[] = [
-        {
-          id: '1',
-          topic: 'hemp business',
-          totalSearchVolume: 4500,
-          averageDifficulty: 55,
-          keywords: [],
-          suggestedTitle: 'The Ultimate Guide to Hemp Business for 2025',
-          suggestedSubheadings: [
-            'What is a Hemp Business?',
-            'Benefits of Hemp Business for Entrepreneurs',
-            'How to Get Started with Hemp Business',
-            'Common Challenges in Hemp Business',
-            'Best Practices for Hemp Business Success'
-          ]
-        },
-        {
-          id: '2',
-          topic: 'hemp compliance',
-          totalSearchVolume: 3200,
-          averageDifficulty: 65,
-          keywords: [],
-          suggestedTitle: 'Hemp Compliance 101: Everything You Need to Know',
-          suggestedSubheadings: [
-            'What is Hemp Compliance?',
-            'Benefits of Hemp Compliance for Hemp Businesses',
-            'How to Get Started with Hemp Compliance',
-            'Common Challenges in Hemp Compliance',
-            'Best Practices for Hemp Compliance Success'
-          ]
-        }
-      ];
-      
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('GET', '/api/seo/suggested-topics');
-        const data = await response.json();
-        
-        if (data && Array.isArray(data) && data.length > 0) {
-          return data;
-        }
-        
-        // Fallback to mock data if API doesn't return expected format
-        return mockSuggestedTopics;
-      } catch (error) {
-        console.error('Error fetching suggested topics:', error);
-        throw new Error('Failed to fetch suggested topics');
-      }
+      return await seoApi.getSuggestedTopics(5, 100);
     },
     enabled: activeTab === 'automation',
     retry: 1,
@@ -385,21 +239,7 @@ function SEODashboard() {
   // Mutation to run a new audit
   const runAuditMutation = useMutation({
     mutationFn: async () => {
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('POST', '/api/seo/run-audit');
-        const data = await response.json();
-        
-        if (data) {
-          return data;
-        }
-        
-        // Fallback mock data if API doesn't return expected format
-        return { success: true, message: 'Audit started successfully' };
-      } catch (error) {
-        console.error('Error running SEO audit:', error);
-        throw new Error('Failed to start SEO audit');
-      }
+      return await seoApi.runAudit();
     },
     onSuccess: () => {
       toast({
@@ -407,12 +247,12 @@ function SEODashboard() {
         description: "The audit is running in the background. Check back in a few minutes.",
       });
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['/api/seo/report/latest'] });
+      queryClient.invalidateQueries({ queryKey: ['seo', 'report', 'latest'] });
     },
     onError: (error) => {
       toast({
         title: "Audit Failed",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
         variant: "destructive",
       });
     }
@@ -421,43 +261,22 @@ function SEODashboard() {
   // Mutation to fix all issues
   const fixAllIssuesMutation = useMutation({
     mutationFn: async () => {
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('POST', '/api/seo/fix-all-issues');
-        const data = await response.json();
-        
-        if (data) {
-          return data;
-        }
-        
-        // Fallback mock data if API doesn't return expected format
-        return { 
-          succeeded: 2, 
-          failed: 1, 
-          issues: [
-            { id: 'missing_meta_desc_1', status: 'fixed', result: 'Added meta description' },
-            { id: 'missing_title_2', status: 'fixed', result: 'Added page title' },
-            { id: 'missing_canonical_3', status: 'failed', result: 'Could not determine canonical URL' }
-          ]
-        };
-      } catch (error) {
-        console.error('Error fixing issues:', error);
-        throw new Error('Failed to fix issues');
-      }
+      const response = await apiRequest('POST', '/api/seo/fix-all-issues');
+      return await response.json();
     },
     onSuccess: (data) => {
       toast({
         title: "Auto-fix Completed",
-        description: `Successfully fixed ${data.succeeded} issues. ${data.failed} issues could not be fixed.`,
+        description: `Successfully fixed ${data.succeeded || 0} issues. ${data.failed || 0} issues could not be fixed.`,
       });
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['/api/seo/fixable-issues'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/seo/report/latest'] });
+      queryClient.invalidateQueries({ queryKey: ['seo', 'fixable-issues'] });
+      queryClient.invalidateQueries({ queryKey: ['seo', 'report', 'latest'] });
     },
     onError: (error) => {
       toast({
         title: "Auto-fix Failed",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
         variant: "destructive",
       });
     }
@@ -466,24 +285,8 @@ function SEODashboard() {
   // Mutation to fix a specific issue
   const fixIssueMutation = useMutation({
     mutationFn: async (issueId: string) => {
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('POST', `/api/seo/fix-issue/${issueId}`);
-        const data = await response.json();
-        
-        if (data) {
-          return data;
-        }
-        
-        // Fallback mock data if API doesn't return expected format
-        return { 
-          status: 'fixed', 
-          message: 'Successfully fixed the issue' 
-        };
-      } catch (error) {
-        console.error(`Error fixing issue ${issueId}:`, error);
-        throw new Error('Failed to fix issue');
-      }
+      const response = await apiRequest('POST', `/api/seo/fix-issue/${issueId}`);
+      return await response.json();
     },
     onSuccess: () => {
       toast({
@@ -491,12 +294,13 @@ function SEODashboard() {
         description: "Successfully fixed the issue.",
       });
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['/api/seo/fixable-issues'] });
+      queryClient.invalidateQueries({ queryKey: ['seo', 'fixable-issues'] });
+      queryClient.invalidateQueries({ queryKey: ['seo', 'report', 'latest'] });
     },
     onError: (error) => {
       toast({
         title: "Fix Failed",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
         variant: "destructive",
       });
     }
@@ -505,44 +309,9 @@ function SEODashboard() {
   // Mutation to research keywords
   const researchKeywordsMutation = useMutation({
     mutationFn: async (seedKeywords: string[]) => {
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('POST', '/api/seo/research-keywords', { seedKeywords });
-        const data = await response.json();
-        
-        if (data && Array.isArray(data) && data.length > 0) {
-          return data;
-        }
-        
-        // Fallback mock data if API doesn't return expected format
-        return [
-          {
-            keyword: seedKeywords[0],
-            searchVolume: 1500,
-            difficulty: 55,
-            relevance: 90,
-            cpc: 3.25,
-            trend: 'up',
-            userIntent: 'informational',
-            relatedKeywords: ['hemp business plan', 'hemp startup guide', 'hemp business license'],
-            suggestedContent: ['How to Start a Hemp Business', 'Hemp Business in 2025: A Complete Guide']
-          },
-          {
-            keyword: `best ${seedKeywords[0]}`,
-            searchVolume: 980,
-            difficulty: 48,
-            relevance: 85,
-            cpc: 4.10,
-            trend: 'up',
-            userIntent: 'commercial',
-            relatedKeywords: ['top hemp businesses', 'successful hemp companies', 'hemp business models'],
-            suggestedContent: ['Top 10 Hemp Businesses to Watch in 2025', 'Best Hemp Business Strategies']
-          }
-        ];
-      } catch (error) {
-        console.error('Error researching keywords:', error);
-        throw new Error('Failed to research keywords');
-      }
+      // Use the API client to research keywords
+      const response = await apiRequest('POST', '/api/seo/research-keywords', { seedKeywords });
+      return await response.json();
     },
     onSuccess: () => {
       toast({
@@ -550,12 +319,12 @@ function SEODashboard() {
         description: "Successfully researched keywords. Check the results below.",
       });
       // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ['/api/seo/top-keywords'] });
+      queryClient.invalidateQueries({ queryKey: ['seo', 'top-keywords'] });
     },
     onError: (error) => {
       toast({
         title: "Keyword Research Failed",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Unknown error occurred',
         variant: "destructive",
       });
     }
