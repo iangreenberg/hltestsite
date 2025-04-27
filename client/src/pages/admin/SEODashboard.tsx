@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/use-auth';
 import { queryClient } from '@/lib/queryClient';
 
 import {
@@ -56,7 +55,7 @@ import {
   Tag
 } from 'lucide-react';
 
-// Interface for SEO data - simplified version of server types
+// Interface for SEO data
 interface SEOIssue {
   id: string;
   title: string;
@@ -94,8 +93,6 @@ interface ContentSuggestion {
   createdAt: string;
   implementedAt?: string;
 }
-
-// Interface for SEO actions (removed unused types)
 
 interface IssueCount {
   critical: number;
@@ -156,12 +153,9 @@ interface PageAudit {
 
 function SEODashboard() {
   const { toast } = useToast();
-  // Removed user auth check since we're allowing public access
   const [activeTab, setActiveTab] = useState('overview');
   const [researchKeywords, setResearchKeywords] = useState<string>('');
   const [seedKeywords, setSeedKeywords] = useState<string[]>([]);
-  
-  // Removed admin check to allow public access
   
   // Fetch latest SEO report
   const { 
@@ -219,6 +213,7 @@ function SEODashboard() {
             category: 'meta_tags',
             url: 'https://hltestsite-4vq3.vercel.app/services/support',
             recommendedFix: 'Add a descriptive meta description between 120-155 characters.',
+            autoFixAvailable: true,
             detected: new Date().toISOString()
           },
           {
@@ -662,8 +657,6 @@ function SEODashboard() {
     }
   });
   
-  // Permission check removed to allow public access
-  
   // Handle loading state
   if (reportLoading) {
     return (
@@ -991,7 +984,7 @@ function SEODashboard() {
                         <TableCell>
                           {issue.category.replace('_', ' ')}
                         </TableCell>
-                        <TableCell className="truncate max-w-[150px]" title={issue.url}>
+                        <TableCell className="truncate max-w-[100px]" title={issue.url}>
                           {issue.url ? new URL(issue.url).pathname : 'N/A'}
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
@@ -999,23 +992,20 @@ function SEODashboard() {
                         </TableCell>
                         <TableCell>
                           {issue.fixed ? (
-                            <Badge variant="default" className="bg-green-500 hover:bg-green-600">
-                              <span className="flex items-center">
-                                <CheckCircle2 className="h-3 w-3 mr-1" />
-                                Fixed
-                              </span>
-                            </Badge>
+                            <span className="text-green-500 flex items-center">
+                              <CheckCircle2 className="h-4 w-4 mr-1" />
+                              Fixed
+                            </span>
                           ) : issue.ignored ? (
-                            <Badge variant="outline">
+                            <span className="text-muted-foreground flex items-center">
+                              <Minus className="h-4 w-4 mr-1" />
                               Ignored
-                            </Badge>
+                            </span>
                           ) : (
-                            <Badge variant="outline" className="bg-yellow-100 text-yellow-700 border-yellow-300">
-                              <span className="flex items-center">
-                                <Clock className="h-3 w-3 mr-1" />
-                                Pending
-                              </span>
-                            </Badge>
+                            <span className="text-yellow-500 flex items-center">
+                              <Clock className="h-4 w-4 mr-1" />
+                              Pending
+                            </span>
                           )}
                         </TableCell>
                       </TableRow>
@@ -1024,6 +1014,18 @@ function SEODashboard() {
                 </Table>
               </ScrollArea>
             </CardContent>
+            <CardFooter>
+              <div className="w-full flex justify-between">
+                <Button variant="outline" onClick={() => setActiveTab('automation')}>
+                  <WandSparkles className="h-4 w-4 mr-2" />
+                  Auto-Fix Issues
+                </Button>
+                <Button>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Export Report
+                </Button>
+              </div>
+            </CardFooter>
           </Card>
         </TabsContent>
         
@@ -1033,62 +1035,58 @@ function SEODashboard() {
             <CardHeader>
               <CardTitle>Page Audits</CardTitle>
               <CardDescription>
-                SEO performance for individual pages
+                SEO performance of individual pages
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Page</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Score</TableHead>
-                    <TableHead>Issues</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {auditsLoading ? (
+              {auditsLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <Table>
+                  <TableHeader>
                     <TableRow>
-                      <TableCell colSpan={5} className="text-center">
-                        <div className="flex items-center justify-center">
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary mr-2"></div>
-                          Loading page data...
-                        </div>
-                      </TableCell>
+                      <TableHead>Page</TableHead>
+                      <TableHead>SEO Score</TableHead>
+                      <TableHead className="hidden md:table-cell">Title</TableHead>
+                      <TableHead>Issues</TableHead>
+                      <TableHead>Actions</TableHead>
                     </TableRow>
-                  ) : pageAudits?.map((page) => (
-                    <TableRow key={page.url}>
-                      <TableCell className="truncate max-w-[150px]" title={page.url}>
-                        {new URL(page.url).pathname || '/'}
-                      </TableCell>
-                      <TableCell className="truncate max-w-[200px]" title={page.title}>
-                        {page.title}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center">
-                          <span 
-                            className={
-                              page.score >= 90 ? "text-green-500" :
-                              page.score >= 70 ? "text-yellow-500" :
-                              "text-red-500"
-                            }
-                          >
-                            {page.score}
-                          </span>
-                          <span className="text-muted-foreground text-xs">/100</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>{page.issues.length}</TableCell>
-                      <TableCell>
-                        <Button variant="outline" size="sm">
-                          View Details
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {pageAudits?.map((page) => (
+                      <TableRow key={page.url}>
+                        <TableCell className="truncate max-w-[150px]" title={page.url}>
+                          {page.url ? new URL(page.url).pathname : 'N/A'}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center">
+                            <Progress 
+                              value={page.score} 
+                              className={`w-[60px] mr-2 ${
+                                page.score >= 90 ? "bg-green-500/20" :
+                                page.score >= 70 ? "bg-yellow-500/20" :
+                                "bg-red-500/20"
+                              }`}
+                            />
+                            <span>{page.score}/100</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell truncate max-w-[200px]" title={page.title}>
+                          {page.title}
+                        </TableCell>
+                        <TableCell>
+                          {page.issues.length}
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="outline" size="sm">View Details</Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -1099,185 +1097,497 @@ function SEODashboard() {
             <CardHeader>
               <CardTitle>Keyword Rankings</CardTitle>
               <CardDescription>
-                Track your position in search results for target keywords
+                Track your position for key search terms
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Keyword</TableHead>
-                    <TableHead>Position</TableHead>
-                    <TableHead>Change</TableHead>
-                    <TableHead>URL</TableHead>
-                    <TableHead>Last Updated</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {report?.keywordRankings.map((keyword, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{keyword.keyword}</TableCell>
-                      <TableCell>
-                        <div className="font-semibold">
-                          #{keyword.position}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        {keyword.change ? (
-                          keyword.change > 0 ? (
-                            <span className="text-green-500 flex items-center">
-                              <ArrowUp className="h-4 w-4 mr-1" />
-                              {keyword.change}
-                            </span>
-                          ) : keyword.change < 0 ? (
-                            <span className="text-red-500 flex items-center">
-                              <ArrowDown className="h-4 w-4 mr-1" />
-                              {Math.abs(keyword.change)}
-                            </span>
-                          ) : (
-                            <span className="text-muted-foreground flex items-center">
-                              <Minus className="h-4 w-4 mr-1" />
-                              No change
-                            </span>
-                          )
-                        ) : (
-                          <span className="text-muted-foreground">New</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="truncate max-w-[200px]" title={keyword.url}>
-                        {new URL(keyword.url).pathname}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(keyword.lastUpdated).toLocaleDateString()}
-                      </TableCell>
+              <ScrollArea className="h-[500px]">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Keyword</TableHead>
+                      <TableHead>Position</TableHead>
+                      <TableHead>Change</TableHead>
+                      <TableHead>URL</TableHead>
+                      <TableHead>Last Updated</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {report?.keywordRankings.map((keyword, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          {keyword.keyword}
+                        </TableCell>
+                        <TableCell>
+                          <div className="font-bold">#{keyword.position}</div>
+                        </TableCell>
+                        <TableCell>
+                          {keyword.change ? (
+                            <div className="flex items-center">
+                              {keyword.change > 0 ? (
+                                <span className="text-green-500 flex items-center">
+                                  <ArrowUp className="h-4 w-4 mr-1" />
+                                  {keyword.change}
+                                </span>
+                              ) : keyword.change < 0 ? (
+                                <span className="text-red-500 flex items-center">
+                                  <ArrowDown className="h-4 w-4 mr-1" />
+                                  {Math.abs(keyword.change)}
+                                </span>
+                              ) : (
+                                <span className="text-muted-foreground flex items-center">
+                                  <Minus className="h-4 w-4 mr-1" />
+                                  0
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-muted-foreground">New</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="truncate max-w-[200px]" title={keyword.url}>
+                          {keyword.url ? new URL(keyword.url).pathname : 'N/A'}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(keyword.lastUpdated).toLocaleDateString()}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
             </CardContent>
             <CardFooter>
-              <Button variant="outline">
-                <FileText className="h-4 w-4 mr-2" />
-                Export Rankings
+              <div className="w-full flex justify-between">
+                <Button variant="outline" onClick={() => setActiveTab('automation')}>
+                  <Search className="h-4 w-4 mr-2" />
+                  Research Keywords
+                </Button>
+                <Button>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Export Report
+                </Button>
+              </div>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        
+        {/* Actions Tab */}
+        <TabsContent value="actions" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recommended Action Plan</CardTitle>
+              <CardDescription>
+                Follow these steps to improve your SEO performance
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Critical Actions</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-4">
+                      <div className="mt-0.5 bg-red-100 p-1.5 rounded-full text-red-600">
+                        <AlertCircle className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-medium">Fix critical issues</p>
+                        <p className="text-sm text-muted-foreground">
+                          Address the {report?.totalIssues.critical} critical issues identified in the
+                          SEO Audit. These are the most urgent improvements needed.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">High Priority Actions</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-4">
+                      <div className="mt-0.5 bg-orange-100 p-1.5 rounded-full text-orange-600">
+                        <FileWarning className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-medium">Optimize meta descriptions</p>
+                        <p className="text-sm text-muted-foreground">
+                          Add or improve meta descriptions across the site to increase click-through rates
+                          from search results.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4">
+                      <div className="mt-0.5 bg-orange-100 p-1.5 rounded-full text-orange-600">
+                        <Lightbulb className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-medium">Create content for top keywords</p>
+                        <p className="text-sm text-muted-foreground">
+                          Develop high-quality content targeting your key ranking opportunities
+                          based on the content suggestions.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Medium Priority Actions</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-4">
+                      <div className="mt-0.5 bg-yellow-100 p-1.5 rounded-full text-yellow-600">
+                        <FileText className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-medium">Improve internal linking structure</p>
+                        <p className="text-sm text-muted-foreground">
+                          Add more internal links between related pages to improve site 
+                          crawlability and user navigation.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4">
+                      <div className="mt-0.5 bg-yellow-100 p-1.5 rounded-full text-yellow-600">
+                        <Clock className="h-5 w-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <p className="font-medium">Improve page loading speed</p>
+                        <p className="text-sm text-muted-foreground">
+                          Optimize images, minimize JavaScript, and implement browser caching
+                          to improve page loading times.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button variant="outline" onClick={() => setActiveTab('issues')}>
+                View All Issues
               </Button>
             </CardFooter>
           </Card>
         </TabsContent>
         
-        {/* Action Plan Tab */}
-        <TabsContent value="actions" className="space-y-4">
+        {/* Automation Tab */}
+        <TabsContent value="automation" className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Auto-Fix Issues Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <WandSparkles className="h-5 w-5 mr-2 text-primary" />
+                  Automatic Issue Fixing
+                </CardTitle>
+                <CardDescription>
+                  Let our AI automatically fix common SEO issues
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {fixableIssuesLoading ? (
+                  <div className="flex justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  </div>
+                ) : fixableIssues?.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-8 text-center">
+                    <CheckCircle2 className="h-12 w-12 text-green-500 mb-3" />
+                    <h3 className="text-xl font-medium">All Issues Fixed!</h3>
+                    <p className="text-muted-foreground mt-2">
+                      There are no auto-fixable issues detected on your site right now.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <p className="mb-4">
+                      We found {fixableIssues?.length} issues that can be automatically fixed:
+                    </p>
+                    <ScrollArea className="h-[250px] pr-4">
+                      <div className="space-y-3">
+                        {fixableIssues?.map((issue) => (
+                          <div 
+                            key={issue.id} 
+                            className="border rounded-md p-3 relative"
+                          >
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-medium">{issue.title}</p>
+                                <p className="text-sm text-muted-foreground truncate max-w-md" title={issue.url}>
+                                  {issue.url && new URL(issue.url).pathname}
+                                </p>
+                              </div>
+                              <Badge variant={
+                                issue.severity === 'critical' ? 'destructive' :
+                                issue.severity === 'high' ? 'destructive' :
+                                issue.severity === 'medium' ? 'default' :
+                                'outline'
+                              }>
+                                {issue.severity}
+                              </Badge>
+                            </div>
+                            <div className="mt-2 flex justify-between items-center">
+                              <span className="text-sm text-muted-foreground">
+                                {issue.category.replace('_', ' ')}
+                              </span>
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => fixIssueMutation.mutate(issue.id)}
+                                disabled={fixIssueMutation.isPending}
+                                className="flex items-center"
+                              >
+                                {fixIssueMutation.isPending ? (
+                                  <>
+                                    <span className="animate-spin mr-1">
+                                      <RefreshCcw className="h-3 w-3" />
+                                    </span>
+                                    Fixing...
+                                  </>
+                                ) : (
+                                  <>
+                                    <WandSparkles className="h-3 w-3 mr-1" />
+                                    Auto-Fix
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                  </>
+                )}
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  className="w-full"
+                  onClick={() => fixAllIssuesMutation.mutate()}
+                  disabled={fixAllIssuesMutation.isPending || fixableIssuesLoading || (fixableIssues?.length === 0)}
+                >
+                  {fixAllIssuesMutation.isPending ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-1">
+                        <RefreshCcw className="h-4 w-4" />
+                      </span>
+                      Fixing All Issues...
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      Auto-Fix All Issues
+                    </span>
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
+
+            {/* Keyword Research Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Search className="h-5 w-5 mr-2 text-primary" />
+                  Keyword Research
+                </CardTitle>
+                <CardDescription>
+                  Discover high-value keywords to target in your content
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="keyword-research" className="text-sm font-medium mb-1 block">
+                      Research a keyword
+                    </label>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        id="keyword-research"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Enter a keyword (e.g., hemp business)"
+                        value={researchKeywords}
+                        onChange={(e) => setResearchKeywords(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && researchKeywords.trim() !== '') {
+                            setSeedKeywords([researchKeywords.trim()]);
+                            researchKeywordsMutation.mutate([researchKeywords.trim()]);
+                          }
+                        }}
+                      />
+                      <Button 
+                        onClick={() => {
+                          if (researchKeywords.trim() !== '') {
+                            setSeedKeywords([researchKeywords.trim()]);
+                            researchKeywordsMutation.mutate([researchKeywords.trim()]);
+                          }
+                        }}
+                        disabled={researchKeywordsMutation.isPending || !researchKeywords.trim()}
+                      >
+                        {researchKeywordsMutation.isPending ? (
+                          <span className="animate-spin">
+                            <RefreshCcw className="h-4 w-4" />
+                          </span>
+                        ) : (
+                          <Search className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-medium mb-2">Top keywords for your site</h3>
+                    {topKeywordsLoading ? (
+                      <div className="flex justify-center py-4">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                      </div>
+                    ) : (
+                      <ScrollArea className="h-[180px] pr-4">
+                        <div className="space-y-3">
+                          {topKeywords?.map((keyword, index) => (
+                            <div key={index} className="border rounded-md p-3">
+                              <div className="flex justify-between items-start">
+                                <h4 className="font-medium">{keyword.keyword}</h4>
+                                <div className="flex items-center">
+                                  <span className="text-sm font-bold mr-1">{keyword.searchVolume}</span>
+                                  <span className="text-xs text-muted-foreground">searches/mo</span>
+                                </div>
+                              </div>
+                              <div className="mt-1 flex justify-between text-sm">
+                                <div className="space-x-2">
+                                  <Badge variant="outline" className="font-normal">
+                                    {keyword.userIntent}
+                                  </Badge>
+                                  {keyword.trend && (
+                                    <Badge variant={keyword.trend === 'up' ? 'default' : 'secondary'} className="font-normal">
+                                      {keyword.trend === 'up' ? (
+                                        <ArrowUp className="h-3 w-3 mr-1" />
+                                      ) : keyword.trend === 'down' ? (
+                                        <ArrowDown className="h-3 w-3 mr-1" />
+                                      ) : (
+                                        <Minus className="h-3 w-3 mr-1" />
+                                      )}
+                                      {keyword.trend}
+                                    </Badge>
+                                  )}
+                                </div>
+                                <span className="text-muted-foreground">
+                                  Difficulty: {keyword.difficulty}/100
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    // Take the top 5 keywords and research them
+                    if (topKeywords && topKeywords.length > 0) {
+                      const seeds = topKeywords.slice(0, 5).map(k => k.keyword);
+                      setSeedKeywords(seeds);
+                      researchKeywordsMutation.mutate(seeds);
+                    }
+                  }}
+                  disabled={researchKeywordsMutation.isPending || topKeywordsLoading || !topKeywords?.length}
+                >
+                  <TrendingUp className="h-4 w-4 mr-2" />
+                  Research Similar
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    setActiveTab('keywords');
+                  }}
+                >
+                  <Tag className="h-4 w-4 mr-2" />
+                  View Rankings
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+
+          {/* Content Topic Suggestions Card */}
           <Card>
             <CardHeader>
-              <CardTitle>SEO Action Plan</CardTitle>
+              <CardTitle className="flex items-center">
+                <BookText className="h-5 w-5 mr-2 text-primary" />
+                Suggested Content Topics
+              </CardTitle>
               <CardDescription>
-                Prioritized actions to improve your search performance
+                Topics that can help you attract more relevant traffic to your site
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-8">
-                {/* Technical Fixes */}
-                <div>
-                  <h3 className="font-semibold text-lg mb-4 flex items-center">
-                    <FileWarning className="h-5 w-5 mr-2" />
-                    Technical Issues to Fix
-                  </h3>
-                  
-                  <div className="space-y-4">
-                    {report?.topPriorityFixes.slice(0, 3).map((issue) => (
-                      <div key={issue.id} className="border rounded-lg p-4">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h4 className="font-medium">{issue.title}</h4>
-                            <p className="text-sm text-muted-foreground">
-                              {issue.description}
-                            </p>
-                          </div>
-                          <Badge variant={
-                            issue.severity === 'critical' ? 'destructive' :
-                            issue.severity === 'high' ? 'destructive' :
-                            'default'
-                          }>
-                            {issue.severity}
-                          </Badge>
-                        </div>
-                        
-                        <Separator className="my-3" />
-                        
-                        <div className="text-sm space-y-2">
-                          <div><strong>URL:</strong> {issue.url ? new URL(issue.url).pathname : 'N/A'}</div>
-                          <div><strong>Recommendation:</strong> {issue.recommendedFix}</div>
-                        </div>
-                        
-                        <div className="mt-4 flex justify-end space-x-2">
-                          <Button variant="outline" size="sm">
-                            Skip
-                          </Button>
-                          <Button size="sm">
-                            Mark as Fixed
-                          </Button>
+              {suggestedTopicsLoading ? (
+                <div className="flex justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              ) : !suggestedTopics?.length ? (
+                <div className="text-center py-12">
+                  <p>No suggested topics available. Run a keyword research to generate topics.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {suggestedTopics?.map((topic) => (
+                    <div key={topic.id} className="border rounded-md p-5">
+                      <div className="flex justify-between items-start mb-3">
+                        <h3 className="text-lg font-medium">{topic.suggestedTitle}</h3>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">{topic.totalSearchVolume.toLocaleString()}</div>
+                          <div className="text-xs text-muted-foreground">monthly searches</div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Content Suggestions */}
-                <div>
-                  <h3 className="font-semibold text-lg mb-4 flex items-center">
-                    <Lightbulb className="h-5 w-5 mr-2" />
-                    Content Opportunities
-                  </h3>
-                  
-                  <div className="space-y-4">
-                    {report?.contentSuggestions.map((suggestion) => (
-                      <div key={suggestion.id} className="border rounded-lg p-4">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h4 className="font-medium">{suggestion.title}</h4>
-                            <div className="flex gap-2 mt-1">
-                              <Badge variant="outline">
-                                {suggestion.keyword}
-                              </Badge>
-                              <Badge variant={
-                                suggestion.expectedTraffic === 'high' ? 'default' :
-                                'secondary'
-                              }>
-                                {suggestion.expectedTraffic} traffic potential
-                              </Badge>
-                            </div>
-                          </div>
-                          <Badge variant="outline">
-                            {suggestion.suggestedWordCount} words
-                          </Badge>
-                        </div>
-                        
-                        <Separator className="my-3" />
-                        
-                        <div className="text-sm space-y-2">
-                          <div>
-                            <strong>Suggested Headings:</strong>
-                            <ul className="pl-6 list-disc mt-1">
-                              {suggestion.suggestedHeadings.map((heading, i) => (
-                                <li key={i}>{heading}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                        
-                        <div className="mt-4 flex justify-end space-x-2">
-                          <Button variant="outline" size="sm">
-                            Save for Later
-                          </Button>
-                          <Button size="sm">
-                            Create Content
-                          </Button>
-                        </div>
+                      
+                      <div className="mb-4">
+                        <h4 className="text-sm font-medium mb-2">Suggested Outline:</h4>
+                        <ul className="space-y-1 text-sm pl-5 list-disc">
+                          {topic.suggestedSubheadings.map((heading, idx) => (
+                            <li key={idx}>{heading}</li>
+                          ))}
+                        </ul>
                       </div>
-                    ))}
-                  </div>
+                      
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">
+                          Difficulty: {topic.averageDifficulty}/100
+                        </span>
+                        <Button variant="outline" size="sm">
+                          <Braces className="h-3 w-3 mr-1" />
+                          Copy Outline
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
             </CardContent>
+            <CardFooter>
+              <div className="w-full flex justify-between">
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    // Generate new content topics based on current keywords
+                    // In real implementation, this would call an API
+                    toast({
+                      title: "Generating New Topics",
+                      description: "Our AI is analyzing your keywords to generate new content topics.",
+                    });
+                  }}
+                >
+                  <Bot className="h-4 w-4 mr-2" />
+                  Generate New Topics
+                </Button>
+                <Button variant="default">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Create Content Plan
+                </Button>
+              </div>
+            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>
