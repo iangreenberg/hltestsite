@@ -8,7 +8,7 @@ import { addApplicationToNotion, getDatabaseSchema } from "./notion";
 import { createTestFilesIfEmpty, getApplicationFiles, readApplicationFile, saveApplicationToFile } from "./fileStorage";
 import { buildSitemap, generateSitemap, scheduleSitemapGeneration } from "./sitemap";
 import { createLogger } from "./logger";
-import seoRoutes from "./routes/seo";
+import { registerSeoRoutes } from "./routes/seo";
 
 // Middleware to check if user is authenticated and is admin
 const isAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -30,6 +30,9 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   
   // Set up authentication with type assertion to work around TypeScript constraints
   setupAuth(app, apiRouter as any);
+  
+  // Register SEO routes with proper authentication
+  registerSeoRoutes(apiApp);
   
   // Create test application files if none exist
   try {
@@ -675,7 +678,7 @@ export async function registerRoutes(app: Express, apiRouter?: Router): Promise<
   });
   
   // Register SEO routes
-  apiApp.use('/seo', seoRoutes);
+  // SEO routes are registered via registerSeoRoutes earlier
   
   // Schedule automatic sitemap generation (daily at midnight)
   scheduleSitemapGeneration();
