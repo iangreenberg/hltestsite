@@ -25,8 +25,13 @@ export const seoApi = {
   // Test endpoint to check if SEO API is available
   async testConnection(): Promise<{ success: boolean }> {
     try {
-      const response = await fetch(`${SEO_API_BASE}/test`);
-      return handleApiResponse<{ success: boolean }>(response);
+      console.log("Testing SEO API connection...");
+      const response = await fetch(`${SEO_API_BASE}/test`, {
+        credentials: "include" // Include cookies for authentication
+      });
+      const result = await handleApiResponse<{ success: boolean }>(response);
+      console.log("SEO API connection test result:", result);
+      return result;
     } catch (error) {
       console.error("Error testing SEO API connection:", error);
       return { success: false };
@@ -36,8 +41,13 @@ export const seoApi = {
   // Debug endpoint to check authentication
   async debugAuth(): Promise<any> {
     try {
-      const response = await fetch(`${SEO_API_BASE}/debug-auth`);
-      return handleApiResponse<any>(response);
+      console.log("Checking auth debug...");
+      const response = await fetch(`${SEO_API_BASE}/debug-auth`, {
+        credentials: "include" // Include cookies for authentication
+      });
+      const result = await handleApiResponse<any>(response);
+      console.log("Auth debug result:", result);
+      return result;
     } catch (error) {
       console.error("Error debugging authentication:", error);
       return { error: String(error) };

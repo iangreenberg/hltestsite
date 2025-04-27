@@ -187,6 +187,9 @@ export default function AdminNav() {
                 <Link href="/admin/seo-test">
                   <Button className="w-full">Test SEO API Endpoints</Button>
                 </Link>
+                <Link href="/simple-api-test">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white">Simple API Test</Button>
+                </Link>
                 <Link href="/admin/seo-dashboard">
                   <Button className="w-full" variant="outline">SEO Dashboard (Simple)</Button>
                 </Link>

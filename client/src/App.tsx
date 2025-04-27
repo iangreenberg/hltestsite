@@ -33,6 +33,7 @@ import AdminNav from "./pages/AdminNav";
 import AuthPage from "./pages/auth-page";
 import AuthTest from "./pages/auth-test";
 import SeoApiTest from "./pages/SeoApiTest";
+import SimpleApiTest from "./pages/SimpleApiTest";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
@@ -386,6 +387,14 @@ function Router() {
           <MainLayout>
             <SeoApiTest />
           </MainLayout>
+        )}
+      </Route>
+      
+      <Route path="/simple-api-test">
+        {() => (
+          <AdminLayout>
+            <SimpleApiTest />
+          </AdminLayout>
         )}
       </Route>
       
