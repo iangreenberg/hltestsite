@@ -35,6 +35,7 @@ import AuthTest from "./pages/auth-test";
 import SeoApiTest from "./pages/SeoApiTest";
 import SimpleApiTest from "./pages/SimpleApiTest";
 import CrawlToolPage from "./pages/CrawlToolPage";
+import ApiDiagnostic from "./pages/ApiDiagnostic";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
@@ -404,6 +405,15 @@ function Router() {
         {() => (
           <AdminLayout>
             <SimpleApiTest />
+          </AdminLayout>
+        )}
+      </Route>
+      
+      {/* API Diagnostic Tool */}
+      <Route path="/api-diagnostic">
+        {() => (
+          <AdminLayout>
+            <ApiDiagnostic />
           </AdminLayout>
         )}
       </Route>

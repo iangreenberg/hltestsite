@@ -4,8 +4,18 @@
 
 // Constants for the actual SEO API
 export const SEO_API_BASE_URL = process.env.SEO_API_BASE_URL || 'https://api.thehemplaunch.com';
-export const MAX_RETRIES = 2;
-export const RETRY_DELAY = 500; // milliseconds
+export const MAX_RETRIES = 3;
+export const RETRY_DELAY = 1000; // milliseconds
+
+// Check if we're in a Vercel production environment
+const isVercelProduction = process.env.VERCEL_ENV === 'production';
+
+// Log the environment for debugging
+console.log(`SEO API Utils initialized:
+- API Base URL: ${SEO_API_BASE_URL}
+- Environment: ${isVercelProduction ? 'Vercel Production' : 'Development/Preview'}
+- Max Retries: ${MAX_RETRIES}
+- Retry Delay: ${RETRY_DELAY}ms`);
 
 // Helper function to set CORS headers
 export function setCorsHeaders(res) {
