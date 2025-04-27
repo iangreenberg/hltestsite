@@ -67,6 +67,7 @@ export const seoReports = pgTable("seo_reports", {
 
 export const seoIssues = pgTable("seo_issues", {
   id: serial("id").primaryKey(),
+  reportId: integer("report_id").notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(), 
   url: text("url"),

@@ -193,6 +193,9 @@ export default function AdminNav() {
                 <Link href="/admin/seo-dashboard">
                   <Button className="w-full" variant="outline">SEO Dashboard (Simple)</Button>
                 </Link>
+                <Link href="/admin/seo-crawler">
+                  <Button className="w-full bg-[#2F5D50] hover:bg-[#234840] text-white">SEO Crawler Tool</Button>
+                </Link>
               </div>
             </CardContent>
           </Card>

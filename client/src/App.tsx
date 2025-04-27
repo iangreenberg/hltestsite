@@ -34,6 +34,7 @@ import AuthPage from "./pages/auth-page";
 import AuthTest from "./pages/auth-test";
 import SeoApiTest from "./pages/SeoApiTest";
 import SimpleApiTest from "./pages/SimpleApiTest";
+import CrawlToolPage from "./pages/CrawlToolPage";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
@@ -130,6 +131,15 @@ function Router() {
         {() => (
           <AdminLayout>
             <SeoApiTest />
+          </AdminLayout>
+        )}
+      </Route>
+      
+      {/* SEO Crawler Tool */}
+      <Route path="/admin/seo-crawler">
+        {() => (
+          <AdminLayout>
+            <CrawlToolPage />
           </AdminLayout>
         )}
       </Route>
