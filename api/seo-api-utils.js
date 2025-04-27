@@ -1,19 +1,14 @@
 /**
- * Vercel Edge API bridge for SEO API requests
- * This serverless function provides a compatibility layer for SEO API requests
- * 
- * It works in two modes:
- * 1. Proxy mode - tries to forward requests to the actual SEO API
- * 2. Fallback mode - provides simulated data when the SEO API is not available
+ * Shared utilities for SEO API serverless functions
  */
 
 // Constants for the actual SEO API
-const SEO_API_BASE_URL = process.env.SEO_API_BASE_URL || 'https://api.thehemplaunch.com';
-const MAX_RETRIES = 1;
-const RETRY_DELAY = 300; // milliseconds
+export const SEO_API_BASE_URL = process.env.SEO_API_BASE_URL || 'https://api.thehemplaunch.com';
+export const MAX_RETRIES = 1;
+export const RETRY_DELAY = 300; // milliseconds
 
 // Helper function to set CORS headers
-function setCorsHeaders(res) {
+export function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -21,7 +16,7 @@ function setCorsHeaders(res) {
 }
 
 // Sleep function for retries
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
  * Attempts to forward the request to the actual SEO API
@@ -30,7 +25,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
  * @param {string} endpoint - The API endpoint to forward to
  * @returns {Promise<boolean>} - Whether the proxy request succeeded
  */
-async function tryProxyRequest(req, res, endpoint) {
+export async function tryProxyRequest(req, res, endpoint) {
   let retries = 0;
   
   while (retries <= MAX_RETRIES) {
@@ -96,7 +91,7 @@ async function tryProxyRequest(req, res, endpoint) {
  * @param {string} endpoint - The API endpoint being requested
  * @param {object} additionalData - Optional additional data to include in the response
  */
-function respondWithSimulatedData(res, endpoint, additionalData = {}) {
+export function respondWithSimulatedData(res, endpoint, additionalData = {}) {
   // Default response structure
   const response = {
     success: true,
@@ -127,6 +122,7 @@ function respondWithSimulatedData(res, endpoint, additionalData = {}) {
       };
       break;
     
+    case 'report/latest':
     case 'reports/latest':
       response.report = {
         id: 1,
@@ -167,6 +163,7 @@ function respondWithSimulatedData(res, endpoint, additionalData = {}) {
       break;
     
     case 'top-keywords':
+    case 'keywords':
       response.keywords = [
         { keyword: "hemp business setup", volume: 1200, difficulty: 45, position: 12 },
         { keyword: "hemp derived products", volume: 2500, difficulty: 65, position: 8 },
@@ -177,6 +174,7 @@ function respondWithSimulatedData(res, endpoint, additionalData = {}) {
       break;
     
     case 'suggested-topics':
+    case 'content-suggestions':
       response.topics = [
         { topic: "Hemp Business Compliance Guide", keywords: ["hemp compliance", "legal hemp business", "hemp regulations"], competition: "medium" },
         { topic: "Starting a Hemp Business in Texas", keywords: ["texas hemp laws", "hemp business texas", "texas hemp license"], competition: "low" },
@@ -188,67 +186,14 @@ function respondWithSimulatedData(res, endpoint, additionalData = {}) {
     
     default:
       // Unknown endpoint
-      return res.status(404).json({
+      res.status(404).json({
         success: false,
-        error: "Unknown endpoint"
+        error: "Unknown endpoint",
+        endpoint: endpoint
       });
+      return;
   }
 
   // Send the response
   res.status(200).json(response);
-}
-
-/**
- * Main request handler function
- * @param {object} req - Request object
- * @param {object} res - Response object
- */
-export default async function handler(req, res) {
-  // Handle OPTIONS requests for CORS preflight
-  if (req.method === 'OPTIONS') {
-    setCorsHeaders(res);
-    return res.status(200).end();
-  }
-
-  try {
-    // Set CORS headers for all responses
-    setCorsHeaders(res);
-
-    // Extract the specific SEO API endpoint from the URL
-    const url = new URL(req.url, `https://${req.headers.host}`);
-    const pathParts = url.pathname.split('/');
-    const endpoint = pathParts.slice(3).join('/'); // Skip "/api/seo/"
-
-    // Log API request for debugging
-    console.log(`SEO API Request: ${endpoint} (${req.method})`);
-    
-    // First try to proxy the request to the actual API
-    const proxySuccess = await tryProxyRequest(req, res, endpoint);
-    
-    // If proxy succeeded, the response has already been sent
-    if (proxySuccess) {
-      return;
-    }
-    
-    // Otherwise, generate fallback data
-    console.log(`Using fallback data for endpoint: ${endpoint}`);
-    
-    // Add fallback indicator to the response
-    const fallbackResponse = { 
-      success: true, 
-      useFallbackApi: true 
-    };
-    
-    // Handle the request with simulated data
-    respondWithSimulatedData(res, endpoint, fallbackResponse);
-  } catch (error) {
-    console.error('SEO API Bridge Error:', error);
-    
-    // Return a friendly error response
-    return res.status(500).json({
-      success: false,
-      error: "Internal server error",
-      message: error.message
-    });
-  }
 }
