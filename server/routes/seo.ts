@@ -6,20 +6,25 @@ const logger = createLogger('seoRoutes');
 
 // Middleware to ensure user is authenticated and is an admin
 export function ensureAuthenticated(req: Request, res: Response, next: Function) {
-  // For testing purposes, bypass authentication temporarily
-  // REMOVE THIS IN PRODUCTION - only for development
-  return next();
-  
-  /*
-  if (typeof req.isAuthenticated !== 'function') {
-    return res.status(500).json({ message: "req.isAuthenticated is not a function" });
+  try {
+    // Check if the user is authenticated using req.isAuthenticated()
+    if (typeof req.isAuthenticated === 'function') {
+      if (req.isAuthenticated() && req.user?.isAdmin) {
+        return next();
+      }
+    } else {
+      // Fallback if isAuthenticated is not available
+      if (req.user && req.user.isAdmin) {
+        return next();
+      }
+    }
+    
+    // Not authenticated or not admin
+    return res.status(401).json({ error: 'Unauthorized access' });
+  } catch (error) {
+    console.error('Authentication error:', error);
+    return res.status(500).json({ error: 'Authentication system error' });
   }
-  
-  if (req.isAuthenticated() && req.user?.isAdmin) {
-    return next();
-  }
-  return res.status(401).json({ error: 'Unauthorized access' });
-  */
 }
 
 export function registerSeoRoutes(router: Router) {
@@ -208,6 +213,19 @@ export function registerSeoRoutes(router: Router) {
   // Quick connection test endpoint
   seoRouter.get('/test', async (req: Request, res: Response) => {
     return res.json({ success: true });
+  });
+  
+  // Debug endpoint for authentication
+  router.get('/seo/debug-auth', (req: Request, res: Response) => {
+    const authDetails = {
+      isAuthenticated: typeof req.isAuthenticated === 'function' ? req.isAuthenticated() : 'Not a function',
+      userAvailable: !!req.user,
+      isAdmin: req.user?.isAdmin || false,
+      sessionAvailable: !!req.session,
+      sessionID: req.sessionID || 'No session ID'
+    };
+    
+    return res.json(authDetails);
   });
   
   // Mount the SEO router

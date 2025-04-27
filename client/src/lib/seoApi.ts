@@ -1,232 +1,116 @@
-/**
- * SEO API utility for making requests to the SEO API endpoints
- */
-import { queryClient, apiRequest } from './queryClient';
+import { queryClient, apiRequest } from "@/lib/queryClient";
+import { SeoReport, SeoIssue, KeywordRanking, ContentSuggestion, SeoStatusRecord } from "@shared/schema";
 
-// Define types for SEO data
-export interface IssueCount {
-  critical: number;
-  high: number;
-  medium: number;
-  low: number;
-  info: number;
+// Base URL for all SEO API endpoints
+const SEO_API_BASE = "/api/seo";
+
+// Helper to handle errors consistently
+async function handleApiResponse<T>(response: Response): Promise<T> {
+  if (!response.ok) {
+    // Try to parse the error message from the response
+    try {
+      const errorData = await response.json();
+      throw new Error(errorData.error || errorData.message || `API Error: ${response.status} ${response.statusText}`);
+    } catch (e) {
+      // If we can't parse the error, throw a generic one
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+  }
+  
+  return response.json() as Promise<T>;
 }
 
-export interface SeoIssue {
-  id: string;
-  title: string;
-  description: string;
-  url?: string;
-  severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
-  type: string;
-  fixed?: boolean;
-  ignored?: boolean;
-  fixedDate?: string;
-  detectedDate: string;
-  pageUrl?: string;
-  selector?: string;
-  recommendation?: string;
-  impact?: string;
-  autoFixable?: boolean;
-}
-
-export interface PageAudit {
-  url: string;
-  title: string;
-  metaDescription: string;
-  h1: string;
-  h2Count: number;
-  wordCount: number;
-  imageCount: number;
-  imagesWithAlt: number;
-  internalLinks: number;
-  externalLinks: number;
-  performance: number;
-  accessibility: number;
-  bestPractices: number;
-  seo: number;
-  mobile: number;
-  lastAuditDate: string;
-  issues: SeoIssue[];
-}
-
-export interface SeoReport {
-  date: string;
-  totalIssues: IssueCount;
-  newIssues: number;
-  fixedIssues: number;
-  overallScore: number;
-  pageAudits: PageAudit[];
-  issues: SeoIssue[];
-}
-
-export interface SeoKeyword {
-  keyword: string;
-  searchVolume: number;
-  difficulty: number;
-  cpc: number;
-  position?: number;
-  url?: string;
-  change?: number;
-}
-
-export interface ContentSuggestion {
-  id: string;
-  title: string;
-  description: string;
-  targetKeywords: string[];
-  searchVolume: number;
-  difficulty: number;
-  suggestedDate: string;
-  implemented?: boolean;
-  implementedDate?: string;
-  type: 'blog' | 'landing' | 'product';
-}
-
-export interface SeoStatus {
-  lastAuditDate: string;
-  auditInProgress: boolean;
-  totalPagesAudited: number;
-  totalIssuesFound: number;
-  totalIssuesFixed: number;
-  health: number;
-}
-
-// Helper function to handle API errors consistently
-function handleError(error: any): never {
-  console.error('SEO API error:', error);
-  throw new Error(error instanceof Error ? error.message : 'Unknown error occurred');
-}
-
-/**
- * SEO API client
- */
+// SEO API endpoints
 export const seoApi = {
-  /**
-   * Get the latest SEO report
-   * @returns Promise with the latest SEO report or null if not available
-   */
-  getLatestReport: async (): Promise<SeoReport | null> => {
+  // Test endpoint to check if SEO API is available
+  async testConnection(): Promise<{ success: boolean }> {
     try {
-      const response = await apiRequest('GET', '/api/seo/report/latest');
-      return await response.json();
+      const response = await fetch(`${SEO_API_BASE}/test`);
+      return handleApiResponse<{ success: boolean }>(response);
     } catch (error) {
-      console.error('Failed to fetch SEO report:', error);
-      return null;
+      console.error("Error testing SEO API connection:", error);
+      return { success: false };
     }
   },
   
-  /**
-   * Get the SEO engine status
-   * @returns Promise with the current SEO engine status or null if not available
-   */
-  getStatus: async (): Promise<SeoStatus | null> => {
+  // Debug endpoint to check authentication
+  async debugAuth(): Promise<any> {
     try {
-      const response = await apiRequest('GET', '/api/seo/status');
-      return await response.json();
+      const response = await fetch(`${SEO_API_BASE}/debug-auth`);
+      return handleApiResponse<any>(response);
     } catch (error) {
-      console.error('Failed to fetch SEO status:', error);
-      return null;
+      console.error("Error debugging authentication:", error);
+      return { error: String(error) };
     }
   },
   
-  /**
-   * Run a new SEO audit
-   * @returns Promise with the result of starting the audit
-   */
-  runAudit: async () => {
-    try {
-      const response = await apiRequest('POST', '/api/seo/run-audit');
-      return await response.json();
-    } catch (error) {
-      handleError(error);
-    }
+  // Get the latest SEO report with all related data
+  async getLatestReport(): Promise<SeoReport & { pageAudits: any[]; issues: SeoIssue[] }> {
+    const response = await apiRequest("GET", `${SEO_API_BASE}/report/latest`);
+    return handleApiResponse(response);
   },
   
-  /**
-   * Get all SEO issues
-   * @returns Promise with all SEO issues or empty array if not available
-   */
-  getAllIssues: async (): Promise<SeoIssue[]> => {
-    try {
-      const response = await apiRequest('GET', '/api/seo/issues');
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to fetch SEO issues:', error);
-      return [];
-    }
+  // Get current SEO status
+  async getSeoStatus(): Promise<SeoStatusRecord> {
+    const response = await apiRequest("GET", `${SEO_API_BASE}/status`);
+    return handleApiResponse(response);
   },
   
-  /**
-   * Get all issues that can be automatically fixed
-   * @returns Promise with all fixable issues or empty array if not available
-   */
-  getFixableIssues: async (): Promise<SeoIssue[]> => {
-    try {
-      const response = await apiRequest('GET', '/api/seo/fixable-issues');
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to fetch fixable issues:', error);
-      return [];
-    }
+  // Get all SEO issues
+  async getAllIssues(): Promise<SeoIssue[]> {
+    const response = await apiRequest("GET", `${SEO_API_BASE}/issues`);
+    return handleApiResponse(response);
   },
   
-  /**
-   * Get top keywords
-   * @param limit Maximum number of keywords to return
-   * @param minSearchVolume Minimum search volume for keywords
-   * @returns Promise with top keywords or empty array if not available
-   */
-  getTopKeywords: async (
-    limit: number = 10, 
-    minSearchVolume: number = 100
-  ): Promise<SeoKeyword[]> => {
-    try {
-      const response = await apiRequest(
-        'GET', 
-        `/api/seo/top-keywords?limit=${limit}&minSearchVolume=${minSearchVolume}`
-      );
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to fetch top keywords:', error);
-      return [];
-    }
+  // Get fixable issues
+  async getFixableIssues(): Promise<SeoIssue[]> {
+    const response = await apiRequest("GET", `${SEO_API_BASE}/fixable-issues`);
+    return handleApiResponse(response);
   },
   
-  /**
-   * Get suggested content topics
-   * @param limit Maximum number of topics to return
-   * @param minSearchVolume Minimum search volume for topics
-   * @returns Promise with suggested topics or empty array if not available
-   */
-  getSuggestedTopics: async (
-    limit: number = 10, 
-    minSearchVolume: number = 100
-  ): Promise<ContentSuggestion[]> => {
-    try {
-      const response = await apiRequest(
-        'GET', 
-        `/api/seo/suggested-topics?limit=${limit}&minSearchVolume=${minSearchVolume}`
-      );
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to fetch suggested topics:', error);
-      return [];
-    }
+  // Mark an issue as fixed
+  async fixIssue(id: number): Promise<{ success: boolean }> {
+    const response = await apiRequest("POST", `${SEO_API_BASE}/issues/${id}/fix`);
+    return handleApiResponse(response);
   },
   
-  /**
-   * Test the API connection
-   * @returns Promise with a boolean indicating if the API is working
-   */
-  testConnection: async (): Promise<boolean> => {
-    try {
-      const response = await apiRequest('GET', '/api/seo/test');
-      const data = await response.json();
-      return data && data.success === true;
-    } catch (error) {
-      console.error('SEO API connection test failed:', error);
-      return false;
-    }
+  // Ignore/unignore an issue
+  async ignoreIssue(id: number, ignore: boolean): Promise<{ success: boolean }> {
+    const response = await apiRequest("POST", `${SEO_API_BASE}/issues/${id}/ignore`, { ignore });
+    return handleApiResponse(response);
+  },
+  
+  // Get top keywords by search volume
+  async getTopKeywords(limit = 10): Promise<KeywordRanking[]> {
+    const response = await apiRequest("GET", `${SEO_API_BASE}/top-keywords?limit=${limit}`);
+    return handleApiResponse(response);
+  },
+  
+  // Get content suggestions that haven't been implemented
+  async getSuggestedTopics(limit = 10): Promise<ContentSuggestion[]> {
+    const response = await apiRequest("GET", `${SEO_API_BASE}/suggested-topics?limit=${limit}`);
+    return handleApiResponse(response);
+  },
+  
+  // Mark a content suggestion as implemented
+  async implementSuggestion(id: number): Promise<{ success: boolean }> {
+    const response = await apiRequest("POST", `${SEO_API_BASE}/suggestions/${id}/implement`);
+    return handleApiResponse(response);
+  },
+  
+  // Run a new SEO audit
+  async runAudit(): Promise<{ success: boolean; message: string }> {
+    const response = await apiRequest("POST", `${SEO_API_BASE}/run-audit`);
+    return handleApiResponse(response);
+  },
+  
+  // Invalidate all SEO-related queries to refresh data
+  invalidateQueries() {
+    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/report/latest`] });
+    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/status`] });
+    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/issues`] });
+    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/fixable-issues`] });
+    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/top-keywords`] });
+    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/suggested-topics`] });
   }
 };
