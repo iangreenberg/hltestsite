@@ -58,6 +58,13 @@ export default function ApiDiagnostic() {
   const [apiUrl, setApiUrl] = useState("https://api.thehemplaunch.com/api/seo/test");
   const [method, setMethod] = useState("GET");
   
+  // Predefined test endpoints
+  const testEndpoints = [
+    { label: "SEO API Test Endpoint", value: "https://api.thehemplaunch.com/api/seo/test" },
+    { label: "Public API (httpbin.org)", value: "https://httpbin.org/get" },
+    { label: "Google Homepage", value: "https://www.google.com" },
+  ];
+  
   const [error, setError] = useState<string | null>(null);
   
   // Run basic API test on page load
@@ -403,12 +410,31 @@ export default function ApiDiagnostic() {
             <div className="space-y-4 mb-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium" htmlFor="apiUrl">API URL</label>
-                <Input 
-                  id="apiUrl"
-                  value={apiUrl}
-                  onChange={(e) => setApiUrl(e.target.value)}
-                  placeholder="Enter API URL to test"
-                />
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <Input 
+                      id="apiUrl"
+                      value={apiUrl}
+                      onChange={(e) => setApiUrl(e.target.value)}
+                      placeholder="Enter API URL to test"
+                    />
+                  </div>
+                  <Select onValueChange={(value) => setApiUrl(value)}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Test Endpoints" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Test Endpoints</SelectLabel>
+                        {testEndpoints.map((endpoint) => (
+                          <SelectItem key={endpoint.value} value={endpoint.value}>
+                            {endpoint.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               
               <div className="space-y-2">
@@ -489,7 +515,7 @@ export default function ApiDiagnostic() {
                                 {isSensitive && 
                                   <Button 
                                     variant="ghost" 
-                                    size="xs" 
+                                    size="sm" 
                                     className="ml-2 h-5 py-0 px-2"
                                     onClick={() => window.alert(`Full value: ${valueStr}`)}
                                   >
