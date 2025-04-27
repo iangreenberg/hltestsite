@@ -159,7 +159,7 @@ router.get('/issues', async (req, res) => {
 /**
  * Mark an issue as fixed
  */
-router.post('/issues/:id/fix', async (req, res) => {
+router.post('/issues/:id/fix', ensureAuthenticated, async (req, res) => {
   try {
     const id = req.params.id;
     
@@ -175,7 +175,7 @@ router.post('/issues/:id/fix', async (req, res) => {
 /**
  * Ignore an issue
  */
-router.post('/issues/:id/ignore', async (req, res) => {
+router.post('/issues/:id/ignore', ensureAuthenticated, async (req, res) => {
   try {
     const id = req.params.id;
     const ignore = req.body.ignore === true;
@@ -220,7 +220,7 @@ router.get('/content-suggestions', async (req, res) => {
 /**
  * Mark a content suggestion as implemented
  */
-router.post('/content-suggestions/:id/implement', async (req, res) => {
+router.post('/content-suggestions/:id/implement', ensureAuthenticated, async (req, res) => {
   try {
     const id = req.params.id;
     
@@ -236,7 +236,7 @@ router.post('/content-suggestions/:id/implement', async (req, res) => {
 /**
  * Generate weekly email report
  */
-router.get('/email-report', async (req, res) => {
+router.get('/email-report', ensureAuthenticated, async (req, res) => {
   try {
     const html = await seoEngine.generateWeeklyEmailReport();
     
@@ -251,7 +251,7 @@ router.get('/email-report', async (req, res) => {
 /**
  * Get all issues that can be automatically fixed
  */
-router.get('/fixable-issues', async (req, res) => {
+router.get('/fixable-issues', ensureAuthenticated, async (req, res) => {
   try {
     const issues = await seoEngine.getFixableIssues();
     return res.json(issues);
@@ -291,7 +291,7 @@ router.post('/fix-issue/:id', ensureAuthenticated, async (req, res) => {
 /**
  * Perform keyword research
  */
-router.post('/research-keywords', async (req, res) => {
+router.post('/research-keywords', ensureAuthenticated, async (req, res) => {
   try {
     const request = req.body;
     

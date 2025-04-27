@@ -6,6 +6,7 @@ import cors from "cors";
 import session from "express-session";
 import { storage } from "./storage";
 import { initializeMailchimp } from "./mailchimp";
+import { initializeNotion } from "./notion";
 
 // Create the Express app
 const app = express();
@@ -70,8 +71,14 @@ const setupServer = async () => {
   // Create admin user if it doesn't exist yet
   await createAdminUserIfNotExists();
   
-  // Initialize Mailchimp client
+  // Initialize external services
   initializeMailchimp();
+  try {
+    await initializeNotion();
+    log('Notion API initialized successfully');
+  } catch (error) {
+    log('Failed to initialize Notion API: ' + (error instanceof Error ? error.message : String(error)));
+  }
   
   // Create an explicit API router to handle API requests first
   const apiRouter = express.Router();
