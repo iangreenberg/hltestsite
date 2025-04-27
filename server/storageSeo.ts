@@ -14,10 +14,13 @@ export interface SeoStorage {
   getLatestReport(): Promise<SeoReport | null>;
   getAllReports(): Promise<SeoReport[]>;
   createReport(report: Omit<SeoReport, 'id'>): Promise<SeoReport>;
+  updateReport(id: number, data: Partial<Omit<SeoReport, 'id'>>): Promise<SeoReport>;
+  getReportById(id: number): Promise<SeoReport | null>;
   
   // Issues
   getAllIssues(): Promise<SeoIssue[]>;
   getIssueById(id: number): Promise<SeoIssue | null>;
+  getIssuesByReportId(reportId: number): Promise<SeoIssue[]>;
   createIssue(issue: Omit<SeoIssue, 'id'>): Promise<SeoIssue>;
   markIssueFixed(id: number): Promise<void>;
   ignoreIssue(id: number, ignore: boolean): Promise<void>;
@@ -72,6 +75,30 @@ class DatabaseSeoStorage implements SeoStorage {
     } catch (error) {
       logger.error('Error creating report:', error);
       throw error;
+    }
+  }
+  
+  async updateReport(id: number, data: Partial<Omit<SeoReport, 'id'>>): Promise<SeoReport> {
+    try {
+      const [updatedReport] = await db.update(seoReports)
+        .set(data)
+        .where(eq(seoReports.id, id))
+        .returning();
+      
+      return updatedReport;
+    } catch (error) {
+      logger.error(`Error updating report ${id}:`, error);
+      throw error;
+    }
+  }
+  
+  async getReportById(id: number): Promise<SeoReport | null> {
+    try {
+      const [report] = await db.select().from(seoReports).where(eq(seoReports.id, id));
+      return report || null;
+    } catch (error) {
+      logger.error(`Error getting report by id ${id}:`, error);
+      return null;
     }
   }
 
@@ -135,6 +162,18 @@ class DatabaseSeoStorage implements SeoStorage {
       return await db.select().from(seoIssues).where(eq(seoIssues.autoFixable, true));
     } catch (error) {
       logger.error('Error getting fixable issues:', error);
+      return [];
+    }
+  }
+  
+  async getIssuesByReportId(reportId: number): Promise<SeoIssue[]> {
+    try {
+      return await db.select()
+        .from(seoIssues)
+        .where(eq(seoIssues.reportId, reportId))
+        .orderBy(desc(seoIssues.severity));
+    } catch (error) {
+      logger.error(`Error getting issues for report ${reportId}:`, error);
       return [];
     }
   }

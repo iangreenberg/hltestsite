@@ -1,230 +1,479 @@
+/**
+ * Website Crawler Utility for SEO Engine
+ * 
+ * This utility crawls the live website to gather SEO data for analysis and comparison.
+ */
+
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import { createLogger } from '../logger';
+import { storageSeo } from '../storageSeo';
 
-const logger = createLogger('seo-crawler');
+const logger = createLogger('SEOCrawler');
 
-// Base URL for crawling
-export const BASE_URL = process.env.BASE_URL || 'https://hltestsite-4vq3.vercel.app';
-
-/**
- * Represents a web page found during crawling
- */
-export interface CrawledPage {
+interface PageData {
   url: string;
-  title: string;
-  metaTags: Array<{name: string, content: string}>;
-  h1: string[];
-  links: string[];
-  statusCode: number;
-  contentType: string;
-  html: string;
+  title: string | null;
+  description: string | null;
+  h1Tags: string[];
+  h2Tags: string[];
+  internalLinks: string[];
+  externalLinks: string[];
+  canonical: string | null;
+  wordCount: number;
+  imageCount: number;
+  images: Array<{
+    src: string;
+    alt: string | null;
+    width: number | null;
+    height: number | null;
+  }>;
+  meta: Record<string, string>;
 }
 
-/**
- * Simple crawler to index site pages
- */
-export class Crawler {
-  private visitedUrls: Set<string> = new Set();
-  private pagesToCrawl: string[] = [];
-  private maxPages: number;
+interface CrawlResult {
+  pages: PageData[];
+  totalUrls: number;
+  startTime: Date;
+  endTime: Date;
+  duration: number; // in milliseconds
+}
+
+export class SEOCrawler {
   private baseUrl: string;
-  
-  constructor(
-    baseUrl: string = BASE_URL,
-    maxPages: number = 50
-  ) {
-    this.baseUrl = baseUrl;
-    this.maxPages = maxPages;
+  private visitedUrls: Set<string>;
+  private maxPages: number;
+  private userAgent: string;
+  private timeout: number; // in milliseconds
+  private crawlDelay: number; // in milliseconds
+
+  constructor(options: {
+    baseUrl: string;
+    maxPages?: number;
+    userAgent?: string;
+    timeout?: number;
+    crawlDelay?: number;
+  }) {
+    this.baseUrl = options.baseUrl.endsWith('/') 
+      ? options.baseUrl.slice(0, -1) 
+      : options.baseUrl;
+    this.visitedUrls = new Set<string>();
+    this.maxPages = options.maxPages || 100;
+    this.userAgent = options.userAgent || 'HempLaunch SEO Crawler/1.0';
+    this.timeout = options.timeout || 10000;
+    this.crawlDelay = options.crawlDelay || 500;
   }
-  
+
   /**
-   * Start crawling the site from a specific URL
+   * Normalize URL to avoid duplicates
    */
-  async crawlSite(startUrl: string = '/'): Promise<CrawledPage[]> {
-    this.visitedUrls.clear();
-    this.pagesToCrawl = [this.resolveUrl(startUrl)];
+  private normalizeUrl(url: string): string {
+    // Handle relative URLs
+    if (url.startsWith('/')) {
+      url = this.baseUrl + url;
+    } else if (!url.startsWith('http')) {
+      return ''; // Skip non-http URLs (like mailto:, tel:, etc.)
+    }
+
+    // Remove hash fragment
+    url = url.split('#')[0];
+
+    // Remove trailing slash
+    if (url.endsWith('/') && url !== this.baseUrl + '/') {
+      url = url.slice(0, -1);
+    }
+
+    return url;
+  }
+
+  /**
+   * Check if URL should be crawled
+   */
+  private shouldCrawl(url: string): boolean {
+    // Skip if already visited
+    if (this.visitedUrls.has(url)) return false;
+
+    // Check if URL is from the same domain
+    if (!url.startsWith(this.baseUrl)) return false;
+
+    // Skip non-web pages (pdf, jpg, etc.)
+    const skipExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.css', '.js'];
+    if (skipExtensions.some(ext => url.toLowerCase().endsWith(ext))) return false;
+
+    return true;
+  }
+
+  /**
+   * Parse page content and extract SEO data
+   */
+  private parsePage(url: string, html: string): PageData {
+    const dom = new JSDOM(html);
+    const document = dom.window.document;
+
+    // Extract basic SEO elements
+    const title = document.querySelector('title')?.textContent || null;
+    const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || null;
     
-    const crawledPages: CrawledPage[] = [];
+    // Extract headings
+    const h1Tags = Array.from(document.querySelectorAll('h1')).map(h => h.textContent?.trim()).filter(Boolean) as string[];
+    const h2Tags = Array.from(document.querySelectorAll('h2')).map(h => h.textContent?.trim()).filter(Boolean) as string[];
     
-    logger.info(`Starting site crawl from ${startUrl}`);
+    // Extract links
+    const links = Array.from(document.querySelectorAll('a[href]'));
+    const processedLinks = links.map(link => {
+      const href = link.getAttribute('href') || '';
+      return this.normalizeUrl(href);
+    }).filter(Boolean);
     
-    while (
-      this.pagesToCrawl.length > 0 && 
-      crawledPages.length < this.maxPages
-    ) {
-      const nextUrl = this.pagesToCrawl.shift();
+    const internalLinks = processedLinks.filter(link => link.startsWith(this.baseUrl));
+    const externalLinks = processedLinks.filter(link => !link.startsWith(this.baseUrl) && link.startsWith('http'));
+    
+    // Extract canonical URL
+    const canonical = document.querySelector('link[rel="canonical"]')?.getAttribute('href') || null;
+    
+    // Count words in content
+    const bodyText = document.querySelector('body')?.textContent || '';
+    const wordCount = bodyText.split(/\s+/).filter(Boolean).length;
+    
+    // Get images
+    const imageElements = Array.from(document.querySelectorAll('img'));
+    const images = imageElements.map(img => ({
+      src: img.getAttribute('src') || '',
+      alt: img.getAttribute('alt'),
+      width: img.getAttribute('width') ? parseInt(img.getAttribute('width') || '0') : null,
+      height: img.getAttribute('height') ? parseInt(img.getAttribute('height') || '0') : null,
+    }));
+    
+    // Extract all meta tags
+    const metaTags = Array.from(document.querySelectorAll('meta'));
+    const meta: Record<string, string> = {};
+    metaTags.forEach(tag => {
+      const name = tag.getAttribute('name') || tag.getAttribute('property');
+      const content = tag.getAttribute('content');
+      if (name && content) {
+        meta[name] = content;
+      }
+    });
+    
+    return {
+      url,
+      title,
+      description: metaDescription,
+      h1Tags,
+      h2Tags,
+      internalLinks,
+      externalLinks,
+      canonical,
+      wordCount,
+      imageCount: images.length,
+      images,
+      meta
+    };
+  }
+
+  /**
+   * Main crawl method
+   */
+  public async crawl(): Promise<CrawlResult> {
+    const startTime = new Date();
+    const pages: PageData[] = [];
+    const urlsToVisit: string[] = [this.baseUrl + '/'];
+    
+    logger.info(`Starting crawl of ${this.baseUrl}`);
+    
+    while (urlsToVisit.length > 0 && pages.length < this.maxPages) {
+      const url = urlsToVisit.shift()!;
       
-      // Skip if URL has already been visited
-      if (!nextUrl || this.visitedUrls.has(nextUrl)) {
+      if (!this.shouldCrawl(url)) {
         continue;
       }
       
+      this.visitedUrls.add(url);
+      
       try {
-        logger.info(`Crawling ${nextUrl}`);
-        const page = await this.crawlPage(nextUrl);
+        logger.info(`Crawling: ${url}`);
         
-        if (page) {
-          crawledPages.push(page);
+        const response = await axios.get(url, {
+          headers: {
+            'User-Agent': this.userAgent
+          },
+          timeout: this.timeout,
+          responseType: 'text'
+        });
+        
+        if (response.status === 200) {
+          const pageData = this.parsePage(url, response.data);
+          pages.push(pageData);
           
-          // Add discovered links to crawl queue
-          for (const link of page.links) {
-            if (
-              !this.visitedUrls.has(link) && 
-              !this.pagesToCrawl.includes(link) &&
-              this.shouldCrawl(link)
-            ) {
-              this.pagesToCrawl.push(link);
+          // Add new URLs to the queue
+          pageData.internalLinks.forEach(link => {
+            if (!this.visitedUrls.has(link) && !urlsToVisit.includes(link)) {
+              urlsToVisit.push(link);
             }
-          }
+          });
         }
         
-        // Mark URL as visited
-        this.visitedUrls.add(nextUrl);
-        
-        // Small delay to be nice to the server
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Respect crawl delay
+        await new Promise(resolve => setTimeout(resolve, this.crawlDelay));
       } catch (error) {
-        logger.error(`Error crawling ${nextUrl}:`, error);
+        logger.error(`Error crawling ${url}:`, error);
       }
     }
     
-    logger.info(`Crawling complete. Crawled ${crawledPages.length} pages`);
-    return crawledPages;
+    const endTime = new Date();
+    const duration = endTime.getTime() - startTime.getTime();
+    
+    logger.info(`Crawl completed: ${pages.length} pages crawled in ${duration}ms`);
+    
+    return {
+      pages,
+      totalUrls: this.visitedUrls.size,
+      startTime,
+      endTime,
+      duration
+    };
   }
-  
+
   /**
-   * Crawl a single page and extract its data
+   * Save crawl results to database
    */
-  async crawlPage(url: string): Promise<CrawledPage | null> {
+  public async saveCrawlResults(result: CrawlResult): Promise<void> {
     try {
-      const response = await axios.get(url, {
-        validateStatus: () => true, // accept all status codes
-        headers: {
-          'User-Agent': 'HempLaunch-SEO-Crawler/1.0',
-          'Accept': 'text/html'
-        }
+      // Create a new audit report
+      const report = await storageSeo.createReport({
+        date: new Date(),
+        overallScore: this.calculateOverallScore(result),
+        newIssues: 0,
+        fixedIssues: 0,
+        totalIssues: 0
       });
       
-      const contentType = response.headers['content-type'] || '';
-      
-      // Only process HTML pages
-      if (!contentType.includes('text/html')) {
-        logger.info(`Skipping ${url} - not HTML content`);
-        return null;
+      // Process pages and create issues
+      for (const page of result.pages) {
+        // Create page audit record
+        const pageAudit = await storageSeo.createPageAudit({
+          reportId: report.id,
+          url: page.url,
+          title: page.title || '',
+          description: page.description || '',
+          wordCount: page.wordCount,
+          status: 200
+        });
+        
+        // Generate issues based on audit
+        const issues = this.generateIssues(page);
+        
+        // Save issues to database
+        for (const issue of issues) {
+          await storageSeo.createIssue({
+            title: issue.title,
+            description: issue.description,
+            url: page.url,
+            severity: issue.severity,
+            type: issue.type,
+            detectedDate: new Date(),
+            fixed: false,
+            ignored: false,
+            reportId: report.id,
+            pageAuditId: pageAudit.id,
+            autoFixable: issue.autoFixable || false
+          });
+        }
       }
       
-      // Parse the HTML
-      const dom = new JSDOM(response.data);
-      const document = dom.window.document;
+      // Update report with issue counts
+      const issues = await storageSeo.getIssuesByReportId(report.id);
+      await storageSeo.updateReport(report.id, {
+        totalIssues: issues.length,
+        newIssues: issues.length
+      });
       
-      // Extract page title
-      const title = document.querySelector('title')?.textContent || '';
-      
-      // Extract meta tags
-      const metaTags = Array.from(document.querySelectorAll('meta'))
-        .filter(meta => meta.getAttribute('name') && meta.getAttribute('content'))
-        .map(meta => ({
-          name: meta.getAttribute('name') || '',
-          content: meta.getAttribute('content') || ''
-        }));
-      
-      // Extract h1 tags
-      const h1 = Array.from(document.querySelectorAll('h1'))
-        .map(h => h.textContent?.trim() || '');
-      
-      // Extract links
-      const links = Array.from(document.querySelectorAll('a'))
-        .map(a => a.getAttribute('href') || '')
-        .filter(href => href && !href.startsWith('#') && !href.startsWith('mailto:'))
-        .map(href => this.resolveUrl(href))
-        .filter(href => this.isSameDomain(href));
-      
-      return {
-        url,
-        title,
-        metaTags,
-        h1,
-        links,
-        statusCode: response.status,
-        contentType,
-        html: response.data
-      };
+      logger.info(`Saved crawl results to database: ${result.pages.length} pages, ${issues.length} issues`);
     } catch (error) {
-      logger.error(`Error fetching ${url}:`, error);
-      return null;
+      logger.error('Error saving crawl results:', error);
+      throw error;
     }
   }
   
   /**
-   * Resolve relative URLs to absolute URLs
+   * Calculate overall SEO score based on issues
    */
-  private resolveUrl(url: string): string {
-    if (url.startsWith('http')) {
-      return url;
+  private calculateOverallScore(result: CrawlResult): number {
+    // Start with perfect score
+    let score = 100;
+    
+    // Count issues by severity
+    let criticalIssues = 0;
+    let majorIssues = 0;
+    let minorIssues = 0;
+    
+    // Process all pages
+    for (const page of result.pages) {
+      const issues = this.generateIssues(page);
+      
+      // Count issues by severity
+      criticalIssues += issues.filter(i => i.severity === 'critical').length;
+      majorIssues += issues.filter(i => i.severity === 'major').length;
+      minorIssues += issues.filter(i => i.severity === 'minor').length;
     }
     
-    // Handle absolute paths
-    if (url.startsWith('/')) {
-      return new URL(url, this.baseUrl).toString();
+    // Reduce score based on issues
+    score -= criticalIssues * 10; // -10 points per critical issue
+    score -= majorIssues * 5;    // -5 points per major issue
+    score -= minorIssues * 2;    // -2 points per minor issue
+    
+    // Ensure score is in 0-100 range
+    return Math.max(0, Math.min(100, score));
+  }
+  
+  /**
+   * Generate SEO issues for a page
+   */
+  private generateIssues(page: PageData): Array<{
+    title: string;
+    description: string;
+    severity: 'critical' | 'major' | 'minor';
+    type: string;
+    autoFixable?: boolean;
+  }> {
+    const issues: Array<{
+      title: string;
+      description: string;
+      severity: 'critical' | 'major' | 'minor';
+      type: string;
+      autoFixable?: boolean;
+    }> = [];
+    
+    // Check for missing title
+    if (!page.title) {
+      issues.push({
+        title: 'Missing title tag',
+        description: `The page at ${page.url} is missing a title tag. Each page should have a unique, descriptive title.`,
+        severity: 'critical',
+        type: 'meta',
+        autoFixable: true
+      });
+    } else if (page.title.length < 10) {
+      issues.push({
+        title: 'Title too short',
+        description: `The title on ${page.url} is too short (${page.title.length} characters). Aim for 50-60 characters.`,
+        severity: 'major',
+        type: 'meta',
+        autoFixable: true
+      });
+    } else if (page.title.length > 70) {
+      issues.push({
+        title: 'Title too long',
+        description: `The title on ${page.url} is too long (${page.title.length} characters). Search engines typically show only 50-60 characters.`,
+        severity: 'minor',
+        type: 'meta',
+        autoFixable: true
+      });
     }
     
-    // Handle relative paths
-    return new URL(url, this.baseUrl).toString();
-  }
-  
-  /**
-   * Check if a URL is from the same domain
-   */
-  private isSameDomain(url: string): boolean {
-    try {
-      const urlObj = new URL(url);
-      const baseUrlObj = new URL(this.baseUrl);
-      return urlObj.hostname === baseUrlObj.hostname;
-    } catch (error) {
-      return false;
+    // Check for missing meta description
+    if (!page.description) {
+      issues.push({
+        title: 'Missing meta description',
+        description: `The page at ${page.url} is missing a meta description. Each page should have a unique, descriptive meta description.`,
+        severity: 'major',
+        type: 'meta',
+        autoFixable: true
+      });
+    } else if (page.description.length < 50) {
+      issues.push({
+        title: 'Meta description too short',
+        description: `The meta description on ${page.url} is too short (${page.description.length} characters). Aim for 120-158 characters.`,
+        severity: 'minor',
+        type: 'meta',
+        autoFixable: true
+      });
+    } else if (page.description.length > 158) {
+      issues.push({
+        title: 'Meta description too long',
+        description: `The meta description on ${page.url} is too long (${page.description.length} characters). Search engines typically show only 120-158 characters.`,
+        severity: 'minor',
+        type: 'meta',
+        autoFixable: true
+      });
     }
-  }
-  
-  /**
-   * Determine if a URL should be crawled
-   */
-  private shouldCrawl(url: string): boolean {
-    try {
-      const urlObj = new URL(url);
-      
-      // Skip URLs with query parameters and fragments
-      if (urlObj.search || urlObj.hash) {
-        return false;
-      }
-      
-      // Skip non-HTTP/HTTPS URLs
-      if (!urlObj.protocol.startsWith('http')) {
-        return false;
-      }
-      
-      // Skip common file extensions that aren't web pages
-      const skipExtensions = [
-        '.jpg', '.jpeg', '.png', '.gif', '.pdf', 
-        '.doc', '.docx', '.xls', '.xlsx', '.zip',
-        '.css', '.js', '.xml', '.json'
-      ];
-      
-      if (skipExtensions.some(ext => urlObj.pathname.endsWith(ext))) {
-        return false;
-      }
-      
-      return true;
-    } catch (error) {
-      return false;
+    
+    // Check for missing H1
+    if (page.h1Tags.length === 0) {
+      issues.push({
+        title: 'Missing H1 tag',
+        description: `The page at ${page.url} is missing an H1 tag. Each page should have at least one H1 tag.`,
+        severity: 'major',
+        type: 'content',
+        autoFixable: false
+      });
+    } else if (page.h1Tags.length > 1) {
+      issues.push({
+        title: 'Multiple H1 tags',
+        description: `The page at ${page.url} has ${page.h1Tags.length} H1 tags. Each page should typically have only one H1 tag.`,
+        severity: 'minor',
+        type: 'content',
+        autoFixable: false
+      });
     }
+    
+    // Check for low word count
+    if (page.wordCount < 300) {
+      issues.push({
+        title: 'Low word count',
+        description: `The page at ${page.url} has only ${page.wordCount} words. Pages with thin content may perform poorly in search rankings.`,
+        severity: 'major',
+        type: 'content',
+        autoFixable: false
+      });
+    }
+    
+    // Check for images without alt text
+    const imagesWithoutAlt = page.images.filter(img => !img.alt);
+    if (imagesWithoutAlt.length > 0) {
+      issues.push({
+        title: 'Images missing alt text',
+        description: `The page at ${page.url} has ${imagesWithoutAlt.length} images without alt text. All images should have descriptive alt text for accessibility and SEO.`,
+        severity: 'major',
+        type: 'accessibility',
+        autoFixable: false
+      });
+    }
+    
+    // Check for canonical tag
+    if (!page.canonical) {
+      issues.push({
+        title: 'Missing canonical tag',
+        description: `The page at ${page.url} is missing a canonical tag. Canonical tags help prevent duplicate content issues.`,
+        severity: 'minor',
+        type: 'meta',
+        autoFixable: true
+      });
+    }
+    
+    return issues;
   }
 }
 
-// Export a factory function to create new crawler instances
-export function createCrawler(
-  baseUrl: string = BASE_URL,
-  maxPages: number = 50
-): Crawler {
-  return new Crawler(baseUrl, maxPages);
+/**
+ * Run a website crawl and save results to the database
+ */
+export async function crawlAndSaveResults(baseUrl: string, maxPages = 20): Promise<void> {
+  try {
+    logger.info(`Starting crawl of ${baseUrl}`);
+    
+    const crawler = new SEOCrawler({
+      baseUrl,
+      maxPages,
+      crawlDelay: 1000 // Be respectful with crawl delay
+    });
+    
+    const result = await crawler.crawl();
+    await crawler.saveCrawlResults(result);
+    
+    logger.info('Crawl and analysis completed successfully');
+  } catch (error) {
+    logger.error('Error during crawl and analyze:', error);
+    throw error;
+  }
 }

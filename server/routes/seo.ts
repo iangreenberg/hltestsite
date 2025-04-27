@@ -225,6 +225,40 @@ export function registerSeoRoutes(router: Router) {
     return res.json({ success: true });
   });
   
+  // API endpoint for crawling a website and generating a report
+  seoRouter.post('/crawl', async (req: Request, res: Response) => {
+    try {
+      const { url, maxPages } = req.body;
+      
+      if (!url) {
+        return res.status(400).json({ error: 'URL is required' });
+      }
+      
+      // Import dynamically to avoid circular dependencies
+      const { crawlAndSaveResults } = await import('../seo-engine/crawler');
+      
+      // Start crawling in background
+      // We respond immediately and let the crawl run in the background
+      res.json({ 
+        success: true, 
+        message: `Started crawling ${url}`,
+        timestamp: new Date()
+      });
+      
+      // Run the crawl process (this can take a while)
+      crawlAndSaveResults(url, maxPages || 20)
+        .then(() => {
+          console.log(`Completed crawl of ${url}`);
+        })
+        .catch(error => {
+          console.error(`Error crawling ${url}:`, error);
+        });
+    } catch (error) {
+      logger.error('Error starting crawl:', error);
+      return res.status(500).json({ error: 'Failed to start crawl' });
+    }
+  });
+  
   // Debug endpoint for authentication
   router.get('/seo/debug-auth', (req: Request, res: Response) => {
     const authDetails = {
