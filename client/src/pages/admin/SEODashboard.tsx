@@ -44,7 +44,16 @@ import {
   AlertTriangle,
   ArrowUp,
   ArrowDown,
-  Minus
+  Minus,
+  WandSparkles,
+  Search,
+  Sparkles,
+  Hammer,
+  Bot,
+  TrendingUp,
+  BookText,
+  Braces,
+  Tag
 } from 'lucide-react';
 
 // Interface for SEO data - simplified version of server types
@@ -57,6 +66,8 @@ interface SEOIssue {
   url?: string;
   affectedElement?: string;
   recommendedFix?: string;
+  autoFixAvailable?: boolean;
+  autoFixStatus?: 'pending' | 'in_progress' | 'fixed' | 'failed' | 'not_applicable';
   detected: string;
   fixed?: string;
   ignored?: boolean;
@@ -102,6 +113,28 @@ interface PerformanceMetric {
   status: 'good' | 'needs_improvement' | 'poor';
 }
 
+interface KeywordResearchResult {
+  keyword: string;
+  searchVolume: number;
+  difficulty: number; 
+  relevance: number;
+  cpc?: number;
+  trend?: 'up' | 'down' | 'stable';
+  userIntent?: 'informational' | 'navigational' | 'transactional' | 'commercial';
+  relatedKeywords?: string[];
+  suggestedContent?: string[];
+}
+
+interface ContentTopic {
+  id: string;
+  topic: string;
+  totalSearchVolume: number;
+  averageDifficulty: number;
+  keywords: KeywordResearchResult[];
+  suggestedTitle: string;
+  suggestedSubheadings: string[];
+}
+
 interface SeoReport {
   date: string;
   totalIssues: IssueCount;
@@ -125,6 +158,8 @@ function SEODashboard() {
   const { toast } = useToast();
   // Removed user auth check since we're allowing public access
   const [activeTab, setActiveTab] = useState('overview');
+  const [researchKeywords, setResearchKeywords] = useState<string>('');
+  const [seedKeywords, setSeedKeywords] = useState<string[]>([]);
   
   // Removed admin check to allow public access
   
@@ -290,6 +325,180 @@ function SEODashboard() {
     retry: 1,
   });
   
+  // Fetch fixable issues for the automation tab
+  const {
+    data: fixableIssues,
+    isLoading: fixableIssuesLoading,
+  } = useQuery({
+    queryKey: ['/api/seo/fixable-issues'],
+    queryFn: async () => {
+      // For development, return mock data
+      const mockFixableIssues: SEOIssue[] = [
+        {
+          id: 'missing_meta_desc_1',
+          title: 'Missing meta description',
+          description: 'The page is missing a meta description tag, which is important for SEO.',
+          severity: 'high',
+          category: 'meta_tags',
+          url: 'https://hltestsite-4vq3.vercel.app/services/support',
+          recommendedFix: 'Add a descriptive meta description between 120-155 characters.',
+          autoFixAvailable: true,
+          detected: new Date().toISOString()
+        },
+        {
+          id: 'missing_title_2',
+          title: 'Missing page title',
+          description: 'The page is missing a title tag, which is crucial for SEO.',
+          severity: 'critical',
+          category: 'meta_tags',
+          url: 'https://hltestsite-4vq3.vercel.app/landing/texas',
+          recommendedFix: 'Add a descriptive title that includes your main keyword.',
+          autoFixAvailable: true,
+          detected: new Date().toISOString()
+        },
+        {
+          id: 'missing_canonical_3',
+          title: 'Missing canonical tag',
+          description: 'The page is missing a canonical tag, which helps prevent duplicate content issues.',
+          severity: 'medium',
+          category: 'meta_tags',
+          url: 'https://hltestsite-4vq3.vercel.app/blog/hemp-regulations',
+          recommendedFix: 'Add a canonical tag pointing to the preferred URL version.',
+          autoFixAvailable: true,
+          detected: new Date().toISOString()
+        }
+      ];
+      
+      try {
+        // When API is ready, uncomment this to use the actual API
+        // const response = await apiRequest('GET', '/api/seo/fixable-issues');
+        // return await response.json();
+        
+        return mockFixableIssues;
+      } catch (error) {
+        console.error('Error fetching fixable issues:', error);
+        throw new Error('Failed to fetch fixable issues');
+      }
+    },
+    enabled: activeTab === 'automation',
+    retry: 1,
+  });
+  
+  // Fetch top keywords for the automation tab
+  const {
+    data: topKeywords,
+    isLoading: topKeywordsLoading,
+  } = useQuery({
+    queryKey: ['/api/seo/top-keywords'],
+    queryFn: async () => {
+      // For development, return mock data
+      const mockTopKeywords: KeywordResearchResult[] = [
+        {
+          keyword: 'hemp business startup',
+          searchVolume: 1200,
+          difficulty: 45,
+          relevance: 95,
+          cpc: 3.50,
+          trend: 'up',
+          userIntent: 'informational',
+          relatedKeywords: ['hemp business license', 'hemp startup costs', 'legal hemp business'],
+          suggestedContent: ['10 Steps to Start a Hemp Business', 'Hemp Business Startup Guide']
+        },
+        {
+          keyword: 'hemp product compliance',
+          searchVolume: 890,
+          difficulty: 60,
+          relevance: 90,
+          cpc: 4.20,
+          trend: 'stable',
+          userIntent: 'informational',
+          relatedKeywords: ['hemp regulations', 'FDA hemp compliance', 'hemp testing requirements'],
+          suggestedContent: ['Hemp Compliance Checklist for 2025', 'Understanding Hemp Regulations']
+        },
+        {
+          keyword: 'hemp marketing strategy',
+          searchVolume: 780,
+          difficulty: 50,
+          relevance: 85,
+          cpc: 3.75,
+          trend: 'up',
+          userIntent: 'commercial',
+          relatedKeywords: ['hemp digital marketing', 'hemp brand strategy', 'hemp advertising'],
+          suggestedContent: ['Hemp Marketing Guide', 'Digital Marketing for Hemp Businesses']
+        }
+      ];
+      
+      try {
+        // When API is ready, uncomment this to use the actual API
+        // const response = await apiRequest('GET', '/api/seo/top-keywords');
+        // return await response.json();
+        
+        return mockTopKeywords;
+      } catch (error) {
+        console.error('Error fetching top keywords:', error);
+        throw new Error('Failed to fetch top keywords');
+      }
+    },
+    enabled: activeTab === 'automation',
+    retry: 1,
+  });
+  
+  // Fetch suggested content topics
+  const {
+    data: suggestedTopics,
+    isLoading: suggestedTopicsLoading,
+  } = useQuery({
+    queryKey: ['/api/seo/suggested-topics'],
+    queryFn: async () => {
+      // For development, return mock data
+      const mockSuggestedTopics: ContentTopic[] = [
+        {
+          id: '1',
+          topic: 'hemp business',
+          totalSearchVolume: 4500,
+          averageDifficulty: 55,
+          keywords: [],
+          suggestedTitle: 'The Ultimate Guide to Hemp Business for 2025',
+          suggestedSubheadings: [
+            'What is a Hemp Business?',
+            'Benefits of Hemp Business for Entrepreneurs',
+            'How to Get Started with Hemp Business',
+            'Common Challenges in Hemp Business',
+            'Best Practices for Hemp Business Success'
+          ]
+        },
+        {
+          id: '2',
+          topic: 'hemp compliance',
+          totalSearchVolume: 3200,
+          averageDifficulty: 65,
+          keywords: [],
+          suggestedTitle: 'Hemp Compliance 101: Everything You Need to Know',
+          suggestedSubheadings: [
+            'What is Hemp Compliance?',
+            'Benefits of Hemp Compliance for Hemp Businesses',
+            'How to Get Started with Hemp Compliance',
+            'Common Challenges in Hemp Compliance',
+            'Best Practices for Hemp Compliance Success'
+          ]
+        }
+      ];
+      
+      try {
+        // When API is ready, uncomment this to use the actual API
+        // const response = await apiRequest('GET', '/api/seo/suggested-topics');
+        // return await response.json();
+        
+        return mockSuggestedTopics;
+      } catch (error) {
+        console.error('Error fetching suggested topics:', error);
+        throw new Error('Failed to fetch suggested topics');
+      }
+    },
+    enabled: activeTab === 'automation',
+    retry: 1,
+  });
+  
   // Mutation to run a new audit
   const runAuditMutation = useMutation({
     mutationFn: async () => {
@@ -316,6 +525,137 @@ function SEODashboard() {
     onError: (error) => {
       toast({
         title: "Audit Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+  
+  // Mutation to fix all issues
+  const fixAllIssuesMutation = useMutation({
+    mutationFn: async () => {
+      try {
+        // When API is ready, uncomment this to use the actual API
+        // const response = await apiRequest('POST', '/api/seo/fix-all-issues');
+        // return await response.json();
+        
+        // Simulate API response for now
+        return { 
+          succeeded: 2, 
+          failed: 1, 
+          issues: [
+            { id: 'missing_meta_desc_1', status: 'fixed', result: 'Added meta description' },
+            { id: 'missing_title_2', status: 'fixed', result: 'Added page title' },
+            { id: 'missing_canonical_3', status: 'failed', result: 'Could not determine canonical URL' }
+          ]
+        };
+      } catch (error) {
+        console.error('Error fixing issues:', error);
+        throw new Error('Failed to fix issues');
+      }
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Auto-fix Completed",
+        description: `Successfully fixed ${data.succeeded} issues. ${data.failed} issues could not be fixed.`,
+      });
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ['/api/seo/fixable-issues'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/seo/report/latest'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Auto-fix Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+  
+  // Mutation to fix a specific issue
+  const fixIssueMutation = useMutation({
+    mutationFn: async (issueId: string) => {
+      try {
+        // When API is ready, uncomment this to use the actual API
+        // const response = await apiRequest('POST', `/api/seo/fix-issue/${issueId}`);
+        // return await response.json();
+        
+        // Simulate API response for now
+        return { 
+          status: 'fixed', 
+          message: 'Successfully fixed the issue' 
+        };
+      } catch (error) {
+        console.error(`Error fixing issue ${issueId}:`, error);
+        throw new Error('Failed to fix issue');
+      }
+    },
+    onSuccess: () => {
+      toast({
+        title: "Issue Fixed",
+        description: "Successfully fixed the issue.",
+      });
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ['/api/seo/fixable-issues'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Fix Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+  
+  // Mutation to research keywords
+  const researchKeywordsMutation = useMutation({
+    mutationFn: async (seedKeywords: string[]) => {
+      try {
+        // When API is ready, uncomment this to use the actual API
+        // const response = await apiRequest('POST', '/api/seo/research-keywords', { seedKeywords });
+        // return await response.json();
+        
+        // Simulate API response for now
+        return [
+          {
+            keyword: seedKeywords[0],
+            searchVolume: 1500,
+            difficulty: 55,
+            relevance: 90,
+            cpc: 3.25,
+            trend: 'up',
+            userIntent: 'informational',
+            relatedKeywords: ['hemp business plan', 'hemp startup guide', 'hemp business license'],
+            suggestedContent: ['How to Start a Hemp Business', 'Hemp Business in 2025: A Complete Guide']
+          },
+          {
+            keyword: `best ${seedKeywords[0]}`,
+            searchVolume: 980,
+            difficulty: 48,
+            relevance: 85,
+            cpc: 4.10,
+            trend: 'up',
+            userIntent: 'commercial',
+            relatedKeywords: ['top hemp businesses', 'successful hemp companies', 'hemp business models'],
+            suggestedContent: ['Top 10 Hemp Businesses to Watch in 2025', 'Best Hemp Business Strategies']
+          }
+        ];
+      } catch (error) {
+        console.error('Error researching keywords:', error);
+        throw new Error('Failed to research keywords');
+      }
+    },
+    onSuccess: () => {
+      toast({
+        title: "Keyword Research Complete",
+        description: "Successfully researched keywords. Check the results below.",
+      });
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ['/api/seo/top-keywords'] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Keyword Research Failed",
         description: error.message,
         variant: "destructive",
       });
