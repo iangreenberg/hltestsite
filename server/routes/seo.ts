@@ -337,4 +337,288 @@ async function startCrawl(baseUrl: string, maxPages: number, reportId: number) {
   }
 }
 
+// Get latest report endpoint
+router.get("/reports/latest", async (req, res) => {
+  try {
+    // Get the most recent report from database
+    const [report] = await db
+      .select()
+      .from(seoReports)
+      .orderBy(sql`${seoReports.date} DESC`)
+      .limit(1);
+    
+    if (!report) {
+      return res.status(404).json({ 
+        success: false, 
+        error: "No reports found" 
+      });
+    }
+
+    // Parse the totalIssues - it might be a JSON string or already an object
+    let totalIssues = null;
+    if (report.totalIssues) {
+      try {
+        // If it's a string, try to parse it
+        if (typeof report.totalIssues === 'string') {
+          totalIssues = JSON.parse(report.totalIssues);
+        } else {
+          // Otherwise assume it's already an object
+          totalIssues = report.totalIssues;
+        }
+      } catch (e) {
+        logger.error("Error parsing totalIssues:", e);
+        totalIssues = { error: "Could not parse issues data" };
+      }
+    }
+    
+    // Return a formatted response with the report data
+    res.json({
+      success: true,
+      report: {
+        ...report,
+        totalIssues,
+        date: report.date.toISOString(),
+        // Add other needed fields for the dashboard
+        keywordRankings: [],  // This would come from another table
+        topPriorityFixes: [], // This would be derived from seoIssues
+        contentSuggestions: [], // This could be generated or stored
+        performanceMetrics: [] // Metrics related to performance over time
+      }
+    });
+  } catch (error) {
+    logger.error("Error getting latest report:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Get all page audits
+router.get("/audits", async (req, res) => {
+  try {
+    const pageAuditResults = await db
+      .select()
+      .from(pageAudits)
+      .orderBy(sql`${pageAudits.url} ASC`);
+    
+    res.json({
+      success: true,
+      pages: pageAuditResults.map(page => ({
+        ...page,
+        lastAuditDate: page.lastAuditDate ? page.lastAuditDate.toISOString() : null
+      }))
+    });
+  } catch (error) {
+    logger.error("Error fetching page audits:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Get fixable issues
+router.get("/fixable-issues", async (req, res) => {
+  try {
+    const fixableIssues = await db
+      .select()
+      .from(seoIssues)
+      .where(sql`${seoIssues.fixed} IS NULL OR ${seoIssues.fixed} = false`)
+      .orderBy(sql`
+        CASE 
+          WHEN ${seoIssues.severity} = 'critical' THEN 1
+          WHEN ${seoIssues.severity} = 'high' THEN 2
+          WHEN ${seoIssues.severity} = 'medium' THEN 3
+          WHEN ${seoIssues.severity} = 'low' THEN 4
+          ELSE 5
+        END
+      `);
+    
+    res.json({
+      success: true,
+      issues: fixableIssues.map(issue => ({
+        ...issue,
+        fixedDate: issue.fixedDate ? issue.fixedDate.toISOString() : null
+      }))
+    });
+  } catch (error) {
+    logger.error("Error fetching fixable issues:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Fix a specific issue
+router.post("/fix-issue/:id", async (req, res) => {
+  try {
+    const issueId = parseInt(req.params.id);
+    
+    if (isNaN(issueId)) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "Invalid issue ID" 
+      });
+    }
+    
+    await db
+      .update(seoIssues)
+      .set({
+        fixed: true,
+        fixedDate: new Date()
+      })
+      .where(sql`${seoIssues.id} = ${issueId}`);
+    
+    res.json({
+      success: true,
+      message: "Issue marked as fixed"
+    });
+  } catch (error) {
+    logger.error("Error fixing issue:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Fix all issues automatically
+router.post("/fix-all-issues", async (req, res) => {
+  try {
+    // For demonstration purposes, just mark issues as fixed
+    // In a real implementation, this would actually fix the issues
+    const result = await db
+      .update(seoIssues)
+      .set({
+        fixed: true,
+        fixedDate: new Date()
+      })
+      .where(sql`${seoIssues.fixed} IS NULL OR ${seoIssues.fixed} = false`)
+      .where(sql`${seoIssues.autoFixable} = true`);
+    
+    res.json({
+      success: true,
+      message: "Auto-fix completed",
+      succeeded: result.rowCount || 0,
+      failed: 0
+    });
+  } catch (error) {
+    logger.error("Error auto-fixing issues:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Get top keywords (placeholder for now)
+router.get("/top-keywords", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit as string) || 10;
+    const minVolume = parseInt(req.query.minVolume as string) || 0;
+    
+    // For demonstration, return placeholder data
+    // In a real implementation, this would query a keywords table
+    const keywords = [
+      { keyword: "hemp business", position: 5, volume: 1200, change: 2 },
+      { keyword: "hemp derived products", position: 8, volume: 880, change: -1 },
+      { keyword: "hemp business startup", position: 3, volume: 750, change: 5 },
+      { keyword: "legal hemp business", position: 12, volume: 650, change: 0 },
+      { keyword: "hemp launch", position: 2, volume: 450, change: 4 }
+    ];
+    
+    res.json({
+      success: true,
+      keywords: keywords.filter(k => k.volume >= minVolume).slice(0, limit)
+    });
+  } catch (error) {
+    logger.error("Error fetching top keywords:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Get suggested topics (placeholder for now)
+router.get("/suggested-topics", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit as string) || 5;
+    const minVolume = parseInt(req.query.minVolume as string) || 0;
+    
+    // For demonstration, return placeholder data
+    // In a real implementation, this would query a content_topics table
+    const topics = [
+      { topic: "Starting a Hemp Business in 2025", volume: 850, competition: "medium" },
+      { topic: "Hemp Business Legal Requirements", volume: 720, competition: "high" },
+      { topic: "Hemp Product Marketing Strategies", volume: 680, competition: "medium" },
+      { topic: "Sourcing Hemp Materials", volume: 550, competition: "low" },
+      { topic: "Hemp Business Financing Options", volume: 490, competition: "medium" }
+    ];
+    
+    res.json({
+      success: true,
+      topics: topics.filter(t => t.volume >= minVolume).slice(0, limit)
+    });
+  } catch (error) {
+    logger.error("Error fetching suggested topics:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Research keywords (placeholder implementation)
+router.post("/research-keywords", async (req, res) => {
+  try {
+    const schema = z.object({
+      seedKeywords: z.array(z.string()).min(1).max(10)
+    });
+    
+    const { seedKeywords } = schema.parse(req.body);
+    
+    // For demonstration, just return success
+    // In a real implementation, this would trigger a keyword research process
+    res.json({
+      success: true,
+      message: `Started research for ${seedKeywords.length} seed keywords`,
+      seedKeywords
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "Invalid request data", 
+        details: error.errors 
+      });
+    }
+    
+    logger.error("Error researching keywords:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Get report by ID endpoint
+router.get("/reports/:id", async (req, res) => {
+  try {
+    const reportId = parseInt(req.params.id);
+    
+    if (isNaN(reportId)) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "Invalid report ID" 
+      });
+    }
+    
+    const [report] = await db
+      .select()
+      .from(seoReports)
+      .where(sql`${seoReports.id} = ${reportId}`);
+    
+    if (!report) {
+      return res.status(404).json({ 
+        success: false, 
+        error: "Report not found" 
+      });
+    }
+
+    // Parse the totalIssues JSON string
+    const totalIssues = report.totalIssues ? JSON.parse(report.totalIssues as string) : null;
+    
+    res.json({
+      success: true,
+      report: {
+        ...report,
+        totalIssues,
+        date: report.date.toISOString()
+      }
+    });
+  } catch (error) {
+    logger.error("Error getting report:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
 export default router;
