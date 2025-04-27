@@ -6,6 +6,10 @@ const logger = createLogger('seoRoutes');
 
 // Middleware to ensure user is authenticated and is an admin
 export function ensureAuthenticated(req: Request, res: Response, next: Function) {
+  if (typeof req.isAuthenticated !== 'function') {
+    return res.status(500).json({ message: "req.isAuthenticated is not a function" });
+  }
+  
   if (req.isAuthenticated() && req.user?.isAdmin) {
     return next();
   }
