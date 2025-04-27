@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
-import { queryClient } from '@/lib/queryClient';
+import { queryClient, apiRequest } from '@/lib/queryClient';
 
 import {
   Card,
@@ -262,10 +262,15 @@ function SEODashboard() {
       };
       
       try {
-        // When API is ready, uncomment this to use the actual API
-        // const response = await apiRequest('GET', '/api/seo/report/latest');
-        // return await response.json();
+        // Use the actual API endpoint
+        const response = await apiRequest('GET', '/api/seo/report/latest');
+        const data = await response.json();
         
+        if (data) {
+          return data;
+        }
+        
+        // Fallback to mock data if API doesn't return expected format
         return mockReport;
       } catch (error) {
         console.error('Error fetching SEO report:', error);
@@ -306,10 +311,15 @@ function SEODashboard() {
       ];
       
       try {
-        // When API is ready, uncomment this to use the actual API
-        // const response = await apiRequest('GET', '/api/seo/audits');
-        // return await response.json();
+        // Use the actual API endpoint
+        const response = await apiRequest('GET', '/api/seo/audits');
+        const data = await response.json();
         
+        if (data) {
+          return data;
+        }
+        
+        // Fallback to mock data if API doesn't return expected format
         return mockAudits;
       } catch (error) {
         console.error('Error fetching page audits:', error);
@@ -425,10 +435,15 @@ function SEODashboard() {
       ];
       
       try {
-        // When API is ready, uncomment this to use the actual API
-        // const response = await apiRequest('GET', '/api/seo/top-keywords');
-        // return await response.json();
+        // Use the actual API endpoint
+        const response = await apiRequest('GET', '/api/seo/top-keywords');
+        const data = await response.json();
         
+        if (data && Array.isArray(data) && data.length > 0) {
+          return data;
+        }
+        
+        // Fallback to mock data if API doesn't return expected format
         return mockTopKeywords;
       } catch (error) {
         console.error('Error fetching top keywords:', error);
@@ -481,10 +496,15 @@ function SEODashboard() {
       ];
       
       try {
-        // When API is ready, uncomment this to use the actual API
-        // const response = await apiRequest('GET', '/api/seo/suggested-topics');
-        // return await response.json();
+        // Use the actual API endpoint
+        const response = await apiRequest('GET', '/api/seo/suggested-topics');
+        const data = await response.json();
         
+        if (data && Array.isArray(data) && data.length > 0) {
+          return data;
+        }
+        
+        // Fallback to mock data if API doesn't return expected format
         return mockSuggestedTopics;
       } catch (error) {
         console.error('Error fetching suggested topics:', error);
