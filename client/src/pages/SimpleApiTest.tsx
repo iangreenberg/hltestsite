@@ -14,18 +14,27 @@ export default function SimpleApiTest() {
     
     try {
       console.log("Testing API...");
-      const response = await fetch('/api/seo/test', {
+      
+      // Use the most basic approach possible
+      const apiUrl = window.location.protocol + '//' + window.location.host + '/api/seo/test';
+      console.log("Using API URL:", apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'GET',
         credentials: 'include',
         headers: {
-          'Accept': 'application/json'
-        }
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        mode: 'cors'
       });
 
       console.log("Response status:", response.status);
+      console.log("Response headers:", [...response.headers.entries()]);
       
       if (!response.ok) {
         const errorText = await response.text();
+        console.error("Error response content:", errorText);
         throw new Error(`API Error: ${response.status} ${errorText}`);
       }
       
