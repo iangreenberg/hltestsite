@@ -11,6 +11,104 @@ import fetch from "node-fetch";
 const logger = createLogger("seo-routes");
 const router = Router();
 
+// Raw proxy endpoint for diagnostic purposes
+router.get("/raw-proxy", async (req, res) => {
+  try {
+    // Get target URL from request query params
+    const targetUrl = req.query?.url as string;
+    const method = ((req.query?.method as string) || 'GET').toUpperCase();
+    
+    if (!targetUrl) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing target URL parameter'
+      });
+    }
+    
+    console.log(`Raw Proxy request to: ${targetUrl} (Method: ${method})`);
+    
+    // Prepare browser-like headers to avoid security blocks
+    const headers = {
+      'User-Agent': 'Mozilla/5.0 (HempLaunch SEO API Diagnostic Tool)',
+      'Accept': 'application/json, text/html, */*',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Origin': req.headers.origin || 'https://thehemplaunch.com',
+      'Content-Type': 'application/json'
+    };
+    
+    // Add optional body for non-GET requests
+    const options: RequestInit = {
+      method,
+      headers,
+      redirect: 'follow',
+    };
+    
+    if (method !== 'GET' && req.body?.payload) {
+      options.body = JSON.stringify(req.body.payload);
+    }
+    
+    // Make the request to the target URL
+    const response = await fetch(targetUrl, options);
+    
+    // Get the raw response text
+    const responseText = await response.text();
+    
+    // Collect headers information
+    const headers_received: Record<string, string> = {};
+    response.headers.forEach((value, key) => {
+      headers_received[key] = value;
+    });
+    
+    // Attempt to parse JSON if content-type is application/json
+    let parsedJson = null;
+    let jsonError = null;
+    
+    const contentType = response.headers.get('content-type');
+    if (contentType?.includes('application/json')) {
+      try {
+        parsedJson = JSON.parse(responseText);
+      } catch (error) {
+        jsonError = `JSON parse error: ${(error as Error).message}`;
+      }
+    }
+    
+    // Return the complete diagnostic information
+    return res.status(200).json({
+      success: true,
+      diagnostics: {
+        url: targetUrl,
+        method,
+        status: response.status,
+        statusText: response.statusText,
+        headers_sent: headers,
+        headers_received,
+        response_size: responseText.length,
+        response_content: responseText.substring(0, 5000), // Limit to first 5000 chars
+        content_truncated: responseText.length > 5000,
+        parsed_json: parsedJson,
+        json_error: jsonError,
+        is_text_html: contentType?.includes('text/html'),
+        is_json: contentType?.includes('application/json'),
+        timestamp: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Raw Proxy Error:', error);
+    
+    // Return detailed error information
+    return res.status(500).json({
+      success: false,
+      error: "Error occurred during raw proxy request",
+      error_details: {
+        message: (error as Error).message,
+        stack: process.env.NODE_ENV === 'development' ? (error as Error).stack : undefined,
+      }
+    });
+  }
+});
+
 // Export function to register all SEO routes
 export function registerSeoRoutes(apiApp: Express | Router) {
   // Mount all the routes defined in this file under /seo
