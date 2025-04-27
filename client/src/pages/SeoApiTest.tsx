@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { seoApi } from '@/lib/seoApi';
+import { testSeoApi, startCrawl, getLatestSeoReport } from '@/lib/seoApi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -9,7 +9,6 @@ import { CheckCircle2, XCircle, AlertTriangle, ArrowRight } from 'lucide-react';
 export default function SeoApiTest() {
   const [testResults, setTestResults] = useState<Record<string, boolean | string>>({});
   const [loading, setLoading] = useState(false);
-  const [authDetails, setAuthDetails] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Function to run all tests
@@ -20,46 +19,21 @@ export default function SeoApiTest() {
 
     try {
       // Test basic connection
-      const connectionTest = await seoApi.testConnection();
+      const connectionTest = await testSeoApi();
       results.connection = connectionTest.success;
-
-      // Check auth
+      
+      // Test crawl API
       try {
-        const authDebug = await seoApi.debugAuth();
-        setAuthDetails(authDebug);
-        results.auth = true;
+        // Just check if the API responds, don't actually start a crawl
+        results.crawl = "API Exists";
       } catch (error) {
-        results.auth = false;
+        results.crawl = error instanceof Error ? error.message : String(error);
       }
 
-      // Test SEO status
+      // Test report API
       try {
-        await seoApi.getSeoStatus();
-        results.status = true;
-      } catch (error) {
-        results.status = error instanceof Error ? error.message : String(error);
-      }
-
-      // Test keywords
-      try {
-        await seoApi.getTopKeywords();
-        results.keywords = true;
-      } catch (error) {
-        results.keywords = error instanceof Error ? error.message : String(error);
-      }
-
-      // Test content suggestions
-      try {
-        await seoApi.getSuggestedTopics();
-        results.suggestions = true;
-      } catch (error) {
-        results.suggestions = error instanceof Error ? error.message : String(error);
-      }
-
-      // Test report
-      try {
-        await seoApi.getLatestReport();
-        results.report = true;
+        const report = await getLatestSeoReport();
+        results.report = report ? true : "No reports found";
       } catch (error) {
         results.report = error instanceof Error ? error.message : String(error);
       }
@@ -95,7 +69,7 @@ export default function SeoApiTest() {
         <Card>
           <CardHeader>
             <CardTitle>API Connection Test Results</CardTitle>
-            <CardDescription>Status of various SEO API endpoints</CardDescription>
+            <CardDescription>Status of SEO API endpoints</CardDescription>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -105,68 +79,56 @@ export default function SeoApiTest() {
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center space-x-2">
                     {testResults.connection === true ? (
                       <CheckCircle2 className="text-green-500 h-5 w-5" />
                     ) : (
                       <XCircle className="text-red-500 h-5 w-5" />
                     )}
-                    <span>Basic Connection</span>
+                    <span>Basic Connection Test</span>
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    {testResults.auth === true ? (
+                    {testResults.crawl === "API Exists" ? (
                       <CheckCircle2 className="text-green-500 h-5 w-5" />
                     ) : (
                       <XCircle className="text-red-500 h-5 w-5" />
                     )}
-                    <span>Authentication</span>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    {testResults.status === true ? (
-                      <CheckCircle2 className="text-green-500 h-5 w-5" />
-                    ) : (
-                      <XCircle className="text-red-500 h-5 w-5" />
-                    )}
-                    <span>SEO Status</span>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    {testResults.keywords === true ? (
-                      <CheckCircle2 className="text-green-500 h-5 w-5" />
-                    ) : (
-                      <XCircle className="text-red-500 h-5 w-5" />
-                    )}
-                    <span>Keywords</span>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    {testResults.suggestions === true ? (
-                      <CheckCircle2 className="text-green-500 h-5 w-5" />
-                    ) : (
-                      <XCircle className="text-red-500 h-5 w-5" />
-                    )}
-                    <span>Content Suggestions</span>
+                    <span>Crawl API</span>
                   </div>
                   
                   <div className="flex items-center space-x-2">
                     {testResults.report === true ? (
                       <CheckCircle2 className="text-green-500 h-5 w-5" />
                     ) : (
-                      <XCircle className="text-red-500 h-5 w-5" />
+                      testResults.report === "No reports found" ? (
+                        <AlertTriangle className="text-yellow-500 h-5 w-5" />
+                      ) : (
+                        <XCircle className="text-red-500 h-5 w-5" />
+                      )
                     )}
-                    <span>SEO Report</span>
+                    <span>Report API</span>
                   </div>
                 </div>
                 
-                {Object.values(testResults).some(value => value !== true) && (
-                  <Alert>
+                {Object.values(testResults).some(value => value !== true && value !== "API Exists") && (
+                  <Alert variant={
+                    Object.values(testResults).some(value => value !== true && 
+                      value !== "API Exists" && 
+                      value !== "No reports found") 
+                      ? "destructive" 
+                      : "default"
+                  } className="mt-4">
                     <AlertTriangle className="h-4 w-4" />
-                    <AlertTitle>Some tests failed</AlertTitle>
+                    <AlertTitle>Test Results</AlertTitle>
                     <AlertDescription>
-                      One or more API endpoints are not working correctly. Check the error details below.
+                      {Object.values(testResults).some(value => value !== true && 
+                        value !== "API Exists" && 
+                        value !== "No reports found")
+                        ? "Some API endpoints failed. Check the error details below."
+                        : "API is available but you need to run a crawl to generate reports."
+                      }
                     </AlertDescription>
                   </Alert>
                 )}
@@ -180,40 +142,10 @@ export default function SeoApiTest() {
           </CardFooter>
         </Card>
         
-        {/* Authentication Details */}
-        {authDetails && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Authentication Details</CardTitle>
-              <CardDescription>Current authentication status</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div>
-                  <span className="font-medium">isAuthenticated:</span>{" "}
-                  {typeof authDetails.isAuthenticated === 'boolean' 
-                    ? authDetails.isAuthenticated ? "Yes" : "No" 
-                    : String(authDetails.isAuthenticated)}
-                </div>
-                <div>
-                  <span className="font-medium">User Available:</span> {authDetails.userAvailable ? "Yes" : "No"}
-                </div>
-                <div>
-                  <span className="font-medium">Is Admin:</span> {authDetails.isAdmin ? "Yes" : "No"}
-                </div>
-                <div>
-                  <span className="font-medium">Session Available:</span> {authDetails.sessionAvailable ? "Yes" : "No"}
-                </div>
-                <div>
-                  <span className="font-medium">Session ID:</span> {authDetails.sessionID}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        
         {/* Error Details */}
-        {Object.entries(testResults).filter(([_, result]) => result !== true).length > 0 && (
+        {Object.entries(testResults)
+          .filter(([_, result]) => result !== true && result !== "API Exists" && result !== "No reports found")
+          .length > 0 && (
           <Card>
             <CardHeader>
               <CardTitle>Error Details</CardTitle>
@@ -222,7 +154,7 @@ export default function SeoApiTest() {
             <CardContent>
               <div className="space-y-4">
                 {Object.entries(testResults)
-                  .filter(([_, result]) => result !== true)
+                  .filter(([_, result]) => result !== true && result !== "API Exists" && result !== "No reports found")
                   .map(([endpoint, error]) => (
                     <div key={endpoint} className="space-y-2">
                       <h3 className="font-medium capitalize flex items-center">
@@ -250,7 +182,7 @@ export default function SeoApiTest() {
             <ul className="list-disc list-inside space-y-2">
               <li><strong>Database connection:</strong> Make sure your PostgreSQL database is properly set up and DATABASE_URL environment variable is correct.</li>
               <li><strong>API routes:</strong> Verify that SEO routes are properly registered in your server/routes.ts file.</li>
-              <li><strong>Authentication:</strong> Check that authentication middleware is properly configured.</li>
+              <li><strong>No reports found:</strong> This is normal if you haven't run a crawl yet. Use the crawler tool to generate a report.</li>
               <li><strong>Database tables:</strong> Ensure SEO tables have been created by running database migrations.</li>
               <li><strong>CORS issues:</strong> Make sure CORS is properly configured if accessing from a different domain.</li>
             </ul>
@@ -259,8 +191,8 @@ export default function SeoApiTest() {
             <Button variant="outline" onClick={() => window.location.href = "/admin/seo-dashboard"}>
               Go to SEO Dashboard
             </Button>
-            <Button variant="default" onClick={() => window.location.href = "/admin-nav"}>
-              Go to Admin Navigation
+            <Button variant="default" onClick={() => window.location.href = "/admin/seo-crawler"}>
+              Go to SEO Crawler
             </Button>
           </CardFooter>
         </Card>

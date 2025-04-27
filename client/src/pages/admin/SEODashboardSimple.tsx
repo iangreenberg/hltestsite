@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { seoApi } from '@/lib/seoApi';
+import { testSeoApi, getLatestSeoReport, startCrawl } from '@/lib/seoApi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -17,7 +17,7 @@ export default function SEODashboardSimple() {
   useEffect(() => {
     async function checkConnection() {
       try {
-        const result = await seoApi.testConnection();
+        const result = await testSeoApi();
         if (result.success) {
           setConnectionStatus('connected');
         } else {
@@ -33,41 +33,30 @@ export default function SEODashboardSimple() {
     checkConnection();
   }, []);
   
-  // Fetch SEO status
+  // Fetch latest report
   const { 
-    data: seoStatus, 
-    isLoading: statusLoading, 
-    error: statusError 
+    data: latestReport, 
+    isLoading: reportLoading, 
+    error: reportError 
   } = useQuery({
-    queryKey: ['/api/seo/status'],
-    queryFn: seoApi.getSeoStatus,
+    queryKey: ['/api/seo/reports/latest'],
+    queryFn: () => getLatestSeoReport(),
     enabled: connectionStatus === 'connected',
     retry: 1
   });
   
-  // Fetch keywords
-  const { 
-    data: keywords, 
-    isLoading: keywordsLoading, 
-    error: keywordsError 
-  } = useQuery({
-    queryKey: ['/api/seo/top-keywords'],
-    queryFn: () => seoApi.getTopKeywords(10),
-    enabled: connectionStatus === 'connected',
-    retry: 1
-  });
+  // Set up placeholders for not-yet-implemented features
+  const seoStatus = {};
+  const statusLoading = reportLoading;
+  const statusError = reportError;
   
-  // Fetch content suggestions
-  const { 
-    data: contentSuggestions, 
-    isLoading: suggestionsLoading, 
-    error: suggestionsError 
-  } = useQuery({
-    queryKey: ['/api/seo/suggested-topics'],
-    queryFn: () => seoApi.getSuggestedTopics(5),
-    enabled: connectionStatus === 'connected',
-    retry: 1
-  });
+  const keywords = [];
+  const keywordsLoading = false;
+  const keywordsError = null;
+  
+  const contentSuggestions = [];
+  const suggestionsLoading = false;
+  const suggestionsError = null;
   
   // Handle API status
   if (connectionStatus === 'checking') {
@@ -116,13 +105,8 @@ export default function SEODashboardSimple() {
             </Button>
             <Button 
               variant="default" 
-              onClick={async () => {
-                try {
-                  const authDetails = await seoApi.debugAuth();
-                  alert(`Authentication Details: ${JSON.stringify(authDetails, null, 2)}`);
-                } catch (error) {
-                  alert(`Error checking auth: ${error instanceof Error ? error.message : String(error)}`);
-                }
+              onClick={() => {
+                alert("Debug Authentication feature has been deprecated in the new API structure");
               }}
             >
               Debug Authentication
@@ -233,8 +217,9 @@ export default function SEODashboardSimple() {
                   <Button 
                     onClick={async () => {
                       try {
-                        await seoApi.runAudit();
-                        alert('SEO audit started!');
+                        // Using the startCrawl API directly
+                        const response = await startCrawl('https://example.com', 10);
+                        alert(`SEO audit started! Report ID: ${response.reportId}`);
                         window.location.reload();
                       } catch (error) {
                         alert(`Error starting audit: ${error instanceof Error ? error.message : String(error)}`);

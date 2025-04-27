@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import { queryClient, apiRequest } from '@/lib/queryClient';
-import { seoApi, SeoReport, SeoIssue, SeoKeyword, ContentSuggestion, PageAudit, SeoStatus } from '@/lib/seoApi';
+import { testSeoApi, getLatestSeoReport, startCrawl } from '@/lib/seoApi';
+import type { SeoReport, SeoIssue, ContentSuggestion, PageAudit } from '@/lib/seoApi';
 
 import {
   Card,
@@ -117,7 +118,8 @@ function SEODashboard() {
   useEffect(() => {
     const checkApiConnection = async () => {
       try {
-        const isConnected = await seoApi.testConnection();
+        const result = await testSeoApi();
+        const isConnected = result.success;
         setApiConnected(isConnected);
         
         if (isConnected) {

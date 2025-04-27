@@ -1,277 +1,340 @@
-import { Router, Request, Response } from 'express';
-import { storageSeo } from '../storageSeo';
-import { createLogger } from '../logger';
+import { Router, type Express } from "express";
+import { createLogger } from "../logger";
+import { db } from "../db";
+import { sql } from "drizzle-orm";
+import { z } from "zod";
+import { storageSeo } from "../storageSeo";
+import { seoReports, seoIssues, pageAudits } from "../../shared/schema";
+import { JSDOM } from "jsdom";
+import fetch from "node-fetch";
 
-const logger = createLogger('seoRoutes');
+const logger = createLogger("seo-routes");
+const router = Router();
 
-// Middleware to ensure user is authenticated and is an admin
-export function ensureAuthenticated(req: Request, res: Response, next: Function) {
+// Export function to register all SEO routes
+export function registerSeoRoutes(apiApp: Express | Router) {
+  // Mount all the routes defined in this file under /seo
+  apiApp.use("/seo", router);
+  
+  logger.info("SEO routes registered successfully");
+}
+
+// This endpoint is used as a simple connectivity test
+router.get("/test", async (req, res) => {
   try {
-    // Always bypass authentication in development mode for easier testing
-    // IMPORTANT: This should be removed in production deployment
-    console.log('Bypassing authentication for SEO routes in development');
-    return next();
+    res.json({ success: true });
+  } catch (error) {
+    logger.error("Error in test endpoint:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Endpoint to trigger a crawl of a website
+router.post("/crawl", async (req, res) => {
+  try {
+    const schema = z.object({
+      url: z.string().url(),
+      maxPages: z.number().int().min(1).max(100).default(20)
+    });
+
+    const { url, maxPages } = schema.parse(req.body);
     
-    /* 
-    // This code is commented out for development testing
+    logger.info(`Starting crawl for ${url} with max pages: ${maxPages}`);
     
-    // For production, ensure proper authentication
-    // Check if the user is authenticated using req.isAuthenticated()
-    if (typeof req.isAuthenticated === 'function') {
-      if (req.isAuthenticated() && req.user?.isAdmin) {
-        return next();
-      }
-    } else {
-      // Fallback if isAuthenticated is not available
-      if (req.user && req.user.isAdmin) {
-        return next();
-      }
+    // Create a new report entry to associate with this crawl
+    const [report] = await db.insert(seoReports).values({
+      date: new Date(),
+      totalIssues: JSON.stringify({ high: 0, medium: 0, low: 0, total: 0 }),
+      newIssues: 0,
+      fixedIssues: 0,
+      overallScore: 0
+    }).returning();
+    
+    logger.info(`Created report with ID: ${report.id}`);
+    
+    // Return immediately to client, continue processing in background
+    res.status(200).json({ 
+      success: true, 
+      message: "Crawl started successfully", 
+      reportId: report.id,
+      timestamp: new Date().toISOString()
+    });
+    
+    // Start the crawl process asynchronously (don't await)
+    startCrawl(url, maxPages, report.id);
+    
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      logger.error("Validation error:", error.errors);
+      return res.status(400).json({ 
+        success: false, 
+        error: "Invalid request data", 
+        details: error.errors 
+      });
     }
     
-    // Not authenticated or not admin
-    return res.status(401).json({ error: 'Unauthorized access' });
-    */
+    logger.error("Error starting crawl:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
+
+// Function to handle the actual crawling process - runs in background
+async function startCrawl(baseUrl: string, maxPages: number, reportId: number) {
+  const visited = new Set<string>();
+  const queue: string[] = [baseUrl];
+  const issues: Array<{ 
+    title: string;
+    description: string;
+    type: string;
+    url: string | null;
+    severity: string;
+    reportId: number;
+  }> = [];
+  
+  const pageData: Array<{
+    url: string;
+    title: string;
+    reportId: number;
+    metaDescription: string | null;
+    h1: string | null;
+    h2Count: number;
+    wordCount: number;
+    imageCount: number;
+    imagesWithAlt: number;
+    internalLinks: number;
+    externalLinks: number;
+  }> = [];
+
+  // Process URLs until queue is empty or maxPages is reached
+  while (queue.length > 0 && visited.size < maxPages) {
+    const currentUrl = queue.shift()!;
+    
+    // Skip if already visited
+    if (visited.has(currentUrl)) continue;
+    visited.add(currentUrl);
+    
+    try {
+      logger.info(`Crawling: ${currentUrl}`);
+      const response = await fetch(currentUrl);
+      const html = await response.text();
+      const dom = new JSDOM(html);
+      const document = dom.window.document;
+      
+      // Extract page data
+      const title = document.title;
+      const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || null;
+      const h1Element = document.querySelector('h1');
+      const h1Text = h1Element ? h1Element.textContent?.trim() : null;
+      const h2Elements = document.querySelectorAll('h2');
+      const images = document.querySelectorAll('img');
+      const imagesWithAltCount = Array.from(images).filter(img => img.hasAttribute('alt') && img.getAttribute('alt')?.trim()).length;
+      
+      // Count words in the body
+      const bodyText = document.body.textContent || '';
+      const wordCount = bodyText.split(/\s+/).filter(word => word.length > 0).length;
+      
+      // Process links
+      const links = document.querySelectorAll('a');
+      const internalLinks: string[] = [];
+      const externalLinks: string[] = [];
+      
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        
+        try {
+          const url = new URL(href, currentUrl);
+          
+          if (url.origin === new URL(baseUrl).origin) {
+            // Internal link
+            internalLinks.push(url.href);
+            
+            // Add to queue if not already visited
+            if (!visited.has(url.href) && !queue.includes(url.href)) {
+              queue.push(url.href);
+            }
+          } else {
+            // External link
+            externalLinks.push(url.href);
+          }
+        } catch (e) {
+          // Skip invalid URLs
+        }
+      });
+      
+      // Add page data to the collection
+      pageData.push({
+        url: currentUrl,
+        title,
+        reportId,
+        metaDescription,
+        h1: h1Text,
+        h2Count: h2Elements.length,
+        wordCount,
+        imageCount: images.length,
+        imagesWithAlt: imagesWithAltCount,
+        internalLinks: internalLinks.length,
+        externalLinks: externalLinks.length
+      });
+      
+      // Check for issues
+      
+      // 1. Missing meta description
+      if (!metaDescription) {
+        issues.push({
+          title: "Missing meta description",
+          description: `The page at ${currentUrl} doesn't have a meta description.`,
+          type: "meta",
+          url: currentUrl,
+          severity: "medium",
+          reportId
+        });
+      } else if (metaDescription.length < 50) {
+        issues.push({
+          title: "Meta description too short",
+          description: `The meta description on ${currentUrl} is only ${metaDescription.length} characters. It should be at least 50 characters.`,
+          type: "meta",
+          url: currentUrl,
+          severity: "low",
+          reportId
+        });
+      } else if (metaDescription.length > 160) {
+        issues.push({
+          title: "Meta description too long",
+          description: `The meta description on ${currentUrl} is ${metaDescription.length} characters. It should be no more than 160 characters.`,
+          type: "meta",
+          url: currentUrl,
+          severity: "low",
+          reportId
+        });
+      }
+      
+      // 2. Missing H1
+      if (!h1Text) {
+        issues.push({
+          title: "Missing H1 heading",
+          description: `The page at ${currentUrl} doesn't have an H1 heading.`,
+          type: "structure",
+          url: currentUrl,
+          severity: "high",
+          reportId
+        });
+      }
+      
+      // 3. Title issues
+      if (!title) {
+        issues.push({
+          title: "Missing page title",
+          description: `The page at ${currentUrl} doesn't have a title.`,
+          type: "meta",
+          url: currentUrl,
+          severity: "high",
+          reportId
+        });
+      } else if (title.length < 10) {
+        issues.push({
+          title: "Page title too short",
+          description: `The title on ${currentUrl} is only ${title.length} characters. It should be at least 10 characters.`,
+          type: "meta",
+          url: currentUrl,
+          severity: "medium",
+          reportId
+        });
+      } else if (title.length > 60) {
+        issues.push({
+          title: "Page title too long",
+          description: `The title on ${currentUrl} is ${title.length} characters. It should be no more than 60 characters.`,
+          type: "meta",
+          url: currentUrl,
+          severity: "low",
+          reportId
+        });
+      }
+      
+      // 4. Images without alt text
+      if (images.length > 0 && imagesWithAltCount < images.length) {
+        issues.push({
+          title: "Images missing alt text",
+          description: `${images.length - imagesWithAltCount} out of ${images.length} images on ${currentUrl} are missing alt text.`,
+          type: "accessibility",
+          url: currentUrl,
+          severity: "medium",
+          reportId
+        });
+      }
+      
+      // 5. Low word count
+      if (wordCount < 300) {
+        issues.push({
+          title: "Low word count",
+          description: `The page at ${currentUrl} only has ${wordCount} words. Consider adding more content for better SEO.`,
+          type: "content",
+          url: currentUrl,
+          severity: "medium",
+          reportId
+        });
+      }
+      
+      // Wait a bit before the next request to avoid overloading the server
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+    } catch (error) {
+      logger.error(`Error crawling ${currentUrl}:`, error);
+      issues.push({
+        title: "Crawl error",
+        description: `Failed to crawl ${currentUrl}: ${error instanceof Error ? error.message : String(error)}`,
+        type: "error",
+        url: currentUrl,
+        severity: "high",
+        reportId
+      });
+    }
+  }
+  
+  try {
+    // Save page audits to database
+    if (pageData.length > 0) {
+      await db.insert(pageAudits).values(pageData);
+      logger.info(`Saved ${pageData.length} page audits to database`);
+    }
+    
+    // Save issues to database
+    if (issues.length > 0) {
+      await db.insert(seoIssues).values(issues);
+      logger.info(`Saved ${issues.length} issues to database`);
+    }
+    
+    // Count issues by severity
+    const highCount = issues.filter(issue => issue.severity === "high").length;
+    const mediumCount = issues.filter(issue => issue.severity === "medium").length;
+    const lowCount = issues.filter(issue => issue.severity === "low").length;
+    
+    // Calculate a very simple score out of 100
+    // High issues subtract 10 points, medium 5 points, low 2 points
+    let score = 100 - (highCount * 10 + mediumCount * 5 + lowCount * 2);
+    score = Math.max(0, Math.min(100, score)); // Keep between 0-100
+    
+    // Update the report with the calculated data
+    await db
+      .update(seoReports)
+      .set({
+        totalIssues: JSON.stringify({
+          high: highCount,
+          medium: mediumCount,
+          low: lowCount,
+          total: issues.length
+        }),
+        newIssues: issues.length,
+        fixedIssues: 0,
+        overallScore: score
+      })
+      .where(sql`${seoReports.id} = ${reportId}`);
+    
+    logger.info(`Completed crawl of ${visited.size} pages. Found ${issues.length} issues.`);
+    
   } catch (error) {
-    console.error('Authentication error:', error);
-    return res.status(500).json({ error: 'Authentication system error' });
+    logger.error("Error saving crawl results:", error);
   }
 }
 
-export function registerSeoRoutes(router: Router) {
-  // Apply authentication middleware to all SEO routes
-  const seoRouter = Router();
-  seoRouter.use(ensureAuthenticated);
-  
-  // Get latest SEO report
-  seoRouter.get('/report/latest', async (req: Request, res: Response) => {
-    try {
-      const report = await storageSeo.getLatestReport();
-      
-      if (!report) {
-        return res.status(404).json({ error: 'No SEO report found' });
-      }
-      
-      // Get page audits for this report
-      const pageAudits = await storageSeo.getPageAudits(report.id);
-      
-      // Get all issues
-      const issues = await storageSeo.getAllIssues();
-      
-      // Return the full report with related data
-      return res.json({
-        ...report,
-        pageAudits,
-        issues
-      });
-    } catch (error) {
-      logger.error('Error getting latest SEO report:', error);
-      return res.status(500).json({ error: 'Failed to retrieve SEO report' });
-    }
-  });
-  
-  // Get SEO status
-  seoRouter.get('/status', async (req: Request, res: Response) => {
-    try {
-      const status = await storageSeo.getSeoStatus();
-      return res.json(status);
-    } catch (error) {
-      logger.error('Error getting SEO status:', error);
-      return res.status(500).json({ error: 'Failed to retrieve SEO status' });
-    }
-  });
-  
-  // Get all SEO issues
-  seoRouter.get('/issues', async (req: Request, res: Response) => {
-    try {
-      const issues = await storageSeo.getAllIssues();
-      return res.json(issues);
-    } catch (error) {
-      logger.error('Error getting SEO issues:', error);
-      return res.status(500).json({ error: 'Failed to retrieve SEO issues' });
-    }
-  });
-  
-  // Get fixable issues
-  seoRouter.get('/fixable-issues', async (req: Request, res: Response) => {
-    try {
-      const issues = await storageSeo.getFixableIssues();
-      return res.json(issues);
-    } catch (error) {
-      logger.error('Error getting fixable SEO issues:', error);
-      return res.status(500).json({ error: 'Failed to retrieve fixable SEO issues' });
-    }
-  });
-  
-  // Mark issue as fixed
-  seoRouter.post('/issues/:id/fix', async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      
-      if (isNaN(id)) {
-        return res.status(400).json({ error: 'Invalid issue ID' });
-      }
-      
-      await storageSeo.markIssueFixed(id);
-      
-      // Update the SEO status to reflect the fixed issue
-      const status = await storageSeo.getSeoStatus();
-      if (status) {
-        await storageSeo.updateSeoStatus({
-          totalIssuesFixed: (status.totalIssuesFixed || 0) + 1
-        });
-      }
-      
-      return res.json({ success: true });
-    } catch (error) {
-      logger.error(`Error marking issue ${req.params.id} as fixed:`, error);
-      return res.status(500).json({ error: 'Failed to mark issue as fixed' });
-    }
-  });
-  
-  // Ignore an issue
-  seoRouter.post('/issues/:id/ignore', async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      const { ignore } = req.body;
-      
-      if (isNaN(id)) {
-        return res.status(400).json({ error: 'Invalid issue ID' });
-      }
-      
-      await storageSeo.ignoreIssue(id, ignore === true);
-      return res.json({ success: true });
-    } catch (error) {
-      logger.error(`Error ${req.body.ignore ? 'ignoring' : 'unignoring'} issue ${req.params.id}:`, error);
-      return res.status(500).json({ error: 'Failed to update issue' });
-    }
-  });
-  
-  // Get top keywords
-  seoRouter.get('/top-keywords', async (req: Request, res: Response) => {
-    try {
-      const limit = parseInt(req.query.limit as string) || 10;
-      
-      const keywords = await storageSeo.getKeywordRankings();
-      
-      // Sort by search volume and take the top n
-      const topKeywords = keywords
-        .sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0))
-        .slice(0, limit);
-      
-      return res.json(topKeywords);
-    } catch (error) {
-      logger.error('Error getting top keywords:', error);
-      return res.status(500).json({ error: 'Failed to retrieve top keywords' });
-    }
-  });
-  
-  // Get suggested content topics
-  seoRouter.get('/suggested-topics', async (req: Request, res: Response) => {
-    try {
-      const limit = parseInt(req.query.limit as string) || 10;
-      
-      const suggestions = await storageSeo.getContentSuggestions();
-      
-      // Filter only non-implemented suggestions and take the top n
-      const topSuggestions = suggestions
-        .filter(s => !s.implemented)
-        .sort((a, b) => (b.searchVolume || 0) - (a.searchVolume || 0))
-        .slice(0, limit);
-      
-      return res.json(topSuggestions);
-    } catch (error) {
-      logger.error('Error getting content suggestions:', error);
-      return res.status(500).json({ error: 'Failed to retrieve content suggestions' });
-    }
-  });
-  
-  // Mark content suggestion as implemented
-  seoRouter.post('/suggestions/:id/implement', async (req: Request, res: Response) => {
-    try {
-      const id = parseInt(req.params.id);
-      
-      if (isNaN(id)) {
-        return res.status(400).json({ error: 'Invalid suggestion ID' });
-      }
-      
-      await storageSeo.markSuggestionImplemented(id);
-      return res.json({ success: true });
-    } catch (error) {
-      logger.error(`Error marking suggestion ${req.params.id} as implemented:`, error);
-      return res.status(500).json({ error: 'Failed to mark suggestion as implemented' });
-    }
-  });
-  
-  // Run a new SEO audit (this would typically trigger a background job)
-  seoRouter.post('/run-audit', async (req: Request, res: Response) => {
-    try {
-      // Start by marking audit as in progress
-      await storageSeo.markAuditInProgress(true);
-      
-      // This would normally trigger a background job to run the audit
-      // For now, we'll just return a success response
-      return res.json({ 
-        success: true,
-        message: 'SEO audit started'
-      });
-    } catch (error) {
-      logger.error('Error starting SEO audit:', error);
-      return res.status(500).json({ error: 'Failed to start SEO audit' });
-    }
-  });
-  
-  // Quick connection test endpoint
-  seoRouter.get('/test', async (req: Request, res: Response) => {
-    return res.json({ success: true });
-  });
-  
-  // API endpoint for crawling a website and generating a report
-  seoRouter.post('/crawl', async (req: Request, res: Response) => {
-    try {
-      const { url, maxPages } = req.body;
-      
-      if (!url) {
-        return res.status(400).json({ error: 'URL is required' });
-      }
-      
-      // Import dynamically to avoid circular dependencies
-      const { crawlAndSaveResults } = await import('../seo-engine/crawler');
-      
-      // Start crawling in background
-      // We respond immediately and let the crawl run in the background
-      res.json({ 
-        success: true, 
-        message: `Started crawling ${url}`,
-        timestamp: new Date()
-      });
-      
-      // Run the crawl process (this can take a while)
-      crawlAndSaveResults(url, maxPages || 20)
-        .then(() => {
-          console.log(`Completed crawl of ${url}`);
-        })
-        .catch(error => {
-          console.error(`Error crawling ${url}:`, error);
-        });
-    } catch (error) {
-      logger.error('Error starting crawl:', error);
-      return res.status(500).json({ error: 'Failed to start crawl' });
-    }
-  });
-  
-  // Debug endpoint for authentication
-  router.get('/seo/debug-auth', (req: Request, res: Response) => {
-    const authDetails = {
-      isAuthenticated: typeof req.isAuthenticated === 'function' ? req.isAuthenticated() : 'Not a function',
-      userAvailable: !!req.user,
-      isAdmin: req.user?.isAdmin || false,
-      sessionAvailable: !!req.session,
-      sessionID: req.sessionID || 'No session ID'
-    };
-    
-    return res.json(authDetails);
-  });
-  
-  // Mount the SEO router
-  router.use('/seo', seoRouter);
-}
+export default router;

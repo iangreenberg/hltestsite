@@ -1,126 +1,89 @@
-import { queryClient, apiRequest } from "@/lib/queryClient";
-import { SeoReport, SeoIssue, KeywordRanking, ContentSuggestion, SeoStatusRecord } from "@shared/schema";
+import { apiRequest } from "./queryClient";
+import { 
+  SeoReport as SelectSeoReport, 
+  SeoIssue as SelectSeoIssue,
+  PageAudit as SelectPageAudit,
+  KeywordRanking as SelectKeywordRanking,
+  ContentSuggestion as SelectContentSuggestion,
+  SeoStatusRecord as SelectSeoStatus 
+} from "@shared/schema";
 
-// Base URL for all SEO API endpoints
-const SEO_API_BASE = "/api/seo";
+// Re-export the types with shorter names for convenience
+export type SeoReport = SelectSeoReport;
+export type SeoIssue = SelectSeoIssue;
+export type PageAudit = SelectPageAudit;
+export type KeywordRanking = SelectKeywordRanking;
+export type ContentSuggestion = SelectContentSuggestion;
+export type SeoStatus = SelectSeoStatus;
 
-// Helper to handle errors consistently
-async function handleApiResponse<T>(response: Response): Promise<T> {
-  if (!response.ok) {
-    // Try to parse the error message from the response
-    try {
-      const errorData = await response.json();
-      throw new Error(errorData.error || errorData.message || `API Error: ${response.status} ${response.statusText}`);
-    } catch (e) {
-      // If we can't parse the error, throw a generic one
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
-    }
+// SEO API functions
+
+/**
+ * Tests the connection to the SEO API
+ * @returns True if the API is accessible
+ */
+export async function testSeoApi(): Promise<{ success: boolean }> {
+  try {
+    const response = await apiRequest("GET", "/api/seo/test");
+    return await response.json();
+  } catch (error) {
+    console.error("Error testing SEO API:", error);
+    return { success: false };
   }
-  
-  return response.json() as Promise<T>;
 }
 
-// SEO API endpoints
-export const seoApi = {
-  // Test endpoint to check if SEO API is available
-  async testConnection(): Promise<{ success: boolean }> {
-    try {
-      console.log("Testing SEO API connection...");
-      const response = await fetch(`${SEO_API_BASE}/test`, {
-        credentials: "include" // Include cookies for authentication
-      });
-      const result = await handleApiResponse<{ success: boolean }>(response);
-      console.log("SEO API connection test result:", result);
-      return result;
-    } catch (error) {
-      console.error("Error testing SEO API connection:", error);
-      return { success: false };
-    }
-  },
-  
-  // Debug endpoint to check authentication
-  async debugAuth(): Promise<any> {
-    try {
-      console.log("Checking auth debug...");
-      const response = await fetch(`${SEO_API_BASE}/debug-auth`, {
-        credentials: "include" // Include cookies for authentication
-      });
-      const result = await handleApiResponse<any>(response);
-      console.log("Auth debug result:", result);
-      return result;
-    } catch (error) {
-      console.error("Error debugging authentication:", error);
-      return { error: String(error) };
-    }
-  },
-  
-  // Get the latest SEO report with all related data
-  async getLatestReport(): Promise<SeoReport & { pageAudits: any[]; issues: SeoIssue[] }> {
-    const response = await apiRequest("GET", `${SEO_API_BASE}/report/latest`);
-    return handleApiResponse(response);
-  },
-  
-  // Get current SEO status
-  async getSeoStatus(): Promise<SeoStatusRecord> {
-    const response = await apiRequest("GET", `${SEO_API_BASE}/status`);
-    return handleApiResponse(response);
-  },
-  
-  // Get all SEO issues
-  async getAllIssues(): Promise<SeoIssue[]> {
-    const response = await apiRequest("GET", `${SEO_API_BASE}/issues`);
-    return handleApiResponse(response);
-  },
-  
-  // Get fixable issues
-  async getFixableIssues(): Promise<SeoIssue[]> {
-    const response = await apiRequest("GET", `${SEO_API_BASE}/fixable-issues`);
-    return handleApiResponse(response);
-  },
-  
-  // Mark an issue as fixed
-  async fixIssue(id: number): Promise<{ success: boolean }> {
-    const response = await apiRequest("POST", `${SEO_API_BASE}/issues/${id}/fix`);
-    return handleApiResponse(response);
-  },
-  
-  // Ignore/unignore an issue
-  async ignoreIssue(id: number, ignore: boolean): Promise<{ success: boolean }> {
-    const response = await apiRequest("POST", `${SEO_API_BASE}/issues/${id}/ignore`, { ignore });
-    return handleApiResponse(response);
-  },
-  
-  // Get top keywords by search volume
-  async getTopKeywords(limit = 10): Promise<KeywordRanking[]> {
-    const response = await apiRequest("GET", `${SEO_API_BASE}/top-keywords?limit=${limit}`);
-    return handleApiResponse(response);
-  },
-  
-  // Get content suggestions that haven't been implemented
-  async getSuggestedTopics(limit = 10): Promise<ContentSuggestion[]> {
-    const response = await apiRequest("GET", `${SEO_API_BASE}/suggested-topics?limit=${limit}`);
-    return handleApiResponse(response);
-  },
-  
-  // Mark a content suggestion as implemented
-  async implementSuggestion(id: number): Promise<{ success: boolean }> {
-    const response = await apiRequest("POST", `${SEO_API_BASE}/suggestions/${id}/implement`);
-    return handleApiResponse(response);
-  },
-  
-  // Run a new SEO audit
-  async runAudit(): Promise<{ success: boolean; message: string }> {
-    const response = await apiRequest("POST", `${SEO_API_BASE}/run-audit`);
-    return handleApiResponse(response);
-  },
-  
-  // Invalidate all SEO-related queries to refresh data
-  invalidateQueries() {
-    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/report/latest`] });
-    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/status`] });
-    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/issues`] });
-    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/fixable-issues`] });
-    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/top-keywords`] });
-    queryClient.invalidateQueries({ queryKey: [`${SEO_API_BASE}/suggested-topics`] });
+/**
+ * Starts a crawl of a website
+ * @param url The URL to crawl
+ * @param maxPages Maximum number of pages to crawl (default: 20)
+ * @returns The response from the API including report ID
+ */
+export async function startCrawl(url: string, maxPages: number = 20): Promise<{
+  success: boolean;
+  message?: string;
+  reportId?: number;
+  timestamp?: string;
+  error?: string;
+}> {
+  try {
+    const response = await apiRequest("POST", "/api/seo/crawl", { url, maxPages });
+    return await response.json();
+  } catch (error) {
+    console.error("Error starting crawl:", error);
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : "Unknown error"
+    };
   }
-};
+}
+
+/**
+ * Fetches a single SEO report by ID
+ * @param reportId The ID of the report to fetch
+ * @returns The report data
+ */
+export async function getSeoReport(reportId: number): Promise<SeoReport | null> {
+  try {
+    const response = await apiRequest("GET", `/api/seo/reports/${reportId}`);
+    const data = await response.json();
+    return data.report || null;
+  } catch (error) {
+    console.error("Error fetching SEO report:", error);
+    return null;
+  }
+}
+
+/**
+ * Fetches the most recent SEO report
+ * @returns The latest report data
+ */
+export async function getLatestSeoReport(): Promise<SeoReport | null> {
+  try {
+    const response = await apiRequest("GET", "/api/seo/reports/latest");
+    const data = await response.json();
+    return data.report || null;
+  } catch (error) {
+    console.error("Error fetching latest SEO report:", error);
+    return null;
+  }
+}

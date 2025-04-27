@@ -4,7 +4,9 @@ import { migrate } from "drizzle-orm/neon-serverless/migrator";
 import { Pool } from "@neondatabase/serverless";
 import * as schema from "../shared/schema";
 import { sql } from "drizzle-orm";
-import { logger } from "../server/logger";
+import { createLogger } from "../server/logger";
+
+const logger = createLogger("migration");
 
 async function migrateDatabase() {
   try {
@@ -17,7 +19,7 @@ async function migrateDatabase() {
       WHERE table_name = 'seo_issues' AND column_name = 'report_id'
     `);
     
-    if (columnsResult.length === 0) {
+    if (columnsResult.rows.length === 0) {
       logger.info("[migrate] Adding reportId column to seo_issues table");
       
       // Add the reportId column
