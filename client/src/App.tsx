@@ -31,6 +31,7 @@ import SEODashboard from "./pages/admin/SEODashboard";
 import AdminNav from "./pages/AdminNav";
 import AuthPage from "./pages/auth-page";
 import AuthTest from "./pages/auth-test";
+import SeoApiTest from "./pages/SeoApiTest";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
@@ -357,6 +358,14 @@ function Router() {
         {() => (
           <MainLayout>
             <LoadingDemo />
+          </MainLayout>
+        )}
+      </Route>
+      
+      <Route path="/seo-api-test">
+        {() => (
+          <MainLayout>
+            <SeoApiTest />
           </MainLayout>
         )}
       </Route>

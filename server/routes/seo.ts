@@ -57,6 +57,17 @@ router.get('/status', (req, res) => {
 });
 
 /**
+ * Simple test endpoint to verify API connectivity
+ */
+router.get('/test', (req, res) => {
+  return res.json({ 
+    success: true, 
+    message: 'SEO API is working correctly',
+    timestamp: new Date().toISOString() 
+  });
+});
+
+/**
  * Run a new SEO audit
  * This is a long-running task, so it returns immediately and runs in the background
  */
