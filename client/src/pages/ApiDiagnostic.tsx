@@ -257,14 +257,26 @@ export default function ApiDiagnostic() {
                         <p className="text-sm text-muted-foreground mt-1 truncate">
                           URL: {test.url}
                         </p>
+                        {test.contentType && (
+                          <p className="text-sm text-muted-foreground">
+                            Content-Type: {test.contentType}
+                          </p>
+                        )}
                         {test.ok ? (
                           <p className="text-sm text-muted-foreground">
                             Status: {test.status} ({test.statusText})
                           </p>
                         ) : (
-                          <p className="text-sm text-destructive">
-                            Error: {test.error || `HTTP ${test.status}`}
-                          </p>
+                          <>
+                            <p className="text-sm text-destructive">
+                              Error: {test.error || `HTTP ${test.status}`}
+                            </p>
+                            {test.responsePreview && (
+                              <div className="mt-2 p-2 bg-gray-900 text-gray-200 rounded-md text-xs overflow-auto max-h-20">
+                                <pre>{test.responsePreview}</pre>
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     ))}

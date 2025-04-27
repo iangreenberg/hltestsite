@@ -45,13 +45,28 @@ export default async function handler(req, res) {
             signal: AbortSignal.timeout(5000) // 5 second timeout
           });
           
-          return {
+          // Check for non-JSON response which is a common issue
+          const contentType = response.headers.get('content-type');
+          const isJson = contentType && contentType.includes('application/json');
+          
+          let responseDetails = {
             endpoint,
             url: targetUrl,
             status: response.status,
-            ok: response.ok,
-            statusText: response.statusText
+            ok: response.ok && isJson, // Only consider successful if it's valid JSON
+            statusText: response.statusText,
+            contentType
           };
+          
+          if (!isJson && response.ok) {
+            // For HTML responses, capture a sample of the response text
+            const text = await response.text();
+            responseDetails.error = "Non-JSON response returned";
+            responseDetails.responsePreview = text.substring(0, 200); // First 200 chars
+            responseDetails.ok = false; // Override to false since we need JSON
+          }
+          
+          return responseDetails;
         } catch (error) {
           return {
             endpoint,

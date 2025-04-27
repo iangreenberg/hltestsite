@@ -109,12 +109,42 @@ export async function tryProxyRequest(req, res, endpoint) {
         return true; // We got a response, even if it's an error
       }
       
-      // Get the response body
-      const data = await proxyResponse.json();
-      console.log(`API responded successfully for ${endpoint}`);
+      // Get response content type to check if it's JSON
+      const contentType = proxyResponse.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        // Not JSON, likely HTML error page or other non-JSON response
+        const responseText = await proxyResponse.text();
+        console.log(`API responded with non-JSON content (${contentType}): ${responseText.substring(0, 100)}...`);
+        
+        // Return a structured error for better client handling
+        res.status(502).json({
+          success: false,
+          error: "Invalid API response format",
+          details: "The API server responded with non-JSON content",
+          contentType: contentType || 'unknown',
+          responsePreview: responseText.substring(0, 200) // First 200 chars of response for debugging
+        });
+        return true;
+      }
       
-      // Return the successful response
-      res.status(200).json(data);
+      try {
+        // Get the response body
+        const data = await proxyResponse.json();
+        console.log(`API responded successfully for ${endpoint}`);
+        
+        // Return the successful response
+        res.status(200).json(data);
+        return true;
+      } catch (jsonError) {
+        // Handle JSON parsing errors
+        console.error(`Error parsing JSON response: ${jsonError.message}`);
+        res.status(502).json({
+          success: false,
+          error: "Invalid JSON in API response",
+          details: jsonError.message
+        });
+        return true;
+      }
       return true;
     } catch (error) {
       lastError = error;
