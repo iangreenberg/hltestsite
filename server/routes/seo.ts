@@ -483,8 +483,7 @@ router.post("/fix-all-issues", async (req, res) => {
         fixed: true,
         fixedDate: new Date()
       })
-      .where(sql`${seoIssues.fixed} IS NULL OR ${seoIssues.fixed} = false`)
-      .where(sql`${seoIssues.autoFixable} = true`);
+      .where(sql`(${seoIssues.fixed} IS NULL OR ${seoIssues.fixed} = false) AND ${seoIssues.autoFixable} = true`);
     
     res.json({
       success: true,
@@ -604,8 +603,22 @@ router.get("/reports/:id", async (req, res) => {
       });
     }
 
-    // Parse the totalIssues JSON string
-    const totalIssues = report.totalIssues ? JSON.parse(report.totalIssues as string) : null;
+    // Parse the totalIssues - it might be a JSON string or already an object
+    let totalIssues = null;
+    if (report.totalIssues) {
+      try {
+        // If it's a string, try to parse it
+        if (typeof report.totalIssues === 'string') {
+          totalIssues = JSON.parse(report.totalIssues);
+        } else {
+          // Otherwise assume it's already an object
+          totalIssues = report.totalIssues;
+        }
+      } catch (e) {
+        logger.error("Error parsing totalIssues:", e);
+        totalIssues = { error: "Could not parse issues data" };
+      }
+    }
     
     res.json({
       success: true,
