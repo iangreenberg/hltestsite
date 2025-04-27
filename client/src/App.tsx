@@ -28,6 +28,7 @@ import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import ApplicationData from "./pages/admin/ApplicationData";
 import SEODashboard from "./pages/admin/SEODashboard";
+import SEODashboardSimple from "./pages/admin/SEODashboardSimple";
 import AdminNav from "./pages/AdminNav";
 import AuthPage from "./pages/auth-page";
 import AuthTest from "./pages/auth-test";
