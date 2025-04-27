@@ -3,7 +3,7 @@ import { useAuth } from "../hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, HomeIcon, Database, User } from "lucide-react";
+import { LogOut, HomeIcon, Database, User, BarChart4, Search } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
 export default function AdminNav() {
@@ -41,7 +41,7 @@ export default function AdminNav() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center">
@@ -56,6 +56,25 @@ export default function AdminNav() {
             <Link href="/admin/dashboard">
               <Button className="w-full bg-[#2F5D50] hover:bg-[#234840]">
                 Go to Dashboard
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-md transition-shadow">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center">
+              <BarChart4 className="mr-2 h-5 w-5 text-[#2F5D50]" />
+              SEO Dashboard
+            </CardTitle>
+            <CardDescription>
+              Manage SEO settings and improvements
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link href="/admin/seo-dashboard">
+              <Button className="w-full bg-[#2F5D50] hover:bg-[#234840]">
+                SEO Dashboard
               </Button>
             </Link>
           </CardContent>
@@ -164,6 +183,12 @@ export default function AdminNav() {
                 </Link>
                 <Link href="/api-auth-test.js">
                   <Button className="w-full" variant="outline">Run Auth API Tests</Button>
+                </Link>
+                <Link href="/admin/seo-test">
+                  <Button className="w-full">Test SEO API Endpoints</Button>
+                </Link>
+                <Link href="/admin/seo-dashboard">
+                  <Button className="w-full" variant="outline">SEO Dashboard (Simple)</Button>
                 </Link>
               </div>
             </CardContent>

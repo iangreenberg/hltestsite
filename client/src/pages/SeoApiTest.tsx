@@ -1,165 +1,269 @@
-import { useState } from 'react';
-
-type ApiResponse = {
-  success: boolean;
-  data?: any;
-  status?: number;
-  error?: string;
-};
+import { useState, useEffect } from 'react';
+import { seoApi } from '@/lib/seoApi';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
+import { CheckCircle2, XCircle, AlertTriangle, ArrowRight } from 'lucide-react';
 
 export default function SeoApiTest() {
-  const [results, setResults] = useState<Record<string, ApiResponse>>({});
-  const [loading, setLoading] = useState<Record<string, boolean>>({});
-  
-  // List of API endpoints to test
-  const endpoints = [
-    '/api/seo/test',
-    '/api/seo/status',
-    '/api/seo/top-keywords',
-    '/api/seo/fixable-issues',
-    '/api/seo/suggested-topics',
-    '/api/seo/report/latest'
-  ];
+  const [testResults, setTestResults] = useState<Record<string, boolean | string>>({});
+  const [loading, setLoading] = useState(false);
+  const [authDetails, setAuthDetails] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch data from any API endpoint
-  const testEndpoint = async (endpoint: string) => {
+  // Function to run all tests
+  async function runTests() {
+    setLoading(true);
+    setError(null);
+    const results: Record<string, boolean | string> = {};
+
     try {
-      // Mark this endpoint as loading
-      setLoading(prev => ({ ...prev, [endpoint]: true }));
-      console.log(`Testing endpoint: ${endpoint}`);
-      
-      // Use the fetch API directly
-      const response = await fetch(endpoint, {
-        credentials: 'include'
-      });
-      
-      console.log(`Response status for ${endpoint}:`, response.status);
-      let data: any;
-      
+      // Test basic connection
+      const connectionTest = await seoApi.testConnection();
+      results.connection = connectionTest.success;
+
+      // Check auth
       try {
-        data = await response.json();
-        console.log(`Data received from ${endpoint}:`, data);
-      } catch (parseError) {
-        setResults(prev => ({
-          ...prev,
-          [endpoint]: {
-            success: false,
-            status: response.status,
-            error: 'Failed to parse JSON response'
-          }
-        }));
-        return;
+        const authDebug = await seoApi.debugAuth();
+        setAuthDetails(authDebug);
+        results.auth = true;
+      } catch (error) {
+        results.auth = false;
       }
-      
-      // Store successful result
-      setResults(prev => ({
-        ...prev,
-        [endpoint]: {
-          success: true,
-          data,
-          status: response.status
-        }
-      }));
-    } catch (err) {
-      console.error(`Error with ${endpoint}:`, err);
-      
-      // Store error result
-      setResults(prev => ({
-        ...prev,
-        [endpoint]: {
-          success: false,
-          error: err instanceof Error ? err.message : 'Unknown error'
-        }
-      }));
+
+      // Test SEO status
+      try {
+        await seoApi.getSeoStatus();
+        results.status = true;
+      } catch (error) {
+        results.status = error instanceof Error ? error.message : String(error);
+      }
+
+      // Test keywords
+      try {
+        await seoApi.getTopKeywords();
+        results.keywords = true;
+      } catch (error) {
+        results.keywords = error instanceof Error ? error.message : String(error);
+      }
+
+      // Test content suggestions
+      try {
+        await seoApi.getSuggestedTopics();
+        results.suggestions = true;
+      } catch (error) {
+        results.suggestions = error instanceof Error ? error.message : String(error);
+      }
+
+      // Test report
+      try {
+        await seoApi.getLatestReport();
+        results.report = true;
+      } catch (error) {
+        results.report = error instanceof Error ? error.message : String(error);
+      }
+
+    } catch (error) {
+      setError(error instanceof Error ? error.message : String(error));
     } finally {
-      // Mark endpoint as no longer loading
-      setLoading(prev => ({ ...prev, [endpoint]: false }));
+      setTestResults(results);
+      setLoading(false);
     }
-  };
+  }
+
+  // Run tests on component mount
+  useEffect(() => {
+    runTests();
+  }, []);
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6">SEO API Test</h1>
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-2">SEO API Test</h1>
+      <p className="text-muted-foreground mb-8">
+        This page tests the connection to the SEO API endpoints and displays the results.
+      </p>
       
-      <div className="bg-blue-50 p-6 rounded-lg mb-8">
-        <h2 className="text-2xl font-bold mb-4">Test All Endpoints</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-          {endpoints.map(endpoint => (
-            <button
-              key={endpoint}
-              onClick={() => testEndpoint(endpoint)}
-              disabled={loading[endpoint]}
-              className={`p-3 rounded-md text-white text-left ${
-                loading[endpoint] ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-sm">{endpoint}</span>
-                {loading[endpoint] && (
-                  <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+      {error && (
+        <Alert variant="destructive" className="mb-6">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+      
+      <div className="grid gap-6 mb-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>API Connection Test Results</CardTitle>
+            <CardDescription>Status of various SEO API endpoints</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="flex items-center justify-center p-8">
+                <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+                <span className="ml-3">Testing API endpoints...</span>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center space-x-2">
+                    {testResults.connection === true ? (
+                      <CheckCircle2 className="text-green-500 h-5 w-5" />
+                    ) : (
+                      <XCircle className="text-red-500 h-5 w-5" />
+                    )}
+                    <span>Basic Connection</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {testResults.auth === true ? (
+                      <CheckCircle2 className="text-green-500 h-5 w-5" />
+                    ) : (
+                      <XCircle className="text-red-500 h-5 w-5" />
+                    )}
+                    <span>Authentication</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {testResults.status === true ? (
+                      <CheckCircle2 className="text-green-500 h-5 w-5" />
+                    ) : (
+                      <XCircle className="text-red-500 h-5 w-5" />
+                    )}
+                    <span>SEO Status</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {testResults.keywords === true ? (
+                      <CheckCircle2 className="text-green-500 h-5 w-5" />
+                    ) : (
+                      <XCircle className="text-red-500 h-5 w-5" />
+                    )}
+                    <span>Keywords</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {testResults.suggestions === true ? (
+                      <CheckCircle2 className="text-green-500 h-5 w-5" />
+                    ) : (
+                      <XCircle className="text-red-500 h-5 w-5" />
+                    )}
+                    <span>Content Suggestions</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    {testResults.report === true ? (
+                      <CheckCircle2 className="text-green-500 h-5 w-5" />
+                    ) : (
+                      <XCircle className="text-red-500 h-5 w-5" />
+                    )}
+                    <span>SEO Report</span>
+                  </div>
+                </div>
+                
+                {Object.values(testResults).some(value => value !== true) && (
+                  <Alert>
+                    <AlertTriangle className="h-4 w-4" />
+                    <AlertTitle>Some tests failed</AlertTitle>
+                    <AlertDescription>
+                      One or more API endpoints are not working correctly. Check the error details below.
+                    </AlertDescription>
+                  </Alert>
                 )}
               </div>
-            </button>
-          ))}
-        </div>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button onClick={runTests} disabled={loading}>
+              {loading ? "Testing..." : "Run Tests Again"}
+            </Button>
+          </CardFooter>
+        </Card>
         
-        <button
-          onClick={() => endpoints.forEach(endpoint => testEndpoint(endpoint))}
-          className="w-full p-3 bg-green-600 text-white rounded-md hover:bg-green-700"
-        >
-          Test All Endpoints
-        </button>
-      </div>
-      
-      <div className="grid grid-cols-1 gap-6">
-        {endpoints.map(endpoint => {
-          const result = results[endpoint];
-          if (!result) return null;
-          
-          const isSuccess = result.success;
-          const statusCode = result.status;
-          
-          return (
-            <div 
-              key={endpoint}
-              className={`border rounded-lg overflow-hidden ${
-                isSuccess ? 'border-green-200' : 'border-red-200'
-              }`}
-            >
-              <div className={`p-4 flex justify-between items-center ${
-                isSuccess ? 'bg-green-100' : 'bg-red-100'
-              }`}>
-                <h3 className="font-mono text-sm font-bold">{endpoint}</h3>
-                <div className="flex items-center">
-                  {statusCode && (
-                    <span className={`inline-block px-2 py-1 rounded text-xs mr-2 ${
-                      statusCode >= 200 && statusCode < 300 
-                        ? 'bg-green-500 text-white' 
-                        : 'bg-red-500 text-white'
-                    }`}>
-                      {statusCode}
-                    </span>
-                  )}
-                  <span className={`inline-block w-3 h-3 rounded-full ${
-                    isSuccess ? 'bg-green-500' : 'bg-red-500'
-                  }`} />
+        {/* Authentication Details */}
+        {authDetails && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Authentication Details</CardTitle>
+              <CardDescription>Current authentication status</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div>
+                  <span className="font-medium">isAuthenticated:</span>{" "}
+                  {typeof authDetails.isAuthenticated === 'boolean' 
+                    ? authDetails.isAuthenticated ? "Yes" : "No" 
+                    : String(authDetails.isAuthenticated)}
+                </div>
+                <div>
+                  <span className="font-medium">User Available:</span> {authDetails.userAvailable ? "Yes" : "No"}
+                </div>
+                <div>
+                  <span className="font-medium">Is Admin:</span> {authDetails.isAdmin ? "Yes" : "No"}
+                </div>
+                <div>
+                  <span className="font-medium">Session Available:</span> {authDetails.sessionAvailable ? "Yes" : "No"}
+                </div>
+                <div>
+                  <span className="font-medium">Session ID:</span> {authDetails.sessionID}
                 </div>
               </div>
-              
-              <div className="p-4 bg-white">
-                {result.error ? (
-                  <div className="text-red-600 font-mono text-sm">
-                    Error: {result.error}
-                  </div>
-                ) : (
-                  <pre className="bg-gray-50 p-3 rounded overflow-auto text-xs max-h-60">
-                    {JSON.stringify(result.data, null, 2)}
-                  </pre>
-                )}
+            </CardContent>
+          </Card>
+        )}
+        
+        {/* Error Details */}
+        {Object.entries(testResults).filter(([_, result]) => result !== true).length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Error Details</CardTitle>
+              <CardDescription>Information about failed tests</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {Object.entries(testResults)
+                  .filter(([_, result]) => result !== true)
+                  .map(([endpoint, error]) => (
+                    <div key={endpoint} className="space-y-2">
+                      <h3 className="font-medium capitalize flex items-center">
+                        <ArrowRight className="h-4 w-4 mr-2" />
+                        {endpoint}
+                      </h3>
+                      <p className="text-sm text-muted-foreground pl-6">
+                        {typeof error === 'string' ? error : 'Failed to connect'}
+                      </p>
+                      <Separator className="my-2" />
+                    </div>
+                  ))}
               </div>
-            </div>
-          );
-        })}
+            </CardContent>
+          </Card>
+        )}
+        
+        {/* Troubleshooting */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Troubleshooting</CardTitle>
+            <CardDescription>Common issues and how to fix them</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc list-inside space-y-2">
+              <li><strong>Database connection:</strong> Make sure your PostgreSQL database is properly set up and DATABASE_URL environment variable is correct.</li>
+              <li><strong>API routes:</strong> Verify that SEO routes are properly registered in your server/routes.ts file.</li>
+              <li><strong>Authentication:</strong> Check that authentication middleware is properly configured.</li>
+              <li><strong>Database tables:</strong> Ensure SEO tables have been created by running database migrations.</li>
+              <li><strong>CORS issues:</strong> Make sure CORS is properly configured if accessing from a different domain.</li>
+            </ul>
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button variant="outline" onClick={() => window.location.href = "/admin/seo-dashboard"}>
+              Go to SEO Dashboard
+            </Button>
+            <Button variant="default" onClick={() => window.location.href = "/admin-nav"}>
+              Go to Admin Navigation
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );

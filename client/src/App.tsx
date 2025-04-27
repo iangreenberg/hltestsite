@@ -115,6 +115,15 @@ function Router() {
         )}
       </Route>
       
+      {/* New Simplified SEO Dashboard with better error handling */}
+      <Route path="/admin/seo-dashboard">
+        {() => (
+          <AdminLayout>
+            <SEODashboardSimple />
+          </AdminLayout>
+        )}
+      </Route>
+      
       {/* SEO API Test - for debugging connectivity */}
       <Route path="/admin/seo-test">
         {() => (
