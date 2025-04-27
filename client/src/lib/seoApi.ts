@@ -7,6 +7,7 @@ import {
   ContentSuggestion as SelectContentSuggestion,
   SeoStatusRecord as SelectSeoStatus 
 } from "@shared/schema";
+import { seoApiClient } from "./seoApiClient";
 
 // Re-export the types with shorter names for convenience
 export type SeoReport = SelectSeoReport;
@@ -16,19 +17,56 @@ export type KeywordRanking = SelectKeywordRanking;
 export type ContentSuggestion = SelectContentSuggestion;
 export type SeoStatus = SelectSeoStatus;
 
+// Define retry configuration for the direct API approach
+const MAX_RETRIES = 1;
+const RETRY_DELAY = 500; // milliseconds
+
+// Helper function for delay
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 // SEO API functions
 
 /**
- * Tests the connection to the SEO API
- * @returns True if the API is accessible
+ * Tests the connection to the SEO API with fallback mechanisms
+ * If the main API fails, it will try to use the standalone serverless endpoint
+ * @returns Response indicating if any API connection is available
  */
-export async function testSeoApi(): Promise<{ success: boolean }> {
+export async function testSeoApi(): Promise<{ success: boolean, useFallbackApi?: boolean }> {
+  // Try the main API first
   try {
-    const response = await apiRequest("GET", "/api/seo/test");
-    return await response.json();
-  } catch (error) {
-    console.error("Error testing SEO API:", error);
-    return { success: false };
+    let retries = 0;
+    
+    while (retries <= MAX_RETRIES) {
+      try {
+        const response = await apiRequest("GET", "/api/seo/test");
+        const result = await response.json();
+        return { ...result, useFallbackApi: false };
+      } catch (error) {
+        if (retries < MAX_RETRIES) {
+          const delayMs = RETRY_DELAY * Math.pow(2, retries);
+          console.warn(`API connection test failed, retrying in ${delayMs}ms...`);
+          await sleep(delayMs);
+          retries++;
+        } else {
+          throw error;
+        }
+      }
+    }
+    
+    throw new Error("Max retries reached for main API"); 
+  } catch (mainApiError) {
+    console.error("Error testing main SEO API:", mainApiError);
+    
+    // If main API fails, try the fallback API (seoApiClient)
+    try {
+      console.log("Testing fallback SEO API connection...");
+      const result = await seoApiClient.testApiConnection();
+      console.log("Fallback API connection successful");
+      return { success: true, useFallbackApi: true };
+    } catch (fallbackError) {
+      console.error("Error testing fallback SEO API:", fallbackError);
+      return { success: false, useFallbackApi: false };
+    }
   }
 }
 
@@ -74,16 +112,57 @@ export async function getSeoReport(reportId: number): Promise<SeoReport | null> 
 }
 
 /**
- * Fetches the most recent SEO report
+ * Fetches the most recent SEO report with fallback mechanism
+ * If the main API fails, it will try to use the standalone serverless endpoint
+ * @param useFallback Whether to use the fallback API immediately 
  * @returns The latest report data
  */
-export async function getLatestSeoReport(): Promise<SeoReport | null> {
+export async function getLatestSeoReport(useFallback = false): Promise<SeoReport | null> {
+  // If explicitly told to use fallback, skip main API
+  if (useFallback) {
+    try {
+      console.log("Using fallback API for latest report");
+      const result = await seoApiClient.getLatestReport();
+      return result?.report || null;
+    } catch (error) {
+      console.error("Error fetching latest SEO report from fallback API:", error);
+      return null;
+    }
+  }
+  
+  // Try the main API first
   try {
-    const response = await apiRequest("GET", "/api/seo/reports/latest");
-    const data = await response.json();
-    return data.report || null;
-  } catch (error) {
-    console.error("Error fetching latest SEO report:", error);
-    return null;
+    let retries = 0;
+    
+    while (retries <= MAX_RETRIES) {
+      try {
+        const response = await apiRequest("GET", "/api/seo/reports/latest");
+        const data = await response.json();
+        return data.report || null;
+      } catch (error) {
+        if (retries < MAX_RETRIES) {
+          const delayMs = RETRY_DELAY * Math.pow(2, retries);
+          console.warn(`Latest report fetch failed, retrying in ${delayMs}ms...`);
+          await sleep(delayMs);
+          retries++;
+        } else {
+          throw error;
+        }
+      }
+    }
+    
+    throw new Error("Max retries reached for main API");
+  } catch (mainApiError) {
+    console.error("Error fetching latest SEO report from main API:", mainApiError);
+    
+    // If main API fails, try the fallback API
+    try {
+      console.log("Trying fallback API for latest report");
+      const result = await seoApiClient.getLatestReport();
+      return result?.report || null;
+    } catch (fallbackError) {
+      console.error("Error fetching latest SEO report from fallback API:", fallbackError);
+      return null;
+    }
   }
 }

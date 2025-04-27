@@ -3,44 +3,92 @@
  * This specialized client handles all SEO API communication
  */
 
+// Define retry configuration
+const MAX_RETRIES = 2;
+const RETRY_DELAY = 500; // milliseconds
+
 // Handle API errors consistently
 function handleError(error: any): never {
   console.error('SEO API error:', error);
-  throw new Error(error instanceof Error ? error.message : 'Unknown error occurred');
+  // Provide more detailed error information when available
+  const message = error instanceof Error 
+    ? error.message 
+    : (typeof error === 'string' ? error : 'Unknown error occurred');
+  throw new Error(message);
 }
 
-// Helper function to make API requests
+/**
+ * Sleep function for retry delays
+ */
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+/**
+ * Helper function to make API requests with retries and fallback options
+ */
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  try {
-    // Ensure endpoint starts with /api/seo/
-    const apiEndpoint = endpoint.startsWith('/api/seo/')
-      ? endpoint
-      : `/api/seo/${endpoint.startsWith('/') ? endpoint.slice(1) : endpoint}`;
-    
-    console.log(`Fetching from SEO API: ${apiEndpoint}`);
-    
-    // Make the request with credentials included
-    const response = await fetch(apiEndpoint, {
-      ...options,
-      credentials: 'include',
-      headers: {
-        ...options.headers,
-        'Accept': 'application/json',
-        ...(options.method === 'POST' ? {'Content-Type': 'application/json'} : {})
+  let retries = 0;
+  let lastError: any = null;
+  
+  // Ensure endpoint starts with /api/seo/
+  const apiEndpoint = endpoint.startsWith('/api/seo/')
+    ? endpoint
+    : `/api/seo/${endpoint.startsWith('/') ? endpoint.slice(1) : endpoint}`;
+  
+  // Try the request with retries
+  while (retries <= MAX_RETRIES) {
+    try {
+      console.log(`Fetching from SEO API: ${apiEndpoint}${retries > 0 ? ` (retry ${retries})` : ''}`);
+      
+      // Make the request with credentials included
+      const response = await fetch(apiEndpoint, {
+        ...options,
+        credentials: 'include',
+        headers: {
+          ...options.headers,
+          'Accept': 'application/json',
+          ...(options.method === 'POST' ? {'Content-Type': 'application/json'} : {})
+        }
+      });
+      
+      // Always get clones of the response to avoid consuming it
+      const responseClone = response.clone();
+      
+      // Check if the response was successful
+      if (!response.ok) {
+        let errorText;
+        try {
+          // Try to get meaningful error text
+          errorText = await responseClone.text();
+        } catch (e) {
+          errorText = 'Could not read error response';
+        }
+        throw new Error(`API error (${response.status}): ${errorText}`);
       }
-    });
-    
-    // Check if the response was successful
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API error (${response.status}): ${errorText}`);
+      
+      // Try to parse the response as JSON
+      try {
+        return await response.json() as T;
+      } catch (jsonError) {
+        throw new Error(`Error parsing JSON: ${jsonError instanceof Error ? jsonError.message : 'Unknown parsing error'}`);
+      }
+    } catch (error) {
+      lastError = error;
+      
+      if (retries < MAX_RETRIES) {
+        // Wait before retrying with exponential backoff
+        const delayMs = RETRY_DELAY * Math.pow(2, retries);
+        console.warn(`API request failed, retrying in ${delayMs}ms...`, error);
+        await sleep(delayMs);
+        retries++;
+      } else {
+        console.error('API request failed after all retries', error);
+        break;
+      }
     }
-    
-    // Parse the response as JSON
-    return await response.json() as T;
-  } catch (error) {
-    return handleError(error);
   }
+  
+  // If we're here, all retries failed, use fallback or throw error
+  return handleError(lastError);
 }
 
 // SEO API client with strongly typed methods
