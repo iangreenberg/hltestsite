@@ -226,4 +226,96 @@ router.get('/email-report', async (req, res) => {
   }
 });
 
+/**
+ * Get all issues that can be automatically fixed
+ */
+router.get('/fixable-issues', async (req, res) => {
+  try {
+    const issues = await seoEngine.getFixableIssues();
+    return res.json(issues);
+  } catch (error) {
+    logger.error('Error fetching fixable issues:', error);
+    return res.status(500).json({ message: 'Failed to fetch fixable issues' });
+  }
+});
+
+/**
+ * Auto-fix all fixable issues
+ */
+router.post('/fix-all-issues', async (req, res) => {
+  try {
+    const result = await seoEngine.fixIssues();
+    return res.json(result);
+  } catch (error) {
+    logger.error('Error fixing issues:', error);
+    return res.status(500).json({ message: 'Failed to fix issues' });
+  }
+});
+
+/**
+ * Fix a specific issue
+ */
+router.post('/fix-issue/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await seoEngine.fixIssue(id);
+    return res.json(result);
+  } catch (error) {
+    logger.error(`Error fixing issue ${req.params.id}:`, error);
+    return res.status(500).json({ message: 'Failed to fix issue' });
+  }
+});
+
+/**
+ * Perform keyword research
+ */
+router.post('/research-keywords', async (req, res) => {
+  try {
+    const request = req.body;
+    
+    // Validate the request
+    if (!request.seedKeywords || !Array.isArray(request.seedKeywords) || request.seedKeywords.length === 0) {
+      return res.status(400).json({ message: 'seedKeywords is required and must be a non-empty array' });
+    }
+    
+    const results = await seoEngine.researchKeywords(request);
+    return res.json(results);
+  } catch (error) {
+    logger.error('Error researching keywords:', error);
+    return res.status(500).json({ message: 'Failed to research keywords' });
+  }
+});
+
+/**
+ * Get top keywords
+ */
+router.get('/top-keywords', async (req, res) => {
+  try {
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const minSearchVolume = req.query.minSearchVolume ? parseInt(req.query.minSearchVolume as string) : 100;
+    
+    const keywords = await seoEngine.getTopKeywords(limit, minSearchVolume);
+    return res.json(keywords);
+  } catch (error) {
+    logger.error('Error fetching top keywords:', error);
+    return res.status(500).json({ message: 'Failed to fetch top keywords' });
+  }
+});
+
+/**
+ * Get suggested content topics
+ */
+router.get('/suggested-topics', async (req, res) => {
+  try {
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const minSearchVolume = req.query.minSearchVolume ? parseInt(req.query.minSearchVolume as string) : 100;
+    
+    const topics = await seoEngine.getSuggestedContentTopics(minSearchVolume, limit);
+    return res.json(topics);
+  } catch (error) {
+    logger.error('Error fetching suggested topics:', error);
+    return res.status(500).json({ message: 'Failed to fetch suggested topics' });
+  }
+});
+
 export default router;

@@ -384,12 +384,13 @@ function SEODashboard() {
         onValueChange={setActiveTab}
         className="space-y-4"
       >
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="issues">Issues</TabsTrigger>
           <TabsTrigger value="pages">Pages</TabsTrigger>
           <TabsTrigger value="keywords">Keywords</TabsTrigger>
           <TabsTrigger value="actions">Action Plan</TabsTrigger>
+          <TabsTrigger value="automation">Automation</TabsTrigger>
         </TabsList>
         
         {/* Overview Tab */}

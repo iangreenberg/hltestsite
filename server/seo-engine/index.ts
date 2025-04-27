@@ -6,9 +6,14 @@ import {
   SEOIssue,
   KeywordRanking,
   ContentSuggestion,
-  SEOAction
+  SEOAction,
+  KeywordResearchRequest,
+  KeywordResearchResult,
+  FixStatus
 } from './types';
 import { v4 as uuidv4 } from 'uuid';
+import { autoFixEngine } from './autofix';
+import { keywordResearchEngine } from './keyword-research';
 
 const logger = createLogger('seo-engine');
 
@@ -254,6 +259,95 @@ class SEOEngine {
       return html;
     } catch (error) {
       logger.error('Error generating weekly email report:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Get fixable SEO issues
+   */
+  async getFixableIssues(): Promise<SEOIssue[]> {
+    return autoFixEngine.getFixableIssues();
+  }
+  
+  /**
+   * Auto-fix SEO issues
+   * This function attempts to automatically fix common SEO issues
+   */
+  async fixIssues(): Promise<{
+    succeeded: number;
+    failed: number;
+    issues: Array<{ id: string; status: FixStatus; result?: string }>
+  }> {
+    logger.info('Starting auto-fix for SEO issues');
+    
+    try {
+      const fixResult = await autoFixEngine.fixAllIssues();
+      logger.info(`Auto-fix completed: ${fixResult.succeeded} issues fixed, ${fixResult.failed} failed`);
+      return fixResult;
+    } catch (error) {
+      logger.error('Error during auto-fix:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Fix a specific SEO issue
+   */
+  async fixIssue(issueId: string): Promise<{ status: FixStatus; message?: string }> {
+    logger.info(`Attempting to fix issue: ${issueId}`);
+    
+    try {
+      const issue = await storageSeo.getIssue(issueId);
+      if (!issue) {
+        return { status: FixStatus.Failed, message: 'Issue not found' };
+      }
+      
+      const result = await autoFixEngine.fixIssue(issue);
+      logger.info(`Fix attempt for issue ${issueId} completed with status: ${result.status}`);
+      return result;
+    } catch (error) {
+      logger.error(`Error fixing issue ${issueId}:`, error);
+      return { status: FixStatus.Failed, message: `Error: ${error.message}` };
+    }
+  }
+  
+  /**
+   * Perform keyword research to find valuable SEO keywords
+   */
+  async researchKeywords(request: KeywordResearchRequest): Promise<KeywordResearchResult[]> {
+    logger.info(`Starting keyword research for ${request.seedKeywords.join(', ')}`);
+    
+    try {
+      const results = await keywordResearchEngine.researchKeywords(request);
+      logger.info(`Keyword research completed with ${results.length} keywords found`);
+      return results;
+    } catch (error) {
+      logger.error('Error performing keyword research:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Get top keywords by search volume and relevance
+   */
+  async getTopKeywords(limit: number = 10, minSearchVolume: number = 100): Promise<KeywordResearchResult[]> {
+    try {
+      return storageSeo.getTopKeywords(limit, minSearchVolume);
+    } catch (error) {
+      logger.error('Error getting top keywords:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Get suggested content topics based on keyword research
+   */
+  async getSuggestedContentTopics(minSearchVolume: number = 100, limit: number = 10): Promise<any[]> {
+    try {
+      return keywordResearchEngine.suggestContentTopics(minSearchVolume, limit);
+    } catch (error) {
+      logger.error('Error getting content suggestions:', error);
       throw error;
     }
   }
