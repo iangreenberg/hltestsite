@@ -17,11 +17,12 @@ export type KeywordRanking = SelectKeywordRanking;
 export type ContentSuggestion = SelectContentSuggestion;
 export type SeoStatus = SelectSeoStatus;
 
-// Define retry configuration for the direct API approach
-const MAX_RETRIES = 1;
-const RETRY_DELAY = 500; // milliseconds
+// Configuration for resilience strategy
+const MAX_RETRIES = 2;           // Maximum number of retry attempts
+const RETRY_DELAY = 1000;        // Base delay in ms (will be multiplied by 2^retries)
+const FALLBACK_ENABLED = true;   // Whether to use the fallback API when main API fails
 
-// Helper function for delay
+// Utility functions for retry logic
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // SEO API functions
@@ -71,26 +72,78 @@ export async function testSeoApi(): Promise<{ success: boolean, useFallbackApi?:
 }
 
 /**
- * Starts a crawl of a website
+ * Starts a crawl of a website with retry and fallback mechanisms
  * @param url The URL to crawl
  * @param maxPages Maximum number of pages to crawl (default: 20)
+ * @param useFallback Whether to use the fallback API immediately
  * @returns The response from the API including report ID
  */
-export async function startCrawl(url: string, maxPages: number = 20): Promise<{
+export async function startCrawl(
+  url: string, 
+  maxPages: number = 20, 
+  useFallback: boolean = false
+): Promise<{
   success: boolean;
   message?: string;
   reportId?: number;
   timestamp?: string;
   error?: string;
 }> {
+  // If explicitly told to use fallback, skip main API
+  if (useFallback) {
+    try {
+      console.log("Using fallback API for crawl");
+      return await seoApiClient.startCrawl(url, maxPages);
+    } catch (error) {
+      console.error("Error starting crawl with fallback API:", error);
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : "Unknown error from fallback API"
+      };
+    }
+  }
+
+  // Try the main API first
   try {
-    const response = await apiRequest("POST", "/api/seo/crawl", { url, maxPages });
-    return await response.json();
-  } catch (error) {
-    console.error("Error starting crawl:", error);
+    let retries = 0;
+    
+    while (retries <= MAX_RETRIES) {
+      try {
+        const response = await apiRequest("POST", "/api/seo/crawl", { url, maxPages });
+        return await response.json();
+      } catch (error) {
+        if (retries < MAX_RETRIES) {
+          const delayMs = RETRY_DELAY * Math.pow(2, retries);
+          console.warn(`Start crawl failed, retrying in ${delayMs}ms...`);
+          await sleep(delayMs);
+          retries++;
+        } else {
+          throw error;
+        }
+      }
+    }
+    
+    throw new Error("Max retries reached for main API");
+  } catch (mainApiError) {
+    console.error("Error starting crawl with main API:", mainApiError);
+    
+    // If fallback is enabled and main API fails, try the fallback API
+    if (FALLBACK_ENABLED) {
+      try {
+        console.log("Trying fallback API for crawl");
+        return await seoApiClient.startCrawl(url, maxPages);
+      } catch (fallbackError) {
+        console.error("Error starting crawl with fallback API:", fallbackError);
+        return { 
+          success: false, 
+          error: fallbackError instanceof Error ? fallbackError.message : "Unknown error from fallback API"
+        };
+      }
+    }
+    
     return { 
       success: false, 
-      error: error instanceof Error ? error.message : "Unknown error"
+      error: mainApiError instanceof Error ? mainApiError.message : "Unknown error"
     };
   }
 }

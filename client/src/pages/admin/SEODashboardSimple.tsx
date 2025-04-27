@@ -13,13 +13,23 @@ export default function SEODashboardSimple() {
   const [connectionStatus, setConnectionStatus] = useState<'checking' | 'connected' | 'error'>('checking');
   const [errorMessage, setErrorMessage] = useState('');
   
-  // Test API connection on component mount
+  // State to track if we're using the fallback API
+  const [useFallbackApi, setUseFallbackApi] = useState(false);
+
+  // Test API connection on component mount 
   useEffect(() => {
     async function checkConnection() {
       try {
         const result = await testSeoApi();
+        
         if (result.success) {
           setConnectionStatus('connected');
+          
+          // If we're using the fallback API, update the state
+          if (result.useFallbackApi) {
+            setUseFallbackApi(true);
+            console.log('Using fallback SEO API for dashboard');
+          }
         } else {
           setConnectionStatus('error');
           setErrorMessage('API connection test failed');
@@ -33,16 +43,17 @@ export default function SEODashboardSimple() {
     checkConnection();
   }, []);
   
-  // Fetch latest report
+  // Fetch latest report - use fallback API if needed
   const { 
     data: latestReport, 
     isLoading: reportLoading, 
     error: reportError 
   } = useQuery({
     queryKey: ['/api/seo/reports/latest'],
-    queryFn: () => getLatestSeoReport(),
+    queryFn: () => getLatestSeoReport(useFallbackApi), // Pass the fallback flag
     enabled: connectionStatus === 'connected',
-    retry: 1
+    retry: 2, // Increase retries for better resilience
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000) // Exponential backoff
   });
   
   // Set up placeholders for not-yet-implemented features
@@ -127,9 +138,9 @@ export default function SEODashboardSimple() {
             Monitor and improve your website's search engine performance
           </p>
         </div>
-        <Badge variant="outline" className="flex items-center gap-1">
+        <Badge variant={useFallbackApi ? "secondary" : "outline"} className="flex items-center gap-1">
           <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-          <span>API Connected</span>
+          <span>{useFallbackApi ? 'Using Fallback API' : 'API Connected'}</span>
         </Badge>
       </div>
       
@@ -143,6 +154,17 @@ export default function SEODashboardSimple() {
         
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-4">
+          {useFallbackApi && (
+            <Alert className="mb-4 border-amber-500 bg-amber-50 dark:bg-amber-950">
+              <AlertTriangle className="h-4 w-4 text-amber-600" />
+              <AlertTitle className="text-amber-800 dark:text-amber-300">Using Fallback API</AlertTitle>
+              <AlertDescription className="text-amber-700 dark:text-amber-400">
+                The main SEO API is currently unavailable. Using the fallback API service which may have limited functionality.
+                We'll automatically try to reconnect to the main API on your next visit.
+              </AlertDescription>
+            </Alert>
+          )}
+          
           {statusLoading ? (
             <div className="flex justify-center p-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -217,10 +239,29 @@ export default function SEODashboardSimple() {
                   <Button 
                     onClick={async () => {
                       try {
-                        // Using the startCrawl API directly
-                        const response = await startCrawl('https://example.com', 10);
-                        alert(`SEO audit started! Report ID: ${response.reportId}`);
-                        window.location.reload();
+                        // Confirm with the user before starting a crawl, especially if using fallback API
+                        const targetUrl = prompt("Enter the URL to crawl:", "https://thehemplaunch.com");
+                        
+                        if (!targetUrl) return;
+                        
+                        if (useFallbackApi) {
+                          const confirmed = confirm(
+                            "You're currently using the fallback API which has limited functionality. " +
+                            "Some features may not work as expected. Continue anyway?"
+                          );
+                          if (!confirmed) return;
+                        }
+                        
+                        // Using the startCrawl API with retry logic
+                        const maxPages = 20;
+                        const response = await startCrawl(targetUrl, maxPages);
+                        
+                        if (response.success) {
+                          alert(`SEO audit started! Report ID: ${response.reportId || 'N/A'}`);
+                          window.location.reload();
+                        } else {
+                          alert(`Failed to start audit: ${response.error || 'Unknown error'}`);
+                        }
                       } catch (error) {
                         alert(`Error starting audit: ${error instanceof Error ? error.message : String(error)}`);
                       }
