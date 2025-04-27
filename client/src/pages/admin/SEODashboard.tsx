@@ -156,7 +156,7 @@ function SEODashboard() {
   } = useQuery({
     queryKey: ['seo', 'report', 'latest'],
     queryFn: async () => {
-      const data = await seoApi.getLatestReport();
+      const data = await getLatestSeoReport();
       
       // If we couldn't get a report, return a minimal structure to avoid UI errors
       if (!data) {
@@ -206,7 +206,9 @@ function SEODashboard() {
   } = useQuery({
     queryKey: ['seo', 'fixable-issues'],
     queryFn: async () => {
-      return await seoApi.getFixableIssues();
+      // Direct API request since we don't have a dedicated function for this yet
+      const response = await apiRequest('GET', '/api/seo/fixable-issues');
+      return await response.json();
     },
     enabled: activeTab === 'automation',
     retry: 1,
@@ -219,7 +221,9 @@ function SEODashboard() {
   } = useQuery({
     queryKey: ['seo', 'top-keywords'],
     queryFn: async () => {
-      return await seoApi.getTopKeywords(10, 100);
+      // Direct API request since we don't have a dedicated function for this yet
+      const response = await apiRequest('GET', '/api/seo/top-keywords?limit=10&minVolume=100');
+      return await response.json();
     },
     enabled: activeTab === 'automation',
     retry: 1,
@@ -232,7 +236,9 @@ function SEODashboard() {
   } = useQuery({
     queryKey: ['seo', 'suggested-topics'],
     queryFn: async () => {
-      return await seoApi.getSuggestedTopics(5, 100);
+      // Direct API request since we don't have a dedicated function for this yet
+      const response = await apiRequest('GET', '/api/seo/suggested-topics?limit=5&minVolume=100');
+      return await response.json();
     },
     enabled: activeTab === 'automation',
     retry: 1,
@@ -241,7 +247,7 @@ function SEODashboard() {
   // Mutation to run a new audit
   const runAuditMutation = useMutation({
     mutationFn: async () => {
-      return await seoApi.runAudit();
+      return await startCrawl('https://example.com', 10);
     },
     onSuccess: () => {
       toast({
