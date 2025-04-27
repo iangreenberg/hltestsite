@@ -247,7 +247,7 @@ function SEODashboard() {
   // Mutation to run a new audit
   const runAuditMutation = useMutation({
     mutationFn: async () => {
-      return await startCrawl('https://example.com', 10);
+      return await startCrawl('https://thehemplaunch.com', 50);
     },
     onSuccess: () => {
       toast({
