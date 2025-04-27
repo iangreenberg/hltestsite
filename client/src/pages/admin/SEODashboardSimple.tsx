@@ -252,9 +252,9 @@ export default function SEODashboardSimple() {
                           if (!confirmed) return;
                         }
                         
-                        // Using the startCrawl API with retry logic
+                        // Using the startCrawl API with retry logic and potential fallback
                         const maxPages = 20;
-                        const response = await startCrawl(targetUrl, maxPages);
+                        const response = await startCrawl(targetUrl, maxPages, useFallbackApi);
                         
                         if (response.success) {
                           alert(`SEO audit started! Report ID: ${response.reportId || 'N/A'}`);

@@ -93,6 +93,13 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
 // SEO API client with strongly typed methods
 export const seoApiClient = {
+  // Start a crawl of a website
+  startCrawl: (url: string, maxPages: number = 20) => 
+    request('/api/seo/crawl', { 
+      method: 'POST', 
+      body: JSON.stringify({ url, maxPages }) 
+    }),
+    
   // Get the latest SEO report
   getLatestReport: () => 
     request('/api/seo/report/latest'),
