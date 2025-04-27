@@ -469,12 +469,37 @@ export default function ApiDiagnostic() {
                   <div className="p-3 bg-muted rounded-md overflow-auto max-h-40">
                     <div className="grid grid-cols-1 gap-1 text-sm">
                       {directTest.diagnostics.headers_received && 
-                        Object.entries(directTest.diagnostics.headers_received).map(([key, value]) => (
-                          <div key={key} className="grid grid-cols-5 gap-2">
-                            <div className="font-medium col-span-1">{key}:</div>
-                            <div className="col-span-4 truncate">{value as string}</div>
-                          </div>
-                        ))
+                        Object.entries(directTest.diagnostics.headers_received).map(([key, value]) => {
+                          // Check if the value might contain an API key or sensitive data
+                          const isSensitive = key.toLowerCase().includes('key') || 
+                                              key.toLowerCase().includes('token') || 
+                                              key.toLowerCase().includes('auth') ||
+                                              key.toLowerCase().includes('secret');
+                          
+                          const valueStr = value as string;
+                          const displayValue = isSensitive 
+                            ? `${valueStr.substring(0, 6)}...${valueStr.substring(valueStr.length - 4)}`
+                            : valueStr;
+                          
+                          return (
+                            <div key={key} className="grid grid-cols-5 gap-2">
+                              <div className="font-medium col-span-1">{key}:</div>
+                              <div className="col-span-4 truncate">
+                                {displayValue}
+                                {isSensitive && 
+                                  <Button 
+                                    variant="ghost" 
+                                    size="xs" 
+                                    className="ml-2 h-5 py-0 px-2"
+                                    onClick={() => window.alert(`Full value: ${valueStr}`)}
+                                  >
+                                    Show
+                                  </Button>
+                                }
+                              </div>
+                            </div>
+                          );
+                        })
                       }
                     </div>
                   </div>

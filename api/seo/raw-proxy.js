@@ -3,7 +3,7 @@
  * including headers and body content without JSON parsing
  */
 
-import { setCorsHeaders } from '../seo-api-utils.js';
+import { setCorsHeaders } from '../seo-api-utils';
 
 export default async function handler(req, res) {
   // Handle OPTIONS requests for CORS preflight
