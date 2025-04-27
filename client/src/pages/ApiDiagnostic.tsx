@@ -18,7 +18,15 @@ import {
 } from "lucide-react";
 import { testSeoApi } from "@/lib/seoApi";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue,
+  SelectGroup,
+  SelectLabel
+} from "@/components/ui/select";
 
 // API diagnostic page for testing and troubleshooting API connections
 export default function ApiDiagnostic() {
@@ -500,7 +508,8 @@ export default function ApiDiagnostic() {
                           const isSensitive = key.toLowerCase().includes('key') || 
                                               key.toLowerCase().includes('token') || 
                                               key.toLowerCase().includes('auth') ||
-                                              key.toLowerCase().includes('secret');
+                                              key.toLowerCase().includes('secret') ||
+                                              key.toLowerCase().includes('password');
                           
                           const valueStr = value as string;
                           const displayValue = isSensitive 
