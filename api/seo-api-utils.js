@@ -4,15 +4,39 @@
 
 // Constants for the actual SEO API
 export const SEO_API_BASE_URL = process.env.SEO_API_BASE_URL || 'https://api.thehemplaunch.com';
-export const MAX_RETRIES = 1;
-export const RETRY_DELAY = 300; // milliseconds
+export const MAX_RETRIES = 2;
+export const RETRY_DELAY = 500; // milliseconds
 
 // Helper function to set CORS headers
 export function setCorsHeaders(res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // In production, we want to restrict to our domains
+  const allowedOrigins = [
+    'https://thehemplaunch.com',
+    'https://www.thehemplaunch.com',
+    'https://hltestsite-4vq3.vercel.app'
+  ];
+  
+  const origin = res.req.headers.origin;
+  
+  if (origin && allowedOrigins.includes(origin)) {
+    // If the request comes from an allowed origin, set that specific origin
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    // For development or unknown origins, allow all
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  
+  // Allow credentials (cookies, authorization headers, etc.)
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  // Allow all common methods
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
+  
+  // Allow all common headers
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+  
+  // Cache the preflight request for 24 hours
+  res.setHeader('Access-Control-Max-Age', '86400');
 }
 
 // Sleep function for retries
@@ -27,6 +51,7 @@ export const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
  */
 export async function tryProxyRequest(req, res, endpoint) {
   let retries = 0;
+  let lastError = null;
   
   while (retries <= MAX_RETRIES) {
     try {
@@ -37,20 +62,30 @@ export async function tryProxyRequest(req, res, endpoint) {
       // Prepare headers but don't forward cookie/auth
       const headers = {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': req.headers.origin || 'https://thehemplaunch.com'
       };
       
-      // Prepare fetch options
+      // Prepare fetch options with timeout
       const fetchOptions = {
         method: req.method,
         headers: headers,
         redirect: 'follow',
+        // Set a timeout to avoid hanging requests
+        signal: AbortSignal.timeout(10000) // 10 second timeout
       };
       
       // Add body for non-GET requests
       if (req.method !== 'GET' && req.body) {
         fetchOptions.body = JSON.stringify(req.body);
       }
+      
+      // Log the proxy request details for debugging
+      console.log(`Proxy attempt ${retries + 1} with options:`, {
+        method: fetchOptions.method,
+        headers: headers,
+        url: targetUrl
+      });
       
       // Make the request to the actual API
       const proxyResponse = await fetch(targetUrl, fetchOptions);
@@ -59,29 +94,36 @@ export async function tryProxyRequest(req, res, endpoint) {
       if (!proxyResponse.ok) {
         // Forward the status code and error message
         const errorBody = await proxyResponse.text();
+        console.log(`API responded with error: ${proxyResponse.status} - ${errorBody}`);
         res.status(proxyResponse.status).send(errorBody);
         return true; // We got a response, even if it's an error
       }
       
       // Get the response body
       const data = await proxyResponse.json();
+      console.log(`API responded successfully for ${endpoint}`);
       
       // Return the successful response
       res.status(200).json(data);
       return true;
     } catch (error) {
-      console.log(`Proxy attempt ${retries + 1} failed:`, error.message);
+      lastError = error;
+      console.error(`Proxy attempt ${retries + 1} failed:`, error.message);
       
       if (retries < MAX_RETRIES) {
-        await sleep(RETRY_DELAY * Math.pow(2, retries));
+        const delayMs = RETRY_DELAY * Math.pow(2, retries);
+        console.log(`Retrying in ${delayMs}ms...`);
+        await sleep(delayMs);
         retries++;
       } else {
-        console.log('All proxy attempts failed, falling back to simulated data');
+        console.error('All proxy attempts failed, falling back to simulated data');
+        console.error('Last error:', error.stack || error.message);
         return false;
       }
     }
   }
   
+  console.error('Max retries exceeded for request to endpoint:', endpoint);
   return false;
 }
 

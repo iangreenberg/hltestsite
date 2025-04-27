@@ -30,10 +30,12 @@ export default async function handler(req, res) {
     // Otherwise, generate fallback data
     console.log(`Using fallback data for API test`);
     
-    // Add fallback indicator to the response
+    // Add detailed fallback indicator to the response
     const fallbackResponse = { 
       success: true, 
-      useFallbackApi: true
+      useFallbackApi: true,
+      message: "Unable to connect to the primary SEO API. Using fallback mode.",
+      apiEndpoint: `${process.env.SEO_API_BASE_URL || 'https://api.thehemplaunch.com'}/api/seo/test`
     };
     
     // Handle the request with simulated data
