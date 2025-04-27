@@ -25,6 +25,8 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * Helper function to determine the base URL for API requests
  * This handles different environments (local dev, production, etc.)
+ * 
+ * In production, we now use the serverless API proxies to avoid CORS issues
  */
 function getBaseUrl(): string {
   // Check if we're in a browser environment
@@ -32,10 +34,9 @@ function getBaseUrl(): string {
     const hostname = window.location.hostname;
     const protocol = window.location.protocol;
     
-    // For production sites
+    // For production sites, we don't need to add a base URL
+    // The serverless proxy functions in /api/seo/ will be used automatically
     if (hostname === 'thehemplaunch.com' || hostname.includes('vercel.app')) {
-      // Use the built-in API routes on the same domain 
-      // (serverless functions in /api/ folder)
       return '';
     }
     

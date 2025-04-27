@@ -199,7 +199,9 @@ function respondWithSimulatedData(res, endpoint, additionalData = {}) {
 }
 
 /**
- * Main request handler function
+ * Main request handler function that serves as a catchall for any SEO API endpoints
+ * that don't have specific handlers
+ * 
  * @param {object} req - Request object
  * @param {object} res - Response object
  */
@@ -220,7 +222,7 @@ export default async function handler(req, res) {
     const endpoint = pathParts.slice(3).join('/'); // Skip "/api/seo/"
 
     // Log API request for debugging
-    console.log(`SEO API Request: ${endpoint} (${req.method})`);
+    console.log(`SEO API Bridge Request: ${endpoint} (${req.method})`);
     
     // First try to proxy the request to the actual API
     const proxySuccess = await tryProxyRequest(req, res, endpoint);
@@ -236,7 +238,8 @@ export default async function handler(req, res) {
     // Add fallback indicator to the response
     const fallbackResponse = { 
       success: true, 
-      useFallbackApi: true 
+      useFallbackApi: true,
+      message: "Using fallback API mode"
     };
     
     // Handle the request with simulated data
@@ -245,6 +248,7 @@ export default async function handler(req, res) {
     console.error('SEO API Bridge Error:', error);
     
     // Return a friendly error response
+    setCorsHeaders(res);
     return res.status(500).json({
       success: false,
       error: "Internal server error",
