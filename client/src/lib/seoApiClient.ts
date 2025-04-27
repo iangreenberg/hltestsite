@@ -264,5 +264,66 @@ export const seoApiClient = {
     
   // Test the API connection
   testApiConnection: () =>
-    request('/api/seo/test')
+    request('/api/seo/test'),
+    
+  // Test a direct connection to the API server
+  testDirectApiConnection: async (url: string, method: string = 'GET') => {
+    try {
+      // Add browser-like headers to avoid security blocks
+      const headers = {
+        'User-Agent': 'Mozilla/5.0 (HempLaunch SEO API Client)',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Content-Type': 'application/json'
+      };
+      
+      // Make direct request to the API
+      const response = await fetch(url, {
+        method,
+        headers,
+        credentials: 'omit',
+        // Add a timeout to avoid hanging
+        signal: AbortSignal.timeout(10000) // 10 second timeout
+      });
+      
+      // Get the response text first
+      const responseText = await response.text();
+      
+      // Get content type
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+      
+      // Try to parse as JSON if it's a JSON response
+      let result = null;
+      let parseError = null;
+      
+      if (isJson) {
+        try {
+          result = JSON.parse(responseText);
+        } catch (error) {
+          parseError = error instanceof Error ? error.message : 'JSON parse error';
+        }
+      }
+      
+      return {
+        success: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        contentType,
+        isJson,
+        result,
+        parseError,
+        responseText,
+        url
+      };
+    } catch (err) {
+      return {
+        success: false,
+        error: err instanceof Error ? err.message : 'Request failed',
+        url
+      };
+    }
+  }
 };

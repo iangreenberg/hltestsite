@@ -13,9 +13,12 @@ import {
   Wifi, 
   WifiOff,
   Server,
-  ArrowRight
+  ArrowRight,
+  Globe
 } from "lucide-react";
 import { testSeoApi } from "@/lib/seoApi";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // API diagnostic page for testing and troubleshooting API connections
 export default function ApiDiagnostic() {
@@ -28,6 +31,21 @@ export default function ApiDiagnostic() {
     loading: false,
     result: null
   });
+  
+  const [directTest, setDirectTest] = useState<{
+    loading: boolean, 
+    result: any | null,
+    error: string | null,
+    responseText: string | null
+  }>({
+    loading: false,
+    result: null,
+    error: null,
+    responseText: null
+  });
+  
+  const [apiUrl, setApiUrl] = useState("https://api.thehemplaunch.com/api/seo/test");
+  const [method, setMethod] = useState("GET");
   
   const [error, setError] = useState<string | null>(null);
   
@@ -67,6 +85,69 @@ export default function ApiDiagnostic() {
     }
   };
   
+  // Run a direct test against the API server
+  const runDirectTest = async () => {
+    setDirectTest({
+      loading: true, 
+      result: null, 
+      error: null, 
+      responseText: null
+    });
+    
+    try {
+      // Add browser-like headers to avoid security blocks
+      const headers = {
+        'User-Agent': 'Mozilla/5.0 (HempLaunch SEO API Client)',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Content-Type': 'application/json'
+      };
+      
+      // Make direct request to the API
+      const response = await fetch(apiUrl, {
+        method,
+        headers,
+        // Add a timeout to avoid hanging
+        signal: AbortSignal.timeout(10000) // 10 second timeout
+      });
+      
+      // Get the response text first
+      const responseText = await response.text();
+      
+      // Get content type
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+      
+      // Try to parse as JSON if it's a JSON response
+      let result = null;
+      let parseError = null;
+      
+      if (isJson) {
+        try {
+          result = JSON.parse(responseText);
+        } catch (error) {
+          parseError = error instanceof Error ? error.message : 'JSON parse error';
+        }
+      }
+      
+      setDirectTest({
+        loading: false,
+        result: result,
+        error: parseError,
+        responseText: responseText
+      });
+    } catch (err) {
+      setDirectTest({
+        loading: false,
+        result: null,
+        error: err instanceof Error ? err.message : 'Request failed',
+        responseText: null
+      });
+    }
+  };
+  
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
@@ -82,6 +163,7 @@ export default function ApiDiagnostic() {
         <TabsList className="mb-4">
           <TabsTrigger value="basic">Basic Test</TabsTrigger>
           <TabsTrigger value="advanced">Advanced Diagnostics</TabsTrigger>
+          <TabsTrigger value="direct">Direct API Test</TabsTrigger>
         </TabsList>
         
         <TabsContent value="basic">
@@ -288,6 +370,99 @@ export default function ApiDiagnostic() {
                     Last checked: {new Date(healthCheck.result.timestamp).toLocaleString()}
                   </p>
                 </div>
+              </div>
+            )}
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="direct">
+          <Card className="p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Direct API Test</h2>
+              <Button 
+                onClick={runDirectTest} 
+                variant="outline" 
+                disabled={directTest.loading}
+              >
+                {directTest.loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Testing...
+                  </>
+                ) : (
+                  <>
+                    <Globe className="mr-2 h-4 w-4" />
+                    Run Direct Test
+                  </>
+                )}
+              </Button>
+            </div>
+            
+            <div className="space-y-4 mb-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium" htmlFor="apiUrl">API URL</label>
+                <Input 
+                  id="apiUrl"
+                  value={apiUrl}
+                  onChange={(e) => setApiUrl(e.target.value)}
+                  placeholder="Enter API URL to test"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-medium" htmlFor="method">Method</label>
+                <Select value={method} onValueChange={(value) => setMethod(value)}>
+                  <SelectTrigger id="method">
+                    <SelectValue placeholder="Select HTTP method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="GET">GET</SelectItem>
+                    <SelectItem value="POST">POST</SelectItem>
+                    <SelectItem value="PUT">PUT</SelectItem>
+                    <SelectItem value="DELETE">DELETE</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            {directTest.error && (
+              <div className="bg-destructive/10 text-destructive p-3 rounded-md mb-4">
+                <p className="font-medium">Error:</p>
+                <p className="text-sm">{directTest.error}</p>
+              </div>
+            )}
+            
+            {directTest.result && (
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-md font-medium mb-2">JSON Response</h3>
+                  <div className="p-3 bg-gray-900 text-gray-200 rounded-md overflow-auto">
+                    <pre className="text-xs">
+                      {JSON.stringify(directTest.result, null, 2)}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {!directTest.result && directTest.responseText && (
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-md font-medium mb-2">Response (non-JSON)</h3>
+                  <div className="p-3 bg-gray-900 text-gray-200 rounded-md overflow-auto">
+                    <pre className="text-xs whitespace-pre-wrap">
+                      {directTest.responseText}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {!directTest.result && !directTest.responseText && !directTest.loading && !directTest.error && (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">
+                  Enter an API URL and click "Run Direct Test" to test a direct connection to the API
+                </p>
               </div>
             )}
           </Card>

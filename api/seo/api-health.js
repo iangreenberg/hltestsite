@@ -38,7 +38,11 @@ export default async function handler(req, res) {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              'Accept': 'application/json',
+              'Accept': 'application/json, text/html, */*',
+              'User-Agent': 'Mozilla/5.0 (HempLaunch SEO API Client)',
+              'Accept-Language': 'en-US,en;q=0.9',
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache',
               'Origin': req.headers.origin || 'https://thehemplaunch.com'
             },
             redirect: 'follow',

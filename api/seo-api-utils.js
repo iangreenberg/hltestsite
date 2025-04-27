@@ -97,6 +97,26 @@ export async function tryProxyRequest(req, res, endpoint) {
         url: targetUrl
       });
       
+      // Enhanced headers to avoid security blocks
+      if (!fetchOptions.headers) {
+        fetchOptions.headers = {};
+      }
+      
+      // Add standard browser-like headers to avoid security blocks
+      fetchOptions.headers = {
+        ...fetchOptions.headers,
+        'User-Agent': 'Mozilla/5.0 (HempLaunch SEO API Client)',
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      };
+      
+      console.log(`Making request to ${targetUrl} with options:`, {
+        method: fetchOptions.method,
+        headers: fetchOptions.headers,
+      });
+      
       // Make the request to the actual API
       const proxyResponse = await fetch(targetUrl, fetchOptions);
       
