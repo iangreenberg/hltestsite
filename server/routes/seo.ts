@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { createLogger } from '../logger';
 import { seoEngine } from '../seo-engine';
 import { storageSeo } from '../seo-engine/storage';
@@ -7,6 +7,17 @@ import { SEOIssue } from '../seo-engine/types';
 
 const logger = createLogger('seo-routes');
 const router = Router();
+
+// Middleware to handle authentication without isAuthenticated
+const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+  // Check if user is present in the request (set by passport)
+  if (req.user) {
+    return next();
+  }
+  
+  // If no user, return unauthorized
+  return res.status(401).json({ message: 'Unauthorized' });
+};
 
 /**
  * Get the latest SEO report
@@ -71,7 +82,7 @@ router.get('/test', (req, res) => {
  * Run a new SEO audit
  * This is a long-running task, so it returns immediately and runs in the background
  */
-router.post('/run-audit', async (req, res) => {
+router.post('/run-audit', ensureAuthenticated, async (req, res) => {
   try {
     // Check if an audit is already running
     const status = seoEngine.getStatus();
@@ -253,7 +264,7 @@ router.get('/fixable-issues', async (req, res) => {
 /**
  * Auto-fix all fixable issues
  */
-router.post('/fix-all-issues', async (req, res) => {
+router.post('/fix-all-issues', ensureAuthenticated, async (req, res) => {
   try {
     const result = await seoEngine.fixIssues();
     return res.json(result);
@@ -266,7 +277,7 @@ router.post('/fix-all-issues', async (req, res) => {
 /**
  * Fix a specific issue
  */
-router.post('/fix-issue/:id', async (req, res) => {
+router.post('/fix-issue/:id', ensureAuthenticated, async (req, res) => {
   try {
     const id = req.params.id;
     const result = await seoEngine.fixIssue(id);
