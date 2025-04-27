@@ -23,6 +23,36 @@ function handleError(error: any): never {
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
+ * Helper function to determine the base URL for API requests
+ * This handles different environments (local dev, production, etc.)
+ */
+function getBaseUrl(): string {
+  // Check if we're in a browser environment
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    
+    // For production sites
+    if (hostname === 'thehemplaunch.com' || hostname.includes('vercel.app')) {
+      // Use the built-in API routes on the same domain 
+      // (serverless functions in /api/ folder)
+      return '';
+    }
+    
+    // For local Replit development
+    if (hostname.includes('replit.dev')) {
+      return '';
+    }
+    
+    // For any other development environment
+    return '';
+  }
+  
+  // Default fallback for server-side rendering
+  return '';
+}
+
+/**
  * Helper function to make API requests with retries and fallback options
  */
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -30,9 +60,10 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   let lastError: any = null;
   
   // Ensure endpoint starts with /api/seo/
+  const baseUrl = getBaseUrl();
   const apiEndpoint = endpoint.startsWith('/api/seo/')
-    ? endpoint
-    : `/api/seo/${endpoint.startsWith('/') ? endpoint.slice(1) : endpoint}`;
+    ? `${baseUrl}${endpoint}`
+    : `${baseUrl}/api/seo/${endpoint.startsWith('/') ? endpoint.slice(1) : endpoint}`;
   
   // Try the request with retries
   while (retries <= MAX_RETRIES) {
@@ -62,13 +93,47 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
         } catch (e) {
           errorText = 'Could not read error response';
         }
+        
+        // Check if this is a CORS error
+        if (response.status === 0 || response.type === 'opaque') {
+          throw new Error(`CORS error or network failure. This may be a cross-origin issue.`);
+        }
+        
         throw new Error(`API error (${response.status}): ${errorText}`);
       }
       
       // Try to parse the response as JSON
       try {
-        return await response.json() as T;
+        // First try to parse the JSON normally
+        const data = await response.json();
+        
+        // Check if we have a valid response with the right shape
+        // If the endpoint is 'test', we only care about the success field
+        if (endpoint.includes('test') && 'success' in data) {
+          return data as T;
+        }
+        
+        // For other endpoints, do specific validation
+        if (endpoint.includes('crawl') && 'success' in data) {
+          // For crawl endpoint, we need to validate the specific response shape
+          return {
+            success: data.success,
+            reportId: data.reportId || null,
+            message: data.message || '',
+            timestamp: data.timestamp || new Date().toISOString(),
+            error: data.error || null
+          } as unknown as T;
+        }
+        
+        // For reports/latest, check for report field
+        if (endpoint.includes('reports/latest') && 'report' in data) {
+          return data as T;
+        }
+        
+        // Default: return the data as is
+        return data as T;
       } catch (jsonError) {
+        console.error('JSON parsing error:', jsonError);
         throw new Error(`Error parsing JSON: ${jsonError instanceof Error ? jsonError.message : 'Unknown parsing error'}`);
       }
     } catch (error) {
@@ -87,8 +152,26 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     }
   }
   
-  // If we're here, all retries failed, use fallback or throw error
-  return handleError(lastError);
+  // Create a suitable fallback response based on the endpoint type
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  console.warn(`Using fallback response for ${endpoint} on ${hostname}`);
+  
+  // Generate a basic fallback response for test endpoints
+  if (endpoint.includes('test')) {
+    return { success: false, error: 'Failed to connect to API' } as unknown as T;
+  }
+  
+  // Generate a fallback response for crawl endpoints
+  if (endpoint.includes('crawl')) {
+    return {
+      success: false,
+      error: 'Failed to connect to API server, please try again later',
+      message: 'API connection failed'
+    } as unknown as T;
+  }
+  
+  // If all else fails, throw the original error
+  throw lastError || new Error('Failed to connect to SEO API'); 
 }
 
 // SEO API client with strongly typed methods

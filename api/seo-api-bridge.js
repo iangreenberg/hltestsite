@@ -25,6 +25,13 @@ function respondWithSimulatedData(res, endpoint) {
     case 'test':
       // No additional data needed
       break;
+      
+    case 'crawl':
+      // Handle crawl request - generate a valid response for crawl
+      response.reportId = Math.floor(Math.random() * 10000) + 1;
+      response.timestamp = new Date().toISOString();
+      response.message = "Crawl started successfully";
+      break;
     
     case 'status':
       response.status = {
