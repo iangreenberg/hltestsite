@@ -23,9 +23,7 @@ import {
   SelectContent, 
   SelectItem, 
   SelectTrigger, 
-  SelectValue,
-  SelectGroup,
-  SelectLabel
+  SelectValue
 } from "@/components/ui/select";
 
 // API diagnostic page for testing and troubleshooting API connections
@@ -432,14 +430,12 @@ export default function ApiDiagnostic() {
                       <SelectValue placeholder="Test Endpoints" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Test Endpoints</SelectLabel>
+                        <p className="px-2 py-1.5 text-sm font-medium text-muted-foreground">Test Endpoints</p>
                         {testEndpoints.map((endpoint) => (
                           <SelectItem key={endpoint.value} value={endpoint.value}>
                             {endpoint.label}
                           </SelectItem>
                         ))}
-                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
