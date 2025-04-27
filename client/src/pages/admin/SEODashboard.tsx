@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import { queryClient, apiRequest } from '@/lib/queryClient';
+import { seoApi, SeoReport, SeoIssue, SeoKeyword, ContentSuggestion, PageAudit, SeoStatus } from '@/lib/seoApi';
 
 import {
   Card,
@@ -55,23 +56,7 @@ import {
   Tag
 } from 'lucide-react';
 
-// Interface for SEO data
-interface SEOIssue {
-  id: string;
-  title: string;
-  description: string;
-  severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
-  category: string;
-  url?: string;
-  affectedElement?: string;
-  recommendedFix?: string;
-  autoFixAvailable?: boolean;
-  autoFixStatus?: 'pending' | 'in_progress' | 'fixed' | 'failed' | 'not_applicable';
-  detected: string;
-  fixed?: string;
-  ignored?: boolean;
-}
-
+// Additional interfaces for the dashboard
 interface KeywordRanking {
   keyword: string;
   position: number;
@@ -79,27 +64,6 @@ interface KeywordRanking {
   lastUpdated: string;
   previousPosition?: number;
   change?: number;
-}
-
-interface ContentSuggestion {
-  id: string;
-  keyword: string;
-  title: string;
-  suggestedHeadings: string[];
-  suggestedWordCount: number;
-  competitorUrls: string[];
-  expectedDifficulty: 'easy' | 'medium' | 'hard';
-  expectedTraffic: 'low' | 'medium' | 'high';
-  createdAt: string;
-  implementedAt?: string;
-}
-
-interface IssueCount {
-  critical: number;
-  high: number;
-  medium: number;
-  low: number;
-  info: number;
 }
 
 interface PerformanceMetric {
@@ -132,23 +96,12 @@ interface ContentTopic {
   suggestedSubheadings: string[];
 }
 
-interface SeoReport {
-  date: string;
-  totalIssues: IssueCount;
-  newIssues: number;
-  fixedIssues: number;
-  overallScore: number;
-  keywordRankings: KeywordRanking[];
-  topPriorityFixes: SEOIssue[];
-  contentSuggestions: ContentSuggestion[];
-  performanceMetrics: PerformanceMetric[];
-}
-
-interface PageAudit {
-  url: string;
-  title: string;
-  score: number;
-  issues: SEOIssue[];
+// Extend the imported SeoReport interface for our dashboard
+interface DashboardSeoReport extends SeoReport {
+  keywordRankings?: KeywordRanking[];
+  topPriorityFixes?: SeoIssue[];
+  contentSuggestions?: ContentSuggestion[];
+  performanceMetrics?: PerformanceMetric[];
 }
 
 function SEODashboard() {
@@ -157,125 +110,68 @@ function SEODashboard() {
   const [researchKeywords, setResearchKeywords] = useState<string>('');
   const [seedKeywords, setSeedKeywords] = useState<string[]>([]);
   
+  // State for API connection status
+  const [apiConnected, setApiConnected] = useState<boolean | null>(null);
+  
+  // Check API connection on component mount
+  useEffect(() => {
+    const checkApiConnection = async () => {
+      try {
+        const isConnected = await seoApi.testConnection();
+        setApiConnected(isConnected);
+        
+        if (isConnected) {
+          toast({
+            title: "SEO API Connected",
+            description: "Successfully connected to the SEO API",
+          });
+        } else {
+          toast({
+            title: "SEO API Connection Issue",
+            description: "Could not connect to the SEO API. Some features may be limited.",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        setApiConnected(false);
+        toast({
+          title: "SEO API Connection Error",
+          description: "Failed to connect to the SEO API. Please try again later.",
+          variant: "destructive",
+        });
+      }
+    };
+    
+    checkApiConnection();
+  }, [toast]);
+  
   // Fetch latest SEO report
   const { 
     data: report,
     isLoading: reportLoading,
-    error: reportError
+    error: reportError,
+    refetch: refetchReport
   } = useQuery({
-    queryKey: ['/api/seo/report/latest'],
+    queryKey: ['seo', 'report', 'latest'],
     queryFn: async () => {
-      // For development, return mock data
-      const mockReport: SeoReport = {
-        date: new Date().toISOString(),
-        totalIssues: {
-          critical: 3,
-          high: 5,
-          medium: 12,
-          low: 18,
-          info: 8
-        },
-        newIssues: 7,
-        fixedIssues: 4,
-        overallScore: 84,
-        keywordRankings: [
-          {
-            keyword: 'hemp business startup',
-            position: 8,
-            url: 'https://hltestsite-4vq3.vercel.app/hemp-business-startup',
-            lastUpdated: new Date().toISOString(),
-            previousPosition: 10,
-            change: 2
-          },
-          {
-            keyword: 'hemp product compliance',
-            position: 15,
-            url: 'https://hltestsite-4vq3.vercel.app/services/compliance',
-            lastUpdated: new Date().toISOString(),
-            previousPosition: 16,
-            change: 1
-          },
-          {
-            keyword: 'hemp brand development',
-            position: 12,
-            url: 'https://hltestsite-4vq3.vercel.app/services/brand-development',
-            lastUpdated: new Date().toISOString(),
-            previousPosition: 11,
-            change: -1
-          }
-        ],
-        topPriorityFixes: [
-          {
-            id: 'missing_meta_desc_1',
-            title: 'Missing meta description',
-            description: 'The page is missing a meta description tag, which is important for SEO.',
-            severity: 'high',
-            category: 'meta_tags',
-            url: 'https://hltestsite-4vq3.vercel.app/services/support',
-            recommendedFix: 'Add a descriptive meta description between 120-155 characters.',
-            autoFixAvailable: true,
-            detected: new Date().toISOString()
-          },
-          {
-            id: 'slow_lcp_2',
-            title: 'Slow Largest Contentful Paint',
-            description: 'The LCP is over 2.5 seconds, which may impact user experience and SEO.',
-            severity: 'high',
-            category: 'performance',
-            url: 'https://hltestsite-4vq3.vercel.app/',
-            recommendedFix: 'Optimize the hero image and defer non-critical JavaScript.',
-            detected: new Date().toISOString()
-          }
-        ],
-        contentSuggestions: [
-          {
-            id: 'suggestion_1',
-            keyword: 'hemp payment processing solutions',
-            title: 'The Ultimate Guide to Secure Payment Processing for Hemp Businesses in 2025',
-            suggestedHeadings: [
-              'Current Payment Processing Challenges for Hemp Businesses',
-              'Top 5 Payment Processors that Accept Hemp Businesses'
-            ],
-            suggestedWordCount: 1800,
-            competitorUrls: ['https://example.com/hemp-payments'],
-            expectedDifficulty: 'medium',
-            expectedTraffic: 'high',
-            createdAt: new Date().toISOString()
-          }
-        ],
-        performanceMetrics: [
-          {
-            name: 'LCP',
-            value: 2.7,
-            unit: 's',
-            timestamp: new Date().toISOString(),
-            status: 'needs_improvement'
-          },
-          {
-            name: 'CLS',
-            value: 0.08,
-            unit: '',
-            timestamp: new Date().toISOString(),
-            status: 'good'
-          }
-        ]
-      };
+      const data = await seoApi.getLatestReport();
       
-      try {
-        // Use the actual API endpoint
-        const response = await apiRequest('GET', '/api/seo/report/latest');
-        const data = await response.json();
-        
-        if (data) {
-          return data;
-        }
-        
-        // Fallback to mock data if API doesn't return expected format
-        return mockReport;
-      } catch (error) {
-        console.error('Error fetching SEO report:', error);
-        throw new Error('Failed to fetch SEO report');
+      // If we couldn't get a report, return a minimal structure to avoid UI errors
+      if (!data) {
+        return {
+          date: new Date().toISOString(),
+          totalIssues: { critical: 0, high: 0, medium: 0, low: 0, info: 0 },
+          newIssues: 0,
+          fixedIssues: 0,
+          overallScore: 0,
+          keywordRankings: [],
+          topPriorityFixes: [],
+          contentSuggestions: [],
+          performanceMetrics: []
+        };
       }
+      
+      return data;
     },
     retry: 1,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -286,44 +182,15 @@ function SEODashboard() {
     data: pageAudits,
     isLoading: auditsLoading,
   } = useQuery({
-    queryKey: ['/api/seo/audits'],
+    queryKey: ['seo', 'page-audits'],
     queryFn: async () => {
-      // For development, return mock data
-      const mockAudits: PageAudit[] = [
-        {
-          url: 'https://hltestsite-4vq3.vercel.app/',
-          title: 'HempLaunch | All-in-One Hemp Business Solutions',
-          score: 89,
-          issues: []
-        },
-        {
-          url: 'https://hltestsite-4vq3.vercel.app/services/compliance',
-          title: 'Compliance Services | HempLaunch',
-          score: 85,
-          issues: []
-        },
-        {
-          url: 'https://hltestsite-4vq3.vercel.app/blog',
-          title: 'Hemp Industry Blog | HempLaunch',
-          score: 92,
-          issues: []
-        }
-      ];
-      
       try {
-        // Use the actual API endpoint
         const response = await apiRequest('GET', '/api/seo/audits');
-        const data = await response.json();
-        
-        if (data) {
-          return data;
-        }
-        
-        // Fallback to mock data if API doesn't return expected format
-        return mockAudits;
+        return await response.json();
       } catch (error) {
         console.error('Error fetching page audits:', error);
-        throw new Error('Failed to fetch page audits');
+        // Return empty array to avoid UI errors
+        return [];
       }
     },
     enabled: activeTab === 'pages',
