@@ -10,7 +10,9 @@ import {
   DailySEOReport,
   SEOAction,
   CompetitorData,
-  PerformanceMetric
+  PerformanceMetric,
+  KeywordResearchResult,
+  FixStatus
 } from './types';
 
 const logger = createLogger('seo-storage');
@@ -37,6 +39,11 @@ export interface SEOStorage {
   // Keywords
   saveKeywordRanking(keyword: KeywordRanking): Promise<void>;
   getKeywordRankings(): Promise<KeywordRanking[]>;
+  
+  // Keyword Research
+  saveKeywordResearchResult(result: KeywordResearchResult): Promise<void>;
+  getKeywordResearchResults(keyword?: string): Promise<KeywordResearchResult[]>;
+  getTopKeywords(limit?: number, minSearchVolume?: number): Promise<KeywordResearchResult[]>;
   
   // Content suggestions
   saveContentSuggestion(suggestion: ContentSuggestion): Promise<void>;
@@ -77,6 +84,7 @@ class FileSEOStorage implements SEOStorage {
       path.join(DATA_DIR, 'audits'),
       path.join(DATA_DIR, 'issues'),
       path.join(DATA_DIR, 'keywords'),
+      path.join(DATA_DIR, 'keyword-research'),
       path.join(DATA_DIR, 'suggestions'),
       path.join(DATA_DIR, 'actions'),
       path.join(DATA_DIR, 'reports'),
@@ -206,6 +214,52 @@ class FileSEOStorage implements SEOStorage {
   
   async getKeywordRankings(): Promise<KeywordRanking[]> {
     return this.readDirectory<KeywordRanking>(path.join(DATA_DIR, 'keywords'));
+  }
+  
+  // Keyword Research Implementation
+  async saveKeywordResearchResult(result: KeywordResearchResult): Promise<void> {
+    // Ensure the keyword research directory exists
+    const dirPath = path.join(DATA_DIR, 'keyword-research');
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+    
+    const filePath = path.join(dirPath, `${encodeURIComponent(result.keyword)}.json`);
+    await this.writeJsonFile(filePath, result);
+  }
+  
+  async getKeywordResearchResults(keyword?: string): Promise<KeywordResearchResult[]> {
+    const dirPath = path.join(DATA_DIR, 'keyword-research');
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+      return [];
+    }
+    
+    const results = await this.readDirectory<KeywordResearchResult>(dirPath);
+    
+    if (keyword) {
+      return results.filter(result => 
+        result.keyword.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
+    
+    return results;
+  }
+  
+  async getTopKeywords(limit: number = 10, minSearchVolume: number = 100): Promise<KeywordResearchResult[]> {
+    const results = await this.getKeywordResearchResults();
+    
+    // Filter by minimum search volume
+    const filteredResults = results.filter(result => result.searchVolume >= minSearchVolume);
+    
+    // Sort by relevance score * search volume (combination of relevance and popularity)
+    filteredResults.sort((a, b) => {
+      const scoreA = a.relevance * a.searchVolume;
+      const scoreB = b.relevance * b.searchVolume;
+      return scoreB - scoreA;
+    });
+    
+    return filteredResults.slice(0, limit);
   }
   
   // Content suggestions implementation

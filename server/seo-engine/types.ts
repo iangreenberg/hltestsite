@@ -23,6 +23,14 @@ export enum IssueCategory {
   Security = 'security'
 }
 
+export enum FixStatus {
+  Pending = 'pending',
+  InProgress = 'in_progress',
+  Fixed = 'fixed',
+  Failed = 'failed',
+  NotApplicable = 'not_applicable'
+}
+
 export interface SEOIssue {
   id: string;
   title: string;
@@ -32,6 +40,12 @@ export interface SEOIssue {
   url?: string;
   affectedElement?: string;
   recommendedFix?: string;
+  autoFixAvailable?: boolean;
+  autoFixFunction?: string; // Name of the function that can fix this issue
+  autoFixParams?: Record<string, any>; // Parameters needed for the auto-fix function
+  autoFixStatus?: FixStatus;
+  autoFixAttemptedAt?: Date;
+  autoFixResult?: string;
   detected: Date;
   fixed?: Date;
   ignored?: boolean;
@@ -115,6 +129,33 @@ export interface DailySEOReport {
   topPriorityFixes: SEOIssue[];
   contentSuggestions: ContentSuggestion[];
   performanceMetrics: PerformanceMetric[];
+}
+
+export interface KeywordResearchResult {
+  keyword: string;
+  searchVolume: number;
+  difficulty: number; // 0-100 scale
+  relevance: number; // 0-100 scale
+  cpc?: number; // Cost per click if available
+  competitorRanking?: { 
+    domain: string;
+    position: number;
+  }[];
+  suggestedContent?: string[];
+  relatedKeywords?: string[];
+  trend?: 'up' | 'down' | 'stable';
+  seasonality?: string[];
+  userIntent?: 'informational' | 'navigational' | 'transactional' | 'commercial';
+}
+
+export interface KeywordResearchRequest {
+  seedKeywords: string[];
+  market?: string;
+  locale?: string;
+  includeLongTail?: boolean;
+  maxResults?: number;
+  minSearchVolume?: number;
+  maxDifficulty?: number;
 }
 
 export interface SEOAction {
