@@ -114,6 +114,15 @@ function Router() {
         )}
       </Route>
       
+      {/* SEO API Test - for debugging connectivity */}
+      <Route path="/admin/seo-test">
+        {() => (
+          <AdminLayout>
+            <SeoApiTest />
+          </AdminLayout>
+        )}
+      </Route>
+      
       {/* Admin Navigation Menu */}
       <Route path="/admin-nav">
         {() => (
