@@ -36,12 +36,23 @@ export default function ApiDiagnostic() {
     loading: boolean, 
     result: any | null,
     error: string | null,
-    responseText: string | null
+    responseText: string | null,
+    diagnostics?: {
+      headers_received?: Record<string, string>,
+      status?: number,
+      statusText?: string,
+      is_text_html?: boolean,
+      is_json?: boolean,
+      content_type?: string,
+      url?: string,
+      method?: string
+    } | null
   }>({
     loading: false,
     result: null,
     error: null,
-    responseText: null
+    responseText: null,
+    diagnostics: null
   });
   
   const [apiUrl, setApiUrl] = useState("https://api.thehemplaunch.com/api/seo/test");
@@ -85,7 +96,7 @@ export default function ApiDiagnostic() {
     }
   };
   
-  // Run a direct test against the API server
+  // Run a direct test against the API server through our raw proxy
   const runDirectTest = async () => {
     setDirectTest({
       loading: true, 
@@ -95,49 +106,40 @@ export default function ApiDiagnostic() {
     });
     
     try {
-      // Add browser-like headers to avoid security blocks
-      const headers = {
-        'User-Agent': 'Mozilla/5.0 (HempLaunch SEO API Client)',
-        'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache',
-        'Content-Type': 'application/json'
-      };
+      // Use our special raw proxy endpoint to bypass CORS issues
+      const response = await fetch(`/api/seo/raw-proxy?url=${encodeURIComponent(apiUrl)}&method=${method}`);
       
-      // Make direct request to the API
-      const response = await fetch(apiUrl, {
-        method,
-        headers,
-        // Add a timeout to avoid hanging
-        signal: AbortSignal.timeout(10000) // 10 second timeout
-      });
-      
-      // Get the response text first
-      const responseText = await response.text();
-      
-      // Get content type
-      const contentType = response.headers.get('content-type');
-      const isJson = contentType && contentType.includes('application/json');
-      
-      // Try to parse as JSON if it's a JSON response
-      let result = null;
-      let parseError = null;
-      
-      if (isJson) {
-        try {
-          result = JSON.parse(responseText);
-        } catch (error) {
-          parseError = error instanceof Error ? error.message : 'JSON parse error';
-        }
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Proxy error (${response.status}): ${errorText}`);
       }
       
+      const proxyResult = await response.json();
+      
+      if (!proxyResult.success) {
+        throw new Error(proxyResult.error || 'Proxy request failed');
+      }
+      
+      const diagnostics = proxyResult.diagnostics;
+      
+      // Set the complete response info
       setDirectTest({
         loading: false,
-        result: result,
-        error: parseError,
-        responseText: responseText
+        result: diagnostics.parsed_json,
+        error: diagnostics.json_error,
+        responseText: diagnostics.response_content,
+        diagnostics: {
+          headers_received: diagnostics.headers_received,
+          status: diagnostics.status,
+          statusText: diagnostics.statusText,
+          is_text_html: diagnostics.is_text_html,
+          is_json: diagnostics.is_json, 
+          content_type: diagnostics.headers_received['content-type'],
+          url: diagnostics.url,
+          method: diagnostics.method
+        }
       });
+      
     } catch (err) {
       setDirectTest({
         loading: false,
@@ -432,11 +434,59 @@ export default function ApiDiagnostic() {
               </div>
             )}
             
+            {directTest.diagnostics && (
+              <div className="space-y-4 mb-4">
+                <div>
+                  <h3 className="text-md font-medium mb-2">Response Details</h3>
+                  <div className="p-4 bg-muted rounded-md text-sm grid gap-2">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="font-medium">Status:</div>
+                      <div className={directTest.diagnostics.status && directTest.diagnostics.status >= 400 ? "text-destructive" : ""}>
+                        {directTest.diagnostics.status} {directTest.diagnostics.statusText && `(${directTest.diagnostics.statusText})`}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="font-medium">Content Type:</div>
+                      <div>
+                        {directTest.diagnostics.content_type || 'Not specified'}
+                        {directTest.diagnostics.is_json && <span className="ml-2 text-green-500">(JSON)</span>}
+                        {directTest.diagnostics.is_text_html && <span className="ml-2 text-yellow-500">(HTML)</span>}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="font-medium">URL:</div>
+                      <div className="truncate">{directTest.diagnostics.url}</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="font-medium">Method:</div>
+                      <div>{directTest.diagnostics.method}</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-md font-medium mb-2">Response Headers</h3>
+                  <div className="p-3 bg-muted rounded-md overflow-auto max-h-40">
+                    <div className="grid grid-cols-1 gap-1 text-sm">
+                      {directTest.diagnostics.headers_received && 
+                        Object.entries(directTest.diagnostics.headers_received).map(([key, value]) => (
+                          <div key={key} className="grid grid-cols-5 gap-2">
+                            <div className="font-medium col-span-1">{key}:</div>
+                            <div className="col-span-4 truncate">{value as string}</div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             {directTest.result && (
               <div className="space-y-4">
                 <div>
                   <h3 className="text-md font-medium mb-2">JSON Response</h3>
-                  <div className="p-3 bg-gray-900 text-gray-200 rounded-md overflow-auto">
+                  <div className="p-3 bg-gray-900 text-gray-200 rounded-md overflow-auto max-h-80">
                     <pre className="text-xs">
                       {JSON.stringify(directTest.result, null, 2)}
                     </pre>
@@ -445,11 +495,13 @@ export default function ApiDiagnostic() {
               </div>
             )}
             
-            {!directTest.result && directTest.responseText && (
+            {directTest.responseText && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-md font-medium mb-2">Response (non-JSON)</h3>
-                  <div className="p-3 bg-gray-900 text-gray-200 rounded-md overflow-auto">
+                  <h3 className="text-md font-medium mb-2">
+                    {directTest.result ? 'Raw Response' : 'Response (non-JSON)'}
+                  </h3>
+                  <div className="p-3 bg-gray-900 text-gray-200 rounded-md overflow-auto max-h-80">
                     <pre className="text-xs whitespace-pre-wrap">
                       {directTest.responseText}
                     </pre>
